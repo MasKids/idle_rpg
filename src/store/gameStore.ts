@@ -41,6 +41,7 @@ interface GameState {
   addCurrency: (key: CurrencyKey, amount: number) => void
   spendCurrency: (key: CurrencyKey, amount: number) => boolean
   upgradeStat: (key: StatKey) => boolean
+  maxUpgradeAll: () => void
   setStage: (stage: number) => void
   setBattle: (battle: BattleState) => void
   unlockNextExistNode: (cost: number) => boolean
@@ -97,6 +98,27 @@ export const useGameStore = create<GameState>((set, get) => ({
       return { statLevels, stats: statsFromLevels(statLevels) }
     })
     return true
+  },
+
+  maxUpgradeAll: () => {
+    const order: StatKey[] = ['atk', 'def', 'aspd', 'crit', 'critDmg', 'existGain']
+    const statLevels = { ...get().statLevels }
+    let growthEnergy = get().currencies.growthEnergy
+
+    for (const key of order) {
+      let level = statLevels[key]
+      while (growthEnergy >= statUpgradeCost(level)) {
+        growthEnergy -= statUpgradeCost(level)
+        level += 1
+      }
+      statLevels[key] = level
+    }
+
+    set((state) => ({
+      statLevels,
+      stats: statsFromLevels(statLevels),
+      currencies: { ...state.currencies, growthEnergy },
+    }))
   },
 
   setStage: (stage) => set({ currentStage: stage }),

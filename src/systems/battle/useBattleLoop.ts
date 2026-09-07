@@ -44,7 +44,7 @@ export function useBattleLoop() {
         const clearedStage = generateStage(state.currentStage)
         state.addCurrency('gold', clearedStage.rewards.gold)
         state.addCurrency('growthEnergy', clearedStage.rewards.growthEnergy)
-        state.addCurrency('exist', clearedStage.rewards.exist)
+        state.addCurrency('exist', Math.floor(clearedStage.rewards.exist * state.stats.existGain))
 
         const kills = state.battle.kills + 1
 
