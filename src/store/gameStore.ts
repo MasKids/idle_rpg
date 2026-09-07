@@ -7,12 +7,13 @@ import {
   masteryAtkMultiplier,
   masteryUpgradeCost,
 } from '../data/equipment'
-import { EXIST_SPECIAL_UNLOCKS } from '../data/existTree'
+import { EXIST_SPECIAL_UNLOCKS, generateExistTree } from '../data/existTree'
 import { generateStage, killsRequiredForStage } from '../data/stages'
 import { computeStatValue, statUpgradeCost } from '../data/stats'
 import type { BattleState, CurrencyKey, EquipmentSlotId, SpecialUnlockId, StatKey } from '../types/game'
 
 const INITIAL_STAGE = 1
+const EXIST_TREE_NODES = generateExistTree()
 
 function baseStatsFromLevels(levels: Record<StatKey, number>): Record<StatKey, number> {
   return {
@@ -25,11 +26,13 @@ function baseStatsFromLevels(levels: Record<StatKey, number>): Record<StatKey, n
   }
 }
 
-// 성장 스탯 + 장비 보너스(가산) + 무기 숙련 배율(곱연산, ATK만)을 합친 최종 전투 스탯
+// 성장 스탯 + 존재력 트리 영구 보너스(가산) + 장비 보너스(가산)
+// + 무기 숙련 배율(곱연산, ATK만)을 합친 최종 전투 스탯
 function computeEffectiveStats(
   statLevels: Record<StatKey, number>,
   equipmentLevels: Record<EquipmentSlotId, number>,
   masteryLevels: Record<string, number>,
+  existTreeBonus: Record<StatKey, number>,
 ): Record<StatKey, number> {
   const base = baseStatsFromLevels(statLevels)
 
@@ -44,11 +47,17 @@ function computeEffectiveStats(
   const primaryWeapon = MASTERY_WEAPONS[0]
   const masteryMultiplier = primaryWeapon ? masteryAtkMultiplier(masteryLevels[primaryWeapon.id] ?? 0) : 1
 
-  return {
-    ...base,
-    atk: (base.atk + equipmentAtk) * masteryMultiplier,
-    def: base.def + equipmentDef,
+  const combined: Record<StatKey, number> = {
+    atk: base.atk + equipmentAtk + existTreeBonus.atk,
+    def: base.def + equipmentDef + existTreeBonus.def,
+    aspd: base.aspd + existTreeBonus.aspd,
+    crit: base.crit + existTreeBonus.crit,
+    critDmg: base.critDmg + existTreeBonus.critDmg,
+    existGain: base.existGain + existTreeBonus.existGain,
   }
+  combined.atk *= masteryMultiplier
+
+  return combined
 }
 
 function battleStateForStage(stage: number): BattleState {
@@ -68,6 +77,7 @@ interface GameState {
   statLevels: Record<StatKey, number>
   equipmentLevels: Record<EquipmentSlotId, number>
   masteryLevels: Record<string, number>
+  existTreeStatBonus: Record<StatKey, number>
   stats: Record<StatKey, number>
   currentStage: number
   battle: BattleState
@@ -84,7 +94,7 @@ interface GameState {
   maxUpgradeMastery: () => void
   setStage: (stage: number) => void
   setBattle: (battle: BattleState) => void
-  unlockNextExistNode: (cost: number) => boolean
+  unlockNextExistNode: () => boolean
   unlockSpecial: (id: SpecialUnlockId) => boolean
 }
 
@@ -109,6 +119,15 @@ const initialMasteryLevels: Record<string, number> = Object.fromEntries(
   MASTERY_WEAPONS.map((weapon) => [weapon.id, 0]),
 )
 
+const initialExistTreeStatBonus: Record<StatKey, number> = {
+  atk: 0,
+  def: 0,
+  aspd: 0,
+  crit: 0,
+  critDmg: 0,
+  existGain: 0,
+}
+
 export const useGameStore = create<GameState>((set, get) => ({
   currencies: {
     exist: 0,
@@ -120,7 +139,13 @@ export const useGameStore = create<GameState>((set, get) => ({
   statLevels: initialStatLevels,
   equipmentLevels: initialEquipmentLevels,
   masteryLevels: initialMasteryLevels,
-  stats: computeEffectiveStats(initialStatLevels, initialEquipmentLevels, initialMasteryLevels),
+  existTreeStatBonus: initialExistTreeStatBonus,
+  stats: computeEffectiveStats(
+    initialStatLevels,
+    initialEquipmentLevels,
+    initialMasteryLevels,
+    initialExistTreeStatBonus,
+  ),
   currentStage: INITIAL_STAGE,
   battle: battleStateForStage(INITIAL_STAGE),
   unlockedCount: 0,
@@ -149,7 +174,10 @@ export const useGameStore = create<GameState>((set, get) => ({
 
     set((state) => {
       const statLevels = { ...state.statLevels, [key]: level + 1 }
-      return { statLevels, stats: computeEffectiveStats(statLevels, state.equipmentLevels, state.masteryLevels) }
+      return {
+        statLevels,
+        stats: computeEffectiveStats(statLevels, state.equipmentLevels, state.masteryLevels, state.existTreeStatBonus),
+      }
     })
     return true
   },
@@ -170,7 +198,7 @@ export const useGameStore = create<GameState>((set, get) => ({
 
     set((state) => ({
       statLevels,
-      stats: computeEffectiveStats(statLevels, state.equipmentLevels, state.masteryLevels),
+      stats: computeEffectiveStats(statLevels, state.equipmentLevels, state.masteryLevels, state.existTreeStatBonus),
       currencies: { ...state.currencies, growthEnergy },
     }))
   },
@@ -184,7 +212,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       const equipmentLevels = { ...state.equipmentLevels, [slotId]: level + 1 }
       return {
         equipmentLevels,
-        stats: computeEffectiveStats(state.statLevels, equipmentLevels, state.masteryLevels),
+        stats: computeEffectiveStats(state.statLevels, equipmentLevels, state.masteryLevels, state.existTreeStatBonus),
       }
     })
     return true
@@ -205,7 +233,7 @@ export const useGameStore = create<GameState>((set, get) => ({
 
     set((state) => ({
       equipmentLevels,
-      stats: computeEffectiveStats(state.statLevels, equipmentLevels, state.masteryLevels),
+      stats: computeEffectiveStats(state.statLevels, equipmentLevels, state.masteryLevels, state.existTreeStatBonus),
       currencies: { ...state.currencies, gold },
     }))
   },
@@ -219,7 +247,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       const masteryLevels = { ...state.masteryLevels, [weaponId]: level + 1 }
       return {
         masteryLevels,
-        stats: computeEffectiveStats(state.statLevels, state.equipmentLevels, masteryLevels),
+        stats: computeEffectiveStats(state.statLevels, state.equipmentLevels, masteryLevels, state.existTreeStatBonus),
       }
     })
     return true
@@ -240,7 +268,7 @@ export const useGameStore = create<GameState>((set, get) => ({
 
     set((state) => ({
       masteryLevels,
-      stats: computeEffectiveStats(state.statLevels, state.equipmentLevels, masteryLevels),
+      stats: computeEffectiveStats(state.statLevels, state.equipmentLevels, masteryLevels, state.existTreeStatBonus),
       currencies: { ...state.currencies, essence },
     }))
   },
@@ -249,9 +277,30 @@ export const useGameStore = create<GameState>((set, get) => ({
 
   setBattle: (battle) => set({ battle }),
 
-  unlockNextExistNode: (cost) => {
-    if (!get().spendCurrency('exist', cost)) return false
-    set((state) => ({ unlockedCount: state.unlockedCount + 1 }))
+  unlockNextExistNode: () => {
+    const order = get().unlockedCount + 1
+    const node = EXIST_TREE_NODES[order - 1]
+    if (!node) return false
+    if (!get().spendCurrency('exist', node.cost)) return false
+
+    const effect = node.effect
+    if (effect.kind === 'currency') {
+      get().addCurrency(effect.currency, effect.amount)
+      set((state) => ({ unlockedCount: state.unlockedCount + 1 }))
+    } else {
+      set((state) => {
+        const existTreeStatBonus = {
+          ...state.existTreeStatBonus,
+          [effect.stat]: state.existTreeStatBonus[effect.stat] + effect.value,
+        }
+        return {
+          unlockedCount: state.unlockedCount + 1,
+          existTreeStatBonus,
+          stats: computeEffectiveStats(state.statLevels, state.equipmentLevels, state.masteryLevels, existTreeStatBonus),
+        }
+      })
+    }
+
     return true
   },
 
@@ -268,3 +317,8 @@ export const useGameStore = create<GameState>((set, get) => ({
     return true
   },
 }))
+
+// 개발 중 테스트 편의용: 브라우저 콘솔에서 __gameStore.getState().addCurrency('exist', 100000) 처럼 호출
+if (import.meta.env.DEV) {
+  ;(globalThis as typeof globalThis & { __gameStore?: typeof useGameStore }).__gameStore = useGameStore
+}

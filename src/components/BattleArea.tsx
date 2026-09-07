@@ -19,6 +19,7 @@ interface BattleAreaProps {
 
 export function BattleArea({ onStageInfoClick }: BattleAreaProps) {
   const currencies = useGameStore((state) => state.currencies)
+  const timeHeistUnlocked = useGameStore((state) => state.specialUnlocks.timeHeist)
   const { popups, enemyHp, enemyMaxHp, isBossStage, stage } = useBattleLoop()
   const hpRatio = enemyMaxHp > 0 ? Math.max(0, enemyHp / enemyMaxHp) : 0
 
@@ -76,6 +77,15 @@ export function BattleArea({ onStageInfoClick }: BattleAreaProps) {
           ))}
         </div>
       </div>
+
+      {timeHeistUnlocked && (
+        <button
+          type="button"
+          className="absolute bottom-3 right-3 flex h-12 w-12 items-center justify-center rounded-full border-2 border-amber-300 bg-amber-500 text-lg shadow-lg"
+        >
+          ⏳
+        </button>
+      )}
     </div>
   )
 }
