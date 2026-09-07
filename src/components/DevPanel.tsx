@@ -1,11 +1,12 @@
 import { useState } from 'react'
 import { useGameStore } from '../store/gameStore'
-import { clearGameState, disableAutosave } from '../store/gameStateStorage'
+import { clearGameState, debugOverrideLastActiveAt, disableAutosave } from '../store/gameStateStorage'
 
 // 개발 모드 전용 테스트 도구. App.tsx에서 import.meta.env.DEV일 때만 렌더링된다.
 export function DevPanel() {
   const [isOpen, setIsOpen] = useState(false)
   const [unlockCount, setUnlockCount] = useState(33)
+  const [offlineHours, setOfflineHours] = useState(9)
   const addCurrency = useGameStore((state) => state.addCurrency)
   const unlockNextExistNode = useGameStore((state) => state.unlockNextExistNode)
   const resetTimeHeistCooldown = useGameStore((state) => state.resetTimeHeistCooldown)
@@ -20,6 +21,14 @@ export function DevPanel() {
   const handleFullReset = () => {
     disableAutosave()
     clearGameState()
+    window.location.reload()
+  }
+
+  // 오프라인 보상은 모듈 로드 시점에 한 번만 계산되므로, 저장된 마지막 접속 시각을
+  // 과거로 되돌려 저장한 뒤 새로고침해야 결과를 확인할 수 있다.
+  const handleSimulateOffline = () => {
+    disableAutosave()
+    debugOverrideLastActiveAt(Date.now() - offlineHours * 60 * 60 * 1000)
     window.location.reload()
   }
 
@@ -78,6 +87,24 @@ export function DevPanel() {
           >
             타임 하이스트 사용 횟수 초기화
           </button>
+
+          <div className="mb-1 flex items-center gap-1">
+            <input
+              type="number"
+              min={0}
+              max={999}
+              value={offlineHours}
+              onChange={(event) => setOfflineHours(Number(event.target.value))}
+              className="w-12 rounded bg-white/10 px-1 py-1 text-[11px] text-white"
+            />
+            <button
+              type="button"
+              onClick={handleSimulateOffline}
+              className="flex-1 rounded bg-white/10 px-2 py-1 text-[11px] text-white hover:bg-white/20"
+            >
+              N시간 전 접속으로 (오프라인 보상)
+            </button>
+          </div>
 
           <button
             type="button"
