@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { generateStage } from '../../data/stages'
+import { generateStage, killsRequiredForStage } from '../../data/stages'
 import { useGameStore } from '../../store/gameStore'
 import { calculateDamage } from './calculateDamage'
 
@@ -17,6 +17,8 @@ export function useBattleLoop() {
   const enemyHp = useGameStore((state) => state.battle.enemyHp)
   const enemyMaxHp = useGameStore((state) => state.battle.enemyMaxHp)
   const isBossStage = useGameStore((state) => state.battle.isBossStage)
+  const kills = useGameStore((state) => state.battle.kills)
+  const killsRequired = useGameStore((state) => state.battle.killsRequired)
   const stage = useGameStore((state) => state.currentStage)
 
   const [popups, setPopups] = useState<DamagePopup[]>([])
@@ -44,15 +46,23 @@ export function useBattleLoop() {
         state.addCurrency('growthEnergy', clearedStage.rewards.growthEnergy)
         state.addCurrency('exist', clearedStage.rewards.exist)
 
-        const nextStageNumber = state.currentStage + 1
-        const nextStage = generateStage(nextStageNumber)
-        state.setStage(nextStageNumber)
-        state.setBattle({
-          stage: nextStageNumber,
-          enemyMaxHp: nextStage.enemyHp,
-          enemyHp: nextStage.enemyHp,
-          isBossStage: nextStage.isBoss,
-        })
+        const kills = state.battle.kills + 1
+
+        if (kills >= state.battle.killsRequired) {
+          const nextStageNumber = state.currentStage + 1
+          const nextStage = generateStage(nextStageNumber)
+          state.setStage(nextStageNumber)
+          state.setBattle({
+            stage: nextStageNumber,
+            enemyMaxHp: nextStage.enemyHp,
+            enemyHp: nextStage.enemyHp,
+            isBossStage: nextStage.isBoss,
+            kills: 0,
+            killsRequired: killsRequiredForStage(nextStageNumber),
+          })
+        } else {
+          state.setBattle({ ...state.battle, enemyHp: clearedStage.enemyHp, kills })
+        }
       } else {
         state.setBattle({ ...state.battle, enemyHp: remainingHp })
       }
@@ -61,5 +71,5 @@ export function useBattleLoop() {
     return () => clearInterval(timer)
   }, [aspd])
 
-  return { popups, enemyHp, enemyMaxHp, isBossStage, stage }
+  return { popups, enemyHp, enemyMaxHp, isBossStage, kills, killsRequired, stage }
 }

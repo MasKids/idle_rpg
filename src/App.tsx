@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { BattleArea } from './components/BattleArea'
 import { BottomMenu } from './components/BottomMenu'
 import { ControlArea } from './components/ControlArea'
+import { StageInfoModal } from './components/StageInfoModal'
 import { StubPanel } from './components/StubPanel'
 import type { TabKey } from './types/game'
 
@@ -9,6 +10,7 @@ const FULLSCREEN_TABS: TabKey[] = ['gacha', 'time', 'dogam']
 
 function App() {
   const [activeTab, setActiveTab] = useState<TabKey>('growth')
+  const [isStageInfoOpen, setStageInfoOpen] = useState(false)
   const goBack = () => setActiveTab('growth')
 
   const isFullscreen = FULLSCREEN_TABS.includes(activeTab)
@@ -36,11 +38,13 @@ function App() {
           </>
         ) : (
           <>
-            <BattleArea />
+            <BattleArea onStageInfoClick={() => setStageInfoOpen(true)} />
             <ControlArea activeTab={activeTab} />
             <BottomMenu activeTab={activeTab} onSelect={setActiveTab} />
           </>
         )}
+
+        <StageInfoModal isOpen={isStageInfoOpen} onClose={() => setStageInfoOpen(false)} />
       </div>
     </div>
   )

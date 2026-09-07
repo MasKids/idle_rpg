@@ -47,4 +47,6 @@ export interface BattleState {
   enemyMaxHp: number
   enemyHp: number
   isBossStage: boolean
+  kills: number
+  killsRequired: number
 }

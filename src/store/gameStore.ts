@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { EXIST_SPECIAL_UNLOCKS } from '../data/existTree'
-import { generateStage } from '../data/stages'
+import { generateStage, killsRequiredForStage } from '../data/stages'
 import { computeStatValue, statUpgradeCost } from '../data/stats'
 import type { BattleState, CurrencyKey, SpecialUnlockId, StatKey } from '../types/game'
 
@@ -24,6 +24,8 @@ function battleStateForStage(stage: number): BattleState {
     enemyMaxHp: data.enemyHp,
     enemyHp: data.enemyHp,
     isBossStage: data.isBoss,
+    kills: 0,
+    killsRequired: killsRequiredForStage(stage),
   }
 }
 

@@ -2,6 +2,9 @@ import type { StageData } from '../types/game'
 
 const BOSS_INTERVAL = 10
 
+// 일반 스테이지 처치 목표. 보스는 1마리. 1차 초안 — 실측 후 밸런싱 대상
+const NORMAL_STAGE_KILLS_REQUIRED = 5
+
 // 1차 초안 곡선 — 실측 후 밸런싱 대상
 const BASE_ENEMY_HP = 20
 const HP_GROWTH = 1.15
@@ -36,4 +39,15 @@ export function generateStage(stage: number): StageData {
     enemyAtk,
     rewards: { gold, growthEnergy, exist },
   }
+}
+
+export function killsRequiredForStage(stage: number): number {
+  return stage % BOSS_INTERVAL === 0 ? 1 : NORMAL_STAGE_KILLS_REQUIRED
+}
+
+// "구간-스테이지" 표기. 10 클리어마다 구간이 오른다 (예: 11 -> "2-1")
+export function stageLabel(stage: number): string {
+  const section = Math.ceil(stage / BOSS_INTERVAL)
+  const sub = ((stage - 1) % BOSS_INTERVAL) + 1
+  return `${section}-${sub}`
 }

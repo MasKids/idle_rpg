@@ -1,3 +1,4 @@
+import { stageLabel } from '../data/stages'
 import { useGameStore } from '../store/gameStore'
 import { useBattleLoop } from '../systems/battle/useBattleLoop'
 import type { CurrencyKey } from '../types/game'
@@ -12,7 +13,11 @@ const CURRENCY_LABELS: Record<CurrencyKey, string> = {
 
 const CURRENCY_ORDER: CurrencyKey[] = ['exist', 'growthEnergy', 'timeEnergy', 'gold']
 
-export function BattleArea() {
+interface BattleAreaProps {
+  onStageInfoClick: () => void
+}
+
+export function BattleArea({ onStageInfoClick }: BattleAreaProps) {
   const currencies = useGameStore((state) => state.currencies)
   const { popups, enemyHp, enemyMaxHp, isBossStage, stage } = useBattleLoop()
   const hpRatio = enemyMaxHp > 0 ? Math.max(0, enemyHp / enemyMaxHp) : 0
@@ -20,10 +25,14 @@ export function BattleArea() {
   return (
     <div className="relative min-h-0 flex-1 bg-gradient-to-b from-blue-950 to-slate-900">
       <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
-        <span className="text-xs text-blue-300/60">
-          STAGE {stage}
+        <button
+          type="button"
+          onClick={onStageInfoClick}
+          className="rounded-full bg-black/30 px-3 py-1 text-xs text-blue-300 backdrop-blur-sm"
+        >
+          STAGE {stageLabel(stage)}
           {isBossStage && <span className="ml-1 text-amber-400">BOSS</span>}
-        </span>
+        </button>
 
         <div
           className={`h-20 w-20 rounded-lg ${isBossStage ? 'bg-amber-600/70' : 'bg-red-500/60'}`}
