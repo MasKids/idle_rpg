@@ -1,6 +1,7 @@
 import { stageLabel } from '../data/stages'
 import { useGameStore } from '../store/gameStore'
 import { useBattleLoop } from '../systems/battle/useBattleLoop'
+import { TIME_HEIST_COST } from '../systems/timeheist/timeHeist'
 import type { CurrencyKey } from '../types/game'
 import { formatNumber } from '../utils/format'
 
@@ -16,11 +17,13 @@ const CURRENCY_ORDER: CurrencyKey[] = ['exist', 'growthEnergy', 'timeEnergy', 'g
 
 interface BattleAreaProps {
   onStageInfoClick: () => void
+  onTimeHeistClick: () => void
 }
 
-export function BattleArea({ onStageInfoClick }: BattleAreaProps) {
+export function BattleArea({ onStageInfoClick, onTimeHeistClick }: BattleAreaProps) {
   const currencies = useGameStore((state) => state.currencies)
   const timeHeistUnlocked = useGameStore((state) => state.specialUnlocks.timeHeist)
+  const canTimeHeist = currencies.timeEnergy >= TIME_HEIST_COST
   const { popups, enemyHp, enemyMaxHp, isBossStage, stage } = useBattleLoop()
   const hpRatio = enemyMaxHp > 0 ? Math.max(0, enemyHp / enemyMaxHp) : 0
 
@@ -82,7 +85,13 @@ export function BattleArea({ onStageInfoClick }: BattleAreaProps) {
       {timeHeistUnlocked && (
         <button
           type="button"
-          className="absolute bottom-3 right-3 flex h-12 w-12 items-center justify-center rounded-full border-2 border-amber-300 bg-amber-500 text-lg shadow-lg"
+          disabled={!canTimeHeist}
+          onClick={onTimeHeistClick}
+          className={`absolute bottom-3 right-3 flex h-12 w-12 items-center justify-center rounded-full border-2 text-lg shadow-lg ${
+            canTimeHeist
+              ? 'border-amber-300 bg-amber-500'
+              : 'cursor-not-allowed border-amber-300/30 bg-amber-900/50 text-white/30'
+          }`}
         >
           ⏳
         </button>

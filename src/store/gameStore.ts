@@ -10,6 +10,7 @@ import {
 import { EXIST_SPECIAL_UNLOCKS, generateExistTree } from '../data/existTree'
 import { generateStage, killsRequiredForStage } from '../data/stages'
 import { computeStatValue, statUpgradeCost } from '../data/stats'
+import { computeTimeHeistPreview } from '../systems/timeheist/timeHeist'
 import type {
   BattleHit,
   BattleState,
@@ -107,6 +108,7 @@ interface GameState {
   unlockNextExistNode: () => boolean
   unlockSpecial: (id: SpecialUnlockId) => boolean
   executeRebirth: () => void
+  executeTimeHeist: () => boolean
 }
 
 const initialStatLevels: Record<StatKey, number> = {
@@ -372,6 +374,19 @@ export const useGameStore = create<GameState>((set, get) => ({
       },
       rebirthSpent: initialRebirthSpent,
     }))
+  },
+
+  executeTimeHeist: () => {
+    if (!get().specialUnlocks.timeHeist) return false
+
+    const preview = computeTimeHeistPreview(get().currentStage, get().stats.existGain)
+    if (!get().spendCurrency('timeEnergy', preview.cost)) return false
+
+    get().addCurrency('gold', preview.rewards.gold)
+    get().addCurrency('growthEnergy', preview.rewards.growthEnergy)
+    get().addCurrency('exist', preview.rewards.exist)
+
+    return true
   },
 }))
 

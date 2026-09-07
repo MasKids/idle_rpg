@@ -7,6 +7,7 @@ import { StubPanel } from './components/StubPanel'
 import { startBattleLoop } from './systems/battle/battleLoop'
 import { ExistTreePanel } from './systems/exist/ExistTreePanel'
 import { RebirthModal } from './systems/rebirth/RebirthModal'
+import { TimeHeistModal } from './systems/timeheist/TimeHeistModal'
 import { useGameStore } from './store/gameStore'
 import type { TabKey } from './types/game'
 
@@ -17,7 +18,10 @@ function App() {
   const [isStageInfoOpen, setStageInfoOpen] = useState(false)
   const [isRebirthModalOpen, setRebirthModalOpen] = useState(false)
   const [rebirthFlashKey, setRebirthFlashKey] = useState(0)
+  const [isTimeHeistModalOpen, setTimeHeistModalOpen] = useState(false)
+  const [timeHeistFlashKey, setTimeHeistFlashKey] = useState(0)
   const executeRebirth = useGameStore((state) => state.executeRebirth)
+  const executeTimeHeist = useGameStore((state) => state.executeTimeHeist)
   const goBack = () => setActiveTab('growth')
 
   // 전투 루프는 App이 살아있는 한(탭 전환/화면 이동과 무관하게) 단 한 번만 시작된다.
@@ -34,6 +38,13 @@ function App() {
     setRebirthFlashKey((key) => key + 1)
   }
 
+  const handleTimeHeistConfirm = () => {
+    if (executeTimeHeist()) {
+      setTimeHeistFlashKey((key) => key + 1)
+    }
+    setTimeHeistModalOpen(false)
+  }
+
   return (
     <div className="flex min-h-dvh items-center justify-center bg-black">
       <div className="relative flex h-dvh w-full max-w-[430px] flex-col overflow-hidden bg-slate-950 sm:h-[900px] sm:max-h-[95dvh] sm:rounded-2xl sm:border sm:border-white/10 sm:shadow-2xl">
@@ -45,7 +56,10 @@ function App() {
           </>
         ) : (
           <>
-            <BattleArea onStageInfoClick={() => setStageInfoOpen(true)} />
+            <BattleArea
+              onStageInfoClick={() => setStageInfoOpen(true)}
+              onTimeHeistClick={() => setTimeHeistModalOpen(true)}
+            />
             <ControlArea activeTab={activeTab} />
           </>
         )}
@@ -64,10 +78,23 @@ function App() {
           onConfirm={handleRebirthConfirm}
         />
 
+        <TimeHeistModal
+          isOpen={isTimeHeistModalOpen}
+          onCancel={() => setTimeHeistModalOpen(false)}
+          onConfirm={handleTimeHeistConfirm}
+        />
+
         {rebirthFlashKey > 0 && (
           <div
-            key={rebirthFlashKey}
+            key={`rebirth-${rebirthFlashKey}`}
             className="pointer-events-none absolute inset-0 z-40 animate-[rebirth-flash_0.8s_ease-out_forwards] bg-white"
+          />
+        )}
+
+        {timeHeistFlashKey > 0 && (
+          <div
+            key={`timeheist-${timeHeistFlashKey}`}
+            className="pointer-events-none absolute inset-0 z-40 animate-[rebirth-flash_0.8s_ease-out_forwards] bg-amber-300"
           />
         )}
       </div>
