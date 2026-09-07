@@ -10,8 +10,8 @@ import {
 import { EXIST_SPECIAL_UNLOCKS, generateExistTree } from '../data/existTree'
 import { generateStage, killsRequiredForStage } from '../data/stages'
 import { computeStatValue, statUpgradeCost } from '../data/stats'
-import { computeTimeHeistPreview, timeHeistCooldownMs } from '../systems/timeheist/timeHeist'
-import { loadTimeHeistState, saveTimeHeistState } from '../systems/timeheist/timeHeistStorage'
+import { computeTimeHeistPreview, timeHeistCooldownEndsAt } from '../systems/timeheist/timeHeist'
+import { flushSave, loadGameState, scheduleSave } from './gameStateStorage'
 import type {
   BattleHit,
   BattleState,
@@ -24,7 +24,11 @@ import type {
 
 const INITIAL_STAGE = 1
 const EXIST_TREE_NODES = generateExistTree()
-const persistedTimeHeist = loadTimeHeistState()
+const persistedGame = loadGameState()
+
+// 오프라인 보상 등 미래 기능이 참고할 "이전 세션이 저장된 시각".
+// persistedGame은 로드 직후 스토어가 즉시 새 시각으로 덮어쓰므로 별도로 남겨둔다.
+export const lastSessionEndedAt: number | null = persistedGame?.lastActiveAt ?? null
 
 function baseStatsFromLevels(levels: Record<StatKey, number>): Record<StatKey, number> {
   return {
@@ -97,7 +101,7 @@ interface GameState {
   specialUnlocks: Record<SpecialUnlockId, boolean>
   rebirthSpent: RebirthSpentTotals
   timeHeistUsedCount: number
-  timeHeistCooldownEndsAt: number | null
+  timeHeistLastUsedAt: number | null
 
   addCurrency: (key: CurrencyKey, amount: number) => void
   spendCurrency: (key: CurrencyKey, amount: number) => boolean
@@ -153,35 +157,36 @@ const initialExistTreeStatBonus: Record<StatKey, number> = {
   existGain: 0,
 }
 
+const startStatLevels = persistedGame?.statLevels ?? initialStatLevels
+const startEquipmentLevels = persistedGame?.equipmentLevels ?? initialEquipmentLevels
+const startMasteryLevels = persistedGame?.masteryLevels ?? initialMasteryLevels
+const startExistTreeStatBonus = persistedGame?.existTreeStatBonus ?? initialExistTreeStatBonus
+const startStage = persistedGame?.currentStage ?? INITIAL_STAGE
+
 export const useGameStore = create<GameState>((set, get) => ({
-  currencies: {
+  currencies: persistedGame?.currencies ?? {
     exist: 0,
     growthEnergy: 0,
     timeEnergy: 0,
     gold: 0,
     essence: 0,
   },
-  statLevels: initialStatLevels,
-  equipmentLevels: initialEquipmentLevels,
-  masteryLevels: initialMasteryLevels,
-  existTreeStatBonus: initialExistTreeStatBonus,
-  stats: computeEffectiveStats(
-    initialStatLevels,
-    initialEquipmentLevels,
-    initialMasteryLevels,
-    initialExistTreeStatBonus,
-  ),
-  currentStage: INITIAL_STAGE,
-  battle: battleStateForStage(INITIAL_STAGE),
+  statLevels: startStatLevels,
+  equipmentLevels: startEquipmentLevels,
+  masteryLevels: startMasteryLevels,
+  existTreeStatBonus: startExistTreeStatBonus,
+  stats: computeEffectiveStats(startStatLevels, startEquipmentLevels, startMasteryLevels, startExistTreeStatBonus),
+  currentStage: startStage,
+  battle: persistedGame?.battle ?? battleStateForStage(startStage),
   lastHit: null,
-  unlockedCount: 0,
-  specialUnlocks: {
+  unlockedCount: persistedGame?.unlockedCount ?? 0,
+  specialUnlocks: persistedGame?.specialUnlocks ?? {
     reverse: false,
     timeHeist: false,
   },
-  rebirthSpent: initialRebirthSpent,
-  timeHeistUsedCount: persistedTimeHeist.usedCount,
-  timeHeistCooldownEndsAt: persistedTimeHeist.cooldownEndsAt,
+  rebirthSpent: persistedGame?.rebirthSpent ?? initialRebirthSpent,
+  timeHeistUsedCount: persistedGame?.timeHeistUsedCount ?? 0,
+  timeHeistLastUsedAt: persistedGame?.timeHeistLastUsedAt ?? null,
 
   addCurrency: (key, amount) =>
     set((state) => ({
@@ -382,16 +387,16 @@ export const useGameStore = create<GameState>((set, get) => ({
       },
       rebirthSpent: initialRebirthSpent,
       timeHeistUsedCount: 0,
-      timeHeistCooldownEndsAt: null,
+      timeHeistLastUsedAt: null,
     }))
-    saveTimeHeistState({ usedCount: 0, cooldownEndsAt: null })
   },
 
   executeTimeHeist: () => {
     if (!get().specialUnlocks.timeHeist) return false
 
     const usedCount = get().timeHeistUsedCount
-    const cooldownEndsAt = get().timeHeistCooldownEndsAt
+    const lastUsedAt = get().timeHeistLastUsedAt
+    const cooldownEndsAt = timeHeistCooldownEndsAt(usedCount, lastUsedAt)
     if (cooldownEndsAt !== null && Date.now() < cooldownEndsAt) return false
 
     const preview = computeTimeHeistPreview(get().currentStage, get().stats.existGain, usedCount)
@@ -401,24 +406,40 @@ export const useGameStore = create<GameState>((set, get) => ({
     get().addCurrency('growthEnergy', preview.rewards.growthEnergy)
     get().addCurrency('exist', preview.rewards.exist)
 
-    const nextUsedCount = usedCount + 1
-    const nextCooldownEndsAt = Date.now() + timeHeistCooldownMs(usedCount)
-    set({ timeHeistUsedCount: nextUsedCount, timeHeistCooldownEndsAt: nextCooldownEndsAt })
-    saveTimeHeistState({ usedCount: nextUsedCount, cooldownEndsAt: nextCooldownEndsAt })
+    set({ timeHeistUsedCount: usedCount + 1, timeHeistLastUsedAt: Date.now() })
 
     return true
   },
 
-  resetTimeHeistCooldown: () => {
-    set({ timeHeistCooldownEndsAt: null })
-    saveTimeHeistState({ usedCount: get().timeHeistUsedCount, cooldownEndsAt: null })
-  },
+  resetTimeHeistCooldown: () => set({ timeHeistLastUsedAt: null }),
 
-  resetTimeHeistUsedCount: () => {
-    set({ timeHeistUsedCount: 0 })
-    saveTimeHeistState({ usedCount: 0, cooldownEndsAt: get().timeHeistCooldownEndsAt })
-  },
+  resetTimeHeistUsedCount: () => set({ timeHeistUsedCount: 0, timeHeistLastUsedAt: null }),
 }))
+
+// 상태가 바뀔 때마다(전투 틱 포함) 전체 진행 상태를 debounce 저장 큐에 올린다.
+// 실제 localStorage 쓰기는 gameStateStorage.ts에서 일정 주기로 묶어서 처리한다.
+useGameStore.subscribe((state) => {
+  scheduleSave({
+    currencies: state.currencies,
+    statLevels: state.statLevels,
+    equipmentLevels: state.equipmentLevels,
+    masteryLevels: state.masteryLevels,
+    existTreeStatBonus: state.existTreeStatBonus,
+    currentStage: state.currentStage,
+    battle: state.battle,
+    unlockedCount: state.unlockedCount,
+    specialUnlocks: state.specialUnlocks,
+    rebirthSpent: state.rebirthSpent,
+    timeHeistUsedCount: state.timeHeistUsedCount,
+    timeHeistLastUsedAt: state.timeHeistLastUsedAt,
+    lastActiveAt: Date.now(),
+  })
+})
+
+// 새로고침/탭 종료 직전에 대기 중인 저장을 즉시 반영해 최대 2초 분량 유실을 막는다.
+if (typeof window !== 'undefined') {
+  window.addEventListener('beforeunload', flushSave)
+}
 
 // 개발 중 테스트 편의용: 브라우저 콘솔에서 __gameStore.getState().addCurrency('exist', 100000) 처럼 호출
 if (import.meta.env.DEV) {

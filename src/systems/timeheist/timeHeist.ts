@@ -20,6 +20,14 @@ export function timeHeistCooldownMs(usedCount: number): number {
   return Math.floor(TIME_HEIST_BASE_COOLDOWN_MS * TIME_HEIST_COOLDOWN_GROWTH ** usedCount)
 }
 
+// 저장은 "마지막 사용 시각"만 하고, 쿨타임 종료 시각은 항상 여기서 역산한다.
+// 그래야 나중에 쿨타임 배율 공식이 바뀌어도 저장된 값이 낡은 계산 결과로 굳어있지 않는다.
+// usedCount는 마지막 사용 이후의 누적 총 횟수이므로, 마지막 사용 당시의 성장 배율은 usedCount - 1 기준.
+export function timeHeistCooldownEndsAt(usedCount: number, lastUsedAt: number | null): number | null {
+  if (lastUsedAt === null || usedCount <= 0) return null
+  return lastUsedAt + timeHeistCooldownMs(usedCount - 1)
+}
+
 export interface TimeHeistPreview {
   currentStage: number
   targetStage: number

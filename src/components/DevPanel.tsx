@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useGameStore } from '../store/gameStore'
+import { clearGameState, disableAutosave } from '../store/gameStateStorage'
 
 // 개발 모드 전용 테스트 도구. App.tsx에서 import.meta.env.DEV일 때만 렌더링된다.
 export function DevPanel() {
@@ -14,6 +15,12 @@ export function DevPanel() {
     for (let i = 0; i < unlockCount; i++) {
       if (!unlockNextExistNode()) break
     }
+  }
+
+  const handleFullReset = () => {
+    disableAutosave()
+    clearGameState()
+    window.location.reload()
   }
 
   return (
@@ -74,7 +81,7 @@ export function DevPanel() {
 
           <button
             type="button"
-            onClick={() => window.location.reload()}
+            onClick={handleFullReset}
             className="w-full rounded bg-red-500/20 px-2 py-1 text-left text-[11px] text-red-300 hover:bg-red-500/30"
           >
             전체 상태 초기화

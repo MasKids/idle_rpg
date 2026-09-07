@@ -2,7 +2,7 @@ import { stageLabel } from '../../data/stages'
 import { useGameStore } from '../../store/gameStore'
 import { formatCountdown, formatNumber } from '../../utils/format'
 import { useNow } from '../../utils/useNow'
-import { computeTimeHeistPreview } from './timeHeist'
+import { computeTimeHeistPreview, timeHeistCooldownEndsAt } from './timeHeist'
 
 interface TimeHeistModalProps {
   isOpen: boolean
@@ -15,12 +15,13 @@ export function TimeHeistModal({ isOpen, onCancel, onConfirm }: TimeHeistModalPr
   const existGain = useGameStore((state) => state.stats.existGain)
   const timeEnergy = useGameStore((state) => state.currencies.timeEnergy)
   const usedCount = useGameStore((state) => state.timeHeistUsedCount)
-  const cooldownEndsAt = useGameStore((state) => state.timeHeistCooldownEndsAt)
+  const lastUsedAt = useGameStore((state) => state.timeHeistLastUsedAt)
   const now = useNow()
 
   if (!isOpen) return null
 
   const preview = computeTimeHeistPreview(currentStage, existGain, usedCount)
+  const cooldownEndsAt = timeHeistCooldownEndsAt(usedCount, lastUsedAt)
   const cooldownRemainingMs = cooldownEndsAt !== null ? Math.max(0, cooldownEndsAt - now) : 0
   const isOnCooldown = cooldownRemainingMs > 0
   const canAfford = timeEnergy >= preview.cost
