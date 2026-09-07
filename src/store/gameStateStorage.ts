@@ -70,6 +70,22 @@ export function clearGameState(): void {
   }
 }
 
+// 오프라인 보상 테스트용: 저장된 마지막 접속 시각을 직접 덮어쓴다.
+// 저장 자체를 건드리는 것이라 자동저장이 즉시 되살리지 않도록 disableAutosave()와 함께 쓰고,
+// 다음 앱 시작(module 로드) 시점에 반영되므로 호출 후 새로고침이 필요하다.
+export function debugOverrideLastActiveAt(timestampMs: number): void {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY)
+    if (!raw) return
+    const parsed = JSON.parse(raw) as Partial<SaveEnvelope>
+    if (parsed.version !== SAVE_VERSION || !parsed.data) return
+    parsed.data.lastActiveAt = timestampMs
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(parsed))
+  } catch {
+    // ignore
+  }
+}
+
 let saveTimer: ReturnType<typeof setTimeout> | null = null
 let pendingState: GameSaveState | null = null
 let autosaveDisabled = false

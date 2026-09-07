@@ -10,8 +10,9 @@ import {
 import { EXIST_SPECIAL_UNLOCKS, generateExistTree } from '../data/existTree'
 import { generateStage, killsRequiredForStage } from '../data/stages'
 import { computeStatValue, statUpgradeCost } from '../data/stats'
+import { computeOfflineReward, type OfflineRewardResult } from '../systems/battle/offlineReward'
 import { computeTimeHeistPreview, timeHeistCooldownEndsAt } from '../systems/timeheist/timeHeist'
-import { flushSave, loadGameState, scheduleSave } from './gameStateStorage'
+import { debugOverrideLastActiveAt, disableAutosave, flushSave, loadGameState, scheduleSave } from './gameStateStorage'
 import type {
   BattleHit,
   BattleState,
@@ -26,9 +27,9 @@ const INITIAL_STAGE = 1
 const EXIST_TREE_NODES = generateExistTree()
 const persistedGame = loadGameState()
 
-// 오프라인 보상 등 미래 기능이 참고할 "이전 세션이 저장된 시각".
+// 오프라인 보상 계산용 "이전 세션이 저장된 시각".
 // persistedGame은 로드 직후 스토어가 즉시 새 시각으로 덮어쓰므로 별도로 남겨둔다.
-export const lastSessionEndedAt: number | null = persistedGame?.lastActiveAt ?? null
+const lastSessionEndedAt: number | null = persistedGame?.lastActiveAt ?? null
 
 function baseStatsFromLevels(levels: Record<StatKey, number>): Record<StatKey, number> {
   return {
@@ -102,6 +103,7 @@ interface GameState {
   rebirthSpent: RebirthSpentTotals
   timeHeistUsedCount: number
   timeHeistLastUsedAt: number | null
+  offlineReward: OfflineRewardResult | null
 
   addCurrency: (key: CurrencyKey, amount: number) => void
   spendCurrency: (key: CurrencyKey, amount: number) => boolean
@@ -119,6 +121,7 @@ interface GameState {
   executeTimeHeist: () => boolean
   resetTimeHeistCooldown: () => void
   resetTimeHeistUsedCount: () => void
+  claimOfflineReward: () => void
 }
 
 const initialStatLevels: Record<StatKey, number> = {
@@ -162,6 +165,12 @@ const startEquipmentLevels = persistedGame?.equipmentLevels ?? initialEquipmentL
 const startMasteryLevels = persistedGame?.masteryLevels ?? initialMasteryLevels
 const startExistTreeStatBonus = persistedGame?.existTreeStatBonus ?? initialExistTreeStatBonus
 const startStage = persistedGame?.currentStage ?? INITIAL_STAGE
+const startStats = computeEffectiveStats(startStatLevels, startEquipmentLevels, startMasteryLevels, startExistTreeStatBonus)
+
+// 오프라인 보상은 앱 시작 시 단 한 번, 이전 세션이 끝난 시각과 지금의 차이로 계산한다.
+// (스테이지는 그대로 두고 재화만 지급 — 실제 battle 진행에는 영향 없음)
+const startOfflineReward =
+  lastSessionEndedAt !== null ? computeOfflineReward(Date.now() - lastSessionEndedAt, startStage, startStats) : null
 
 export const useGameStore = create<GameState>((set, get) => ({
   currencies: persistedGame?.currencies ?? {
@@ -175,7 +184,7 @@ export const useGameStore = create<GameState>((set, get) => ({
   equipmentLevels: startEquipmentLevels,
   masteryLevels: startMasteryLevels,
   existTreeStatBonus: startExistTreeStatBonus,
-  stats: computeEffectiveStats(startStatLevels, startEquipmentLevels, startMasteryLevels, startExistTreeStatBonus),
+  stats: startStats,
   currentStage: startStage,
   battle: persistedGame?.battle ?? battleStateForStage(startStage),
   lastHit: null,
@@ -187,6 +196,7 @@ export const useGameStore = create<GameState>((set, get) => ({
   rebirthSpent: persistedGame?.rebirthSpent ?? initialRebirthSpent,
   timeHeistUsedCount: persistedGame?.timeHeistUsedCount ?? 0,
   timeHeistLastUsedAt: persistedGame?.timeHeistLastUsedAt ?? null,
+  offlineReward: startOfflineReward,
 
   addCurrency: (key, amount) =>
     set((state) => ({
@@ -414,6 +424,16 @@ export const useGameStore = create<GameState>((set, get) => ({
   resetTimeHeistCooldown: () => set({ timeHeistLastUsedAt: null }),
 
   resetTimeHeistUsedCount: () => set({ timeHeistUsedCount: 0, timeHeistLastUsedAt: null }),
+
+  claimOfflineReward: () => {
+    const reward = get().offlineReward
+    if (reward) {
+      get().addCurrency('gold', reward.rewards.gold)
+      get().addCurrency('growthEnergy', reward.rewards.growthEnergy)
+      get().addCurrency('exist', reward.rewards.exist)
+    }
+    set({ offlineReward: null })
+  },
 }))
 
 // 상태가 바뀔 때마다(전투 틱 포함) 전체 진행 상태를 debounce 저장 큐에 올린다.
@@ -444,4 +464,14 @@ if (typeof window !== 'undefined') {
 // 개발 중 테스트 편의용: 브라우저 콘솔에서 __gameStore.getState().addCurrency('exist', 100000) 처럼 호출
 if (import.meta.env.DEV) {
   ;(globalThis as typeof globalThis & { __gameStore?: typeof useGameStore }).__gameStore = useGameStore
+
+  // 오프라인 보상 테스트용: __setLastActiveHoursAgo(9) 호출 시 마지막 접속 시각을 9시간 전으로
+  // 되돌려 저장하고 새로고침한다. offlineReward는 모듈 로드 시점에 한 번만 계산되므로 반드시 새로고침 필요.
+  ;(globalThis as typeof globalThis & { __setLastActiveHoursAgo?: (hours: number) => void }).__setLastActiveHoursAgo = (
+    hours,
+  ) => {
+    disableAutosave()
+    debugOverrideLastActiveAt(Date.now() - hours * 60 * 60 * 1000)
+    window.location.reload()
+  }
 }

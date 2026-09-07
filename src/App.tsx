@@ -6,6 +6,7 @@ import { DevPanel } from './components/DevPanel'
 import { StageInfoModal } from './components/StageInfoModal'
 import { StubPanel } from './components/StubPanel'
 import { startBattleLoop } from './systems/battle/battleLoop'
+import { OfflineRewardModal } from './systems/battle/OfflineRewardModal'
 import { ExistTreePanel } from './systems/exist/ExistTreePanel'
 import { RebirthModal } from './systems/rebirth/RebirthModal'
 import { TimeHeistModal } from './systems/timeheist/TimeHeistModal'
@@ -23,6 +24,7 @@ function App() {
   const [timeHeistFlashKey, setTimeHeistFlashKey] = useState(0)
   const executeRebirth = useGameStore((state) => state.executeRebirth)
   const executeTimeHeist = useGameStore((state) => state.executeTimeHeist)
+  const claimOfflineReward = useGameStore((state) => state.claimOfflineReward)
   const goBack = () => setActiveTab('growth')
 
   // 전투 루프는 App이 살아있는 한(탭 전환/화면 이동과 무관하게) 단 한 번만 시작된다.
@@ -84,6 +86,8 @@ function App() {
           onCancel={() => setTimeHeistModalOpen(false)}
           onConfirm={handleTimeHeistConfirm}
         />
+
+        <OfflineRewardModal onClaim={claimOfflineReward} />
 
         {rebirthFlashKey > 0 && (
           <div

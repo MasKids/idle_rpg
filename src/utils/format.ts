@@ -44,3 +44,14 @@ export function formatCountdown(ms: number): string {
 
   return `${hours}:${pad(minutes)}:${pad(seconds)}`
 }
+
+// 밀리초를 "N시간 M분" 형태로. 1시간 미만이면 분만 표시. 음수는 0으로 취급
+export function formatDuration(ms: number): string {
+  const totalMinutes = Math.max(0, Math.floor(ms / 60_000))
+  const hours = Math.floor(totalMinutes / 60)
+  const minutes = totalMinutes % 60
+
+  if (hours <= 0) return `${minutes}분`
+  if (minutes === 0) return `${hours}시간`
+  return `${hours}시간 ${minutes}분`
+}
