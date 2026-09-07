@@ -2,16 +2,17 @@ import { stageLabel } from '../data/stages'
 import { useGameStore } from '../store/gameStore'
 import { useBattleLoop } from '../systems/battle/useBattleLoop'
 import type { CurrencyKey } from '../types/game'
+import { formatNumber } from '../utils/format'
 
-const CURRENCY_LABELS: Record<CurrencyKey, string> = {
-  exist: '존재력',
-  growthEnergy: '성장에너지',
-  timeEnergy: '시간에너지',
-  gold: '골드',
-  essence: '정수',
+const CURRENCY_ICON: Record<CurrencyKey, string> = {
+  exist: '🌌',
+  growthEnergy: '📈',
+  timeEnergy: '⏳',
+  gold: '🪙',
+  essence: '💠',
 }
 
-const CURRENCY_ORDER: CurrencyKey[] = ['exist', 'growthEnergy', 'timeEnergy', 'gold']
+const CURRENCY_ORDER: CurrencyKey[] = ['exist', 'growthEnergy', 'timeEnergy', 'gold', 'essence']
 
 interface BattleAreaProps {
   onStageInfoClick: () => void
@@ -59,20 +60,20 @@ export function BattleArea({ onStageInfoClick }: BattleAreaProps) {
         ))}
       </div>
 
-      <div className="absolute inset-x-0 top-0 flex items-start justify-between bg-gradient-to-b from-black/50 to-transparent p-3">
-        <div className="flex shrink-0 items-center gap-2 rounded-full bg-black/30 px-3 py-1.5 backdrop-blur-sm">
-          <div className="h-7 w-7 shrink-0 rounded-full bg-blue-500/50" />
-          <span className="whitespace-nowrap text-xs text-white/80">플레이어</span>
+      <div className="absolute inset-x-0 top-0 flex items-center justify-between gap-1.5 bg-gradient-to-b from-black/50 to-transparent p-2">
+        <div className="flex shrink-0 items-center gap-1.5 rounded-full bg-black/30 py-1 pl-1 pr-2 backdrop-blur-sm">
+          <div className="h-6 w-6 shrink-0 rounded-full bg-blue-500/50" />
+          <span className="whitespace-nowrap text-[10px] text-white/80">플레이어</span>
         </div>
 
-        <div className="flex gap-1 overflow-x-auto">
+        <div className="flex flex-1 justify-end gap-1">
           {CURRENCY_ORDER.map((key) => (
             <div
               key={key}
-              className="flex shrink-0 items-center gap-1 whitespace-nowrap rounded-full bg-black/30 px-2 py-1 backdrop-blur-sm"
+              className="flex min-w-[42px] shrink-0 items-center justify-center gap-0.5 whitespace-nowrap rounded-full bg-black/30 px-1.5 py-1 backdrop-blur-sm"
             >
-              <span className="text-[9px] text-white/60">{CURRENCY_LABELS[key]}</span>
-              <span className="text-xs font-medium text-white">{currencies[key]}</span>
+              <span className="text-[10px] leading-none">{CURRENCY_ICON[key]}</span>
+              <span className="text-[10px] font-medium leading-none text-white">{formatNumber(currencies[key])}</span>
             </div>
           ))}
         </div>

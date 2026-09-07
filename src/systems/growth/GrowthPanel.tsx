@@ -1,6 +1,7 @@
 import { statUpgradeCost } from '../../data/stats'
 import { useGameStore } from '../../store/gameStore'
 import type { StatKey } from '../../types/game'
+import { formatNumber } from '../../utils/format'
 
 const STAT_LABELS: Record<StatKey, string> = {
   atk: '공격력',
@@ -17,7 +18,7 @@ function formatStatValue(key: StatKey, value: number): string {
   switch (key) {
     case 'atk':
     case 'def':
-      return Math.round(value).toString()
+      return formatNumber(Math.round(value))
     case 'aspd':
       return `${value.toFixed(2)}/초`
     case 'crit':
@@ -79,7 +80,7 @@ export function GrowthPanel() {
                 }`}
               >
                 업그레이드
-                <div className="text-[10px] opacity-80">{cost}</div>
+                <div className="text-[10px] opacity-80">{formatNumber(cost)}</div>
               </button>
             </div>
           )

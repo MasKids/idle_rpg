@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { EXIST_SPECIAL_UNLOCKS, existNodeStatus, generateExistTree } from '../../data/existTree'
 import { useGameStore } from '../../store/gameStore'
+import { formatNumber } from '../../utils/format'
 import type {
   CurrencyKey,
   ExistNodeEffect,
@@ -34,8 +35,8 @@ const CURRENCY_ABBR: Record<CurrencyKey, string> = {
 
 function effectSummary(effect: ExistNodeEffect): string {
   return effect.kind === 'stat'
-    ? `${STAT_ABBR[effect.stat]}+${effect.value}`
-    : `${CURRENCY_ABBR[effect.currency]}+${effect.amount}`
+    ? `${STAT_ABBR[effect.stat]}+${formatNumber(effect.value)}`
+    : `${CURRENCY_ABBR[effect.currency]}+${formatNumber(effect.amount)}`
 }
 
 function oppositeLane(lane: ExistTreeLane): ExistTreeLane {
@@ -86,7 +87,7 @@ export function ExistTreePanel({ onBack }: ExistTreePanelProps) {
           ← 뒤로
         </button>
         <div className="text-sm font-semibold text-amber-200">
-          보유 존재력 <span className="text-amber-300">{exist}</span>
+          보유 존재력 <span className="text-amber-300">{formatNumber(exist)}</span>
         </div>
       </div>
 
@@ -220,7 +221,7 @@ function NodeCircle({
       </div>
       <div className="text-center text-[9px] leading-tight">
         {status === 'unlocked' && <span className="text-amber-200/80">{effectSummary(node.effect)}</span>}
-        {status === 'unlockable' && <span className="text-amber-300">{node.cost}</span>}
+        {status === 'unlockable' && <span className="text-amber-300">{formatNumber(node.cost)}</span>}
         {status === 'locked' && <span className="text-amber-100/20">잠김</span>}
       </div>
     </button>
@@ -252,7 +253,7 @@ function SpecialCircle({
         {unlock.label}
       </div>
       <div className="text-center text-[9px] leading-tight text-fuchsia-200">
-        {unlocked ? '해금됨' : unlock.cost}
+        {unlocked ? '해금됨' : formatNumber(unlock.cost)}
       </div>
     </button>
   )
@@ -282,7 +283,7 @@ function NodeInfoBar({
           </div>
           <div className="mt-0.5 text-[11px] text-amber-100/70">효과 {effectSummary(node.effect)}</div>
           <div className="text-[11px] text-amber-100/70">
-            {status === 'unlocked' ? '해금됨' : `비용 ${node.cost} 존재력`}
+            {status === 'unlocked' ? '해금됨' : `비용 ${formatNumber(node.cost)} 존재력`}
           </div>
         </div>
 

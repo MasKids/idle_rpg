@@ -1,5 +1,6 @@
 import { generateStage, stageLabel } from '../data/stages'
 import { useGameStore } from '../store/gameStore'
+import { formatNumber } from '../utils/format'
 
 interface StageInfoModalProps {
   isOpen: boolean
@@ -34,11 +35,11 @@ export function StageInfoModal({ isOpen, onClose }: StageInfoModalProps) {
         <dl className="mt-3 space-y-1.5 text-xs text-white/70">
           <div className="flex justify-between">
             <dt>적 HP</dt>
-            <dd className="text-white">{data.enemyHp}</dd>
+            <dd className="text-white">{formatNumber(data.enemyHp)}</dd>
           </div>
           <div className="flex justify-between">
             <dt>적 공격력</dt>
-            <dd className="text-white">{data.enemyAtk}</dd>
+            <dd className="text-white">{formatNumber(data.enemyAtk)}</dd>
           </div>
           <div className="flex justify-between">
             <dt>처치 진행도</dt>
@@ -51,9 +52,9 @@ export function StageInfoModal({ isOpen, onClose }: StageInfoModalProps) {
         <div className="mt-3 border-t border-white/10 pt-3">
           <p className="mb-1 text-[11px] text-white/50">스테이지 보상 (처치당)</p>
           <div className="flex flex-wrap gap-x-3 gap-y-1 text-xs text-white/70">
-            <span>골드 {data.rewards.gold}</span>
-            <span>성장에너지 {data.rewards.growthEnergy}</span>
-            <span>존재력 {data.rewards.exist}</span>
+            <span>골드 {formatNumber(data.rewards.gold)}</span>
+            <span>성장에너지 {formatNumber(data.rewards.growthEnergy)}</span>
+            <span>존재력 {formatNumber(data.rewards.exist)}</span>
           </div>
         </div>
 

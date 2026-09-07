@@ -8,6 +8,7 @@ import {
   masteryUpgradeCost,
 } from '../../data/equipment'
 import { useGameStore } from '../../store/gameStore'
+import { formatNumber } from '../../utils/format'
 
 type EquipmentSubTab = 'equipment' | 'mastery'
 
@@ -79,7 +80,7 @@ function EquipmentSlotsList() {
                 <span className="text-[10px] text-cyan-100/50">Lv.{level}</span>
               </div>
               <div className="text-[11px] text-cyan-100/70">
-                {STAT_LABEL[slot.stat]} +{bonus}
+                {STAT_LABEL[slot.stat]} +{formatNumber(bonus)}
               </div>
             </div>
 
@@ -92,7 +93,7 @@ function EquipmentSlotsList() {
               }`}
             >
               강화
-              <div className="text-[10px] opacity-80">{cost}</div>
+              <div className="text-[10px] opacity-80">{formatNumber(cost)}</div>
             </button>
           </div>
         )
@@ -147,7 +148,7 @@ function MasteryList() {
               }`}
             >
               수련
-              <div className="text-[10px] opacity-80">{cost}</div>
+              <div className="text-[10px] opacity-80">{formatNumber(cost)}</div>
             </button>
           </div>
         )
