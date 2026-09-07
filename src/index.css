@@ -10,3 +10,14 @@ body,
 body {
   background: #0a0a0f;
 }
+
+@keyframes float-up {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-40px);
+  }
+}

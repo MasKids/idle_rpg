@@ -1,4 +1,5 @@
 import { useGameStore } from '../store/gameStore'
+import { useBattleLoop } from '../systems/battle/useBattleLoop'
 import type { CurrencyKey } from '../types/game'
 
 const CURRENCY_LABELS: Record<CurrencyKey, string> = {
@@ -6,17 +7,46 @@ const CURRENCY_LABELS: Record<CurrencyKey, string> = {
   growthEnergy: '성장에너지',
   timeEnergy: '시간에너지',
   gold: '골드',
+  essence: '정수',
 }
 
 const CURRENCY_ORDER: CurrencyKey[] = ['exist', 'growthEnergy', 'timeEnergy', 'gold']
 
 export function BattleArea() {
   const currencies = useGameStore((state) => state.currencies)
+  const { popups, enemyHp, enemyMaxHp, isBossStage, stage } = useBattleLoop()
+  const hpRatio = enemyMaxHp > 0 ? Math.max(0, enemyHp / enemyMaxHp) : 0
 
   return (
     <div className="relative min-h-0 flex-1 bg-gradient-to-b from-blue-950 to-slate-900">
-      <div className="absolute inset-0 flex items-center justify-center text-sm text-blue-300/40">
-        전투 영역 (플레이스홀더)
+      <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
+        <span className="text-xs text-blue-300/60">
+          STAGE {stage}
+          {isBossStage && <span className="ml-1 text-amber-400">BOSS</span>}
+        </span>
+
+        <div
+          className={`h-20 w-20 rounded-lg ${isBossStage ? 'bg-amber-600/70' : 'bg-red-500/60'}`}
+        />
+
+        <div className="h-2 w-40 overflow-hidden rounded-full bg-black/40">
+          <div
+            className={`h-full rounded-full transition-[width] duration-150 ${isBossStage ? 'bg-amber-400' : 'bg-red-400'}`}
+            style={{ width: `${hpRatio * 100}%` }}
+          />
+        </div>
+
+        {popups.map((popup) => (
+          <span
+            key={popup.id}
+            className={`pointer-events-none absolute top-1/2 animate-[float-up_0.6s_ease-out_forwards] text-sm font-bold ${
+              popup.isCrit ? 'text-amber-300' : 'text-white'
+            }`}
+            style={{ left: `${50 + ((popup.id * 37) % 40) - 20}%` }}
+          >
+            {popup.isCrit ? `${popup.amount}!` : popup.amount}
+          </span>
+        ))}
       </div>
 
       <div className="absolute inset-x-0 top-0 flex items-start justify-between bg-gradient-to-b from-black/50 to-transparent p-3">

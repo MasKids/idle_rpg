@@ -1,16 +1,57 @@
 import { create } from 'zustand'
-import type { CurrencyKey, StatKey } from '../types/game'
+import { EXIST_SPECIAL_UNLOCKS } from '../data/existTree'
+import { generateStage } from '../data/stages'
+import { computeStatValue, statUpgradeCost } from '../data/stats'
+import type { BattleState, CurrencyKey, SpecialUnlockId, StatKey } from '../types/game'
+
+const INITIAL_STAGE = 1
+
+function statsFromLevels(levels: Record<StatKey, number>): Record<StatKey, number> {
+  return {
+    atk: computeStatValue('atk', levels.atk),
+    def: computeStatValue('def', levels.def),
+    aspd: computeStatValue('aspd', levels.aspd),
+    crit: computeStatValue('crit', levels.crit),
+    critDmg: computeStatValue('critDmg', levels.critDmg),
+    existGain: computeStatValue('existGain', levels.existGain),
+  }
+}
+
+function battleStateForStage(stage: number): BattleState {
+  const data = generateStage(stage)
+  return {
+    stage,
+    enemyMaxHp: data.enemyHp,
+    enemyHp: data.enemyHp,
+    isBossStage: data.isBoss,
+  }
+}
 
 interface GameState {
   currencies: Record<CurrencyKey, number>
+  statLevels: Record<StatKey, number>
   stats: Record<StatKey, number>
   currentStage: number
-  unlockedExistNodes: string[]
+  battle: BattleState
+  unlockedCount: number
+  specialUnlocks: Record<SpecialUnlockId, boolean>
+
   addCurrency: (key: CurrencyKey, amount: number) => void
   spendCurrency: (key: CurrencyKey, amount: number) => boolean
-  setStat: (key: StatKey, value: number) => void
+  upgradeStat: (key: StatKey) => boolean
   setStage: (stage: number) => void
-  unlockExistNode: (nodeId: string) => void
+  setBattle: (battle: BattleState) => void
+  unlockNextExistNode: (cost: number) => boolean
+  unlockSpecial: (id: SpecialUnlockId) => boolean
+}
+
+const initialStatLevels: Record<StatKey, number> = {
+  atk: 0,
+  def: 0,
+  aspd: 0,
+  crit: 0,
+  critDmg: 0,
+  existGain: 0,
 }
 
 export const useGameStore = create<GameState>((set, get) => ({
@@ -19,17 +60,17 @@ export const useGameStore = create<GameState>((set, get) => ({
     growthEnergy: 0,
     timeEnergy: 0,
     gold: 0,
+    essence: 0,
   },
-  stats: {
-    atk: 1,
-    def: 1,
-    aspd: 1,
-    crit: 0,
-    critDmg: 150,
-    existGain: 1,
+  statLevels: initialStatLevels,
+  stats: statsFromLevels(initialStatLevels),
+  currentStage: INITIAL_STAGE,
+  battle: battleStateForStage(INITIAL_STAGE),
+  unlockedCount: 0,
+  specialUnlocks: {
+    reverse: false,
+    timeHeist: false,
   },
-  currentStage: 1,
-  unlockedExistNodes: [],
 
   addCurrency: (key, amount) =>
     set((state) => ({
@@ -44,15 +85,38 @@ export const useGameStore = create<GameState>((set, get) => ({
     return true
   },
 
-  setStat: (key, value) =>
-    set((state) => ({ stats: { ...state.stats, [key]: value } })),
+  upgradeStat: (key) => {
+    const level = get().statLevels[key]
+    const cost = statUpgradeCost(level)
+    if (!get().spendCurrency('growthEnergy', cost)) return false
+
+    set((state) => {
+      const statLevels = { ...state.statLevels, [key]: level + 1 }
+      return { statLevels, stats: statsFromLevels(statLevels) }
+    })
+    return true
+  },
 
   setStage: (stage) => set({ currentStage: stage }),
 
-  unlockExistNode: (nodeId) =>
-    set((state) =>
-      state.unlockedExistNodes.includes(nodeId)
-        ? state
-        : { unlockedExistNodes: [...state.unlockedExistNodes, nodeId] },
-    ),
+  setBattle: (battle) => set({ battle }),
+
+  unlockNextExistNode: (cost) => {
+    if (!get().spendCurrency('exist', cost)) return false
+    set((state) => ({ unlockedCount: state.unlockedCount + 1 }))
+    return true
+  },
+
+  unlockSpecial: (id) => {
+    if (get().specialUnlocks[id]) return false
+    const unlock = EXIST_SPECIAL_UNLOCKS.find((entry) => entry.id === id)
+    if (!unlock) return false
+    if (get().unlockedCount < unlock.requiredUnlockedCount) return false
+    if (!get().spendCurrency('exist', unlock.cost)) return false
+
+    set((state) => ({
+      specialUnlocks: { ...state.specialUnlocks, [id]: true },
+    }))
+    return true
+  },
 }))
