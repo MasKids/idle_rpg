@@ -50,3 +50,18 @@ export interface BattleState {
   kills: number
   killsRequired: number
 }
+
+// 장비 / 무기 숙련
+
+export type EquipmentSlotId = 'weapon' | 'helmet' | 'armor' | 'gloves' | 'boots'
+
+export interface EquipmentSlotData {
+  id: EquipmentSlotId
+  label: string
+  stat: Extract<StatKey, 'atk' | 'def'>
+}
+
+export interface WeaponMasteryData {
+  id: string
+  name: string
+}
