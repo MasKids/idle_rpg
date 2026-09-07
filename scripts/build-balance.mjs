@@ -1,5 +1,7 @@
 // balance/balance.xlsx를 읽어 src/data/balance.json으로 변환한다.
-// 엑셀의 B열(value)만 신뢰하고, 나머지 열은 사람이 읽기 위한 참고용이다.
+// 시트는 3행 헤더(한글 라벨 / 영문 필드명 / 자료형) + 데이터 구조.
+// 데이터 열은 A=번호, B=이름, C=key(수정 금지), D=value(수정 대상), E=기본값, F=설명 —
+// 이 중 C열(key)과 D열(value)만 신뢰하고 나머지는 사람이 읽기 위한 참고용이다.
 
 import * as fs from 'node:fs'
 import { existsSync, readFileSync, writeFileSync } from 'node:fs'
@@ -44,22 +46,26 @@ function loadWorkbook() {
   }
 }
 
+const HEADER_ROW_COUNT = 3
+const COL_KEY = 2 // C열
+const COL_VALUE = 3 // D열
+
 function parseSheet(sheetName, sheet) {
   const rows = XLSX.utils.sheet_to_json(sheet, { header: 1 })
   const category = {}
   const seenKeys = new Map()
 
-  // rows[0]은 헤더. 실제 데이터는 2행부터 (엑셀 기준 행 번호 = index + 1)
-  for (let i = 1; i < rows.length; i++) {
+  // 앞 3행은 헤더(한글 라벨 / 영문 필드명 / 자료형). 실제 데이터는 4행부터 (엑셀 기준 행 번호 = index + 1)
+  for (let i = HEADER_ROW_COUNT; i < rows.length; i++) {
     const row = rows[i]
     const excelRow = i + 1
     if (!row || row.length === 0 || row.every((cell) => cell === undefined || cell === '')) continue
 
-    const key = row[0]
-    const value = row[1]
+    const key = row[COL_KEY]
+    const value = row[COL_VALUE]
 
     if (typeof key !== 'string' || key.trim() === '') {
-      fail(`[${sheetName}] 행 ${excelRow}: A열(key)이 비어 있습니다.`)
+      fail(`[${sheetName}] 행 ${excelRow}: C열(key)이 비어 있습니다.`)
     }
 
     if (seenKeys.has(key)) {
