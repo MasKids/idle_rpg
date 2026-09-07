@@ -10,7 +10,14 @@ import {
 import { EXIST_SPECIAL_UNLOCKS, generateExistTree } from '../data/existTree'
 import { generateStage, killsRequiredForStage } from '../data/stages'
 import { computeStatValue, statUpgradeCost } from '../data/stats'
-import type { BattleState, CurrencyKey, EquipmentSlotId, SpecialUnlockId, StatKey } from '../types/game'
+import type {
+  BattleState,
+  CurrencyKey,
+  EquipmentSlotId,
+  RebirthSpentTotals,
+  SpecialUnlockId,
+  StatKey,
+} from '../types/game'
 
 const INITIAL_STAGE = 1
 const EXIST_TREE_NODES = generateExistTree()
@@ -83,6 +90,7 @@ interface GameState {
   battle: BattleState
   unlockedCount: number
   specialUnlocks: Record<SpecialUnlockId, boolean>
+  rebirthSpent: RebirthSpentTotals
 
   addCurrency: (key: CurrencyKey, amount: number) => void
   spendCurrency: (key: CurrencyKey, amount: number) => boolean
@@ -96,6 +104,7 @@ interface GameState {
   setBattle: (battle: BattleState) => void
   unlockNextExistNode: () => boolean
   unlockSpecial: (id: SpecialUnlockId) => boolean
+  executeRebirth: () => void
 }
 
 const initialStatLevels: Record<StatKey, number> = {
@@ -118,6 +127,12 @@ const initialEquipmentLevels: Record<EquipmentSlotId, number> = {
 const initialMasteryLevels: Record<string, number> = Object.fromEntries(
   MASTERY_WEAPONS.map((weapon) => [weapon.id, 0]),
 )
+
+const initialRebirthSpent: RebirthSpentTotals = {
+  growthEnergy: 0,
+  gold: 0,
+  essence: 0,
+}
 
 const initialExistTreeStatBonus: Record<StatKey, number> = {
   atk: 0,
@@ -153,6 +168,7 @@ export const useGameStore = create<GameState>((set, get) => ({
     reverse: false,
     timeHeist: false,
   },
+  rebirthSpent: initialRebirthSpent,
 
   addCurrency: (key, amount) =>
     set((state) => ({
@@ -177,6 +193,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       return {
         statLevels,
         stats: computeEffectiveStats(statLevels, state.equipmentLevels, state.masteryLevels, state.existTreeStatBonus),
+        rebirthSpent: { ...state.rebirthSpent, growthEnergy: state.rebirthSpent.growthEnergy + cost },
       }
     })
     return true
@@ -186,6 +203,7 @@ export const useGameStore = create<GameState>((set, get) => ({
     const order: StatKey[] = ['atk', 'def', 'aspd', 'crit', 'critDmg', 'existGain']
     const statLevels = { ...get().statLevels }
     let growthEnergy = get().currencies.growthEnergy
+    const startingGrowthEnergy = growthEnergy
 
     for (const key of order) {
       let level = statLevels[key]
@@ -196,10 +214,13 @@ export const useGameStore = create<GameState>((set, get) => ({
       statLevels[key] = level
     }
 
+    const spent = startingGrowthEnergy - growthEnergy
+
     set((state) => ({
       statLevels,
       stats: computeEffectiveStats(statLevels, state.equipmentLevels, state.masteryLevels, state.existTreeStatBonus),
       currencies: { ...state.currencies, growthEnergy },
+      rebirthSpent: { ...state.rebirthSpent, growthEnergy: state.rebirthSpent.growthEnergy + spent },
     }))
   },
 
@@ -213,6 +234,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       return {
         equipmentLevels,
         stats: computeEffectiveStats(state.statLevels, equipmentLevels, state.masteryLevels, state.existTreeStatBonus),
+        rebirthSpent: { ...state.rebirthSpent, gold: state.rebirthSpent.gold + cost },
       }
     })
     return true
@@ -221,6 +243,7 @@ export const useGameStore = create<GameState>((set, get) => ({
   maxUpgradeEquipment: () => {
     const equipmentLevels = { ...get().equipmentLevels }
     let gold = get().currencies.gold
+    const startingGold = gold
 
     for (const slot of EQUIPMENT_SLOTS) {
       let level = equipmentLevels[slot.id]
@@ -231,10 +254,13 @@ export const useGameStore = create<GameState>((set, get) => ({
       equipmentLevels[slot.id] = level
     }
 
+    const spent = startingGold - gold
+
     set((state) => ({
       equipmentLevels,
       stats: computeEffectiveStats(state.statLevels, equipmentLevels, state.masteryLevels, state.existTreeStatBonus),
       currencies: { ...state.currencies, gold },
+      rebirthSpent: { ...state.rebirthSpent, gold: state.rebirthSpent.gold + spent },
     }))
   },
 
@@ -248,6 +274,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       return {
         masteryLevels,
         stats: computeEffectiveStats(state.statLevels, state.equipmentLevels, masteryLevels, state.existTreeStatBonus),
+        rebirthSpent: { ...state.rebirthSpent, essence: state.rebirthSpent.essence + cost },
       }
     })
     return true
@@ -256,6 +283,7 @@ export const useGameStore = create<GameState>((set, get) => ({
   maxUpgradeMastery: () => {
     const masteryLevels = { ...get().masteryLevels }
     let essence = get().currencies.essence
+    const startingEssence = essence
 
     for (const weapon of MASTERY_WEAPONS) {
       let level = masteryLevels[weapon.id] ?? 0
@@ -266,10 +294,13 @@ export const useGameStore = create<GameState>((set, get) => ({
       masteryLevels[weapon.id] = level
     }
 
+    const spent = startingEssence - essence
+
     set((state) => ({
       masteryLevels,
       stats: computeEffectiveStats(state.statLevels, state.equipmentLevels, masteryLevels, state.existTreeStatBonus),
       currencies: { ...state.currencies, essence },
+      rebirthSpent: { ...state.rebirthSpent, essence: state.rebirthSpent.essence + spent },
     }))
   },
 
@@ -315,6 +346,29 @@ export const useGameStore = create<GameState>((set, get) => ({
       specialUnlocks: { ...state.specialUnlocks, [id]: true },
     }))
     return true
+  },
+
+  executeRebirth: () => {
+    set((state) => ({
+      currentStage: INITIAL_STAGE,
+      battle: battleStateForStage(INITIAL_STAGE),
+      statLevels: initialStatLevels,
+      equipmentLevels: initialEquipmentLevels,
+      masteryLevels: initialMasteryLevels,
+      stats: computeEffectiveStats(
+        initialStatLevels,
+        initialEquipmentLevels,
+        initialMasteryLevels,
+        state.existTreeStatBonus,
+      ),
+      currencies: {
+        ...state.currencies,
+        growthEnergy: state.currencies.growthEnergy + state.rebirthSpent.growthEnergy,
+        gold: state.currencies.gold + state.rebirthSpent.gold,
+        essence: state.currencies.essence + state.rebirthSpent.essence,
+      },
+      rebirthSpent: initialRebirthSpent,
+    }))
   },
 }))
 

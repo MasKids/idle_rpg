@@ -5,9 +5,10 @@ import { formatNumber } from '../utils/format'
 interface StageInfoModalProps {
   isOpen: boolean
   onClose: () => void
+  onRebirthClick: () => void
 }
 
-export function StageInfoModal({ isOpen, onClose }: StageInfoModalProps) {
+export function StageInfoModal({ isOpen, onClose, onRebirthClick }: StageInfoModalProps) {
   const stage = useGameStore((state) => state.currentStage)
   const kills = useGameStore((state) => state.battle.kills)
   const killsRequired = useGameStore((state) => state.battle.killsRequired)
@@ -63,6 +64,7 @@ export function StageInfoModal({ isOpen, onClose }: StageInfoModalProps) {
             {reverseUnlocked && (
               <button
                 type="button"
+                onClick={onRebirthClick}
                 className="rounded-lg bg-purple-600 px-3 py-1.5 text-xs font-medium text-white"
               >
                 리버스

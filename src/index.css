@@ -21,3 +21,12 @@ body {
     transform: translateY(-40px);
   }
 }
+
+@keyframes rebirth-flash {
+  0% {
+    opacity: 0.85;
+  }
+  100% {
+    opacity: 0;
+  }
+}

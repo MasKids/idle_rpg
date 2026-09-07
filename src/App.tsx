@@ -5,6 +5,8 @@ import { ControlArea } from './components/ControlArea'
 import { StageInfoModal } from './components/StageInfoModal'
 import { StubPanel } from './components/StubPanel'
 import { ExistTreePanel } from './systems/exist/ExistTreePanel'
+import { RebirthModal } from './systems/rebirth/RebirthModal'
+import { useGameStore } from './store/gameStore'
 import type { TabKey } from './types/game'
 
 const FULLSCREEN_TABS: TabKey[] = ['gacha', 'exist', 'dogam']
@@ -12,9 +14,19 @@ const FULLSCREEN_TABS: TabKey[] = ['gacha', 'exist', 'dogam']
 function App() {
   const [activeTab, setActiveTab] = useState<TabKey>('growth')
   const [isStageInfoOpen, setStageInfoOpen] = useState(false)
+  const [isRebirthModalOpen, setRebirthModalOpen] = useState(false)
+  const [rebirthFlashKey, setRebirthFlashKey] = useState(0)
+  const executeRebirth = useGameStore((state) => state.executeRebirth)
   const goBack = () => setActiveTab('growth')
 
   const isFullscreen = FULLSCREEN_TABS.includes(activeTab)
+
+  const handleRebirthConfirm = () => {
+    executeRebirth()
+    setRebirthModalOpen(false)
+    setStageInfoOpen(false)
+    setRebirthFlashKey((key) => key + 1)
+  }
 
   return (
     <div className="flex min-h-dvh items-center justify-center bg-black">
@@ -34,7 +46,24 @@ function App() {
 
         <BottomMenu activeTab={activeTab} onSelect={setActiveTab} />
 
-        <StageInfoModal isOpen={isStageInfoOpen} onClose={() => setStageInfoOpen(false)} />
+        <StageInfoModal
+          isOpen={isStageInfoOpen}
+          onClose={() => setStageInfoOpen(false)}
+          onRebirthClick={() => setRebirthModalOpen(true)}
+        />
+
+        <RebirthModal
+          isOpen={isRebirthModalOpen}
+          onCancel={() => setRebirthModalOpen(false)}
+          onConfirm={handleRebirthConfirm}
+        />
+
+        {rebirthFlashKey > 0 && (
+          <div
+            key={rebirthFlashKey}
+            className="pointer-events-none absolute inset-0 z-40 animate-[rebirth-flash_0.8s_ease-out_forwards] bg-white"
+          />
+        )}
       </div>
     </div>
   )

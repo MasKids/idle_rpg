@@ -70,3 +70,11 @@ export interface WeaponMasteryData {
   id: string
   name: string
 }
+
+// 리버스 환급 추적
+
+export interface RebirthSpentTotals {
+  growthEnergy: number
+  gold: number
+  essence: number
+}
