@@ -7,7 +7,7 @@ import { StubPanel } from './components/StubPanel'
 import { ExistTreePanel } from './systems/exist/ExistTreePanel'
 import type { TabKey } from './types/game'
 
-const FULLSCREEN_TABS: TabKey[] = ['gacha', 'exist', 'time', 'dogam']
+const FULLSCREEN_TABS: TabKey[] = ['gacha', 'exist', 'dogam']
 
 function App() {
   const [activeTab, setActiveTab] = useState<TabKey>('growth')
@@ -24,27 +24,15 @@ function App() {
             {activeTab === 'gacha' && <StubPanel title="가챠" onBack={goBack} />}
             {activeTab === 'dogam' && <StubPanel title="도감" onBack={goBack} />}
             {activeTab === 'exist' && <ExistTreePanel onBack={goBack} />}
-            {activeTab === 'time' && (
-              <div className="relative flex h-full flex-col items-center justify-center gap-2 bg-amber-950 text-amber-100">
-                <button
-                  type="button"
-                  onClick={goBack}
-                  className="absolute left-4 top-4 text-sm text-amber-300"
-                >
-                  ← 뒤로
-                </button>
-                <h2 className="text-lg font-semibold">TIME HEIST</h2>
-                <p className="text-sm text-amber-300/70">구현 예정</p>
-              </div>
-            )}
           </>
         ) : (
           <>
             <BattleArea onStageInfoClick={() => setStageInfoOpen(true)} />
             <ControlArea activeTab={activeTab} />
-            <BottomMenu activeTab={activeTab} onSelect={setActiveTab} />
           </>
         )}
+
+        <BottomMenu activeTab={activeTab} onSelect={setActiveTab} />
 
         <StageInfoModal isOpen={isStageInfoOpen} onClose={() => setStageInfoOpen(false)} />
       </div>

@@ -5,7 +5,7 @@ interface StubPanelProps {
 
 export function StubPanel({ title, onBack }: StubPanelProps) {
   return (
-    <div className="relative flex h-full flex-col items-center justify-center gap-2 bg-amber-950 text-amber-100">
+    <div className="relative flex min-h-0 flex-1 flex-col items-center justify-center gap-2 bg-amber-950 text-amber-100">
       <button
         type="button"
         onClick={onBack}

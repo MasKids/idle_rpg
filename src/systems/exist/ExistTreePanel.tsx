@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import { existNodeStatus, generateExistTree } from '../../data/existTree'
 import { useGameStore } from '../../store/gameStore'
 import type { CurrencyKey, ExistNodeEffect, ExistNodeStatus, ExistTreeNode, StatKey } from '../../types/game'
@@ -39,10 +39,19 @@ const CIRCLE_STYLE: Record<ExistNodeStatus, string> = {
 export function ExistTreePanel({ onBack }: ExistTreePanelProps) {
   const exist = useGameStore((state) => state.currencies.exist)
   const unlockedCount = useGameStore((state) => state.unlockedCount)
-  const nodes = useMemo(() => generateExistTree(), [])
+
+  // 50번(최상단) -> 1번(최하단) 순서로 렌더링. 시각적으로 아래에서 위로 올라가는 구조.
+  const nodesTopToBottom = useMemo(() => [...generateExistTree()].reverse(), [])
+
+  const scrollRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const el = scrollRef.current
+    if (el) el.scrollTop = el.scrollHeight
+  }, [])
 
   return (
-    <div className="flex h-full flex-col bg-amber-950 text-amber-100">
+    <div className="flex min-h-0 flex-1 flex-col bg-amber-950 text-amber-100">
       <div className="relative flex shrink-0 items-center justify-center border-b border-amber-300/10 py-3">
         <button type="button" onClick={onBack} className="absolute left-4 text-sm text-amber-300">
           ← 뒤로
@@ -52,21 +61,22 @@ export function ExistTreePanel({ onBack }: ExistTreePanelProps) {
         </div>
       </div>
 
-      <div className="flex-1 overflow-y-auto">
-        {nodes.map((node) => {
+      <div ref={scrollRef} className="min-h-0 flex-1 overflow-y-auto">
+        {nodesTopToBottom.map((node, index) => {
           const status = existNodeStatus(node.order, unlockedCount)
-          const showTierDivider = node.order > 1 && node.order % 10 === 1
+          const nextNode = nodesTopToBottom[index + 1]
+          const showTierDividerBelow = nextNode !== undefined && nextNode.tier !== node.tier
 
           return (
             <div key={node.order}>
-              {showTierDivider && (
+              <NodeRow node={node} status={status} />
+              {showTierDividerBelow && (
                 <div className="flex items-center gap-2 px-6 py-2 text-[10px] text-amber-300/50">
                   <div className="h-px flex-1 bg-amber-300/20" />
                   {node.tier}티어
                   <div className="h-px flex-1 bg-amber-300/20" />
                 </div>
               )}
-              <NodeRow node={node} status={status} />
             </div>
           )
         })}

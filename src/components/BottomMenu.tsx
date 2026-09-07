@@ -11,7 +11,6 @@ const MENU_ITEMS: MenuItem[] = [
   { key: 'equipment', label: '장비', icon: '🗡️' },
   { key: 'gacha', label: '가챠', icon: '🎰' },
   { key: 'exist', label: '존재력', icon: '🌌' },
-  { key: 'time', label: '시간', icon: '⏳' },
   { key: 'dogam', label: '도감', icon: '📖' },
 ]
 

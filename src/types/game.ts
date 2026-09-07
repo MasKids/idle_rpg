@@ -2,7 +2,7 @@ export type CurrencyKey = 'exist' | 'growthEnergy' | 'timeEnergy' | 'gold' | 'es
 
 export type StatKey = 'atk' | 'def' | 'aspd' | 'crit' | 'critDmg' | 'existGain'
 
-export type TabKey = 'growth' | 'equipment' | 'gacha' | 'exist' | 'time' | 'dogam'
+export type TabKey = 'growth' | 'equipment' | 'gacha' | 'exist' | 'dogam'
 
 // 존재력 트리
 
