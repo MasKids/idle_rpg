@@ -1,3 +1,4 @@
+import { BALANCE } from './balance'
 import type {
   CurrencyKey,
   ExistNodeEffect,
@@ -8,7 +9,9 @@ import type {
   StatKey,
 } from '../types/game'
 
-export const EXIST_TREE_TOTAL_NODES = 50
+const { existTree } = BALANCE
+
+export const EXIST_TREE_TOTAL_NODES = existTree.totalNodes
 const NODES_PER_TIER = 10
 
 // 노드 이름 오버라이드 (index = order - 1). 채워지면 자동 생성 대신 사용.
@@ -37,15 +40,15 @@ function nodeName(order: number): string {
 }
 
 function nodeCost(order: number): number {
-  return Math.floor(10 * 1.35 ** (order - 1))
+  return Math.floor(existTree.nodeCostBase * existTree.nodeCostGrowth ** (order - 1))
 }
 
 function statValue(order: number): number {
-  return 5 + Math.floor(order / 5) * 3
+  return existTree.statValueBase + Math.floor(order / 5) * existTree.statValueTierStep
 }
 
 function currencyAmount(order: number): number {
-  return 5 + Math.floor(order / 5) * 5
+  return existTree.currencyAmountBase + Math.floor(order / 5) * existTree.currencyAmountTierStep
 }
 
 function effectFor(order: number): ExistNodeEffect {
@@ -96,20 +99,19 @@ export function existNodeStatus(order: number, unlockedCount: number): ExistNode
 }
 
 // 트리 소속 아님 — 트리 옆 여백에 조건 충족 시 등장하는 특별 해금.
-// cost는 해당 order의 노드 비용 공식을 재사용한 1차 초안 값.
 export const EXIST_SPECIAL_UNLOCKS: ExistSpecialUnlock[] = [
   {
     id: 'reverse',
     label: '리버스',
-    anchorOrder: 15,
-    requiredUnlockedCount: 15,
-    cost: nodeCost(15),
+    anchorOrder: existTree.reverseRequiredNodes,
+    requiredUnlockedCount: existTree.reverseRequiredNodes,
+    cost: existTree.reverseUnlockCost,
   },
   {
     id: 'timeHeist',
     label: '타임 하이스트',
-    anchorOrder: 33,
-    requiredUnlockedCount: 33,
-    cost: nodeCost(33),
+    anchorOrder: existTree.timeHeistRequiredNodes,
+    requiredUnlockedCount: existTree.timeHeistRequiredNodes,
+    cost: existTree.timeHeistUnlockCost,
   },
 ]

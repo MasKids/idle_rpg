@@ -1,0 +1,71 @@
+{
+  "battle": {
+    "enemyBaseHp": 20,
+    "enemyHpGrowth": 1.15,
+    "enemyBaseAtk": 3,
+    "enemyAtkGrowth": 1.12,
+    "killsRequiredPerStage": 5,
+    "bossInterval": 10,
+    "bossHpMultiplier": 5,
+    "bossAtkMultiplier": 2,
+    "bossRewardMultiplier": 3
+  },
+  "rewards": {
+    "goldBaseReward": 5,
+    "goldGrowth": 1.1,
+    "growthEnergyBaseReward": 2,
+    "growthEnergyGrowth": 1.08,
+    "existRewardStageDivisor": 10,
+    "existRewardBossMultiplier": 2,
+    "bossTimeEnergyReward": 5
+  },
+  "stats": {
+    "statBaseAtk": 1,
+    "statBaseDef": 1,
+    "statBaseAspd": 1,
+    "statBaseCrit": 0,
+    "statBaseCritDmg": 150,
+    "statBaseExistGain": 1,
+    "statGrowthAtk": 1,
+    "statGrowthDef": 1,
+    "statGrowthAspd": 0.05,
+    "statGrowthCrit": 0.5,
+    "statGrowthCritDmg": 2,
+    "statGrowthExistGain": 0.02,
+    "statUpgradeCostBase": 8,
+    "statUpgradeCostGrowth": 1.18
+  },
+  "equipmentMastery": {
+    "equipmentValuePerLevel": 2,
+    "equipmentCostBase": 15,
+    "equipmentCostGrowth": 1.22,
+    "masteryMultiplierPerLevel": 0.05,
+    "masteryCostBase": 10,
+    "masteryCostGrowth": 1.25
+  },
+  "existTree": {
+    "totalNodes": 50,
+    "nodeCostBase": 10,
+    "nodeCostGrowth": 1.35,
+    "statValueBase": 5,
+    "statValueTierStep": 3,
+    "currencyAmountBase": 5,
+    "currencyAmountTierStep": 5,
+    "reverseRequiredNodes": 15,
+    "timeHeistRequiredNodes": 33,
+    "reverseUnlockCost": 667,
+    "timeHeistUnlockCost": 148142
+  },
+  "timeHeist": {
+    "stageOffset": 10,
+    "clearCount": 5,
+    "baseCost": 20,
+    "costGrowth": 2,
+    "baseCooldownSeconds": 7200,
+    "cooldownGrowth": 1.5
+  },
+  "offline": {
+    "maxHours": 8,
+    "rewardMultiplier": 1
+  }
+}

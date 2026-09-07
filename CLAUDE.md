@@ -97,8 +97,10 @@ src/
   types/
 
 ## 데이터 방침
-엑셀→JSON 파이프라인 만들지 말 것.
-data/ 아래 TypeScript 상수로 직접 정의.
+밸런싱 수치는 balance/balance.xlsx → (npm run balance) → src/data/balance.json →
+src/data/balance.ts(BALANCE 객체) 파이프라인으로 관리한다. 절차/주의사항은
+balance/README.md 참고. 노드/스테이지 등 "구조를 생성하는 로직" 자체는 여전히
+data/ 아래 TypeScript로 정의하고, 그 로직이 쓰는 숫자만 balance.ts에서 가져온다.
 
 ## 밸런싱 목표
 - 첫 리버스까지 약 3분 (트리 15노드 도달)

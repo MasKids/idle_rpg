@@ -1,36 +1,23 @@
+import { BALANCE } from './balance'
 import type { StageData } from '../types/game'
 
-const BOSS_INTERVAL = 10
-
-// 일반 스테이지 처치 목표. 보스는 1마리. 1차 초안 — 실측 후 밸런싱 대상
-const NORMAL_STAGE_KILLS_REQUIRED = 5
-
-// 1차 초안 곡선 — 실측 후 밸런싱 대상
-const BASE_ENEMY_HP = 20
-const HP_GROWTH = 1.15
-const BASE_ENEMY_ATK = 3
-const ATK_GROWTH = 1.12
-
-const BASE_GOLD_REWARD = 5
-const GOLD_GROWTH = 1.1
-const BASE_GROWTH_ENERGY_REWARD = 2
-const GROWTH_ENERGY_GROWTH = 1.08
-
-const BOSS_HP_MULTIPLIER = 5
-const BOSS_ATK_MULTIPLIER = 2
-const BOSS_REWARD_MULTIPLIER = 3
+const { battle, rewards } = BALANCE
 
 export function generateStage(stage: number): StageData {
-  const isBoss = stage % BOSS_INTERVAL === 0
+  const isBoss = stage % battle.bossInterval === 0
 
-  const enemyHp = Math.floor(BASE_ENEMY_HP * HP_GROWTH ** (stage - 1)) * (isBoss ? BOSS_HP_MULTIPLIER : 1)
-  const enemyAtk = Math.floor(BASE_ENEMY_ATK * ATK_GROWTH ** (stage - 1)) * (isBoss ? BOSS_ATK_MULTIPLIER : 1)
+  const enemyHp =
+    Math.floor(battle.enemyBaseHp * battle.enemyHpGrowth ** (stage - 1)) * (isBoss ? battle.bossHpMultiplier : 1)
+  const enemyAtk =
+    Math.floor(battle.enemyBaseAtk * battle.enemyAtkGrowth ** (stage - 1)) * (isBoss ? battle.bossAtkMultiplier : 1)
 
-  const gold = Math.floor(BASE_GOLD_REWARD * GOLD_GROWTH ** (stage - 1)) * (isBoss ? BOSS_REWARD_MULTIPLIER : 1)
+  const gold =
+    Math.floor(rewards.goldBaseReward * rewards.goldGrowth ** (stage - 1)) * (isBoss ? battle.bossRewardMultiplier : 1)
   const growthEnergy =
-    Math.floor(BASE_GROWTH_ENERGY_REWARD * GROWTH_ENERGY_GROWTH ** (stage - 1)) *
-    (isBoss ? BOSS_REWARD_MULTIPLIER : 1)
-  const exist = Math.max(1, Math.floor(stage / 10)) * (isBoss ? 2 : 1)
+    Math.floor(rewards.growthEnergyBaseReward * rewards.growthEnergyGrowth ** (stage - 1)) *
+    (isBoss ? battle.bossRewardMultiplier : 1)
+  const exist =
+    Math.max(1, Math.floor(stage / rewards.existRewardStageDivisor)) * (isBoss ? rewards.existRewardBossMultiplier : 1)
 
   return {
     stage,
@@ -42,12 +29,12 @@ export function generateStage(stage: number): StageData {
 }
 
 export function killsRequiredForStage(stage: number): number {
-  return stage % BOSS_INTERVAL === 0 ? 1 : NORMAL_STAGE_KILLS_REQUIRED
+  return stage % battle.bossInterval === 0 ? 1 : battle.killsRequiredPerStage
 }
 
 // "구간-스테이지" 표기. 10 클리어마다 구간이 오른다 (예: 11 -> "2-1")
 export function stageLabel(stage: number): string {
-  const section = Math.ceil(stage / BOSS_INTERVAL)
-  const sub = ((stage - 1) % BOSS_INTERVAL) + 1
+  const section = Math.ceil(stage / battle.bossInterval)
+  const sub = ((stage - 1) % battle.bossInterval) + 1
   return `${section}-${sub}`
 }

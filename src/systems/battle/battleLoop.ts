@@ -1,3 +1,4 @@
+import { BALANCE } from '../../data/balance'
 import { generateStage, killsRequiredForStage } from '../../data/stages'
 import { useGameStore } from '../../store/gameStore'
 import { calculateDamage } from './calculateDamage'
@@ -26,6 +27,9 @@ function tick() {
     state.addCurrency('gold', clearedStage.rewards.gold)
     state.addCurrency('growthEnergy', clearedStage.rewards.growthEnergy)
     state.addCurrency('exist', Math.floor(clearedStage.rewards.exist * state.stats.existGain))
+    if (clearedStage.isBoss) {
+      state.addCurrency('timeEnergy', BALANCE.rewards.bossTimeEnergyReward)
+    }
 
     const kills = state.battle.kills + 1
 
