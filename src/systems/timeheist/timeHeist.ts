@@ -1,16 +1,31 @@
 import { generateStage } from '../../data/stages'
 
-// 미래 스테이지 오프셋 / 클리어 환산 횟수 / TIME_ENERGY 소모량 — 1차 초안, 실측 후 밸런싱 대상.
-// 소모량은 고정값으로 둔다 (스테이지 비례보다 구현이 단순함).
+// 미래 스테이지 오프셋 / 클리어 환산 횟수 — 1차 초안, 실측 후 밸런싱 대상.
 export const TIME_HEIST_STAGE_OFFSET = 10
 export const TIME_HEIST_CLEAR_COUNT = 5
-export const TIME_HEIST_COST = 20
+
+// 비용은 사용 횟수에 따라 지수적으로 상승 (2.0배씩)
+export const TIME_HEIST_BASE_COST = 20
+export const TIME_HEIST_COST_GROWTH = 2.0
+
+// 쿨타임도 사용 횟수에 따라 지수적으로 상승 (1.5배씩). 기본 2시간
+export const TIME_HEIST_BASE_COOLDOWN_MS = 2 * 60 * 60 * 1000
+export const TIME_HEIST_COOLDOWN_GROWTH = 1.5
+
+export function timeHeistCost(usedCount: number): number {
+  return Math.floor(TIME_HEIST_BASE_COST * TIME_HEIST_COST_GROWTH ** usedCount)
+}
+
+export function timeHeistCooldownMs(usedCount: number): number {
+  return Math.floor(TIME_HEIST_BASE_COOLDOWN_MS * TIME_HEIST_COOLDOWN_GROWTH ** usedCount)
+}
 
 export interface TimeHeistPreview {
   currentStage: number
   targetStage: number
   clearCount: number
   cost: number
+  cooldownMs: number
   rewards: {
     gold: number
     growthEnergy: number
@@ -19,7 +34,8 @@ export interface TimeHeistPreview {
 }
 
 // existGain은 존재력 보상에도 평소 전투와 동일하게 배율로 반영한다.
-export function computeTimeHeistPreview(currentStage: number, existGain: number): TimeHeistPreview {
+// usedCount는 "지금까지 완료된 사용 횟수" — 이번 사용의 비용/이후 쿨타임 계산에 쓰인다.
+export function computeTimeHeistPreview(currentStage: number, existGain: number, usedCount: number): TimeHeistPreview {
   const targetStage = currentStage + TIME_HEIST_STAGE_OFFSET
   const perClear = generateStage(targetStage).rewards
 
@@ -27,7 +43,8 @@ export function computeTimeHeistPreview(currentStage: number, existGain: number)
     currentStage,
     targetStage,
     clearCount: TIME_HEIST_CLEAR_COUNT,
-    cost: TIME_HEIST_COST,
+    cost: timeHeistCost(usedCount),
+    cooldownMs: timeHeistCooldownMs(usedCount),
     rewards: {
       gold: perClear.gold * TIME_HEIST_CLEAR_COUNT,
       growthEnergy: perClear.growthEnergy * TIME_HEIST_CLEAR_COUNT,

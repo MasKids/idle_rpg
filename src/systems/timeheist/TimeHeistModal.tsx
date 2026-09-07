@@ -1,6 +1,7 @@
 import { stageLabel } from '../../data/stages'
 import { useGameStore } from '../../store/gameStore'
-import { formatNumber } from '../../utils/format'
+import { formatCountdown, formatNumber } from '../../utils/format'
+import { useNow } from '../../utils/useNow'
 import { computeTimeHeistPreview } from './timeHeist'
 
 interface TimeHeistModalProps {
@@ -13,11 +14,17 @@ export function TimeHeistModal({ isOpen, onCancel, onConfirm }: TimeHeistModalPr
   const currentStage = useGameStore((state) => state.currentStage)
   const existGain = useGameStore((state) => state.stats.existGain)
   const timeEnergy = useGameStore((state) => state.currencies.timeEnergy)
+  const usedCount = useGameStore((state) => state.timeHeistUsedCount)
+  const cooldownEndsAt = useGameStore((state) => state.timeHeistCooldownEndsAt)
+  const now = useNow()
 
   if (!isOpen) return null
 
-  const preview = computeTimeHeistPreview(currentStage, existGain)
-  const canExecute = timeEnergy >= preview.cost
+  const preview = computeTimeHeistPreview(currentStage, existGain, usedCount)
+  const cooldownRemainingMs = cooldownEndsAt !== null ? Math.max(0, cooldownEndsAt - now) : 0
+  const isOnCooldown = cooldownRemainingMs > 0
+  const canAfford = timeEnergy >= preview.cost
+  const canExecute = canAfford && !isOnCooldown
 
   return (
     <div
@@ -52,11 +59,21 @@ export function TimeHeistModal({ isOpen, onCancel, onConfirm }: TimeHeistModalPr
         <div className="mt-3 border-t border-white/10 pt-2 text-[11px] text-white/70">
           <div className="flex justify-between">
             <span>소모 시간에너지</span>
-            <span className={canExecute ? 'text-white' : 'text-red-400'}>{formatNumber(preview.cost)}</span>
+            <span className={canAfford ? 'text-white' : 'text-red-400'}>{formatNumber(preview.cost)}</span>
           </div>
           <div className="flex justify-between">
             <span>보유 시간에너지</span>
             <span>{formatNumber(timeEnergy)}</span>
+          </div>
+          <div className="flex justify-between">
+            <span>사용 횟수</span>
+            <span>{usedCount}회</span>
+          </div>
+          <div className="flex justify-between">
+            <span>쿨타임</span>
+            <span className={isOnCooldown ? 'text-red-400' : 'text-emerald-300'}>
+              {isOnCooldown ? formatCountdown(cooldownRemainingMs) : '사용 가능'}
+            </span>
           </div>
         </div>
 

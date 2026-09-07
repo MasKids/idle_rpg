@@ -10,7 +10,8 @@ import {
 import { EXIST_SPECIAL_UNLOCKS, generateExistTree } from '../data/existTree'
 import { generateStage, killsRequiredForStage } from '../data/stages'
 import { computeStatValue, statUpgradeCost } from '../data/stats'
-import { computeTimeHeistPreview } from '../systems/timeheist/timeHeist'
+import { computeTimeHeistPreview, timeHeistCooldownMs } from '../systems/timeheist/timeHeist'
+import { loadTimeHeistState, saveTimeHeistState } from '../systems/timeheist/timeHeistStorage'
 import type {
   BattleHit,
   BattleState,
@@ -23,6 +24,7 @@ import type {
 
 const INITIAL_STAGE = 1
 const EXIST_TREE_NODES = generateExistTree()
+const persistedTimeHeist = loadTimeHeistState()
 
 function baseStatsFromLevels(levels: Record<StatKey, number>): Record<StatKey, number> {
   return {
@@ -94,6 +96,8 @@ interface GameState {
   unlockedCount: number
   specialUnlocks: Record<SpecialUnlockId, boolean>
   rebirthSpent: RebirthSpentTotals
+  timeHeistUsedCount: number
+  timeHeistCooldownEndsAt: number | null
 
   addCurrency: (key: CurrencyKey, amount: number) => void
   spendCurrency: (key: CurrencyKey, amount: number) => boolean
@@ -109,6 +113,8 @@ interface GameState {
   unlockSpecial: (id: SpecialUnlockId) => boolean
   executeRebirth: () => void
   executeTimeHeist: () => boolean
+  resetTimeHeistCooldown: () => void
+  resetTimeHeistUsedCount: () => void
 }
 
 const initialStatLevels: Record<StatKey, number> = {
@@ -174,6 +180,8 @@ export const useGameStore = create<GameState>((set, get) => ({
     timeHeist: false,
   },
   rebirthSpent: initialRebirthSpent,
+  timeHeistUsedCount: persistedTimeHeist.usedCount,
+  timeHeistCooldownEndsAt: persistedTimeHeist.cooldownEndsAt,
 
   addCurrency: (key, amount) =>
     set((state) => ({
@@ -373,20 +381,42 @@ export const useGameStore = create<GameState>((set, get) => ({
         essence: state.currencies.essence + state.rebirthSpent.essence,
       },
       rebirthSpent: initialRebirthSpent,
+      timeHeistUsedCount: 0,
+      timeHeistCooldownEndsAt: null,
     }))
+    saveTimeHeistState({ usedCount: 0, cooldownEndsAt: null })
   },
 
   executeTimeHeist: () => {
     if (!get().specialUnlocks.timeHeist) return false
 
-    const preview = computeTimeHeistPreview(get().currentStage, get().stats.existGain)
+    const usedCount = get().timeHeistUsedCount
+    const cooldownEndsAt = get().timeHeistCooldownEndsAt
+    if (cooldownEndsAt !== null && Date.now() < cooldownEndsAt) return false
+
+    const preview = computeTimeHeistPreview(get().currentStage, get().stats.existGain, usedCount)
     if (!get().spendCurrency('timeEnergy', preview.cost)) return false
 
     get().addCurrency('gold', preview.rewards.gold)
     get().addCurrency('growthEnergy', preview.rewards.growthEnergy)
     get().addCurrency('exist', preview.rewards.exist)
 
+    const nextUsedCount = usedCount + 1
+    const nextCooldownEndsAt = Date.now() + timeHeistCooldownMs(usedCount)
+    set({ timeHeistUsedCount: nextUsedCount, timeHeistCooldownEndsAt: nextCooldownEndsAt })
+    saveTimeHeistState({ usedCount: nextUsedCount, cooldownEndsAt: nextCooldownEndsAt })
+
     return true
+  },
+
+  resetTimeHeistCooldown: () => {
+    set({ timeHeistCooldownEndsAt: null })
+    saveTimeHeistState({ usedCount: get().timeHeistUsedCount, cooldownEndsAt: null })
+  },
+
+  resetTimeHeistUsedCount: () => {
+    set({ timeHeistUsedCount: 0 })
+    saveTimeHeistState({ usedCount: 0, cooldownEndsAt: get().timeHeistCooldownEndsAt })
   },
 }))
 

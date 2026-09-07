@@ -1,9 +1,10 @@
 import { stageLabel } from '../data/stages'
 import { useGameStore } from '../store/gameStore'
 import { useBattleLoop } from '../systems/battle/useBattleLoop'
-import { TIME_HEIST_COST } from '../systems/timeheist/timeHeist'
+import { timeHeistCost } from '../systems/timeheist/timeHeist'
 import type { CurrencyKey } from '../types/game'
-import { formatNumber } from '../utils/format'
+import { formatCountdown, formatNumber } from '../utils/format'
+import { useNow } from '../utils/useNow'
 
 const CURRENCY_ICON: Record<CurrencyKey, string> = {
   exist: '🌌',
@@ -23,9 +24,17 @@ interface BattleAreaProps {
 export function BattleArea({ onStageInfoClick, onTimeHeistClick }: BattleAreaProps) {
   const currencies = useGameStore((state) => state.currencies)
   const timeHeistUnlocked = useGameStore((state) => state.specialUnlocks.timeHeist)
-  const canTimeHeist = currencies.timeEnergy >= TIME_HEIST_COST
+  const timeHeistUsedCount = useGameStore((state) => state.timeHeistUsedCount)
+  const timeHeistCooldownEndsAt = useGameStore((state) => state.timeHeistCooldownEndsAt)
   const { popups, enemyHp, enemyMaxHp, isBossStage, stage } = useBattleLoop()
   const hpRatio = enemyMaxHp > 0 ? Math.max(0, enemyHp / enemyMaxHp) : 0
+
+  // 카운트다운 표시 갱신용. 남은 시간 자체는 항상 now와 절대시각의 차로 계산한다.
+  const now = useNow()
+  const cooldownRemainingMs = timeHeistCooldownEndsAt !== null ? Math.max(0, timeHeistCooldownEndsAt - now) : 0
+  const isOnCooldown = cooldownRemainingMs > 0
+  const canAffordTimeHeist = currencies.timeEnergy >= timeHeistCost(timeHeistUsedCount)
+  const canTimeHeist = canAffordTimeHeist && !isOnCooldown
 
   return (
     <div className="relative min-h-0 flex-1 bg-gradient-to-b from-blue-950 to-slate-900">
@@ -85,15 +94,19 @@ export function BattleArea({ onStageInfoClick, onTimeHeistClick }: BattleAreaPro
       {timeHeistUnlocked && (
         <button
           type="button"
-          disabled={!canTimeHeist}
           onClick={onTimeHeistClick}
-          className={`absolute bottom-3 right-3 flex h-12 w-12 items-center justify-center rounded-full border-2 text-lg shadow-lg ${
-            canTimeHeist
-              ? 'border-amber-300 bg-amber-500'
-              : 'cursor-not-allowed border-amber-300/30 bg-amber-900/50 text-white/30'
+          aria-disabled={!canTimeHeist}
+          className={`absolute bottom-3 right-3 flex h-14 w-14 flex-col items-center justify-center rounded-full border-2 shadow-lg ${
+            canTimeHeist ? 'border-amber-300 bg-amber-500' : 'border-amber-300/30 bg-amber-900/50 text-white/30'
           }`}
         >
-          ⏳
+          {isOnCooldown ? (
+            <span className="text-[9px] font-semibold leading-none tabular-nums">
+              {formatCountdown(cooldownRemainingMs)}
+            </span>
+          ) : (
+            <span className="text-lg leading-none">⏳</span>
+          )}
         </button>
       )}
     </div>

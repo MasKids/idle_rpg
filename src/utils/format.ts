@@ -33,3 +33,14 @@ export function formatNumber(value: number): string {
 
   return `${sign}${scaled.toFixed(1)}${suffix}`
 }
+
+// 밀리초를 "H:MM:SS" 형태 카운트다운 문자열로. 음수는 0으로 취급
+export function formatCountdown(ms: number): string {
+  const totalSeconds = Math.max(0, Math.ceil(ms / 1000))
+  const hours = Math.floor(totalSeconds / 3600)
+  const minutes = Math.floor((totalSeconds % 3600) / 60)
+  const seconds = totalSeconds % 60
+  const pad = (n: number) => String(n).padStart(2, '0')
+
+  return `${hours}:${pad(minutes)}:${pad(seconds)}`
+}

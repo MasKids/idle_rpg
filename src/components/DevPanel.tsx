@@ -7,6 +7,8 @@ export function DevPanel() {
   const [unlockCount, setUnlockCount] = useState(33)
   const addCurrency = useGameStore((state) => state.addCurrency)
   const unlockNextExistNode = useGameStore((state) => state.unlockNextExistNode)
+  const resetTimeHeistCooldown = useGameStore((state) => state.resetTimeHeistCooldown)
+  const resetTimeHeistUsedCount = useGameStore((state) => state.resetTimeHeistUsedCount)
 
   const handleUnlockNodes = () => {
     for (let i = 0; i < unlockCount; i++) {
@@ -17,7 +19,7 @@ export function DevPanel() {
   return (
     <div className="absolute right-2 top-16 z-50">
       {isOpen && (
-        <div className="absolute right-0 top-9 w-52 rounded-lg border border-white/10 bg-slate-900/95 p-2 shadow-xl">
+        <div className="absolute right-0 top-9 w-60 rounded-lg border border-white/10 bg-slate-900/95 p-2 shadow-xl">
           <p className="mb-2 text-[10px] font-semibold text-white/50">개발자 도구</p>
 
           <button
@@ -53,6 +55,22 @@ export function DevPanel() {
               노드 N개 해금
             </button>
           </div>
+
+          <button
+            type="button"
+            onClick={resetTimeHeistCooldown}
+            className="mb-1 w-full rounded bg-white/10 px-2 py-1 text-left text-[11px] text-white hover:bg-white/20"
+          >
+            타임 하이스트 쿨타임 초기화
+          </button>
+
+          <button
+            type="button"
+            onClick={resetTimeHeistUsedCount}
+            className="mb-1 w-full rounded bg-white/10 px-2 py-1 text-left text-[11px] text-white hover:bg-white/20"
+          >
+            타임 하이스트 사용 횟수 초기화
+          </button>
 
           <button
             type="button"
