@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { BattleArea } from './components/BattleArea'
 import { BottomMenu } from './components/BottomMenu'
 import { ControlArea } from './components/ControlArea'
+import { DevPanel } from './components/DevPanel'
 import { StageInfoModal } from './components/StageInfoModal'
 import { StubPanel } from './components/StubPanel'
 import { startBattleLoop } from './systems/battle/battleLoop'
@@ -97,6 +98,8 @@ function App() {
             className="pointer-events-none absolute inset-0 z-40 animate-[rebirth-flash_0.8s_ease-out_forwards] bg-amber-300"
           />
         )}
+
+        {import.meta.env.DEV && <DevPanel />}
       </div>
     </div>
   )
