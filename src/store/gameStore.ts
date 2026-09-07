@@ -11,6 +11,7 @@ import { EXIST_SPECIAL_UNLOCKS, generateExistTree } from '../data/existTree'
 import { generateStage, killsRequiredForStage } from '../data/stages'
 import { computeStatValue, statUpgradeCost } from '../data/stats'
 import type {
+  BattleHit,
   BattleState,
   CurrencyKey,
   EquipmentSlotId,
@@ -88,6 +89,7 @@ interface GameState {
   stats: Record<StatKey, number>
   currentStage: number
   battle: BattleState
+  lastHit: BattleHit | null
   unlockedCount: number
   specialUnlocks: Record<SpecialUnlockId, boolean>
   rebirthSpent: RebirthSpentTotals
@@ -163,6 +165,7 @@ export const useGameStore = create<GameState>((set, get) => ({
   ),
   currentStage: INITIAL_STAGE,
   battle: battleStateForStage(INITIAL_STAGE),
+  lastHit: null,
   unlockedCount: 0,
   specialUnlocks: {
     reverse: false,

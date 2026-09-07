@@ -1,9 +1,10 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { BattleArea } from './components/BattleArea'
 import { BottomMenu } from './components/BottomMenu'
 import { ControlArea } from './components/ControlArea'
 import { StageInfoModal } from './components/StageInfoModal'
 import { StubPanel } from './components/StubPanel'
+import { startBattleLoop } from './systems/battle/battleLoop'
 import { ExistTreePanel } from './systems/exist/ExistTreePanel'
 import { RebirthModal } from './systems/rebirth/RebirthModal'
 import { useGameStore } from './store/gameStore'
@@ -18,6 +19,11 @@ function App() {
   const [rebirthFlashKey, setRebirthFlashKey] = useState(0)
   const executeRebirth = useGameStore((state) => state.executeRebirth)
   const goBack = () => setActiveTab('growth')
+
+  // 전투 루프는 App이 살아있는 한(탭 전환/화면 이동과 무관하게) 단 한 번만 시작된다.
+  useEffect(() => {
+    startBattleLoop()
+  }, [])
 
   const isFullscreen = FULLSCREEN_TABS.includes(activeTab)
 

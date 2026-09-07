@@ -1,7 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { generateStage, killsRequiredForStage } from '../../data/stages'
 import { useGameStore } from '../../store/gameStore'
-import { calculateDamage } from './calculateDamage'
 
 export interface DamagePopup {
   id: number
@@ -9,67 +7,33 @@ export interface DamagePopup {
   isCrit: boolean
 }
 
-const MIN_INTERVAL_MS = 100
 const POPUP_LIFETIME_MS = 600
 
+// 전투 시뮬레이션 자체는 systems/battle/battleLoop.ts가 store 레벨에서
+// 항상 돌린다. 이 훅은 화면이 떠 있는 동안 최신 상태를 구독하고,
+// 매 타격(lastHit)을 데미지 팝업 애니메이션으로 변환하는 뷰 레이어일 뿐이다.
 export function useBattleLoop() {
-  const aspd = useGameStore((state) => state.stats.aspd)
   const enemyHp = useGameStore((state) => state.battle.enemyHp)
   const enemyMaxHp = useGameStore((state) => state.battle.enemyMaxHp)
   const isBossStage = useGameStore((state) => state.battle.isBossStage)
   const kills = useGameStore((state) => state.battle.kills)
   const killsRequired = useGameStore((state) => state.battle.killsRequired)
   const stage = useGameStore((state) => state.currentStage)
+  const lastHit = useGameStore((state) => state.lastHit)
 
   const [popups, setPopups] = useState<DamagePopup[]>([])
-  const popupIdRef = useRef(0)
+  const lastHitId = useRef<number | null>(null)
 
   useEffect(() => {
-    const intervalMs = Math.max(MIN_INTERVAL_MS, 1000 / Math.max(0.1, aspd))
+    if (!lastHit || lastHit.id === lastHitId.current) return
+    lastHitId.current = lastHit.id
 
-    const timer = setInterval(() => {
-      const state = useGameStore.getState()
-      const { amount, isCrit } = calculateDamage(state.stats)
-
-      popupIdRef.current += 1
-      const id = popupIdRef.current
-      setPopups((prev) => [...prev, { id, amount, isCrit }])
-      setTimeout(() => {
-        setPopups((prev) => prev.filter((popup) => popup.id !== id))
-      }, POPUP_LIFETIME_MS)
-
-      const remainingHp = state.battle.enemyHp - amount
-
-      if (remainingHp <= 0) {
-        const clearedStage = generateStage(state.currentStage)
-        state.addCurrency('gold', clearedStage.rewards.gold)
-        state.addCurrency('growthEnergy', clearedStage.rewards.growthEnergy)
-        state.addCurrency('exist', Math.floor(clearedStage.rewards.exist * state.stats.existGain))
-
-        const kills = state.battle.kills + 1
-
-        if (kills >= state.battle.killsRequired) {
-          const nextStageNumber = state.currentStage + 1
-          const nextStage = generateStage(nextStageNumber)
-          state.setStage(nextStageNumber)
-          state.setBattle({
-            stage: nextStageNumber,
-            enemyMaxHp: nextStage.enemyHp,
-            enemyHp: nextStage.enemyHp,
-            isBossStage: nextStage.isBoss,
-            kills: 0,
-            killsRequired: killsRequiredForStage(nextStageNumber),
-          })
-        } else {
-          state.setBattle({ ...state.battle, enemyHp: clearedStage.enemyHp, kills })
-        }
-      } else {
-        state.setBattle({ ...state.battle, enemyHp: remainingHp })
-      }
-    }, intervalMs)
-
-    return () => clearInterval(timer)
-  }, [aspd])
+    const id = lastHit.id
+    setPopups((prev) => [...prev, { id, amount: lastHit.amount, isCrit: lastHit.isCrit }])
+    setTimeout(() => {
+      setPopups((prev) => prev.filter((popup) => popup.id !== id))
+    }, POPUP_LIFETIME_MS)
+  }, [lastHit])
 
   return { popups, enemyHp, enemyMaxHp, isBossStage, kills, killsRequired, stage }
 }

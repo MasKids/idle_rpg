@@ -56,6 +56,15 @@ export interface BattleState {
   killsRequired: number
 }
 
+// 전투 루프는 store 레벨에서 항상 돌아간다. lastHit은 화면(BattleArea)이
+// 떠 있을 때 데미지 팝업 연출을 위해 구독하는 이벤트성 필드일 뿐,
+// 전투 시뮬레이션 자체는 이 값과 무관하게 진행된다.
+export interface BattleHit {
+  id: number
+  amount: number
+  isCrit: boolean
+}
+
 // 장비 / 무기 숙련
 
 export type EquipmentSlotId = 'weapon' | 'helmet' | 'armor' | 'gloves' | 'boots'
