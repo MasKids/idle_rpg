@@ -2,7 +2,7 @@ export type CurrencyKey = 'exist' | 'growthEnergy' | 'timeEnergy' | 'gold' | 'es
 
 export type StatKey = 'atk' | 'def' | 'aspd' | 'crit' | 'critDmg' | 'existGain'
 
-export type TabKey = 'growth' | 'equipment' | 'gacha' | 'time' | 'dogam'
+export type TabKey = 'growth' | 'equipment' | 'gacha' | 'exist' | 'time' | 'dogam'
 
 // 존재력 트리
 
@@ -10,13 +10,18 @@ export type ExistNodeEffect =
   | { kind: 'stat'; stat: StatKey; value: number }
   | { kind: 'currency'; currency: CurrencyKey; amount: number }
 
+export type ExistTreeLane = 'left' | 'right'
+
 export interface ExistTreeNode {
   order: number
   tier: number
+  lane: ExistTreeLane
   name: string
   cost: number
   effect: ExistNodeEffect
 }
+
+export type ExistNodeStatus = 'unlocked' | 'unlockable' | 'locked'
 
 export type SpecialUnlockId = 'reverse' | 'timeHeist'
 

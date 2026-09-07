@@ -4,9 +4,10 @@ import { BottomMenu } from './components/BottomMenu'
 import { ControlArea } from './components/ControlArea'
 import { StageInfoModal } from './components/StageInfoModal'
 import { StubPanel } from './components/StubPanel'
+import { ExistTreePanel } from './systems/exist/ExistTreePanel'
 import type { TabKey } from './types/game'
 
-const FULLSCREEN_TABS: TabKey[] = ['gacha', 'time', 'dogam']
+const FULLSCREEN_TABS: TabKey[] = ['gacha', 'exist', 'time', 'dogam']
 
 function App() {
   const [activeTab, setActiveTab] = useState<TabKey>('growth')
@@ -22,6 +23,7 @@ function App() {
           <>
             {activeTab === 'gacha' && <StubPanel title="가챠" onBack={goBack} />}
             {activeTab === 'dogam' && <StubPanel title="도감" onBack={goBack} />}
+            {activeTab === 'exist' && <ExistTreePanel onBack={goBack} />}
             {activeTab === 'time' && (
               <div className="relative flex h-full flex-col items-center justify-center gap-2 bg-amber-950 text-amber-100">
                 <button

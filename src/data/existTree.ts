@@ -1,4 +1,12 @@
-import type { CurrencyKey, ExistNodeEffect, ExistSpecialUnlock, ExistTreeNode, StatKey } from '../types/game'
+import type {
+  CurrencyKey,
+  ExistNodeEffect,
+  ExistNodeStatus,
+  ExistSpecialUnlock,
+  ExistTreeLane,
+  ExistTreeNode,
+  StatKey,
+} from '../types/game'
 
 export const EXIST_TREE_TOTAL_NODES = 50
 const NODES_PER_TIER = 10
@@ -12,6 +20,11 @@ const CYCLE4_CURRENCIES: CurrencyKey[] = ['essence', 'timeEnergy']
 
 function tierOf(order: number): number {
   return Math.floor((order - 1) / NODES_PER_TIER) + 1
+}
+
+// 홀수 order = 왼쪽, 짝수 order = 오른쪽 (지그재그 배치)
+function laneOf(order: number): ExistTreeLane {
+  return order % 2 === 1 ? 'left' : 'right'
 }
 
 function defaultName(order: number): string {
@@ -65,6 +78,7 @@ export function generateExistTree(): ExistTreeNode[] {
     nodes.push({
       order,
       tier: tierOf(order),
+      lane: laneOf(order),
       name: nodeName(order),
       cost: nodeCost(order),
       effect: effectFor(order),
@@ -72,6 +86,13 @@ export function generateExistTree(): ExistTreeNode[] {
   }
 
   return nodes
+}
+
+// 해금 판정: order <= unlockedCount + 1. 다음 순번 하나만 "해금 가능"
+export function existNodeStatus(order: number, unlockedCount: number): ExistNodeStatus {
+  if (order <= unlockedCount) return 'unlocked'
+  if (order === unlockedCount + 1) return 'unlockable'
+  return 'locked'
 }
 
 // 트리 소속 아님 — 트리 옆 여백에 조건 충족 시 등장하는 특별 해금.
