@@ -44,7 +44,7 @@ function oppositeLane(lane: ExistTreeLane): ExistTreeLane {
 
 const CIRCLE_STYLE: Record<ExistNodeStatus, string> = {
   unlocked: 'border-2 border-amber-300 bg-amber-400 text-amber-950',
-  unlockable: 'border-2 border-amber-300 bg-amber-950 text-amber-200 ring-4 ring-amber-300/30',
+  unlockable: 'border-2 border-amber-300 bg-amber-950 text-amber-200 ring-4 ring-amber-300/50 animate-pulse scale-110',
   locked: 'border border-amber-100/10 bg-amber-950/40 text-amber-100/30',
 }
 
@@ -90,6 +90,18 @@ export function ExistTreePanel({ onBack }: ExistTreePanelProps) {
         </div>
       </div>
 
+      {selectedNode && selectedStatus && (
+        <NodeInfoBar
+          node={selectedNode}
+          status={selectedStatus}
+          exist={exist}
+          onClose={() => setSelectedOrder(null)}
+          onUnlock={() => {
+            if (unlockNextExistNode()) setSelectedOrder(null)
+          }}
+        />
+      )}
+
       <div ref={scrollRef} className="min-h-0 flex-1 overflow-y-auto">
         {nodesTopToBottom.map((node, index) => {
           const status = existNodeStatus(node.order, unlockedCount)
@@ -122,18 +134,6 @@ export function ExistTreePanel({ onBack }: ExistTreePanelProps) {
           )
         })}
       </div>
-
-      {selectedNode && selectedStatus && (
-        <NodeInfoBar
-          node={selectedNode}
-          status={selectedStatus}
-          exist={exist}
-          onClose={() => setSelectedOrder(null)}
-          onUnlock={() => {
-            if (unlockNextExistNode()) setSelectedOrder(null)
-          }}
-        />
-      )}
     </div>
   )
 }
@@ -274,7 +274,7 @@ function NodeInfoBar({
   const canUnlock = status === 'unlockable' && exist >= node.cost
 
   return (
-    <div className="absolute inset-x-0 bottom-0 border-t border-amber-300/20 bg-amber-900/95 px-4 py-3 backdrop-blur-sm">
+    <div className="shrink-0 border-b border-amber-300/20 bg-amber-900/95 px-4 py-3">
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
           <div className="text-xs font-semibold text-amber-200">
