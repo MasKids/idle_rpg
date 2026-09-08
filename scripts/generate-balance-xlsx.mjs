@@ -2,35 +2,46 @@
 // 코드에 흩어져 있던 밸런싱 수치를 각 시트의 초기값으로 그대로 옮겨 담는다.
 // 이미 balance.xlsx가 있으면 실수로 덮어쓰지 않도록 --force 없이는 중단한다.
 //
-// 시트 구조(3행 헤더 + 데이터)는 게임 데이터 테이블에서 흔히 쓰는 관례를 따른다:
-//   1행 = 한글 라벨(사람이 읽는 용도)
-//   2행 = 영문 필드명(파싱 힌트). "//"로 시작하면 파서가 참고만 하고 값으로 안 쓰는 열
-//   3행 = 자료형(참고용 표기, 실제 검증은 build-balance.mjs가 숫자 여부로 함)
-//   4행부터 = 실데이터. A=번호, B=이름, C=key(수정 금지), D=value(수정 대상),
-//             E=기본값(참고용), F=설명
+// 시트 구조:
+//   1행 = 시트 제목(색으로 구분되는 캡션, 표에는 포함 안 됨)
+//   2행 = 엑셀 "표(Table)" 헤더 (번호/이름/key/value/기본값/설명) — 이름 붙은 표라
+//         이름상자에서 바로 찾거나 수식에서 tbl_전투[value]처럼 참조할 수 있다
+//   3행부터 = 데이터. key(C열)는 회색, value(D열)는 연노랑으로 칠해 구분한다.
 
-import * as fs from 'node:fs'
-import { existsSync, mkdirSync, writeFileSync } from 'node:fs'
+import ExcelJS from 'exceljs'
+import { existsSync, mkdirSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import * as XLSX from 'xlsx'
-
-// SheetJS의 ESM 빌드는 Node의 fs 모듈을 자동으로 잡지 못해 직접 연결해줘야 한다.
-XLSX.set_fs(fs)
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const OUTPUT_PATH = resolve(__dirname, '../balance/balance.xlsx')
-
-const HEADER_ROWS = [
-  ['번호', '이름', 'key (수정 금지)', 'value (여기만 수정)', '기본값 (참고용)', '설명'],
-  ['ID', '//Name', 'Key', 'Value', '//Default', '//Desc'],
-  ['int', 'string', 'string', 'float', 'float', 'string'],
-]
 
 // 현재 코드의 nodeCost 공식과 동일 — 리버스/타임하이스트 해금 비용의 초기값을
 // 손계산 없이 실제 공식으로 정확히 뽑아낸다.
 function nodeCost(order) {
   return Math.floor(10 * 1.35 ** (order - 1))
+}
+
+// 시트명(한글) → 표 이름에 쓸 영문 카테고리 키 (build-balance.mjs의 SHEET_TO_CATEGORY와 동일 매핑)
+const SHEET_TO_CATEGORY = {
+  전투: 'battle',
+  보상: 'rewards',
+  스탯: 'stats',
+  장비숙련: 'equipmentMastery',
+  존재력트리: 'existTree',
+  타임하이스트: 'timeHeist',
+  오프라인: 'offline',
+}
+
+// 시트별 제목 캡션 색상 — 구분하기 쉽도록 카테고리마다 다르게
+const SHEET_ACCENT_COLOR = {
+  전투: 'FFC62828',
+  보상: 'FFEF6C00',
+  스탯: 'FF1565C0',
+  장비숙련: 'FF2E7D32',
+  존재력트리: 'FF6A1B9A',
+  타임하이스트: 'FFF9A825',
+  오프라인: 'FF00838F',
 }
 
 // [이름, key, value, 설명]
@@ -106,21 +117,55 @@ const SHEETS = {
   ],
 }
 
-function buildWorkbook() {
-  const workbook = XLSX.utils.book_new()
+const COLUMN_WIDTHS = [6, 22, 26, 14, 12, 50]
+const KEY_FILL = 'FFEFEFEF'
+const VALUE_FILL = 'FFFFF9C4'
 
-  for (const [sheetName, rows] of Object.entries(SHEETS)) {
-    const dataRows = rows.map(([name, key, value, desc], index) => [index + 1, name, key, value, value, desc])
-    const aoa = [...HEADER_ROWS, ...dataRows]
-    const sheet = XLSX.utils.aoa_to_sheet(aoa)
-    sheet['!cols'] = [{ wch: 6 }, { wch: 22 }, { wch: 26 }, { wch: 12 }, { wch: 12 }, { wch: 50 }]
-    XLSX.utils.book_append_sheet(workbook, sheet, sheetName)
+function buildSheet(workbook, sheetName, rows) {
+  const sheet = workbook.addWorksheet(sheetName, { views: [{ state: 'frozen', ySplit: 2 }] })
+  sheet.columns = COLUMN_WIDTHS.map((width) => ({ width }))
+
+  // 1행: 색으로 구분되는 제목 캡션 (표에는 포함되지 않음, 순수 시각 구분용)
+  sheet.mergeCells('A1:F1')
+  const titleCell = sheet.getCell('A1')
+  titleCell.value = `${sheetName} 밸런싱`
+  titleCell.font = { bold: true, size: 13, color: { argb: 'FFFFFFFF' } }
+  titleCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: SHEET_ACCENT_COLOR[sheetName] } }
+  titleCell.alignment = { vertical: 'middle', horizontal: 'left', indent: 1 }
+  sheet.getRow(1).height = 22
+
+  // 2행부터: 이름 붙은 엑셀 표(Table) — 필터/줄무늬 자동 적용, 이름상자에서 tbl_* 로 바로 찾을 수 있음
+  sheet.addTable({
+    name: `tbl_${SHEET_TO_CATEGORY[sheetName]}`,
+    ref: 'A2',
+    headerRow: true,
+    totalsRow: false,
+    style: { theme: 'TableStyleMedium9', showRowStripes: true },
+    columns: [
+      { name: '번호' },
+      { name: '이름' },
+      { name: 'key (수정 금지)' },
+      { name: 'value (여기만 수정)' },
+      { name: '기본값 (참고용)' },
+      { name: '설명' },
+    ],
+    rows: rows.map(([name, key, value, desc], i) => [i + 1, name, key, value, value, desc]),
+  })
+
+  // key열(회색=만지지 마세요) / value열(연노랑=여기만 수정) 시각 구분
+  for (let i = 0; i < rows.length; i++) {
+    const excelRow = i + 3
+    const keyCell = sheet.getCell(`C${excelRow}`)
+    keyCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: KEY_FILL } }
+    keyCell.font = { italic: true, color: { argb: 'FF888888' } }
+
+    const valueCell = sheet.getCell(`D${excelRow}`)
+    valueCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: VALUE_FILL } }
+    valueCell.font = { bold: true }
   }
-
-  return workbook
 }
 
-function main() {
+async function main() {
   const force = process.argv.includes('--force')
 
   if (existsSync(OUTPUT_PATH) && !force) {
@@ -129,9 +174,12 @@ function main() {
   }
 
   mkdirSync(dirname(OUTPUT_PATH), { recursive: true })
-  const workbook = buildWorkbook()
-  const buffer = XLSX.write(workbook, { type: 'buffer', bookType: 'xlsx' })
-  writeFileSync(OUTPUT_PATH, buffer)
+
+  const workbook = new ExcelJS.Workbook()
+  for (const [sheetName, rows] of Object.entries(SHEETS)) {
+    buildSheet(workbook, sheetName, rows)
+  }
+  await workbook.xlsx.writeFile(OUTPUT_PATH)
 
   const totalRows = Object.values(SHEETS).reduce((sum, rows) => sum + rows.length, 0)
   console.log(`balance.xlsx 생성 완료: ${OUTPUT_PATH}`)

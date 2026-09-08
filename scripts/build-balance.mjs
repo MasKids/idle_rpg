@@ -1,16 +1,12 @@
 // balance/balance.xlsx를 읽어 src/data/balance.json으로 변환한다.
-// 시트는 3행 헤더(한글 라벨 / 영문 필드명 / 자료형) + 데이터 구조.
+// 시트는 1행 제목 캡션 + 2행부터 이름 붙은 표(Table) 구조.
 // 데이터 열은 A=번호, B=이름, C=key(수정 금지), D=value(수정 대상), E=기본값, F=설명 —
 // 이 중 C열(key)과 D열(value)만 신뢰하고 나머지는 사람이 읽기 위한 참고용이다.
 
-import * as fs from 'node:fs'
+import ExcelJS from 'exceljs'
 import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import * as XLSX from 'xlsx'
-
-// SheetJS의 ESM 빌드는 Node의 fs 모듈을 자동으로 잡지 못해 직접 연결해줘야 한다.
-XLSX.set_fs(fs)
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const XLSX_PATH = resolve(__dirname, '../balance/balance.xlsx')
@@ -32,51 +28,53 @@ function fail(message) {
   process.exit(1)
 }
 
-function loadWorkbook() {
+async function loadWorkbook() {
   if (!existsSync(XLSX_PATH)) {
     fail(`${XLSX_PATH} 파일이 없습니다. node scripts/generate-balance-xlsx.mjs 로 먼저 생성하세요.`)
   }
 
+  const workbook = new ExcelJS.Workbook()
   try {
-    return XLSX.readFile(XLSX_PATH)
+    await workbook.xlsx.readFile(XLSX_PATH)
   } catch (error) {
     fail(
       `${XLSX_PATH} 파일을 열 수 없습니다 (엑셀에서 열려 있으면 닫고 다시 시도하세요). ${error instanceof Error ? error.message : String(error)}`,
     )
   }
+  return workbook
 }
 
-const HEADER_ROW_COUNT = 3
-const COL_KEY = 2 // C열
-const COL_VALUE = 3 // D열
+// 1행은 시트 제목 캡션, 2행은 표 헤더. 실제 데이터는 3행부터.
+const DATA_START_ROW = 3
+const COL_KEY = 3 // C열
+const COL_VALUE = 4 // D열
 
-function parseSheet(sheetName, sheet) {
-  const rows = XLSX.utils.sheet_to_json(sheet, { header: 1 })
+function parseSheet(sheetName, worksheet) {
   const category = {}
   const seenKeys = new Map()
+  const lastRow = worksheet.lastRow ? worksheet.lastRow.number : 0
 
-  // 앞 3행은 헤더(한글 라벨 / 영문 필드명 / 자료형). 실제 데이터는 4행부터 (엑셀 기준 행 번호 = index + 1)
-  for (let i = HEADER_ROW_COUNT; i < rows.length; i++) {
-    const row = rows[i]
-    const excelRow = i + 1
-    if (!row || row.length === 0 || row.every((cell) => cell === undefined || cell === '')) continue
+  for (let r = DATA_START_ROW; r <= lastRow; r++) {
+    const row = worksheet.getRow(r)
+    const key = row.getCell(COL_KEY).value
+    const value = row.getCell(COL_VALUE).value
 
-    const key = row[COL_KEY]
-    const value = row[COL_VALUE]
+    const isEmptyRow = (key === null || key === undefined || key === '') && (value === null || value === undefined || value === '')
+    if (isEmptyRow) continue
 
     if (typeof key !== 'string' || key.trim() === '') {
-      fail(`[${sheetName}] 행 ${excelRow}: C열(key)이 비어 있습니다.`)
+      fail(`[${sheetName}] 행 ${r}: C열(key)이 비어 있습니다.`)
     }
 
     if (seenKeys.has(key)) {
-      fail(`[${sheetName}] 행 ${excelRow}: key "${key}"가 행 ${seenKeys.get(key)}와 중복됩니다.`)
+      fail(`[${sheetName}] 행 ${r}: key "${key}"가 행 ${seenKeys.get(key)}와 중복됩니다.`)
     }
 
     if (typeof value !== 'number' || !Number.isFinite(value)) {
-      fail(`[${sheetName}] 행 ${excelRow}: key "${key}"의 value("${value}")가 숫자가 아닙니다.`)
+      fail(`[${sheetName}] 행 ${r}: key "${key}"의 value("${value}")가 숫자가 아닙니다.`)
     }
 
-    seenKeys.set(key, excelRow)
+    seenKeys.set(key, r)
     category[key] = value
   }
 
@@ -119,17 +117,17 @@ function diffAndReport(previous, next) {
   }
 }
 
-function main() {
-  const workbook = loadWorkbook()
+async function main() {
+  const workbook = await loadWorkbook()
   const result = {}
   let totalItems = 0
 
   for (const [sheetName, category] of Object.entries(SHEET_TO_CATEGORY)) {
-    const sheet = workbook.Sheets[sheetName]
-    if (!sheet) {
+    const worksheet = workbook.getWorksheet(sheetName)
+    if (!worksheet) {
       fail(`balance.xlsx에 "${sheetName}" 시트가 없습니다.`)
     }
-    const parsed = parseSheet(sheetName, sheet)
+    const parsed = parseSheet(sheetName, worksheet)
     result[category] = parsed
     totalItems += Object.keys(parsed).length
   }
