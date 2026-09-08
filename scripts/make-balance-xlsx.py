@@ -776,6 +776,41 @@ REBIRTH_TABLE_COLUMNS = register(
             "desc": "존재력 트리 해금 상태를 초기화하지 않고 유지하는지",
         },
         {"eng": "//Description", "kor": "설명", "type": "string", "ref": "", "desc": "행에 대한 참고 설명 (파싱 제외)"},
+        {
+            "eng": "BonusBase",
+            "kor": "회차 보너스 계수",
+            "type": "float",
+            "ref": "",
+            "desc": "회차 보너스 포인트 공식의 기준 계수. 포인트 = floor(BonusBase × 도달스테이지^BonusExponent)",
+        },
+        {
+            "eng": "BonusExponent",
+            "kor": "회차 보너스 지수",
+            "type": "float",
+            "ref": "",
+            "desc": "회차 보너스 포인트 공식에서 도달 스테이지에 적용하는 지수",
+        },
+        {
+            "eng": "BonusPerPoint",
+            "kor": "포인트당 스탯 상승률",
+            "type": "float",
+            "ref": "",
+            "desc": "누적 보너스 포인트 1당 전 스탯에 곱연산으로 붙는 상승률(%). 전 스탯 보너스율 = 누적 포인트 × 이 값",
+        },
+        {
+            "eng": "MinStageForBonus",
+            "kor": "보너스 최소 스테이지",
+            "type": "int",
+            "ref": "",
+            "desc": "리버스 시점의 도달 스테이지가 이 값 미만이면 보너스 포인트를 얻지 못함",
+        },
+        {
+            "eng": "//BonusDescription",
+            "kor": "보너스 설명",
+            "type": "string",
+            "ref": "",
+            "desc": "회차 보너스 공식에 대한 참고 설명 (파싱 제외)",
+        },
     ],
 )
 
@@ -795,6 +830,11 @@ def build_rebirth_rows() -> list[list]:
             True,
             True,
             "스테이지/스탯/장비/숙련 초기화 + 소비 재화 전액 환급. 존재력 트리는 유지",
+            1.0,
+            0.5,
+            1.0,
+            10,
+            "포인트 = floor(1.0 × 도달스테이지^0.5), 10스테이지 미만이면 0. 전 스탯 보너스율(%) = 누적 포인트 × 1.0",
         ]
     ]
 
@@ -904,6 +944,13 @@ def build_string_rows() -> list[list]:
         (40046, "티어", "Tier", "State"),
         (40047, "효과", "Effect", "State"),
         (40048, "비용", "Cost", "State"),
+        # 리버스 회차 보너스
+        (40049, "회차 보너스", "RebirthBonus", "RebirthBonus"),
+        (40050, "현재 회차", "CurrentCycle", "RebirthBonus"),
+        (40051, "누적 포인트", "TotalPoints", "RebirthBonus"),
+        (40052, "획득 예정 포인트", "PendingPoints", "RebirthBonus"),
+        (40053, "전 스탯 보너스", "AllStatBonus", "RebirthBonus"),
+        (40054, "최고 도달 스테이지", "MaxStageReached", "RebirthBonus"),
     ]
     rows = []
     for i, (string_id, kor, eng, category) in enumerate(specs, start=1):

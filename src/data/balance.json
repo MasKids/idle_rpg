@@ -551,7 +551,11 @@
       "RefundGrowthEnergy": true,
       "RefundGold": true,
       "RefundMasteryEssence": true,
-      "KeepExistTree": true
+      "KeepExistTree": true,
+      "BonusBase": 1,
+      "BonusExponent": 0.5,
+      "BonusPerPoint": 1,
+      "MinStageForBonus": 10
     }
   ],
   "CommonTable": [
@@ -900,6 +904,42 @@
       "Id": 40048,
       "KOR": "비용",
       "ENG": "Cost"
+    },
+    {
+      "Index": 49,
+      "Id": 40049,
+      "KOR": "회차 보너스",
+      "ENG": "RebirthBonus"
+    },
+    {
+      "Index": 50,
+      "Id": 40050,
+      "KOR": "현재 회차",
+      "ENG": "CurrentCycle"
+    },
+    {
+      "Index": 51,
+      "Id": 40051,
+      "KOR": "누적 포인트",
+      "ENG": "TotalPoints"
+    },
+    {
+      "Index": 52,
+      "Id": 40052,
+      "KOR": "획득 예정 포인트",
+      "ENG": "PendingPoints"
+    },
+    {
+      "Index": 53,
+      "Id": 40053,
+      "KOR": "전 스탯 보너스",
+      "ENG": "AllStatBonus"
+    },
+    {
+      "Index": 54,
+      "Id": 40054,
+      "KOR": "최고 도달 스테이지",
+      "ENG": "MaxStageReached"
     }
   ]
 }

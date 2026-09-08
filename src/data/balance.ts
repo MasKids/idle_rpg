@@ -116,6 +116,10 @@ export interface RebirthTableRow {
   RefundGold: boolean
   RefundMasteryEssence: boolean
   KeepExistTree: boolean
+  BonusBase: number
+  BonusExponent: number
+  BonusPerPoint: number
+  MinStageForBonus: number
 }
 
 export interface CommonTableRow {
@@ -253,6 +257,10 @@ const DEFAULT_REBIRTH: RebirthTableRow = {
   RefundGold: true,
   RefundMasteryEssence: true,
   KeepExistTree: true,
+  BonusBase: 1.0,
+  BonusExponent: 0.5,
+  BonusPerPoint: 1.0,
+  MinStageForBonus: 10,
 }
 
 // ---------------------------------------------------------------------------

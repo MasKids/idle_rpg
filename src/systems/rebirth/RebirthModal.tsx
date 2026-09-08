@@ -1,6 +1,8 @@
 import type { ReactNode } from 'react'
-import { getButtonLabel, getSystemName } from '../../data/uiStrings'
+import { getRebirthConfig } from '../../data/balance'
+import { getButtonLabel, getRebirthBonusLabel, getSystemName } from '../../data/uiStrings'
 import { useGameStore } from '../../store/gameStore'
+import { computeAllStatBonusPercent, computeRebirthBonusPoints } from './rebirthBonus'
 import { formatNumber } from '../../utils/format'
 
 interface RebirthModalProps {
@@ -9,11 +11,24 @@ interface RebirthModalProps {
   onConfirm: () => void
 }
 
+function formatPercent(value: number): string {
+  return `${value.toFixed(1)}%`
+}
+
 export function RebirthModal({ isOpen, onCancel, onConfirm }: RebirthModalProps) {
   const spent = useGameStore((state) => state.rebirthSpent)
   const unlockedCount = useGameStore((state) => state.unlockedCount)
+  const currentStage = useGameStore((state) => state.currentStage)
+  const rebirthCount = useGameStore((state) => state.rebirthCount)
+  const rebirthBonusPoint = useGameStore((state) => state.rebirthBonusPoint)
 
   if (!isOpen) return null
+
+  const config = getRebirthConfig()
+  const pendingPoints = computeRebirthBonusPoints(currentStage)
+  const currentBonusPercent = computeAllStatBonusPercent(rebirthBonusPoint)
+  const nextBonusPercent = computeAllStatBonusPercent(rebirthBonusPoint + pendingPoints)
+  const belowMinStage = currentStage < config.MinStageForBonus
 
   return (
     <div
@@ -29,6 +44,27 @@ export function RebirthModal({ isOpen, onCancel, onConfirm }: RebirthModalProps)
           스테이지·스탯·장비·숙련을 초기화하는 대신, 그동안 소비한 재화를 전액 돌려받습니다. 존재력 트리는
           그대로 유지됩니다.
         </p>
+
+        <RebirthSection title={getRebirthBonusLabel('title')} tone="text-amber-300">
+          <li>
+            {getRebirthBonusLabel('currentCycle')} {rebirthCount + 1}회차
+          </li>
+          <li>
+            {getRebirthBonusLabel('totalPoints')} {formatNumber(rebirthBonusPoint)} ({getRebirthBonusLabel('allStatBonus')}{' '}
+            +{formatPercent(currentBonusPercent)})
+          </li>
+          <li>
+            {getRebirthBonusLabel('pendingPoints')} +{formatNumber(pendingPoints)}
+          </li>
+          <li>
+            리버스 후 {getRebirthBonusLabel('allStatBonus')} +{formatPercent(nextBonusPercent)}
+          </li>
+          {belowMinStage && (
+            <li className="text-red-400">
+              ⚠ 현재 스테이지가 {config.MinStageForBonus}스테이지 미만이라 이번 리버스는 보너스를 얻지 못합니다
+            </li>
+          )}
+        </RebirthSection>
 
         <RebirthSection title="초기화" tone="text-red-300">
           <li>스테이지 → 1-1</li>

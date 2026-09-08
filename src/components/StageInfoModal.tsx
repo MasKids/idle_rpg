@@ -1,6 +1,7 @@
 import { generateStage, stageLabel } from '../data/stages'
-import { getButtonLabel, getCurrencyName, getSystemName } from '../data/uiStrings'
+import { getButtonLabel, getCurrencyName, getRebirthBonusLabel, getSystemName } from '../data/uiStrings'
 import { useGameStore } from '../store/gameStore'
+import { computeAllStatBonusPercent } from '../systems/rebirth/rebirthBonus'
 import { formatNumber } from '../utils/format'
 
 interface StageInfoModalProps {
@@ -15,10 +16,14 @@ export function StageInfoModal({ isOpen, onClose, onRebirthClick }: StageInfoMod
   const killsRequired = useGameStore((state) => state.battle.killsRequired)
   const isBossStage = useGameStore((state) => state.battle.isBossStage)
   const reverseUnlocked = useGameStore((state) => state.specialUnlocks.reverse)
+  const rebirthCount = useGameStore((state) => state.rebirthCount)
+  const rebirthBonusPoint = useGameStore((state) => state.rebirthBonusPoint)
+  const rebirthMaxStage = useGameStore((state) => state.rebirthMaxStage)
 
   if (!isOpen) return null
 
   const data = generateStage(stage)
+  const bonusPercent = computeAllStatBonusPercent(rebirthBonusPoint)
 
   return (
     <div
@@ -59,6 +64,26 @@ export function StageInfoModal({ isOpen, onClose, onRebirthClick }: StageInfoMod
             <span>{getCurrencyName('exist')} {formatNumber(data.rewards.exist)}</span>
           </div>
         </div>
+
+        {reverseUnlocked && (
+          <div className="mt-3 border-t border-white/10 pt-3">
+            <p className="mb-1 text-[11px] text-white/50">{getRebirthBonusLabel('title')}</p>
+            <dl className="space-y-1 text-xs text-white/70">
+              <div className="flex justify-between">
+                <dt>{getRebirthBonusLabel('currentCycle')}</dt>
+                <dd className="text-white">{rebirthCount + 1}회차</dd>
+              </div>
+              <div className="flex justify-between">
+                <dt>{getRebirthBonusLabel('allStatBonus')}</dt>
+                <dd className="text-white">+{bonusPercent.toFixed(1)}%</dd>
+              </div>
+              <div className="flex justify-between">
+                <dt>{getRebirthBonusLabel('maxStageReached')}</dt>
+                <dd className="text-white">{stageLabel(rebirthMaxStage)}</dd>
+              </div>
+            </dl>
+          </div>
+        )}
 
         <div className="mt-4 flex items-center justify-between gap-2">
           <div>

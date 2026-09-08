@@ -34,6 +34,10 @@ export interface GameSaveState {
   timeHeistLastUsedAt: number | null
   // 오프라인 보상 계산용. 저장할 때마다 현재 시각으로 갱신된다.
   lastActiveAt: number
+  // 리버스 회차 보너스 — 리버스해도 초기화되지 않는다.
+  rebirthCount: number
+  rebirthBonusPoint: number
+  rebirthMaxStage: number
 }
 
 interface SaveEnvelope {

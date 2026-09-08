@@ -88,6 +88,23 @@ const STATE_LABEL_ID: Record<StateLabelKey, number> = {
   cost: 40048,
 }
 
+export type RebirthBonusLabelKey =
+  | 'title'
+  | 'currentCycle'
+  | 'totalPoints'
+  | 'pendingPoints'
+  | 'allStatBonus'
+  | 'maxStageReached'
+
+const REBIRTH_BONUS_LABEL_ID: Record<RebirthBonusLabelKey, number> = {
+  title: 40049,
+  currentCycle: 40050,
+  totalPoints: 40051,
+  pendingPoints: 40052,
+  allStatBonus: 40053,
+  maxStageReached: 40054,
+}
+
 export function getStatName(stat: StatKey): string {
   return getString(STAT_NAME_ID[stat], 'KOR', stat)
 }
@@ -116,4 +133,8 @@ export function getButtonLabel(key: ButtonLabelKey): string {
 
 export function getStateLabel(key: StateLabelKey): string {
   return getString(STATE_LABEL_ID[key], 'KOR', key)
+}
+
+export function getRebirthBonusLabel(key: RebirthBonusLabelKey): string {
+  return getString(REBIRTH_BONUS_LABEL_ID[key], 'KOR', key)
 }
