@@ -185,7 +185,7 @@ const startExistTreeStatBonus = persistedGame?.existTreeStatBonus ?? initialExis
 const startStage = persistedGame?.currentStage ?? INITIAL_STAGE
 const startRebirthCount = persistedGame?.rebirthCount ?? 0
 const startRebirthBonusPoint = persistedGame?.rebirthBonusPoint ?? 0
-const startRebirthMaxStage = persistedGame?.rebirthMaxStage ?? startStage
+const startRebirthMaxStage = Math.max(persistedGame?.rebirthMaxStage ?? startStage, startStage)
 const startStats = computeEffectiveStats(
   startStatLevels,
   startEquipmentLevels,
@@ -400,7 +400,11 @@ export const useGameStore = create<GameState>((set, get) => ({
     }))
   },
 
-  setStage: (stage) => set({ currentStage: stage }),
+  setStage: (stage) =>
+    set((state) => ({
+      currentStage: stage,
+      rebirthMaxStage: Math.max(state.rebirthMaxStage, stage),
+    })),
 
   setBattle: (battle) => set({ battle }),
 
