@@ -1,102 +1,14 @@
-import { useState } from 'react'
-import {
-  EQUIPMENT_SLOTS,
-  equipmentUpgradeCost,
-  equipmentValuePerLevel,
-  MASTERY_WEAPONS,
-  masteryAtkMultiplier,
-  masteryUpgradeCost,
-} from '../../data/equipment'
-import { getButtonLabel, getStatName, getTabName } from '../../data/uiStrings'
+import { getButtonLabel, getStatName } from '../../data/uiStrings'
+import { MASTERY_WEAPONS, masteryAtkMultiplier, masteryUpgradeCost } from '../../data/equipment'
 import { useGameStore } from '../../store/gameStore'
 import { formatNumber } from '../../utils/format'
 
-type EquipmentSubTab = 'equipment' | 'mastery'
-
+// 5부위 장비 강화는 폐기됨 — 이 패널은 당분간 무기 숙련만 보여준다.
+// 무기 시스템(종류별 숙련 재설계 포함)이 들어오면 이 패널 자체가 대체될 예정.
 export function EquipmentPanel() {
-  const [subTab, setSubTab] = useState<EquipmentSubTab>('equipment')
-
   return (
     <div className="flex h-full flex-col gap-2">
-      <div className="flex gap-1 rounded-lg bg-black/20 p-1">
-        <button
-          type="button"
-          onClick={() => setSubTab('equipment')}
-          className={`flex-1 rounded-md px-3 py-1 text-xs font-medium ${
-            subTab === 'equipment' ? 'bg-cyan-600 text-white' : 'text-cyan-100/60'
-          }`}
-        >
-          {getTabName('equipment')}
-        </button>
-        <button
-          type="button"
-          onClick={() => setSubTab('mastery')}
-          className={`flex-1 rounded-md px-3 py-1 text-xs font-medium ${
-            subTab === 'mastery' ? 'bg-cyan-600 text-white' : 'text-cyan-100/60'
-          }`}
-        >
-          숙련
-        </button>
-      </div>
-
-      {subTab === 'equipment' ? <EquipmentSlotsList /> : <MasteryList />}
-    </div>
-  )
-}
-
-function EquipmentSlotsList() {
-  const equipmentLevels = useGameStore((state) => state.equipmentLevels)
-  const gold = useGameStore((state) => state.currencies.gold)
-  const upgradeEquipment = useGameStore((state) => state.upgradeEquipment)
-  const maxUpgradeEquipment = useGameStore((state) => state.maxUpgradeEquipment)
-
-  return (
-    <div className="flex flex-col gap-1.5">
-      <div className="flex justify-end">
-        <button
-          type="button"
-          onClick={maxUpgradeEquipment}
-          className="rounded-lg bg-cyan-600 px-3 py-1 text-xs font-medium text-white"
-        >
-          {getButtonLabel('maxAll')}
-        </button>
-      </div>
-
-      {EQUIPMENT_SLOTS.map((slot) => {
-        const level = equipmentLevels[slot.id]
-        const cost = equipmentUpgradeCost(slot.id, level)
-        const canAfford = gold >= cost
-        const bonus = level * equipmentValuePerLevel(slot.id)
-
-        return (
-          <div
-            key={slot.id}
-            className="flex items-center justify-between gap-2 rounded-lg bg-black/20 px-2.5 py-1.5"
-          >
-            <div className="min-w-0 flex-1">
-              <div className="flex items-baseline gap-1.5">
-                <span className="text-xs font-medium text-cyan-100">{slot.label}</span>
-                <span className="text-[10px] text-cyan-100/50">Lv.{level}</span>
-              </div>
-              <div className="text-[11px] text-cyan-100/70">
-                {getStatName(slot.stat)} +{formatNumber(bonus)}
-              </div>
-            </div>
-
-            <button
-              type="button"
-              disabled={!canAfford}
-              onClick={() => upgradeEquipment(slot.id)}
-              className={`shrink-0 rounded-lg px-2.5 py-1.5 text-[11px] font-medium ${
-                canAfford ? 'bg-cyan-600 text-white' : 'cursor-not-allowed bg-white/10 text-white/30'
-              }`}
-            >
-              {getButtonLabel('enhance')}
-              <div className="text-[10px] opacity-80">{formatNumber(cost)}</div>
-            </button>
-          </div>
-        )
-      })}
+      <MasteryList />
     </div>
   )
 }

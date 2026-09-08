@@ -12,8 +12,19 @@ export type StatTypeEnum = 'ATK' | 'DEF' | 'ASPD' | 'CRIT' | 'CRIT_DMG' | 'EXIST
 export type StageTypeEnum = 'Normal' | 'Boss'
 export type NodeEffectTypeEnum = 'STAT' | 'GRANT'
 export type CurrencyTypeEnum = 'EXIST' | 'GROWTH_ENERGY' | 'MASTERY_ESSENCE' | 'TIME_ENERGY' | 'GOLD'
-export type EquipSlotEnum = 'Weapon' | 'Helmet' | 'Armor' | 'Gloves' | 'Boots'
 export type FeatureTypeEnum = 'REBIRTH' | 'TIME_HEIST'
+export type WeaponTypeEnum = 'Sword' | 'Spear' | 'Bow'
+export type WeaponGradeEnum = 'Normal' | 'Rare' | 'Epic' | 'Unique' | 'Legendary'
+export type RelicGradeEnum = 'Normal' | 'Rare' | 'Epic'
+export type RelicEffectTypeEnum =
+  | 'STAT_ATK'
+  | 'STAT_DEF'
+  | 'STAT_ASPD'
+  | 'STAT_CRIT'
+  | 'STAT_CRIT_DMG'
+  | 'STAT_EXIST_GAIN'
+  | 'GOLD_GAIN'
+  | 'TIMEHEIST_COOLDOWN'
 
 // ---------------------------------------------------------------------------
 // 테이블별 행 타입 — 엑셀 4행 칼럼명 그대로
@@ -71,18 +82,6 @@ export interface FeatureUnlockTableRow {
   UnlockCost: number
 }
 
-export interface EquipmentTableRow {
-  Index: number
-  Id: number
-  EquipSlot: EquipSlotEnum
-  Name: number
-  StatType: StatTypeEnum
-  ValuePerLevel: number
-  CostBase: number
-  CostGrowthRate: number
-  MaxLevel: number
-}
-
 export interface MasteryTableRow {
   Index: number
   Id: number
@@ -92,6 +91,84 @@ export interface MasteryTableRow {
   CostBase: number
   CostGrowthRate: number
   MaxLevel: number
+}
+
+export interface WeaponTypeTableRow {
+  Index: number
+  Id: number
+  WeaponType: WeaponTypeEnum
+  Name: number
+  PrimaryStat: StatTypeEnum
+  OwnBonusBase: number
+  EquipBonusBase: number
+}
+
+export interface WeaponGradeTableRow {
+  Index: number
+  Id: number
+  WeaponGrade: WeaponGradeEnum
+  Name: number
+  GradeMultiplier: number
+}
+
+export interface WeaponUpgradeTableRow {
+  Index: number
+  Id: number
+  BaseMaxLevel: number
+  LevelCostBase: number
+  LevelCostGrowthRate: number
+  TierStepBonusPercent: number
+}
+
+export interface WeaponBreakthroughTableRow {
+  Index: number
+  Id: number
+  BreakthroughStep: number
+  RequiredDuplicateCount: number
+  LevelCapBonus: number
+}
+
+export interface WeaponFusionTableRow {
+  Index: number
+  Id: number
+  RequiredCount: number
+  ResultLevel: number
+  ResultBreakthroughCount: number
+}
+
+export interface GachaTableRow {
+  Index: number
+  Id: number
+  GachaLevel: number
+  RequirePullCount: number
+  NormalWeight: number
+  RareWeight: number
+  EpicWeight: number
+  UniqueWeight: number
+  LegendaryWeight: number
+  Tier1Weight: number
+  Tier2Weight: number
+  Tier3Weight: number
+  Tier4Weight: number
+  Tier5Weight: number
+  PullCostDiamond: number
+}
+
+export interface RelicTableRow {
+  Index: number
+  Id: number
+  RelicGrade: RelicGradeEnum
+  Name: number
+  EffectType: RelicEffectTypeEnum
+  EffectValue: number
+  GachaWeight: number
+}
+
+export interface RelicSlotTableRow {
+  Index: number
+  Id: number
+  SlotIndex: number
+  RequireUnlockedCount: number
 }
 
 export interface TimeHeistTableRow {
@@ -142,8 +219,15 @@ interface BalanceTables {
   StatTable: StatTableRow[]
   ExistTreeTable: ExistTreeTableRow[]
   FeatureUnlockTable: FeatureUnlockTableRow[]
-  EquipmentTable: EquipmentTableRow[]
   MasteryTable: MasteryTableRow[]
+  WeaponTypeTable: WeaponTypeTableRow[]
+  WeaponGradeTable: WeaponGradeTableRow[]
+  WeaponUpgradeTable: WeaponUpgradeTableRow[]
+  WeaponBreakthroughTable: WeaponBreakthroughTableRow[]
+  WeaponFusionTable: WeaponFusionTableRow[]
+  GachaTable: GachaTableRow[]
+  RelicTable: RelicTableRow[]
+  RelicSlotTable: RelicSlotTableRow[]
   TimeHeistTable: TimeHeistTableRow[]
   RebirthTable: RebirthTableRow[]
   CommonTable: CommonTableRow[]
@@ -212,18 +296,6 @@ const DEFAULT_FEATURE_UNLOCK: FeatureUnlockTableRow = {
   UnlockCost: 667,
 }
 
-const DEFAULT_EQUIPMENT: EquipmentTableRow = {
-  Index: 0,
-  Id: 0,
-  EquipSlot: 'Weapon',
-  Name: 0,
-  StatType: 'ATK',
-  ValuePerLevel: 2,
-  CostBase: 15,
-  CostGrowthRate: 1.22,
-  MaxLevel: 9999,
-}
-
 const DEFAULT_MASTERY: MasteryTableRow = {
   Index: 0,
   Id: 0,
@@ -233,6 +305,84 @@ const DEFAULT_MASTERY: MasteryTableRow = {
   CostBase: 10,
   CostGrowthRate: 1.25,
   MaxLevel: 9999,
+}
+
+const DEFAULT_WEAPON_TYPE: WeaponTypeTableRow = {
+  Index: 0,
+  Id: 0,
+  WeaponType: 'Sword',
+  Name: 0,
+  PrimaryStat: 'ATK',
+  OwnBonusBase: 0.5,
+  EquipBonusBase: 5,
+}
+
+const DEFAULT_WEAPON_GRADE: WeaponGradeTableRow = {
+  Index: 0,
+  Id: 0,
+  WeaponGrade: 'Normal',
+  Name: 0,
+  GradeMultiplier: 1,
+}
+
+const DEFAULT_WEAPON_UPGRADE: WeaponUpgradeTableRow = {
+  Index: 0,
+  Id: 0,
+  BaseMaxLevel: 10,
+  LevelCostBase: 15,
+  LevelCostGrowthRate: 1.2,
+  TierStepBonusPercent: 10,
+}
+
+const DEFAULT_WEAPON_BREAKTHROUGH: WeaponBreakthroughTableRow = {
+  Index: 0,
+  Id: 0,
+  BreakthroughStep: 1,
+  RequiredDuplicateCount: 1,
+  LevelCapBonus: 10,
+}
+
+const DEFAULT_WEAPON_FUSION: WeaponFusionTableRow = {
+  Index: 0,
+  Id: 0,
+  RequiredCount: 5,
+  ResultLevel: 1,
+  ResultBreakthroughCount: 0,
+}
+
+const DEFAULT_GACHA_LEVEL: GachaTableRow = {
+  Index: 0,
+  Id: 0,
+  GachaLevel: 0,
+  RequirePullCount: 0,
+  NormalWeight: 70,
+  RareWeight: 22,
+  EpicWeight: 6,
+  UniqueWeight: 1.8,
+  LegendaryWeight: 0.2,
+  Tier1Weight: 60,
+  Tier2Weight: 25,
+  Tier3Weight: 10,
+  Tier4Weight: 4,
+  Tier5Weight: 1,
+  PullCostDiamond: 100,
+}
+
+const DEFAULT_RELIC: RelicTableRow = {
+  Index: 0,
+  Id: 0,
+  RelicGrade: 'Normal',
+  Name: 0,
+  EffectType: 'STAT_ATK',
+  EffectValue: 0,
+  GachaWeight: 0,
+}
+
+const DEFAULT_RELIC_SLOT: RelicSlotTableRow = {
+  Index: 0,
+  Id: 0,
+  SlotIndex: 1,
+  RequireUnlockedCount: 10,
 }
 
 const DEFAULT_TIME_HEIST: TimeHeistTableRow = {
@@ -305,20 +455,100 @@ export function getFeatureUnlock(featureType: FeatureTypeEnum): FeatureUnlockTab
   return row
 }
 
-export function getEquipmentConfig(slot: EquipSlotEnum): EquipmentTableRow {
-  const row = TABLES.EquipmentTable.find((r) => r.EquipSlot === slot)
-  if (!row) {
-    warnMissing('EquipmentTable', `EquipSlot=${slot}`)
-    return { ...DEFAULT_EQUIPMENT, EquipSlot: slot }
-  }
-  return row
-}
-
 export function getMasteryConfig(weaponId: number): MasteryTableRow {
   const row = TABLES.MasteryTable.find((r) => r.WeaponId === weaponId)
   if (!row) {
     warnMissing('MasteryTable', `WeaponId=${weaponId}`)
     return { ...DEFAULT_MASTERY, WeaponId: weaponId }
+  }
+  return row
+}
+
+export function getWeaponTypeConfig(weaponType: WeaponTypeEnum): WeaponTypeTableRow {
+  const row = TABLES.WeaponTypeTable.find((r) => r.WeaponType === weaponType)
+  if (!row) {
+    warnMissing('WeaponTypeTable', `WeaponType=${weaponType}`)
+    return { ...DEFAULT_WEAPON_TYPE, WeaponType: weaponType }
+  }
+  return row
+}
+
+export function getWeaponGradeConfig(weaponGrade: WeaponGradeEnum): WeaponGradeTableRow {
+  const row = TABLES.WeaponGradeTable.find((r) => r.WeaponGrade === weaponGrade)
+  if (!row) {
+    warnMissing('WeaponGradeTable', `WeaponGrade=${weaponGrade}`)
+    return { ...DEFAULT_WEAPON_GRADE, WeaponGrade: weaponGrade }
+  }
+  return row
+}
+
+export function getWeaponUpgradeConfig(): WeaponUpgradeTableRow {
+  const row = TABLES.WeaponUpgradeTable[0]
+  if (!row) {
+    warnMissing('WeaponUpgradeTable', '첫 행')
+    return DEFAULT_WEAPON_UPGRADE
+  }
+  return row
+}
+
+export function getWeaponBreakthroughStep(step: number): WeaponBreakthroughTableRow {
+  const row = TABLES.WeaponBreakthroughTable.find((r) => r.BreakthroughStep === step)
+  if (!row) {
+    warnMissing('WeaponBreakthroughTable', `BreakthroughStep=${step}`)
+    return { ...DEFAULT_WEAPON_BREAKTHROUGH, BreakthroughStep: step }
+  }
+  return row
+}
+
+export function getWeaponFusionConfig(): WeaponFusionTableRow {
+  const row = TABLES.WeaponFusionTable[0]
+  if (!row) {
+    warnMissing('WeaponFusionTable', '첫 행')
+    return DEFAULT_WEAPON_FUSION
+  }
+  return row
+}
+
+// 특정 가챠 레벨의 확률/비용 설정을 그대로 조회
+export function getGachaLevelConfig(gachaLevel: number): GachaTableRow {
+  const row = TABLES.GachaTable.find((r) => r.GachaLevel === gachaLevel)
+  if (!row) {
+    warnMissing('GachaTable', `GachaLevel=${gachaLevel}`)
+    return { ...DEFAULT_GACHA_LEVEL, GachaLevel: gachaLevel }
+  }
+  return row
+}
+
+// 누적 뽑기 횟수로부터 현재 가챠 레벨 행을 찾는다 — RequirePullCount를 넘지 않는
+// 행 중 가장 높은 레벨. GachaTable이 GachaLevel 오름차순으로 정렬돼 있다고 전제한다.
+export function getGachaLevelForPullCount(pullCount: number): GachaTableRow {
+  const sorted = [...TABLES.GachaTable].sort((a, b) => a.GachaLevel - b.GachaLevel)
+  let current: GachaTableRow | undefined
+  for (const row of sorted) {
+    if (pullCount >= row.RequirePullCount) current = row
+    else break
+  }
+  if (!current) {
+    warnMissing('GachaTable', `pullCount=${pullCount}`)
+    return DEFAULT_GACHA_LEVEL
+  }
+  return current
+}
+
+export function getRelicConfig(id: number): RelicTableRow {
+  const row = TABLES.RelicTable.find((r) => r.Id === id)
+  if (!row) {
+    warnMissing('RelicTable', `Id=${id}`)
+    return { ...DEFAULT_RELIC, Id: id }
+  }
+  return row
+}
+
+export function getRelicSlotConfig(slotIndex: number): RelicSlotTableRow {
+  const row = TABLES.RelicSlotTable.find((r) => r.SlotIndex === slotIndex)
+  if (!row) {
+    warnMissing('RelicSlotTable', `SlotIndex=${slotIndex}`)
+    return { ...DEFAULT_RELIC_SLOT, SlotIndex: slotIndex }
   }
   return row
 }

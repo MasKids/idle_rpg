@@ -66,15 +66,7 @@ export interface BattleHit {
   isCrit: boolean
 }
 
-// 장비 / 무기 숙련
-
-export type EquipmentSlotId = 'weapon' | 'helmet' | 'armor' | 'gloves' | 'boots'
-
-export interface EquipmentSlotData {
-  id: EquipmentSlotId
-  label: string
-  stat: Extract<StatKey, 'atk' | 'def'>
-}
+// 무기 숙련
 
 export interface WeaponMasteryData {
   id: string

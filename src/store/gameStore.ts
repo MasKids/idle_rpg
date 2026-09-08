@@ -1,12 +1,5 @@
 import { create } from 'zustand'
-import {
-  EQUIPMENT_SLOTS,
-  equipmentUpgradeCost,
-  equipmentValuePerLevel,
-  MASTERY_WEAPONS,
-  masteryAtkMultiplier,
-  masteryUpgradeCost,
-} from '../data/equipment'
+import { MASTERY_WEAPONS, masteryAtkMultiplier, masteryUpgradeCost } from '../data/equipment'
 import { getCommon, getRebirthConfig } from '../data/balance'
 import { EXIST_SPECIAL_UNLOCKS, generateExistTree } from '../data/existTree'
 import { generateStage, killsRequiredForStage } from '../data/stages'
@@ -15,15 +8,7 @@ import { computeOfflineReward, type OfflineRewardResult } from '../systems/battl
 import { computeRebirthBonusPoints, computeRefundMultiplier } from '../systems/rebirth/rebirthBonus'
 import { computeTimeHeistPreview, timeHeistCooldownEndsAt } from '../systems/timeheist/timeHeist'
 import { debugOverrideLastActiveAt, disableAutosave, flushSave, loadGameState, scheduleSave } from './gameStateStorage'
-import type {
-  BattleHit,
-  BattleState,
-  CurrencyKey,
-  EquipmentSlotId,
-  RebirthSpentTotals,
-  SpecialUnlockId,
-  StatKey,
-} from '../types/game'
+import type { BattleHit, BattleState, CurrencyKey, RebirthSpentTotals, SpecialUnlockId, StatKey } from '../types/game'
 
 const INITIAL_STAGE = 1
 const EXIST_TREE_NODES = generateExistTree()
@@ -44,24 +29,15 @@ function baseStatsFromLevels(levels: Record<StatKey, number>): Record<StatKey, n
   }
 }
 
-// 성장 스탯 + 존재력 트리 영구 보너스(가산) + 장비 보너스(가산)
-// + 무기 숙련 배율(곱연산, ATK만)을 합친 최종 전투 스탯.
+// 성장 스탯 + 존재력 트리 영구 보너스(가산) + 무기 숙련 배율(곱연산, ATK만)을 합친 최종 전투 스탯.
 // 리버스 회차 보너스는 리버스 환급량에만 영향을 주고 이 계산에는 관여하지 않는다.
+// 장비 보너스는 5부위 강화 시스템 폐기와 함께 제거됨 — 이후 무기 시스템으로 대체 예정.
 function computeEffectiveStats(
   statLevels: Record<StatKey, number>,
-  equipmentLevels: Record<EquipmentSlotId, number>,
   masteryLevels: Record<string, number>,
   existTreeBonus: Record<StatKey, number>,
 ): Record<StatKey, number> {
   const base = baseStatsFromLevels(statLevels)
-
-  let equipmentAtk = 0
-  let equipmentDef = 0
-  for (const slot of EQUIPMENT_SLOTS) {
-    const bonus = equipmentLevels[slot.id] * equipmentValuePerLevel(slot.id)
-    if (slot.stat === 'atk') equipmentAtk += bonus
-    else equipmentDef += bonus
-  }
 
   const primaryWeapon = MASTERY_WEAPONS[0]
   const masteryMultiplier = primaryWeapon
@@ -69,8 +45,8 @@ function computeEffectiveStats(
     : 1
 
   const combined: Record<StatKey, number> = {
-    atk: base.atk + equipmentAtk + existTreeBonus.atk,
-    def: base.def + equipmentDef + existTreeBonus.def,
+    atk: base.atk + existTreeBonus.atk,
+    def: base.def + existTreeBonus.def,
     aspd: base.aspd + existTreeBonus.aspd,
     crit: base.crit + existTreeBonus.crit,
     critDmg: base.critDmg + existTreeBonus.critDmg,
@@ -96,7 +72,6 @@ function battleStateForStage(stage: number): BattleState {
 interface GameState {
   currencies: Record<CurrencyKey, number>
   statLevels: Record<StatKey, number>
-  equipmentLevels: Record<EquipmentSlotId, number>
   masteryLevels: Record<string, number>
   existTreeStatBonus: Record<StatKey, number>
   stats: Record<StatKey, number>
@@ -117,8 +92,6 @@ interface GameState {
   spendCurrency: (key: CurrencyKey, amount: number) => boolean
   upgradeStat: (key: StatKey) => boolean
   maxUpgradeAll: () => void
-  upgradeEquipment: (slotId: EquipmentSlotId) => boolean
-  maxUpgradeEquipment: () => void
   upgradeMastery: (weaponId: string) => boolean
   maxUpgradeMastery: () => void
   setStage: (stage: number) => void
@@ -143,14 +116,6 @@ const initialStatLevels: Record<StatKey, number> = {
   existGain: 0,
 }
 
-const initialEquipmentLevels: Record<EquipmentSlotId, number> = {
-  weapon: 0,
-  helmet: 0,
-  armor: 0,
-  gloves: 0,
-  boots: 0,
-}
-
 const initialMasteryLevels: Record<string, number> = Object.fromEntries(
   MASTERY_WEAPONS.map((weapon) => [weapon.id, 0]),
 )
@@ -171,14 +136,13 @@ const initialExistTreeStatBonus: Record<StatKey, number> = {
 }
 
 const startStatLevels = persistedGame?.statLevels ?? initialStatLevels
-const startEquipmentLevels = persistedGame?.equipmentLevels ?? initialEquipmentLevels
 const startMasteryLevels = persistedGame?.masteryLevels ?? initialMasteryLevels
 const startExistTreeStatBonus = persistedGame?.existTreeStatBonus ?? initialExistTreeStatBonus
 const startStage = persistedGame?.currentStage ?? INITIAL_STAGE
 const startRebirthCount = persistedGame?.rebirthCount ?? 0
 const startRebirthBonusPoint = persistedGame?.rebirthBonusPoint ?? 0
 const startRebirthMaxStage = Math.max(persistedGame?.rebirthMaxStage ?? startStage, startStage)
-const startStats = computeEffectiveStats(startStatLevels, startEquipmentLevels, startMasteryLevels, startExistTreeStatBonus)
+const startStats = computeEffectiveStats(startStatLevels, startMasteryLevels, startExistTreeStatBonus)
 
 // 오프라인 보상은 앱 시작 시 단 한 번, 이전 세션이 끝난 시각과 지금의 차이로 계산한다.
 // (스테이지는 그대로 두고 재화만 지급 — 실제 battle 진행에는 영향 없음)
@@ -196,7 +160,6 @@ const initialCurrencies: Record<CurrencyKey, number> = {
 export const useGameStore = create<GameState>((set, get) => ({
   currencies: persistedGame?.currencies ?? initialCurrencies,
   statLevels: startStatLevels,
-  equipmentLevels: startEquipmentLevels,
   masteryLevels: startMasteryLevels,
   existTreeStatBonus: startExistTreeStatBonus,
   stats: startStats,
@@ -238,7 +201,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       const statLevels = { ...state.statLevels, [key]: level + 1 }
       return {
         statLevels,
-        stats: computeEffectiveStats(statLevels, state.equipmentLevels, state.masteryLevels, state.existTreeStatBonus),
+        stats: computeEffectiveStats(statLevels, state.masteryLevels, state.existTreeStatBonus),
         rebirthSpent: { ...state.rebirthSpent, growthEnergy: state.rebirthSpent.growthEnergy + cost },
       }
     })
@@ -264,49 +227,9 @@ export const useGameStore = create<GameState>((set, get) => ({
 
     set((state) => ({
       statLevels,
-      stats: computeEffectiveStats(statLevels, state.equipmentLevels, state.masteryLevels, state.existTreeStatBonus),
+      stats: computeEffectiveStats(statLevels, state.masteryLevels, state.existTreeStatBonus),
       currencies: { ...state.currencies, growthEnergy },
       rebirthSpent: { ...state.rebirthSpent, growthEnergy: state.rebirthSpent.growthEnergy + spent },
-    }))
-  },
-
-  upgradeEquipment: (slotId) => {
-    const level = get().equipmentLevels[slotId]
-    const cost = equipmentUpgradeCost(slotId, level)
-    if (!get().spendCurrency('gold', cost)) return false
-
-    set((state) => {
-      const equipmentLevels = { ...state.equipmentLevels, [slotId]: level + 1 }
-      return {
-        equipmentLevels,
-        stats: computeEffectiveStats(state.statLevels, equipmentLevels, state.masteryLevels, state.existTreeStatBonus),
-        rebirthSpent: { ...state.rebirthSpent, gold: state.rebirthSpent.gold + cost },
-      }
-    })
-    return true
-  },
-
-  maxUpgradeEquipment: () => {
-    const equipmentLevels = { ...get().equipmentLevels }
-    let gold = get().currencies.gold
-    const startingGold = gold
-
-    for (const slot of EQUIPMENT_SLOTS) {
-      let level = equipmentLevels[slot.id]
-      while (gold >= equipmentUpgradeCost(slot.id, level)) {
-        gold -= equipmentUpgradeCost(slot.id, level)
-        level += 1
-      }
-      equipmentLevels[slot.id] = level
-    }
-
-    const spent = startingGold - gold
-
-    set((state) => ({
-      equipmentLevels,
-      stats: computeEffectiveStats(state.statLevels, equipmentLevels, state.masteryLevels, state.existTreeStatBonus),
-      currencies: { ...state.currencies, gold },
-      rebirthSpent: { ...state.rebirthSpent, gold: state.rebirthSpent.gold + spent },
     }))
   },
 
@@ -319,7 +242,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       const masteryLevels = { ...state.masteryLevels, [weaponId]: level + 1 }
       return {
         masteryLevels,
-        stats: computeEffectiveStats(state.statLevels, state.equipmentLevels, masteryLevels, state.existTreeStatBonus),
+        stats: computeEffectiveStats(state.statLevels, masteryLevels, state.existTreeStatBonus),
         rebirthSpent: { ...state.rebirthSpent, essence: state.rebirthSpent.essence + cost },
       }
     })
@@ -344,7 +267,7 @@ export const useGameStore = create<GameState>((set, get) => ({
 
     set((state) => ({
       masteryLevels,
-      stats: computeEffectiveStats(state.statLevels, state.equipmentLevels, masteryLevels, state.existTreeStatBonus),
+      stats: computeEffectiveStats(state.statLevels, masteryLevels, state.existTreeStatBonus),
       currencies: { ...state.currencies, essence },
       rebirthSpent: { ...state.rebirthSpent, essence: state.rebirthSpent.essence + spent },
     }))
@@ -377,7 +300,7 @@ export const useGameStore = create<GameState>((set, get) => ({
         return {
           unlockedCount: state.unlockedCount + 1,
           existTreeStatBonus,
-          stats: computeEffectiveStats(state.statLevels, state.equipmentLevels, state.masteryLevels, existTreeStatBonus),
+          stats: computeEffectiveStats(state.statLevels, state.masteryLevels, existTreeStatBonus),
         }
       })
     }
@@ -411,7 +334,6 @@ export const useGameStore = create<GameState>((set, get) => ({
 
       const nextStage = config.ResetStage ? INITIAL_STAGE : state.currentStage
       const nextStatLevels = config.ResetStats ? initialStatLevels : state.statLevels
-      const nextEquipmentLevels = config.ResetEquipment ? initialEquipmentLevels : state.equipmentLevels
       const nextMasteryLevels = config.ResetMastery ? initialMasteryLevels : state.masteryLevels
       const nextExistTreeStatBonus = config.KeepExistTree ? state.existTreeStatBonus : initialExistTreeStatBonus
       const nextUnlockedCount = config.KeepExistTree ? state.unlockedCount : 0
@@ -423,7 +345,6 @@ export const useGameStore = create<GameState>((set, get) => ({
         currentStage: nextStage,
         battle: config.ResetStage ? battleStateForStage(nextStage) : state.battle,
         statLevels: nextStatLevels,
-        equipmentLevels: nextEquipmentLevels,
         masteryLevels: nextMasteryLevels,
         existTreeStatBonus: nextExistTreeStatBonus,
         unlockedCount: nextUnlockedCount,
@@ -431,7 +352,7 @@ export const useGameStore = create<GameState>((set, get) => ({
         rebirthCount: nextRebirthCount,
         rebirthBonusPoint: nextRebirthBonusPoint,
         rebirthMaxStage: nextRebirthMaxStage,
-        stats: computeEffectiveStats(nextStatLevels, nextEquipmentLevels, nextMasteryLevels, nextExistTreeStatBonus),
+        stats: computeEffectiveStats(nextStatLevels, nextMasteryLevels, nextExistTreeStatBonus),
         currencies: {
           ...state.currencies,
           growthEnergy:
@@ -497,7 +418,6 @@ useGameStore.subscribe((state) => {
   scheduleSave({
     currencies: state.currencies,
     statLevels: state.statLevels,
-    equipmentLevels: state.equipmentLevels,
     masteryLevels: state.masteryLevels,
     existTreeStatBonus: state.existTreeStatBonus,
     currentStage: state.currentStage,

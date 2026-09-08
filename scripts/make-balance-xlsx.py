@@ -570,65 +570,9 @@ def build_feature_unlock_rows() -> list[list]:
     ]
 
 
-# ---------------------------------------------------------------------------
-# EquipmentTable
-# ---------------------------------------------------------------------------
-
-EQUIPMENT_TABLE_COLUMNS = register(
-    "EquipmentTable",
-    [
-        {"eng": "Index", "kor": "순번", "type": "int", "ref": "", "desc": "행 순번(표시용)"},
-        {"eng": "Id", "kor": "ID", "type": "int", "ref": "", "desc": "장비 부위 고유 ID (32000번대)"},
-        {"eng": "//Name", "kor": "이름", "type": "string", "ref": "", "desc": "행 구분용 참고 이름 (파싱 제외)"},
-        {"eng": "EquipSlot", "kor": "부위", "type": "enum", "ref": "EnumDefine/EquipSlot", "desc": "5부위 중 어떤 부위인지"},
-        {
-            "eng": "Name",
-            "kor": "이름ID",
-            "type": "int",
-            "ref": "StringTable/Id",
-            "desc": "화면에 표시할 부위 이름의 StringTable ID",
-        },
-        {
-            "eng": "StatType",
-            "kor": "적용 스탯",
-            "type": "enum",
-            "ref": "EnumDefine/StatType",
-            "desc": "이 부위 강화 시 오르는 스탯 (ATK 또는 DEF)",
-        },
-        {"eng": "ValuePerLevel", "kor": "레벨당 상승치", "type": "float", "ref": "", "desc": "강화 1레벨당 상승하는 스탯 값"},
-        {"eng": "CostBase", "kor": "기준 비용", "type": "int", "ref": "", "desc": "레벨 0→1 강화 비용(골드)"},
-        {
-            "eng": "CostGrowthRate",
-            "kor": "비용 증가율",
-            "type": "float",
-            "ref": "",
-            "desc": "비용 = CostBase × CostGrowthRate^현재레벨",
-        },
-        {
-            "eng": "MaxLevel",
-            "kor": "최대 레벨",
-            "type": "int",
-            "ref": "",
-            "desc": "레벨 상한. 현재는 실질적 상한 없음을 뜻하는 자리 표시자(9999)",
-        },
-    ],
-)
-
-
-def build_equipment_rows() -> list[list]:
-    # (slot, 한글명, stringId, statType)
-    specs = [
-        ("Weapon", "무기", 40009, "ATK"),
-        ("Helmet", "투구", 40010, "DEF"),
-        ("Armor", "갑옷", 40011, "DEF"),
-        ("Gloves", "장갑", 40012, "ATK"),
-        ("Boots", "신발", 40013, "DEF"),
-    ]
-    rows = []
-    for i, (slot, kor_name, string_id, stat_type) in enumerate(specs, start=1):
-        rows.append([i, 32000 + i, kor_name, slot, string_id, stat_type, 2, 15, 1.22, 9999])
-    return rows
-
+# EquipmentTable는 장비 5부위 강화 시스템 폐기와 함께 제거됨 (무기 시스템으로 대체 예정).
+# 관련 StringTable 부위명(투구/갑옷/장갑/신발)도 함께 제거했다. "무기"(40009)는
+# MasteryTable이 여전히 참조하므로 유지한다.
 
 # ---------------------------------------------------------------------------
 # MasteryTable
@@ -682,6 +626,341 @@ MASTERY_TABLE_COLUMNS = register(
 
 def build_mastery_rows() -> list[list]:
     return [[1, 33001, "기본 검", 1, 40014, 0.05, 10, 1.25, 9999]]
+
+
+# ---------------------------------------------------------------------------
+# WeaponTypeTable — 무기 종류 3종(검/창/활)과 종류별 특성 스탯·기본 계수.
+# docs/WEAPON_SYSTEM.md 1.1/1.4 참고. 등급/단계 배율은 WeaponGradeTable·
+# WeaponUpgradeTable에서 곱해진다.
+# ---------------------------------------------------------------------------
+
+WEAPON_TYPE_TABLE_COLUMNS = register(
+    "WeaponTypeTable",
+    [
+        {"eng": "Index", "kor": "순번", "type": "int", "ref": "", "desc": "행 순번(표시용)"},
+        {"eng": "Id", "kor": "ID", "type": "int", "ref": "", "desc": "무기 종류 고유 ID (37000번대)"},
+        {"eng": "WeaponType", "kor": "무기 종류", "type": "enum", "ref": "EnumDefine/WeaponType", "desc": "Sword/Spear/Bow"},
+        {
+            "eng": "Name",
+            "kor": "이름ID",
+            "type": "int",
+            "ref": "StringTable/Id",
+            "desc": "화면에 표시할 종류 이름의 StringTable ID",
+        },
+        {
+            "eng": "PrimaryStat",
+            "kor": "주 스탯",
+            "type": "enum",
+            "ref": "EnumDefine/StatType",
+            "desc": "이 종류의 특성 스탯 (검=ATK, 창=ASPD, 활=CRIT)",
+        },
+        {
+            "eng": "OwnBonusBase",
+            "kor": "보유효과 기준 계수",
+            "type": "float",
+            "ref": "",
+            "desc": "타입당 보유 효과 = 이 값 × 레벨 × 보유개수 × 등급배율 × 단계배율",
+        },
+        {
+            "eng": "EquipBonusBase",
+            "kor": "장착효과 기준 계수",
+            "type": "float",
+            "ref": "",
+            "desc": "장착 효과 = 이 값 × 레벨 × 등급배율 × 단계배율. 보유효과보다 훨씬 큰 값을 넣는다",
+        },
+        {"eng": "//Description", "kor": "설명", "type": "string", "ref": "", "desc": "행에 대한 참고 설명 (파싱 제외)"},
+    ],
+)
+
+
+def build_weapon_type_rows() -> list[list]:
+    return [
+        [1, 37001, "Sword", 40055, "ATK", 0.5, 5.0, "검 — 공격력 특화"],
+        [2, 37002, "Spear", 40056, "ASPD", 0.02, 0.2, "창 — 공격속도 특화"],
+        [3, 37003, "Bow", 40057, "CRIT", 0.3, 3.0, "활 — 치명타 확률 특화"],
+    ]
+
+
+# ---------------------------------------------------------------------------
+# WeaponGradeTable — 무기 등급 5단계와 등급별 배율.
+# 가챠 확률은 여기 두지 않고 GachaTable에서 레벨별로 관리한다(단일 출처 유지).
+# ---------------------------------------------------------------------------
+
+WEAPON_GRADE_TABLE_COLUMNS = register(
+    "WeaponGradeTable",
+    [
+        {"eng": "Index", "kor": "순번", "type": "int", "ref": "", "desc": "행 순번(표시용)"},
+        {"eng": "Id", "kor": "ID", "type": "int", "ref": "", "desc": "무기 등급 고유 ID (37010번대)"},
+        {
+            "eng": "WeaponGrade",
+            "kor": "등급",
+            "type": "enum",
+            "ref": "EnumDefine/WeaponGrade",
+            "desc": "Normal/Rare/Epic/Unique/Legendary",
+        },
+        {
+            "eng": "Name",
+            "kor": "이름ID",
+            "type": "int",
+            "ref": "StringTable/Id",
+            "desc": "화면에 표시할 등급 이름의 StringTable ID",
+        },
+        {
+            "eng": "GradeMultiplier",
+            "kor": "등급 배율",
+            "type": "float",
+            "ref": "",
+            "desc": "이 등급의 보유/장착 효과와 레벨업 비용에 곱해지는 배율",
+        },
+        {"eng": "//Description", "kor": "설명", "type": "string", "ref": "", "desc": "행에 대한 참고 설명 (파싱 제외)"},
+    ],
+)
+
+
+def build_weapon_grade_rows() -> list[list]:
+    return [
+        [1, 37011, "Normal", 40058, 1.0, ""],
+        [2, 37012, "Rare", 40059, 2.0, ""],
+        [3, 37013, "Epic", 40060, 4.0, ""],
+        [4, 37014, "Unique", 40061, 8.0, ""],
+        [5, 37015, "Legendary", 40062, 16.0, ""],
+    ]
+
+
+# ---------------------------------------------------------------------------
+# WeaponUpgradeTable — 무기 레벨업 비용 곡선, 기본 레벨 상한, 단계(Tier) 전역 보정.
+# 설정 1행 패턴 (RebirthTable/TimeHeistTable과 동일).
+# ---------------------------------------------------------------------------
+
+WEAPON_UPGRADE_TABLE_COLUMNS = register(
+    "WeaponUpgradeTable",
+    [
+        {"eng": "Index", "kor": "순번", "type": "int", "ref": "", "desc": "행 순번(표시용)"},
+        {"eng": "Id", "kor": "ID", "type": "int", "ref": "", "desc": "37021 고정"},
+        {"eng": "BaseMaxLevel", "kor": "기본 레벨 상한", "type": "int", "ref": "", "desc": "돌파 전 기본 레벨 상한"},
+        {
+            "eng": "LevelCostBase",
+            "kor": "레벨업 비용 기준",
+            "type": "int",
+            "ref": "",
+            "desc": "골드 비용 = LevelCostBase × LevelCostGrowthRate^(레벨-1) × 등급배율",
+        },
+        {"eng": "LevelCostGrowthRate", "kor": "레벨업 비용 증가율", "type": "float", "ref": "", "desc": "위 공식 참고"},
+        {
+            "eng": "TierStepBonusPercent",
+            "kor": "단계(Tier)당 스탯 보정",
+            "type": "float",
+            "ref": "",
+            "desc": "단계 하나 오를 때마다 등급 배율에 추가로 곱해지는 가산율(%). tier=1 기준 0%, tier=5는 (tier-1)×이 값",
+        },
+        {"eng": "//Description", "kor": "설명", "type": "string", "ref": "", "desc": "행에 대한 참고 설명 (파싱 제외)"},
+    ],
+)
+
+
+def build_weapon_upgrade_rows() -> list[list]:
+    return [[1, 37021, 10, 15, 1.2, 10.0, "레벨 상한 10, 돌파 1회당 +10 (WeaponBreakthroughTable 참고)"]]
+
+
+# ---------------------------------------------------------------------------
+# WeaponBreakthroughTable — 돌파 5단계, 단계별 필요 중복 수와 레벨 상한 증가량.
+# ---------------------------------------------------------------------------
+
+WEAPON_BREAKTHROUGH_TABLE_COLUMNS = register(
+    "WeaponBreakthroughTable",
+    [
+        {"eng": "Index", "kor": "순번", "type": "int", "ref": "", "desc": "행 순번(표시용)"},
+        {"eng": "Id", "kor": "ID", "type": "int", "ref": "", "desc": "무기 돌파 단계 고유 ID (37030번대)"},
+        {"eng": "BreakthroughStep", "kor": "돌파 단계", "type": "int", "ref": "", "desc": "1~5"},
+        {
+            "eng": "RequiredDuplicateCount",
+            "kor": "필요 중복 개수",
+            "type": "int",
+            "ref": "",
+            "desc": "이 단계를 실행하는 데 소모되는 같은 무기 타입의 추가 보유 개수",
+        },
+        {
+            "eng": "LevelCapBonus",
+            "kor": "레벨 상한 증가량",
+            "type": "int",
+            "ref": "",
+            "desc": "이 단계 완료 시 레벨 상한에 더해지는 값",
+        },
+        {"eng": "//Description", "kor": "설명", "type": "string", "ref": "", "desc": "행에 대한 참고 설명 (파싱 제외)"},
+    ],
+)
+
+
+def build_weapon_breakthrough_rows() -> list[list]:
+    return [
+        [1, 37031, 1, 1, 10, ""],
+        [2, 37032, 2, 2, 10, ""],
+        [3, 37033, 3, 3, 10, ""],
+        [4, 37034, 4, 4, 10, ""],
+        [5, 37035, 5, 5, 10, ""],
+    ]
+
+
+# ---------------------------------------------------------------------------
+# WeaponFusionTable — 합성 필요 개수와 결과물 규칙. 설정 1행 패턴.
+# ---------------------------------------------------------------------------
+
+WEAPON_FUSION_TABLE_COLUMNS = register(
+    "WeaponFusionTable",
+    [
+        {"eng": "Index", "kor": "순번", "type": "int", "ref": "", "desc": "행 순번(표시용)"},
+        {"eng": "Id", "kor": "ID", "type": "int", "ref": "", "desc": "37041 고정"},
+        {
+            "eng": "RequiredCount",
+            "kor": "합성 필요 개수",
+            "type": "int",
+            "ref": "",
+            "desc": "장착 중인 타입은 이 계산에서 항상 1개 제외 (docs/WEAPON_SYSTEM.md 1.3 참고)",
+        },
+        {"eng": "ResultLevel", "kor": "결과물 레벨", "type": "int", "ref": "", "desc": "합성으로 만들어지는 새 무기의 초기 레벨"},
+        {
+            "eng": "ResultBreakthroughCount",
+            "kor": "결과물 돌파 횟수",
+            "type": "int",
+            "ref": "",
+            "desc": "합성으로 만들어지는 새 무기의 초기 돌파 횟수",
+        },
+        {"eng": "//Description", "kor": "설명", "type": "string", "ref": "", "desc": "행에 대한 참고 설명 (파싱 제외)"},
+    ],
+)
+
+
+def build_weapon_fusion_rows() -> list[list]:
+    return [[1, 37041, 5, 1, 0, "노말5→레어1처럼 등급 경계도 자연스럽게 이어짐. 레전드리 5단계는 합성 불가"]]
+
+
+# ---------------------------------------------------------------------------
+# GachaTable — 무기 가챠 레벨 구간. 누적 뽑기 횟수로 자동 상승하며, 등급과 단계
+# (Tier)를 각각 독립적으로 추첨한다(종류는 균등). 뽑기 1회 비용(다이아)도 함께 둔다.
+# 초기값은 전부 밸런싱 영역 — 엑셀에서만 조정한다.
+# ---------------------------------------------------------------------------
+
+GACHA_TABLE_COLUMNS = register(
+    "GachaTable",
+    [
+        {"eng": "Index", "kor": "순번", "type": "int", "ref": "", "desc": "행 순번(표시용)"},
+        {"eng": "Id", "kor": "ID", "type": "int", "ref": "", "desc": "37100번대"},
+        {"eng": "GachaLevel", "kor": "가챠 레벨", "type": "int", "ref": "", "desc": ""},
+        {
+            "eng": "RequirePullCount",
+            "kor": "필요 누적 뽑기 횟수",
+            "type": "int",
+            "ref": "",
+            "desc": "이 값 이상 누적 뽑기 시 해당 레벨로 상승",
+        },
+        {"eng": "NormalWeight", "kor": "노말 가중치", "type": "float", "ref": "", "desc": ""},
+        {"eng": "RareWeight", "kor": "레어 가중치", "type": "float", "ref": "", "desc": ""},
+        {"eng": "EpicWeight", "kor": "에픽 가중치", "type": "float", "ref": "", "desc": ""},
+        {"eng": "UniqueWeight", "kor": "유니크 가중치", "type": "float", "ref": "", "desc": ""},
+        {"eng": "LegendaryWeight", "kor": "레전드리 가중치", "type": "float", "ref": "", "desc": ""},
+        {"eng": "Tier1Weight", "kor": "1단계 가중치", "type": "float", "ref": "", "desc": ""},
+        {"eng": "Tier2Weight", "kor": "2단계 가중치", "type": "float", "ref": "", "desc": ""},
+        {"eng": "Tier3Weight", "kor": "3단계 가중치", "type": "float", "ref": "", "desc": ""},
+        {"eng": "Tier4Weight", "kor": "4단계 가중치", "type": "float", "ref": "", "desc": ""},
+        {"eng": "Tier5Weight", "kor": "5단계 가중치", "type": "float", "ref": "", "desc": ""},
+        {"eng": "PullCostDiamond", "kor": "뽑기 1회 비용", "type": "int", "ref": "", "desc": "다이아 소모량"},
+        {"eng": "//Description", "kor": "설명", "type": "string", "ref": "", "desc": "행에 대한 참고 설명 (파싱 제외)"},
+    ],
+)
+
+
+def build_gacha_rows() -> list[list]:
+    return [
+        [1, 37101, 0, 0, 70, 22, 6, 1.8, 0.2, 60, 25, 10, 4, 1, 100, ""],
+        [2, 37102, 1, 50, 60, 27, 9, 3.3, 0.7, 50, 27, 14, 6, 3, 100, ""],
+        [3, 37103, 2, 150, 50, 30, 13, 5.5, 1.5, 42, 27, 17, 9, 5, 100, ""],
+        [4, 37104, 3, 350, 40, 32, 18, 8, 2, 35, 26, 19, 12, 8, 100, ""],
+        [5, 37105, 4, 700, 30, 32, 22, 12, 4, 28, 24, 20, 16, 12, 100, ""],
+    ]
+
+
+# ---------------------------------------------------------------------------
+# RelicTable — 유물 목록. 등급 3단계, 레벨 개념 없음, 효과 종류와 수치.
+# 실제 유물 구성은 밸런싱 영역 — 초기 9종(등급당 3종)만 채워둔다.
+# ---------------------------------------------------------------------------
+
+RELIC_TABLE_COLUMNS = register(
+    "RelicTable",
+    [
+        {"eng": "Index", "kor": "순번", "type": "int", "ref": "", "desc": "행 순번(표시용)"},
+        {"eng": "Id", "kor": "ID", "type": "int", "ref": "", "desc": "유물 고유 ID (38000번대)"},
+        {"eng": "RelicGrade", "kor": "등급", "type": "enum", "ref": "EnumDefine/RelicGrade", "desc": "Normal/Rare/Epic"},
+        {
+            "eng": "Name",
+            "kor": "이름ID",
+            "type": "int",
+            "ref": "StringTable/Id",
+            "desc": "화면에 표시할 유물 이름의 StringTable ID",
+        },
+        {
+            "eng": "EffectType",
+            "kor": "효과 종류",
+            "type": "enum",
+            "ref": "EnumDefine/RelicEffectType",
+            "desc": "스탯형 또는 특수효과형",
+        },
+        {
+            "eng": "EffectValue",
+            "kor": "효과 수치",
+            "type": "float",
+            "ref": "",
+            "desc": "스탯형이면 가산량, 특수효과형이면 %(GOLD_GAIN, TIMEHEIST_COOLDOWN)",
+        },
+        {"eng": "GachaWeight", "kor": "뽑기 가중치", "type": "float", "ref": "", "desc": "등급 내에서의 상대 가중치"},
+        {"eng": "//Description", "kor": "설명", "type": "string", "ref": "", "desc": "행에 대한 참고 설명 (파싱 제외)"},
+    ],
+)
+
+
+def build_relic_rows() -> list[list]:
+    return [
+        [1, 38001, "Normal", 40063, "STAT_ATK", 5, 40, ""],
+        [2, 38002, "Normal", 40064, "STAT_DEF", 5, 40, ""],
+        [3, 38003, "Normal", 40065, "STAT_CRIT", 2, 20, ""],
+        [4, 38004, "Rare", 40066, "STAT_ASPD", 0.1, 30, ""],
+        [5, 38005, "Rare", 40067, "STAT_CRIT_DMG", 15, 30, ""],
+        [6, 38006, "Rare", 40068, "GOLD_GAIN", 10, 20, ""],
+        [7, 38007, "Epic", 40069, "STAT_EXIST_GAIN", 0.1, 10, ""],
+        [8, 38008, "Epic", 40070, "TIMEHEIST_COOLDOWN", 10, 10, ""],
+        [9, 38009, "Epic", 40071, "STAT_ATK", 20, 10, ""],
+    ]
+
+
+# ---------------------------------------------------------------------------
+# RelicSlotTable — 존재력 트리 해금 노드 수에 따른 유물 슬롯 해금.
+# ---------------------------------------------------------------------------
+
+RELIC_SLOT_TABLE_COLUMNS = register(
+    "RelicSlotTable",
+    [
+        {"eng": "Index", "kor": "순번", "type": "int", "ref": "", "desc": "행 순번(표시용)"},
+        {"eng": "Id", "kor": "ID", "type": "int", "ref": "", "desc": "38100번대"},
+        {"eng": "SlotIndex", "kor": "슬롯 번호", "type": "int", "ref": "", "desc": "1~5"},
+        {
+            "eng": "RequireUnlockedCount",
+            "kor": "필요 존재력 해금 수",
+            "type": "int",
+            "ref": "",
+            "desc": "존재력 트리가 이 값 이상 해금되면 이 슬롯이 열림",
+        },
+        {"eng": "//Description", "kor": "설명", "type": "string", "ref": "", "desc": "행에 대한 참고 설명 (파싱 제외)"},
+    ],
+)
+
+
+def build_relic_slot_rows() -> list[list]:
+    return [
+        [1, 38101, 1, 10, ""],
+        [2, 38102, 2, 20, ""],
+        [3, 38103, 3, 30, ""],
+        [4, 38104, 4, 40, ""],
+        [5, 38105, 5, 50, ""],
+    ]
 
 
 # ---------------------------------------------------------------------------
@@ -867,6 +1146,15 @@ def build_common_rows() -> list[list]:
         ("InitialTimeEnergy", "초기 시간에너지", 0, "int", "게임 시작 시 지급되는 초기 시간에너지"),
         ("InitialMasteryEssence", "초기 숙련의정수", 0, "int", "게임 시작 시 지급되는 초기 숙련의 정수"),
         ("AutoSaveIntervalSec", "자동저장 간격(초)", 2, "float", "상태 변경 후 실제 저장까지의 최소 대기 간격"),
+        ("InitialDiamond", "초기 다이아", 0, "int", "게임 시작 시 지급되는 초기 다이아"),
+        ("RelicGachaCostTimeEnergy", "유물 뽑기 비용", 50, "int", "유물 뽑기 1회당 소모되는 시간에너지"),
+        (
+            "RelicDuplicateRefundTimeEnergy",
+            "유물 중복 환급량",
+            20,
+            "int",
+            "이미 보유한 유물이 중복으로 뽑혔을 때 대신 지급되는 시간에너지",
+        ),
     ]
     rows = []
     for i, (key, kor_name, value, value_type, desc) in enumerate(specs, start=1):
@@ -900,11 +1188,9 @@ def build_string_rows() -> list[list]:
         (40006, "존재력 획득량", "EXIST_GAIN", "Stat"),
         (40007, "리버스", "REBIRTH", "System"),
         (40008, "타임 하이스트", "TIME_HEIST", "System"),
-        (40009, "무기", "Weapon", "EquipSlot"),
-        (40010, "투구", "Helmet", "EquipSlot"),
-        (40011, "갑옷", "Armor", "EquipSlot"),
-        (40012, "장갑", "Gloves", "EquipSlot"),
-        (40013, "신발", "Boots", "EquipSlot"),
+        # 40010~40013(투구/갑옷/장갑/신발)은 장비 5부위 강화 폐기와 함께 제거됨.
+        # "무기"(40009)는 MasteryTable이 참조하므로 유지 — 번호는 재사용하지 않는다.
+        (40009, "무기", "Weapon", "Weapon"),
         (40014, "기본 검", "Basic Sword", "Weapon"),
         (40015, "존재력", "EXIST", "Currency"),
         (40016, "성장에너지", "GROWTH_ENERGY", "Currency"),
@@ -951,6 +1237,26 @@ def build_string_rows() -> list[list]:
         (40052, "획득 예정 포인트", "PendingPoints", "RebirthBonus"),
         (40053, "환급 배율", "RefundMultiplier", "RebirthBonus"),
         (40054, "최고 도달 스테이지", "MaxStageReached", "RebirthBonus"),
+        # 무기 종류
+        (40055, "검", "Sword", "WeaponType"),
+        (40056, "창", "Spear", "WeaponType"),
+        (40057, "활", "Bow", "WeaponType"),
+        # 무기 등급
+        (40058, "노말", "Normal", "WeaponGrade"),
+        (40059, "레어", "Rare", "WeaponGrade"),
+        (40060, "에픽", "Epic", "WeaponGrade"),
+        (40061, "유니크", "Unique", "WeaponGrade"),
+        (40062, "레전드리", "Legendary", "WeaponGrade"),
+        # 유물 이름 (초기 9종, 밸런싱 영역)
+        (40063, "힘의 유물", "Relic of Strength", "RelicName"),
+        (40064, "방패의 유물", "Relic of Shield", "RelicName"),
+        (40065, "행운의 유물", "Relic of Luck", "RelicName"),
+        (40066, "가속의 유물", "Relic of Haste", "RelicName"),
+        (40067, "파괴의 유물", "Relic of Destruction", "RelicName"),
+        (40068, "상인의 유물", "Relic of Merchant", "RelicName"),
+        (40069, "균열의 유물", "Relic of Rift", "RelicName"),
+        (40070, "시간의 유물", "Relic of Time", "RelicName"),
+        (40071, "전능의 유물", "Relic of Omnipotence", "RelicName"),
     ]
     rows = []
     for i, (string_id, kor, eng, category) in enumerate(specs, start=1):
@@ -966,11 +1272,14 @@ ENUM_DEFINE_HEADERS = ["enum 그룹", "한글 라벨", "영문 라벨", "사용�
 
 ENUM_USAGE = {
     "CurrencyType": "ExistTreeTable.GrantCurrency",
-    "StatType": "StatTable.StatType, ExistTreeTable.StatType, EquipmentTable.StatType",
+    "StatType": "StatTable.StatType, ExistTreeTable.StatType, WeaponTypeTable.PrimaryStat",
     "NodeEffectType": "ExistTreeTable.EffectType",
-    "EquipSlot": "EquipmentTable.EquipSlot",
     "StageType": "StageTable.StageType",
     "FeatureType": "FeatureUnlockTable.FeatureType",
+    "WeaponType": "WeaponTypeTable.WeaponType",
+    "WeaponGrade": "WeaponGradeTable.WeaponGrade",
+    "RelicGrade": "RelicTable.RelicGrade",
+    "RelicEffectType": "RelicTable.EffectType",
 }
 
 
@@ -979,9 +1288,27 @@ def build_enum_define_rows() -> list[list]:
         ("CurrencyType", [("존재력", "EXIST"), ("성장에너지", "GROWTH_ENERGY"), ("숙련의정수", "MASTERY_ESSENCE"), ("시간에너지", "TIME_ENERGY"), ("골드", "GOLD")]),
         ("StatType", [("공격력", "ATK"), ("방어력", "DEF"), ("공격속도", "ASPD"), ("치명타확률", "CRIT"), ("치명타피해", "CRIT_DMG"), ("존재력획득량", "EXIST_GAIN")]),
         ("NodeEffectType", [("스탯상승", "STAT"), ("재화지급", "GRANT")]),
-        ("EquipSlot", [("무기", "Weapon"), ("투구", "Helmet"), ("갑옷", "Armor"), ("장갑", "Gloves"), ("신발", "Boots")]),
         ("StageType", [("일반", "Normal"), ("보스", "Boss")]),
         ("FeatureType", [("리버스", "REBIRTH"), ("타임하이스트", "TIME_HEIST")]),
+        ("WeaponType", [("검", "Sword"), ("창", "Spear"), ("활", "Bow")]),
+        (
+            "WeaponGrade",
+            [("노말", "Normal"), ("레어", "Rare"), ("에픽", "Epic"), ("유니크", "Unique"), ("레전드리", "Legendary")],
+        ),
+        ("RelicGrade", [("노말", "Normal"), ("레어", "Rare"), ("에픽", "Epic")]),
+        (
+            "RelicEffectType",
+            [
+                ("공격력", "STAT_ATK"),
+                ("방어력", "STAT_DEF"),
+                ("공격속도", "STAT_ASPD"),
+                ("치명타확률", "STAT_CRIT"),
+                ("치명타피해", "STAT_CRIT_DMG"),
+                ("존재력획득량", "STAT_EXIST_GAIN"),
+                ("골드획득량", "GOLD_GAIN"),
+                ("타임하이스트쿨타임", "TIMEHEIST_COOLDOWN"),
+            ],
+        ),
     ]
     rows = []
     for group_name, values in groups:
@@ -1029,8 +1356,15 @@ def main() -> None:
         ("StatTable", STAT_TABLE_COLUMNS, build_stat_rows()),
         ("ExistTreeTable", EXIST_TREE_TABLE_COLUMNS, build_exist_tree_rows()),
         ("FeatureUnlockTable", FEATURE_UNLOCK_TABLE_COLUMNS, build_feature_unlock_rows()),
-        ("EquipmentTable", EQUIPMENT_TABLE_COLUMNS, build_equipment_rows()),
         ("MasteryTable", MASTERY_TABLE_COLUMNS, build_mastery_rows()),
+        ("WeaponTypeTable", WEAPON_TYPE_TABLE_COLUMNS, build_weapon_type_rows()),
+        ("WeaponGradeTable", WEAPON_GRADE_TABLE_COLUMNS, build_weapon_grade_rows()),
+        ("WeaponUpgradeTable", WEAPON_UPGRADE_TABLE_COLUMNS, build_weapon_upgrade_rows()),
+        ("WeaponBreakthroughTable", WEAPON_BREAKTHROUGH_TABLE_COLUMNS, build_weapon_breakthrough_rows()),
+        ("WeaponFusionTable", WEAPON_FUSION_TABLE_COLUMNS, build_weapon_fusion_rows()),
+        ("GachaTable", GACHA_TABLE_COLUMNS, build_gacha_rows()),
+        ("RelicTable", RELIC_TABLE_COLUMNS, build_relic_rows()),
+        ("RelicSlotTable", RELIC_SLOT_TABLE_COLUMNS, build_relic_slot_rows()),
         ("TimeHeistTable", TIME_HEIST_TABLE_COLUMNS, build_time_heist_rows()),
         ("RebirthTable", REBIRTH_TABLE_COLUMNS, build_rebirth_rows()),
         ("CommonTable", COMMON_TABLE_COLUMNS, build_common_rows()),

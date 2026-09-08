@@ -3,14 +3,7 @@
 // 전투 틱마다 상태가 바뀌므로 매번 쓰지 않고 일정 주기로 묶어서(debounce) 저장한다.
 
 import { getCommon } from '../data/balance'
-import type {
-  BattleState,
-  CurrencyKey,
-  EquipmentSlotId,
-  RebirthSpentTotals,
-  SpecialUnlockId,
-  StatKey,
-} from '../types/game'
+import type { BattleState, CurrencyKey, RebirthSpentTotals, SpecialUnlockId, StatKey } from '../types/game'
 
 const STORAGE_KEY = 'idle-rpg:game'
 const SAVE_DEBOUNCE_MS = getCommon('AutoSaveIntervalSec') * 1000
@@ -22,7 +15,6 @@ const SAVE_VERSION = 1
 export interface GameSaveState {
   currencies: Record<CurrencyKey, number>
   statLevels: Record<StatKey, number>
-  equipmentLevels: Record<EquipmentSlotId, number>
   masteryLevels: Record<string, number>
   existTreeStatBonus: Record<StatKey, number>
   currentStage: number
