@@ -1,16 +1,8 @@
 import { statUpgradeCost } from '../../data/stats'
+import { getButtonLabel, getStatName, getTabName } from '../../data/uiStrings'
 import { useGameStore } from '../../store/gameStore'
 import type { StatKey } from '../../types/game'
 import { formatNumber } from '../../utils/format'
-
-const STAT_LABELS: Record<StatKey, string> = {
-  atk: '공격력',
-  def: '방어력',
-  aspd: '공격속도',
-  crit: '치명타율',
-  critDmg: '치명타피해',
-  existGain: '존재력 획득량',
-}
 
 const STAT_ORDER: StatKey[] = ['atk', 'def', 'aspd', 'crit', 'critDmg', 'existGain']
 
@@ -42,13 +34,13 @@ export function GrowthPanel() {
   return (
     <div className="flex h-full flex-col gap-2">
       <div className="flex items-center justify-between">
-        <h2 className="text-sm font-semibold text-cyan-300">성장</h2>
+        <h2 className="text-sm font-semibold text-cyan-300">{getTabName('growth')}</h2>
         <button
           type="button"
           onClick={maxUpgradeAll}
           className="rounded-lg bg-cyan-600 px-3 py-1 text-xs font-medium text-white"
         >
-          최대로
+          {getButtonLabel('maxAll')}
         </button>
       </div>
 
@@ -65,7 +57,7 @@ export function GrowthPanel() {
             >
               <div className="min-w-0 flex-1">
                 <div className="flex items-baseline gap-1.5">
-                  <span className="text-xs font-medium text-cyan-100">{STAT_LABELS[key]}</span>
+                  <span className="text-xs font-medium text-cyan-100">{getStatName(key)}</span>
                   <span className="text-[10px] text-cyan-100/50">Lv.{level}</span>
                 </div>
                 <div className="text-[11px] text-cyan-100/70">{formatStatValue(key, stats[key])}</div>
@@ -79,7 +71,7 @@ export function GrowthPanel() {
                   canAfford ? 'bg-cyan-600 text-white' : 'cursor-not-allowed bg-white/10 text-white/30'
                 }`}
               >
-                업그레이드
+                {getButtonLabel('upgrade')}
                 <div className="text-[10px] opacity-80">{formatNumber(cost)}</div>
               </button>
             </div>

@@ -1,4 +1,5 @@
 import { stageLabel } from '../../data/stages'
+import { getButtonLabel, getCurrencyName, getStateLabel, getSystemName } from '../../data/uiStrings'
 import { useGameStore } from '../../store/gameStore'
 import { formatCountdown, formatNumber } from '../../utils/format'
 import { useNow } from '../../utils/useNow'
@@ -36,7 +37,7 @@ export function TimeHeistModal({ isOpen, onCancel, onConfirm }: TimeHeistModalPr
         className="w-full max-w-xs rounded-xl border border-amber-400/30 bg-slate-900 p-4 text-white"
         onClick={(event) => event.stopPropagation()}
       >
-        <h2 className="text-sm font-semibold text-amber-300">타임 하이스트</h2>
+        <h2 className="text-sm font-semibold text-amber-300">{getSystemName('timeHeist')}</h2>
         <p className="mt-1 text-[11px] leading-relaxed text-white/60">
           미래 스테이지의 보상을 시간에너지로 미리 훔쳐옵니다. 스테이지 진행에는 영향을 주지 않습니다.
         </p>
@@ -51,19 +52,19 @@ export function TimeHeistModal({ isOpen, onCancel, onConfirm }: TimeHeistModalPr
         <div className="mt-3 border-t border-white/10 pt-2">
           <p className="mb-1 text-[10px] font-semibold text-emerald-300">획득 예정</p>
           <ul className="space-y-0.5 text-[11px] text-white/70">
-            <li>골드 +{formatNumber(preview.rewards.gold)}</li>
-            <li>성장에너지 +{formatNumber(preview.rewards.growthEnergy)}</li>
-            <li>존재력 +{formatNumber(preview.rewards.exist)}</li>
+            <li>{getCurrencyName('gold')} +{formatNumber(preview.rewards.gold)}</li>
+            <li>{getCurrencyName('growthEnergy')} +{formatNumber(preview.rewards.growthEnergy)}</li>
+            <li>{getCurrencyName('exist')} +{formatNumber(preview.rewards.exist)}</li>
           </ul>
         </div>
 
         <div className="mt-3 border-t border-white/10 pt-2 text-[11px] text-white/70">
           <div className="flex justify-between">
-            <span>소모 시간에너지</span>
+            <span>소모 {getCurrencyName('timeEnergy')}</span>
             <span className={canAfford ? 'text-white' : 'text-red-400'}>{formatNumber(preview.cost)}</span>
           </div>
           <div className="flex justify-between">
-            <span>보유 시간에너지</span>
+            <span>보유 {getCurrencyName('timeEnergy')}</span>
             <span>{formatNumber(timeEnergy)}</span>
           </div>
           <div className="flex justify-between">
@@ -73,7 +74,7 @@ export function TimeHeistModal({ isOpen, onCancel, onConfirm }: TimeHeistModalPr
           <div className="flex justify-between">
             <span>쿨타임</span>
             <span className={isOnCooldown ? 'text-red-400' : 'text-emerald-300'}>
-              {isOnCooldown ? formatCountdown(cooldownRemainingMs) : '사용 가능'}
+              {isOnCooldown ? formatCountdown(cooldownRemainingMs) : getStateLabel('available')}
             </span>
           </div>
         </div>
@@ -84,7 +85,7 @@ export function TimeHeistModal({ isOpen, onCancel, onConfirm }: TimeHeistModalPr
             onClick={onCancel}
             className="rounded-lg bg-white/10 px-3 py-1.5 text-xs font-medium text-white"
           >
-            취소
+            {getButtonLabel('cancel')}
           </button>
           <button
             type="button"
@@ -94,7 +95,7 @@ export function TimeHeistModal({ isOpen, onCancel, onConfirm }: TimeHeistModalPr
               canExecute ? 'bg-amber-500 text-amber-950' : 'cursor-not-allowed bg-white/10 text-white/30'
             }`}
           >
-            강탈
+            {getButtonLabel('steal')}
           </button>
         </div>
       </div>

@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { EXIST_SPECIAL_UNLOCKS, existNodeStatus, generateExistTree } from '../../data/existTree'
+import { getButtonLabel, getCurrencyAbbr, getCurrencyName, getStateLabel } from '../../data/uiStrings'
 import { useGameStore } from '../../store/gameStore'
 import { formatNumber } from '../../utils/format'
 import type {
-  CurrencyKey,
   ExistNodeEffect,
   ExistNodeStatus,
   ExistSpecialUnlock,
@@ -16,6 +16,7 @@ interface ExistTreePanelProps {
   onBack: () => void
 }
 
+// 노드 원형 안 작은 영문 태그 — StringTable의 6스탯 정식 명칭과는 별개의 표시 전용 축약형
 const STAT_ABBR: Record<StatKey, string> = {
   atk: 'ATK',
   def: 'DEF',
@@ -25,18 +26,10 @@ const STAT_ABBR: Record<StatKey, string> = {
   existGain: 'EGAIN',
 }
 
-const CURRENCY_ABBR: Record<CurrencyKey, string> = {
-  exist: '존재력',
-  growthEnergy: '성장',
-  timeEnergy: '시간',
-  gold: '골드',
-  essence: '정수',
-}
-
 function effectSummary(effect: ExistNodeEffect): string {
   return effect.kind === 'stat'
     ? `${STAT_ABBR[effect.stat]}+${formatNumber(effect.value)}`
-    : `${CURRENCY_ABBR[effect.currency]}+${formatNumber(effect.amount)}`
+    : `${getCurrencyAbbr(effect.currency)}+${formatNumber(effect.amount)}`
 }
 
 function oppositeLane(lane: ExistTreeLane): ExistTreeLane {
@@ -84,10 +77,10 @@ export function ExistTreePanel({ onBack }: ExistTreePanelProps) {
     <div className="relative flex min-h-0 flex-1 flex-col bg-amber-950 text-amber-100">
       <div className="relative flex shrink-0 items-center justify-center border-b border-amber-300/10 py-3">
         <button type="button" onClick={onBack} className="absolute left-4 text-sm text-amber-300">
-          ← 뒤로
+          ← {getButtonLabel('back')}
         </button>
         <div className="text-sm font-semibold text-amber-200">
-          보유 존재력 <span className="text-amber-300">{formatNumber(exist)}</span>
+          보유 {getCurrencyName('exist')} <span className="text-amber-300">{formatNumber(exist)}</span>
         </div>
       </div>
 
@@ -127,7 +120,8 @@ export function ExistTreePanel({ onBack }: ExistTreePanelProps) {
               {showTierDividerBelow && (
                 <div className="flex items-center gap-2 px-6 py-2 text-[10px] text-amber-300/50">
                   <div className="h-px flex-1 bg-amber-300/20" />
-                  {node.tier}티어
+                  {node.tier}
+                  {getStateLabel('tier')}
                   <div className="h-px flex-1 bg-amber-300/20" />
                 </div>
               )}
@@ -222,7 +216,7 @@ function NodeCircle({
       <div className="text-center text-[9px] leading-tight">
         {status === 'unlocked' && <span className="text-amber-200/80">{effectSummary(node.effect)}</span>}
         {status === 'unlockable' && <span className="text-amber-300">{formatNumber(node.cost)}</span>}
-        {status === 'locked' && <span className="text-amber-100/20">잠김</span>}
+        {status === 'locked' && <span className="text-amber-100/20">{getStateLabel('locked')}</span>}
       </div>
     </button>
   )
@@ -253,7 +247,7 @@ function SpecialCircle({
         {unlock.label}
       </div>
       <div className="text-center text-[9px] leading-tight text-fuchsia-200">
-        {unlocked ? '해금됨' : formatNumber(unlock.cost)}
+        {unlocked ? getStateLabel('unlocked') : formatNumber(unlock.cost)}
       </div>
     </button>
   )
@@ -279,11 +273,16 @@ function NodeInfoBar({
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
           <div className="text-xs font-semibold text-amber-200">
-            {node.order}번 노드 · {node.tier}티어
+            {node.order}번 노드 · {node.tier}
+            {getStateLabel('tier')}
           </div>
-          <div className="mt-0.5 text-[11px] text-amber-100/70">효과 {effectSummary(node.effect)}</div>
+          <div className="mt-0.5 text-[11px] text-amber-100/70">
+            {getStateLabel('effect')} {effectSummary(node.effect)}
+          </div>
           <div className="text-[11px] text-amber-100/70">
-            {status === 'unlocked' ? '해금됨' : `비용 ${formatNumber(node.cost)} 존재력`}
+            {status === 'unlocked'
+              ? getStateLabel('unlocked')
+              : `${getStateLabel('cost')} ${formatNumber(node.cost)} ${getCurrencyName('exist')}`}
           </div>
         </div>
 
@@ -297,7 +296,7 @@ function NodeInfoBar({
                 canUnlock ? 'bg-amber-400 text-amber-950' : 'cursor-not-allowed bg-white/10 text-white/30'
               }`}
             >
-              해금
+              {getButtonLabel('unlock')}
             </button>
           )}
           <button
@@ -305,7 +304,7 @@ function NodeInfoBar({
             onClick={onClose}
             className="rounded-lg bg-white/10 px-3 py-1.5 text-xs font-medium text-amber-100"
           >
-            닫기
+            {getButtonLabel('close')}
           </button>
         </div>
       </div>

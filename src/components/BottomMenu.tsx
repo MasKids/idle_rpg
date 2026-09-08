@@ -1,17 +1,17 @@
+import { getTabName } from '../data/uiStrings'
 import type { TabKey } from '../types/game'
 
 interface MenuItem {
   key: TabKey
-  label: string
   icon: string
 }
 
 const MENU_ITEMS: MenuItem[] = [
-  { key: 'growth', label: '성장', icon: '📈' },
-  { key: 'equipment', label: '장비', icon: '🗡️' },
-  { key: 'gacha', label: '가챠', icon: '🎰' },
-  { key: 'exist', label: '존재력', icon: '🌌' },
-  { key: 'dogam', label: '도감', icon: '📖' },
+  { key: 'growth', icon: '📈' },
+  { key: 'equipment', icon: '🗡️' },
+  { key: 'gacha', icon: '🎰' },
+  { key: 'exist', icon: '🌌' },
+  { key: 'dogam', icon: '📖' },
 ]
 
 interface BottomMenuProps {
@@ -34,7 +34,7 @@ export function BottomMenu({ activeTab, onSelect }: BottomMenuProps) {
             }`}
           >
             <span className="text-lg leading-none">{item.icon}</span>
-            <span>{item.label}</span>
+            <span>{getTabName(item.key)}</span>
           </button>
         )
       })}

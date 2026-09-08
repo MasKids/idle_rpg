@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import { getButtonLabel, getSystemName } from '../../data/uiStrings'
 import { useGameStore } from '../../store/gameStore'
 import { formatNumber } from '../../utils/format'
 
@@ -23,7 +24,7 @@ export function RebirthModal({ isOpen, onCancel, onConfirm }: RebirthModalProps)
         className="w-full max-w-xs rounded-xl border border-purple-400/30 bg-slate-900 p-4 text-white"
         onClick={(event) => event.stopPropagation()}
       >
-        <h2 className="text-sm font-semibold text-purple-300">리버스</h2>
+        <h2 className="text-sm font-semibold text-purple-300">{getSystemName('reverse')}</h2>
         <p className="mt-1 text-[11px] leading-relaxed text-white/60">
           스테이지·스탯·장비·숙련을 초기화하는 대신, 그동안 소비한 재화를 전액 돌려받습니다. 존재력 트리는
           그대로 유지됩니다.
@@ -54,14 +55,14 @@ export function RebirthModal({ isOpen, onCancel, onConfirm }: RebirthModalProps)
             onClick={onCancel}
             className="rounded-lg bg-white/10 px-3 py-1.5 text-xs font-medium text-white"
           >
-            취소
+            {getButtonLabel('cancel')}
           </button>
           <button
             type="button"
             onClick={onConfirm}
             className="rounded-lg bg-purple-600 px-3 py-1.5 text-xs font-medium text-white"
           >
-            실행
+            {getButtonLabel('execute')}
           </button>
         </div>
       </div>

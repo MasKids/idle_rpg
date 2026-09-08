@@ -1,4 +1,5 @@
 import { generateStage, stageLabel } from '../data/stages'
+import { getButtonLabel, getCurrencyName, getSystemName } from '../data/uiStrings'
 import { useGameStore } from '../store/gameStore'
 import { formatNumber } from '../utils/format'
 
@@ -53,9 +54,9 @@ export function StageInfoModal({ isOpen, onClose, onRebirthClick }: StageInfoMod
         <div className="mt-3 border-t border-white/10 pt-3">
           <p className="mb-1 text-[11px] text-white/50">스테이지 보상 (처치당)</p>
           <div className="flex flex-wrap gap-x-3 gap-y-1 text-xs text-white/70">
-            <span>골드 {formatNumber(data.rewards.gold)}</span>
-            <span>성장에너지 {formatNumber(data.rewards.growthEnergy)}</span>
-            <span>존재력 {formatNumber(data.rewards.exist)}</span>
+            <span>{getCurrencyName('gold')} {formatNumber(data.rewards.gold)}</span>
+            <span>{getCurrencyName('growthEnergy')} {formatNumber(data.rewards.growthEnergy)}</span>
+            <span>{getCurrencyName('exist')} {formatNumber(data.rewards.exist)}</span>
           </div>
         </div>
 
@@ -67,7 +68,7 @@ export function StageInfoModal({ isOpen, onClose, onRebirthClick }: StageInfoMod
                 onClick={onRebirthClick}
                 className="rounded-lg bg-purple-600 px-3 py-1.5 text-xs font-medium text-white"
               >
-                리버스
+                {getSystemName('reverse')}
               </button>
             )}
           </div>
@@ -76,7 +77,7 @@ export function StageInfoModal({ isOpen, onClose, onRebirthClick }: StageInfoMod
             onClick={onClose}
             className="rounded-lg bg-white/10 px-3 py-1.5 text-xs font-medium text-white"
           >
-            닫기
+            {getButtonLabel('close')}
           </button>
         </div>
       </div>

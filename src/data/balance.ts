@@ -342,13 +342,14 @@ export function getCommon(key: string): number {
   return row.Value
 }
 
-export function getString(id: number, lang: 'KOR' | 'ENG'): string {
+export function getString(id: number, lang: 'KOR' | 'ENG', fallback = ''): string {
   const row = TABLES.StringTable.find((r) => r.Id === id)
   if (!row) {
     warnMissing('StringTable', `Id=${id}`)
-    return ''
+    return fallback
   }
-  return lang === 'KOR' ? row.KOR : row.ENG
+  const value = lang === 'KOR' ? row.KOR : row.ENG
+  return value || fallback
 }
 
 // 원본 테이블 배열이 통째로 필요할 때(예: 존재력 트리 50노드 생성)를 위한 export

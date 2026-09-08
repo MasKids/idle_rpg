@@ -7,12 +7,11 @@ import {
   masteryAtkMultiplier,
   masteryUpgradeCost,
 } from '../../data/equipment'
+import { getButtonLabel, getStatName, getTabName } from '../../data/uiStrings'
 import { useGameStore } from '../../store/gameStore'
 import { formatNumber } from '../../utils/format'
 
 type EquipmentSubTab = 'equipment' | 'mastery'
-
-const STAT_LABEL: Record<'atk' | 'def', string> = { atk: '공격력', def: '방어력' }
 
 export function EquipmentPanel() {
   const [subTab, setSubTab] = useState<EquipmentSubTab>('equipment')
@@ -27,7 +26,7 @@ export function EquipmentPanel() {
             subTab === 'equipment' ? 'bg-cyan-600 text-white' : 'text-cyan-100/60'
           }`}
         >
-          장비
+          {getTabName('equipment')}
         </button>
         <button
           type="button"
@@ -59,7 +58,7 @@ function EquipmentSlotsList() {
           onClick={maxUpgradeEquipment}
           className="rounded-lg bg-cyan-600 px-3 py-1 text-xs font-medium text-white"
         >
-          최대로
+          {getButtonLabel('maxAll')}
         </button>
       </div>
 
@@ -80,7 +79,7 @@ function EquipmentSlotsList() {
                 <span className="text-[10px] text-cyan-100/50">Lv.{level}</span>
               </div>
               <div className="text-[11px] text-cyan-100/70">
-                {STAT_LABEL[slot.stat]} +{formatNumber(bonus)}
+                {getStatName(slot.stat)} +{formatNumber(bonus)}
               </div>
             </div>
 
@@ -92,7 +91,7 @@ function EquipmentSlotsList() {
                 canAfford ? 'bg-cyan-600 text-white' : 'cursor-not-allowed bg-white/10 text-white/30'
               }`}
             >
-              강화
+              {getButtonLabel('enhance')}
               <div className="text-[10px] opacity-80">{formatNumber(cost)}</div>
             </button>
           </div>
@@ -116,7 +115,7 @@ function MasteryList() {
           onClick={maxUpgradeMastery}
           className="rounded-lg bg-cyan-600 px-3 py-1 text-xs font-medium text-white"
         >
-          최대로
+          {getButtonLabel('maxAll')}
         </button>
       </div>
 
@@ -136,7 +135,7 @@ function MasteryList() {
                 <span className="text-xs font-medium text-cyan-100">{weapon.name}</span>
                 <span className="text-[10px] text-cyan-100/50">Lv.{level}</span>
               </div>
-              <div className="text-[11px] text-cyan-100/70">공격력 ×{multiplier.toFixed(2)}</div>
+              <div className="text-[11px] text-cyan-100/70">{getStatName('atk')} ×{multiplier.toFixed(2)}</div>
             </div>
 
             <button
@@ -147,7 +146,7 @@ function MasteryList() {
                 canAfford ? 'bg-cyan-600 text-white' : 'cursor-not-allowed bg-white/10 text-white/30'
               }`}
             >
-              수련
+              {getButtonLabel('train')}
               <div className="text-[10px] opacity-80">{formatNumber(cost)}</div>
             </button>
           </div>

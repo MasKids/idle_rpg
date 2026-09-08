@@ -634,7 +634,7 @@
     {
       "Index": 4,
       "Id": 40004,
-      "KOR": "치명타확률",
+      "KOR": "치명타 확률",
       "ENG": "CRIT"
     },
     {
@@ -646,7 +646,7 @@
     {
       "Index": 6,
       "Id": 40006,
-      "KOR": "존재력획득량",
+      "KOR": "존재력 획득량",
       "ENG": "EXIST_GAIN"
     },
     {
@@ -730,8 +730,176 @@
     {
       "Index": 20,
       "Id": 40020,
-      "KOR": "존재력",
+      "KOR": "존재력 트리",
       "ENG": "EXIST_TREE"
+    },
+    {
+      "Index": 21,
+      "Id": 40021,
+      "KOR": "존재",
+      "ENG": "EXIST_ABBR"
+    },
+    {
+      "Index": 22,
+      "Id": 40022,
+      "KOR": "성장",
+      "ENG": "GROWTH_ABBR"
+    },
+    {
+      "Index": 23,
+      "Id": 40023,
+      "KOR": "시간",
+      "ENG": "TIME_ABBR"
+    },
+    {
+      "Index": 24,
+      "Id": 40024,
+      "KOR": "골드",
+      "ENG": "GOLD_ABBR"
+    },
+    {
+      "Index": 25,
+      "Id": 40025,
+      "KOR": "정수",
+      "ENG": "ESSENCE_ABBR"
+    },
+    {
+      "Index": 26,
+      "Id": 40026,
+      "KOR": "성장",
+      "ENG": "Growth"
+    },
+    {
+      "Index": 27,
+      "Id": 40027,
+      "KOR": "장비",
+      "ENG": "Equipment"
+    },
+    {
+      "Index": 28,
+      "Id": 40028,
+      "KOR": "가챠",
+      "ENG": "Gacha"
+    },
+    {
+      "Index": 29,
+      "Id": 40029,
+      "KOR": "존재력",
+      "ENG": "ExistTree"
+    },
+    {
+      "Index": 30,
+      "Id": 40030,
+      "KOR": "도감",
+      "ENG": "Dogam"
+    },
+    {
+      "Index": 31,
+      "Id": 40031,
+      "KOR": "닫기",
+      "ENG": "Close"
+    },
+    {
+      "Index": 32,
+      "Id": 40032,
+      "KOR": "취소",
+      "ENG": "Cancel"
+    },
+    {
+      "Index": 33,
+      "Id": 40033,
+      "KOR": "확인",
+      "ENG": "Confirm"
+    },
+    {
+      "Index": 34,
+      "Id": 40034,
+      "KOR": "실행",
+      "ENG": "Execute"
+    },
+    {
+      "Index": 35,
+      "Id": 40035,
+      "KOR": "강탈",
+      "ENG": "Steal"
+    },
+    {
+      "Index": 36,
+      "Id": 40036,
+      "KOR": "받기",
+      "ENG": "Claim"
+    },
+    {
+      "Index": 37,
+      "Id": 40037,
+      "KOR": "해금",
+      "ENG": "Unlock"
+    },
+    {
+      "Index": 38,
+      "Id": 40038,
+      "KOR": "강화",
+      "ENG": "Enhance"
+    },
+    {
+      "Index": 39,
+      "Id": 40039,
+      "KOR": "수련",
+      "ENG": "Train"
+    },
+    {
+      "Index": 40,
+      "Id": 40040,
+      "KOR": "업그레이드",
+      "ENG": "Upgrade"
+    },
+    {
+      "Index": 41,
+      "Id": 40041,
+      "KOR": "최대로",
+      "ENG": "MaxAll"
+    },
+    {
+      "Index": 42,
+      "Id": 40042,
+      "KOR": "뒤로",
+      "ENG": "Back"
+    },
+    {
+      "Index": 43,
+      "Id": 40043,
+      "KOR": "잠김",
+      "ENG": "Locked"
+    },
+    {
+      "Index": 44,
+      "Id": 40044,
+      "KOR": "해금됨",
+      "ENG": "Unlocked"
+    },
+    {
+      "Index": 45,
+      "Id": 40045,
+      "KOR": "사용 가능",
+      "ENG": "Available"
+    },
+    {
+      "Index": 46,
+      "Id": 40046,
+      "KOR": "티어",
+      "ENG": "Tier"
+    },
+    {
+      "Index": 47,
+      "Id": 40047,
+      "KOR": "효과",
+      "ENG": "Effect"
+    },
+    {
+      "Index": 48,
+      "Id": 40048,
+      "KOR": "비용",
+      "ENG": "Cost"
     }
   ]
 }

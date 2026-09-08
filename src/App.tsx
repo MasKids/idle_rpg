@@ -7,6 +7,7 @@ import { StageInfoModal } from './components/StageInfoModal'
 import { StubPanel } from './components/StubPanel'
 import { startBattleLoop } from './systems/battle/battleLoop'
 import { OfflineRewardModal } from './systems/battle/OfflineRewardModal'
+import { getTabName } from './data/uiStrings'
 import { ExistTreePanel } from './systems/exist/ExistTreePanel'
 import { RebirthModal } from './systems/rebirth/RebirthModal'
 import { TimeHeistModal } from './systems/timeheist/TimeHeistModal'
@@ -53,8 +54,8 @@ function App() {
       <div className="relative flex h-dvh w-full max-w-[430px] flex-col overflow-hidden bg-slate-950 sm:h-[900px] sm:max-h-[95dvh] sm:rounded-2xl sm:border sm:border-white/10 sm:shadow-2xl">
         {isFullscreen ? (
           <>
-            {activeTab === 'gacha' && <StubPanel title="가챠" onBack={goBack} />}
-            {activeTab === 'dogam' && <StubPanel title="도감" onBack={goBack} />}
+            {activeTab === 'gacha' && <StubPanel title={getTabName('gacha')} onBack={goBack} />}
+            {activeTab === 'dogam' && <StubPanel title={getTabName('dogam')} onBack={goBack} />}
             {activeTab === 'exist' && <ExistTreePanel onBack={goBack} />}
           </>
         ) : (

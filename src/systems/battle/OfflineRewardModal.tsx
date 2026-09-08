@@ -1,3 +1,4 @@
+import { getButtonLabel, getCurrencyName } from '../../data/uiStrings'
 import { useGameStore } from '../../store/gameStore'
 import { formatDuration, formatNumber } from '../../utils/format'
 
@@ -33,9 +34,9 @@ export function OfflineRewardModal({ onClaim }: OfflineRewardModalProps) {
         <div className="mt-3 border-t border-white/10 pt-2">
           <p className="mb-1 text-[10px] font-semibold text-emerald-300">획득 재화</p>
           <ul className="space-y-0.5 text-[11px] text-white/70">
-            <li>골드 +{formatNumber(reward.rewards.gold)}</li>
-            <li>성장에너지 +{formatNumber(reward.rewards.growthEnergy)}</li>
-            <li>존재력 +{formatNumber(reward.rewards.exist)}</li>
+            <li>{getCurrencyName('gold')} +{formatNumber(reward.rewards.gold)}</li>
+            <li>{getCurrencyName('growthEnergy')} +{formatNumber(reward.rewards.growthEnergy)}</li>
+            <li>{getCurrencyName('exist')} +{formatNumber(reward.rewards.exist)}</li>
           </ul>
         </div>
 
@@ -45,7 +46,7 @@ export function OfflineRewardModal({ onClaim }: OfflineRewardModalProps) {
             onClick={onClaim}
             className="rounded-lg bg-blue-600 px-4 py-1.5 text-xs font-medium text-white"
           >
-            받기
+            {getButtonLabel('claim')}
           </button>
         </div>
       </div>
