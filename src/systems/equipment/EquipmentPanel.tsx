@@ -65,9 +65,9 @@ function EquipmentSlotsList() {
 
       {EQUIPMENT_SLOTS.map((slot) => {
         const level = equipmentLevels[slot.id]
-        const cost = equipmentUpgradeCost(level)
+        const cost = equipmentUpgradeCost(slot.id, level)
         const canAfford = gold >= cost
-        const bonus = level * equipmentValuePerLevel()
+        const bonus = level * equipmentValuePerLevel(slot.id)
 
         return (
           <div
@@ -122,9 +122,9 @@ function MasteryList() {
 
       {MASTERY_WEAPONS.map((weapon) => {
         const level = masteryLevels[weapon.id] ?? 0
-        const cost = masteryUpgradeCost(level)
+        const cost = masteryUpgradeCost(weapon.id, level)
         const canAfford = essence >= cost
-        const multiplier = masteryAtkMultiplier(level)
+        const multiplier = masteryAtkMultiplier(weapon.id, level)
 
         return (
           <div

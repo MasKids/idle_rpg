@@ -44,6 +44,7 @@ export interface StageData {
     gold: number
     growthEnergy: number
     exist: number
+    timeEnergy: number
   }
 }
 

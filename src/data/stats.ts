@@ -1,30 +1,21 @@
-import { BALANCE } from './balance'
+import { getStatConfig, type StatTypeEnum } from './balance'
 import type { StatKey } from '../types/game'
 
-const { stats } = BALANCE
-
-export const STAT_BASE: Record<StatKey, number> = {
-  atk: stats.statBaseAtk,
-  def: stats.statBaseDef,
-  aspd: stats.statBaseAspd,
-  crit: stats.statBaseCrit,
-  critDmg: stats.statBaseCritDmg,
-  existGain: stats.statBaseExistGain,
+const STAT_TYPE_BY_KEY: Record<StatKey, StatTypeEnum> = {
+  atk: 'ATK',
+  def: 'DEF',
+  aspd: 'ASPD',
+  crit: 'CRIT',
+  critDmg: 'CRIT_DMG',
+  existGain: 'EXIST_GAIN',
 }
 
-export const STAT_GROWTH_PER_LEVEL: Record<StatKey, number> = {
-  atk: stats.statGrowthAtk,
-  def: stats.statGrowthDef,
-  aspd: stats.statGrowthAspd,
-  crit: stats.statGrowthCrit,
-  critDmg: stats.statGrowthCritDmg,
-  existGain: stats.statGrowthExistGain,
-}
-
-export function statUpgradeCost(currentLevel: number): number {
-  return Math.floor(stats.statUpgradeCostBase * stats.statUpgradeCostGrowth ** currentLevel)
+export function statUpgradeCost(key: StatKey, currentLevel: number): number {
+  const config = getStatConfig(STAT_TYPE_BY_KEY[key])
+  return Math.floor(config.CostBase * config.CostGrowthRate ** currentLevel)
 }
 
 export function computeStatValue(key: StatKey, level: number): number {
-  return STAT_BASE[key] + level * STAT_GROWTH_PER_LEVEL[key]
+  const config = getStatConfig(STAT_TYPE_BY_KEY[key])
+  return config.BaseValue + level * config.ValuePerLevel
 }

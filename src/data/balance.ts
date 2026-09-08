@@ -1,185 +1,355 @@
-// balance.json(= balance/balance.xlsx 빌드 결과)을 타입이 붙은 객체로 노출한다.
-// balance.json에 특정 key가 없으면(엑셀에서 행을 지웠거나 아직 반영 전이면) 아래
-// DEFAULTS 값으로 채운다 — 게임이 죽지 않고 항상 안전한 값으로 동작하기 위함.
+// balance.json(= balance/balance.xlsx 빌드 결과)을 타입이 붙은 테이블로 노출한다.
+// 각 테이블은 엑셀 4행(영문 칼럼명)을 그대로 필드명으로 쓰는 행 객체의 배열이다.
+// 조회 헬퍼가 원하는 행을 못 찾으면 콘솔에 경고를 남기고 안전한 기본값을 반환한다 —
+// 엑셀 데이터가 일시적으로 비어있거나 잘못돼도 게임이 죽지 않게 하기 위함.
 import balanceJson from './balance.json'
 
-export interface BattleBalance {
-  enemyBaseHp: number
-  enemyHpGrowth: number
-  enemyBaseAtk: number
-  enemyAtkGrowth: number
-  killsRequiredPerStage: number
-  bossInterval: number
-  bossHpMultiplier: number
-  bossAtkMultiplier: number
-  bossRewardMultiplier: number
+// ---------------------------------------------------------------------------
+// enum 값 (#EnumDefine과 동일)
+// ---------------------------------------------------------------------------
+
+export type StatTypeEnum = 'ATK' | 'DEF' | 'ASPD' | 'CRIT' | 'CRIT_DMG' | 'EXIST_GAIN'
+export type StageTypeEnum = 'Normal' | 'Boss'
+export type NodeEffectTypeEnum = 'STAT' | 'GRANT'
+export type CurrencyTypeEnum = 'EXIST' | 'GROWTH_ENERGY' | 'MASTERY_ESSENCE' | 'TIME_ENERGY' | 'GOLD'
+export type EquipSlotEnum = 'Weapon' | 'Helmet' | 'Armor' | 'Gloves' | 'Boots'
+export type FeatureTypeEnum = 'REBIRTH' | 'TIME_HEIST'
+
+// ---------------------------------------------------------------------------
+// 테이블별 행 타입 — 엑셀 4행 칼럼명 그대로
+// ---------------------------------------------------------------------------
+
+export interface StageTableRow {
+  Index: number
+  Id: number
+  Chapter: number
+  StageType: StageTypeEnum
+  EnemyHp: number
+  EnemyAtk: number
+  KillCount: number
+  RewardGold: number
+  RewardGrowth: number
+  RewardExist: number
+  RewardTimeEnergy: number
+  HpGrowthRate: number
+  RewardGrowthRate: number
 }
 
-export interface RewardsBalance {
-  goldBaseReward: number
-  goldGrowth: number
-  growthEnergyBaseReward: number
-  growthEnergyGrowth: number
-  existRewardStageDivisor: number
-  existRewardBossMultiplier: number
-  bossTimeEnergyReward: number
+export interface StatTableRow {
+  Index: number
+  Id: number
+  StatType: StatTypeEnum
+  Name: number
+  BaseValue: number
+  ValuePerLevel: number
+  CostBase: number
+  CostGrowthRate: number
+  MaxLevel: number
 }
 
-export interface StatsBalance {
-  statBaseAtk: number
-  statBaseDef: number
-  statBaseAspd: number
-  statBaseCrit: number
-  statBaseCritDmg: number
-  statBaseExistGain: number
-  statGrowthAtk: number
-  statGrowthDef: number
-  statGrowthAspd: number
-  statGrowthCrit: number
-  statGrowthCritDmg: number
-  statGrowthExistGain: number
-  statUpgradeCostBase: number
-  statUpgradeCostGrowth: number
+export interface ExistTreeTableRow {
+  Index: number
+  Id: number
+  Tier: number
+  OrderFrom: number
+  OrderTo: number
+  EffectType: NodeEffectTypeEnum
+  StatType: StatTypeEnum | ''
+  GrantCurrency: CurrencyTypeEnum | ''
+  ValueBase: number
+  ValuePerNode: number
+  CostBase: number
+  CostGrowthRate: number
 }
 
-export interface EquipmentMasteryBalance {
-  equipmentValuePerLevel: number
-  equipmentCostBase: number
-  equipmentCostGrowth: number
-  masteryMultiplierPerLevel: number
-  masteryCostBase: number
-  masteryCostGrowth: number
+export interface FeatureUnlockTableRow {
+  Index: number
+  Id: number
+  FeatureType: FeatureTypeEnum
+  Name: number
+  RequireNodeCount: number
+  UnlockCost: number
 }
 
-export interface ExistTreeBalance {
-  totalNodes: number
-  nodeCostBase: number
-  nodeCostGrowth: number
-  statValueBase: number
-  statValueTierStep: number
-  currencyAmountBase: number
-  currencyAmountTierStep: number
-  reverseRequiredNodes: number
-  timeHeistRequiredNodes: number
-  reverseUnlockCost: number
-  timeHeistUnlockCost: number
+export interface EquipmentTableRow {
+  Index: number
+  Id: number
+  EquipSlot: EquipSlotEnum
+  Name: number
+  StatType: StatTypeEnum
+  ValuePerLevel: number
+  CostBase: number
+  CostGrowthRate: number
+  MaxLevel: number
 }
 
-export interface TimeHeistBalance {
-  stageOffset: number
-  clearCount: number
-  baseCost: number
-  costGrowth: number
-  baseCooldownSeconds: number
-  cooldownGrowth: number
+export interface MasteryTableRow {
+  Index: number
+  Id: number
+  WeaponId: number
+  Name: number
+  AtkMultiplierPerLevel: number
+  CostBase: number
+  CostGrowthRate: number
+  MaxLevel: number
 }
 
-export interface OfflineBalance {
-  maxHours: number
-  rewardMultiplier: number
+export interface TimeHeistTableRow {
+  Index: number
+  Id: number
+  CostBase: number
+  CostGrowthRate: number
+  CooldownBase: number
+  CooldownGrowthRate: number
+  TargetStageOffset: number
+  RewardMultiplier: number
 }
 
-export interface Balance {
-  battle: BattleBalance
-  rewards: RewardsBalance
-  stats: StatsBalance
-  equipmentMastery: EquipmentMasteryBalance
-  existTree: ExistTreeBalance
-  timeHeist: TimeHeistBalance
-  offline: OfflineBalance
+export interface RebirthTableRow {
+  Index: number
+  Id: number
+  ResetStage: boolean
+  ResetStats: boolean
+  ResetEquipment: boolean
+  ResetMastery: boolean
+  RefundGrowthEnergy: boolean
+  RefundGold: boolean
+  RefundMasteryEssence: boolean
+  KeepExistTree: boolean
 }
 
-// balance.xlsx가 처음 생성됐을 때 심어둔 값과 동일 — json에 key가 없을 때의 안전망
-const DEFAULTS: Balance = {
-  battle: {
-    enemyBaseHp: 20,
-    enemyHpGrowth: 1.15,
-    enemyBaseAtk: 3,
-    enemyAtkGrowth: 1.12,
-    killsRequiredPerStage: 5,
-    bossInterval: 10,
-    bossHpMultiplier: 5,
-    bossAtkMultiplier: 2,
-    bossRewardMultiplier: 3,
-  },
-  rewards: {
-    goldBaseReward: 5,
-    goldGrowth: 1.1,
-    growthEnergyBaseReward: 2,
-    growthEnergyGrowth: 1.08,
-    existRewardStageDivisor: 10,
-    existRewardBossMultiplier: 2,
-    bossTimeEnergyReward: 5,
-  },
-  stats: {
-    statBaseAtk: 1,
-    statBaseDef: 1,
-    statBaseAspd: 1,
-    statBaseCrit: 0,
-    statBaseCritDmg: 150,
-    statBaseExistGain: 1,
-    statGrowthAtk: 1,
-    statGrowthDef: 1,
-    statGrowthAspd: 0.05,
-    statGrowthCrit: 0.5,
-    statGrowthCritDmg: 2,
-    statGrowthExistGain: 0.02,
-    statUpgradeCostBase: 8,
-    statUpgradeCostGrowth: 1.18,
-  },
-  equipmentMastery: {
-    equipmentValuePerLevel: 2,
-    equipmentCostBase: 15,
-    equipmentCostGrowth: 1.22,
-    masteryMultiplierPerLevel: 0.05,
-    masteryCostBase: 10,
-    masteryCostGrowth: 1.25,
-  },
-  existTree: {
-    totalNodes: 50,
-    nodeCostBase: 10,
-    nodeCostGrowth: 1.35,
-    statValueBase: 5,
-    statValueTierStep: 3,
-    currencyAmountBase: 5,
-    currencyAmountTierStep: 5,
-    reverseRequiredNodes: 15,
-    timeHeistRequiredNodes: 33,
-    reverseUnlockCost: 667,
-    timeHeistUnlockCost: 148142,
-  },
-  timeHeist: {
-    stageOffset: 10,
-    clearCount: 5,
-    baseCost: 20,
-    costGrowth: 2.0,
-    baseCooldownSeconds: 7200,
-    cooldownGrowth: 1.5,
-  },
-  offline: {
-    maxHours: 8,
-    rewardMultiplier: 1,
-  },
+export interface CommonTableRow {
+  Index: number
+  Id: number
+  Key: string
+  Value: number
+  ValueType: string
 }
 
-function withDefaults<T extends object>(loaded: unknown, defaults: T): T {
-  const source = (typeof loaded === 'object' && loaded !== null ? loaded : {}) as Record<string, unknown>
-  const result = {} as T
-  for (const key of Object.keys(defaults) as Array<keyof T>) {
-    const value = source[key as string]
-    result[key] = typeof value === 'number' && Number.isFinite(value) ? (value as T[keyof T]) : defaults[key]
+export interface StringTableRow {
+  Index: number
+  Id: number
+  KOR: string
+  ENG: string
+}
+
+interface BalanceTables {
+  StageTable: StageTableRow[]
+  StatTable: StatTableRow[]
+  ExistTreeTable: ExistTreeTableRow[]
+  FeatureUnlockTable: FeatureUnlockTableRow[]
+  EquipmentTable: EquipmentTableRow[]
+  MasteryTable: MasteryTableRow[]
+  TimeHeistTable: TimeHeistTableRow[]
+  RebirthTable: RebirthTableRow[]
+  CommonTable: CommonTableRow[]
+  StringTable: StringTableRow[]
+}
+
+const TABLES = balanceJson as unknown as BalanceTables
+
+function warnMissing(table: string, criteria: string): void {
+  console.warn(`[balance] ${table}에서 ${criteria}에 해당하는 행을 찾지 못해 기본값을 사용합니다.`)
+}
+
+// ---------------------------------------------------------------------------
+// 조회 실패 시 반환할 기본값 — 엑셀이 비어있어도 게임이 안전하게 동작하도록
+// ---------------------------------------------------------------------------
+
+const DEFAULT_STAT: StatTableRow = {
+  Index: 0,
+  Id: 0,
+  StatType: 'ATK',
+  Name: 0,
+  BaseValue: 1,
+  ValuePerLevel: 1,
+  CostBase: 8,
+  CostGrowthRate: 1.18,
+  MaxLevel: 9999,
+}
+
+const DEFAULT_STAGE: StageTableRow = {
+  Index: 0,
+  Id: 0,
+  Chapter: 1,
+  StageType: 'Normal',
+  EnemyHp: 20,
+  EnemyAtk: 3,
+  KillCount: 5,
+  RewardGold: 5,
+  RewardGrowth: 2,
+  RewardExist: 1,
+  RewardTimeEnergy: 0,
+  HpGrowthRate: 1.15,
+  RewardGrowthRate: 1.1,
+}
+
+const DEFAULT_EXIST_TREE_TIER: ExistTreeTableRow = {
+  Index: 0,
+  Id: 0,
+  Tier: 1,
+  OrderFrom: 1,
+  OrderTo: 10,
+  EffectType: 'STAT',
+  StatType: 'ATK',
+  GrantCurrency: '',
+  ValueBase: 5,
+  ValuePerNode: 0.6,
+  CostBase: 10,
+  CostGrowthRate: 1.35,
+}
+
+const DEFAULT_FEATURE_UNLOCK: FeatureUnlockTableRow = {
+  Index: 0,
+  Id: 0,
+  FeatureType: 'REBIRTH',
+  Name: 0,
+  RequireNodeCount: 15,
+  UnlockCost: 667,
+}
+
+const DEFAULT_EQUIPMENT: EquipmentTableRow = {
+  Index: 0,
+  Id: 0,
+  EquipSlot: 'Weapon',
+  Name: 0,
+  StatType: 'ATK',
+  ValuePerLevel: 2,
+  CostBase: 15,
+  CostGrowthRate: 1.22,
+  MaxLevel: 9999,
+}
+
+const DEFAULT_MASTERY: MasteryTableRow = {
+  Index: 0,
+  Id: 0,
+  WeaponId: 1,
+  Name: 0,
+  AtkMultiplierPerLevel: 0.05,
+  CostBase: 10,
+  CostGrowthRate: 1.25,
+  MaxLevel: 9999,
+}
+
+const DEFAULT_TIME_HEIST: TimeHeistTableRow = {
+  Index: 0,
+  Id: 0,
+  CostBase: 20,
+  CostGrowthRate: 2.0,
+  CooldownBase: 7200,
+  CooldownGrowthRate: 1.5,
+  TargetStageOffset: 10,
+  RewardMultiplier: 5,
+}
+
+const DEFAULT_REBIRTH: RebirthTableRow = {
+  Index: 0,
+  Id: 0,
+  ResetStage: true,
+  ResetStats: true,
+  ResetEquipment: true,
+  ResetMastery: true,
+  RefundGrowthEnergy: true,
+  RefundGold: true,
+  RefundMasteryEssence: true,
+  KeepExistTree: true,
+}
+
+// ---------------------------------------------------------------------------
+// 조회 헬퍼
+// ---------------------------------------------------------------------------
+
+export function getStatConfig(statType: StatTypeEnum): StatTableRow {
+  const row = TABLES.StatTable.find((r) => r.StatType === statType)
+  if (!row) {
+    warnMissing('StatTable', `StatType=${statType}`)
+    return { ...DEFAULT_STAT, StatType: statType }
   }
-  return result
+  return row
 }
 
-const loaded = balanceJson as Partial<Balance>
-
-export const BALANCE: Balance = {
-  battle: withDefaults(loaded.battle, DEFAULTS.battle),
-  rewards: withDefaults(loaded.rewards, DEFAULTS.rewards),
-  stats: withDefaults(loaded.stats, DEFAULTS.stats),
-  equipmentMastery: withDefaults(loaded.equipmentMastery, DEFAULTS.equipmentMastery),
-  existTree: withDefaults(loaded.existTree, DEFAULTS.existTree),
-  timeHeist: withDefaults(loaded.timeHeist, DEFAULTS.timeHeist),
-  offline: withDefaults(loaded.offline, DEFAULTS.offline),
+// StageType 없이 stage 번호만으로 조회하고 싶을 때를 위해 chapter/stageType 둘 다 받는다.
+// 챕터 폭(10스테이지)은 StageTable의 설계 전제이자 stages.ts에서 stage -> chapter 변환에 쓰는 상수.
+export function getStageConfig(chapter: number, stageType: StageTypeEnum): StageTableRow {
+  const row = TABLES.StageTable.find((r) => r.Chapter === chapter && r.StageType === stageType)
+  if (!row) {
+    warnMissing('StageTable', `Chapter=${chapter}, StageType=${stageType}`)
+    return { ...DEFAULT_STAGE, Chapter: chapter, StageType: stageType }
+  }
+  return row
 }
+
+export function getExistTreeTier(order: number): ExistTreeTableRow {
+  const row = TABLES.ExistTreeTable.find((r) => order >= r.OrderFrom && order <= r.OrderTo)
+  if (!row) {
+    warnMissing('ExistTreeTable', `order=${order}`)
+    return DEFAULT_EXIST_TREE_TIER
+  }
+  return row
+}
+
+export function getFeatureUnlock(featureType: FeatureTypeEnum): FeatureUnlockTableRow {
+  const row = TABLES.FeatureUnlockTable.find((r) => r.FeatureType === featureType)
+  if (!row) {
+    warnMissing('FeatureUnlockTable', `FeatureType=${featureType}`)
+    return { ...DEFAULT_FEATURE_UNLOCK, FeatureType: featureType }
+  }
+  return row
+}
+
+export function getEquipmentConfig(slot: EquipSlotEnum): EquipmentTableRow {
+  const row = TABLES.EquipmentTable.find((r) => r.EquipSlot === slot)
+  if (!row) {
+    warnMissing('EquipmentTable', `EquipSlot=${slot}`)
+    return { ...DEFAULT_EQUIPMENT, EquipSlot: slot }
+  }
+  return row
+}
+
+export function getMasteryConfig(weaponId: number): MasteryTableRow {
+  const row = TABLES.MasteryTable.find((r) => r.WeaponId === weaponId)
+  if (!row) {
+    warnMissing('MasteryTable', `WeaponId=${weaponId}`)
+    return { ...DEFAULT_MASTERY, WeaponId: weaponId }
+  }
+  return row
+}
+
+export function getTimeHeistConfig(): TimeHeistTableRow {
+  const row = TABLES.TimeHeistTable[0]
+  if (!row) {
+    warnMissing('TimeHeistTable', '첫 행')
+    return DEFAULT_TIME_HEIST
+  }
+  return row
+}
+
+export function getRebirthConfig(): RebirthTableRow {
+  const row = TABLES.RebirthTable[0]
+  if (!row) {
+    warnMissing('RebirthTable', '첫 행')
+    return DEFAULT_REBIRTH
+  }
+  return row
+}
+
+export function getCommon(key: string): number {
+  const row = TABLES.CommonTable.find((r) => r.Key === key)
+  if (!row) {
+    warnMissing('CommonTable', `Key=${key}`)
+    return 0
+  }
+  return row.Value
+}
+
+export function getString(id: number, lang: 'KOR' | 'ENG'): string {
+  const row = TABLES.StringTable.find((r) => r.Id === id)
+  if (!row) {
+    warnMissing('StringTable', `Id=${id}`)
+    return ''
+  }
+  return lang === 'KOR' ? row.KOR : row.ENG
+}
+
+// 원본 테이블 배열이 통째로 필요할 때(예: 존재력 트리 50노드 생성)를 위한 export
+export const BALANCE_TABLES: Readonly<BalanceTables> = TABLES

@@ -7,6 +7,7 @@ import {
   masteryAtkMultiplier,
   masteryUpgradeCost,
 } from '../data/equipment'
+import { getCommon, getRebirthConfig } from '../data/balance'
 import { EXIST_SPECIAL_UNLOCKS, generateExistTree } from '../data/existTree'
 import { generateStage, killsRequiredForStage } from '../data/stages'
 import { computeStatValue, statUpgradeCost } from '../data/stats'
@@ -55,13 +56,15 @@ function computeEffectiveStats(
   let equipmentAtk = 0
   let equipmentDef = 0
   for (const slot of EQUIPMENT_SLOTS) {
-    const bonus = equipmentLevels[slot.id] * equipmentValuePerLevel()
+    const bonus = equipmentLevels[slot.id] * equipmentValuePerLevel(slot.id)
     if (slot.stat === 'atk') equipmentAtk += bonus
     else equipmentDef += bonus
   }
 
   const primaryWeapon = MASTERY_WEAPONS[0]
-  const masteryMultiplier = primaryWeapon ? masteryAtkMultiplier(masteryLevels[primaryWeapon.id] ?? 0) : 1
+  const masteryMultiplier = primaryWeapon
+    ? masteryAtkMultiplier(primaryWeapon.id, masteryLevels[primaryWeapon.id] ?? 0)
+    : 1
 
   const combined: Record<StatKey, number> = {
     atk: base.atk + equipmentAtk + existTreeBonus.atk,
@@ -172,14 +175,16 @@ const startStats = computeEffectiveStats(startStatLevels, startEquipmentLevels, 
 const startOfflineReward =
   lastSessionEndedAt !== null ? computeOfflineReward(Date.now() - lastSessionEndedAt, startStage, startStats) : null
 
+const initialCurrencies: Record<CurrencyKey, number> = {
+  exist: getCommon('InitialExist'),
+  growthEnergy: getCommon('InitialGrowthEnergy'),
+  timeEnergy: getCommon('InitialTimeEnergy'),
+  gold: getCommon('InitialGold'),
+  essence: getCommon('InitialMasteryEssence'),
+}
+
 export const useGameStore = create<GameState>((set, get) => ({
-  currencies: persistedGame?.currencies ?? {
-    exist: 0,
-    growthEnergy: 0,
-    timeEnergy: 0,
-    gold: 0,
-    essence: 0,
-  },
+  currencies: persistedGame?.currencies ?? initialCurrencies,
   statLevels: startStatLevels,
   equipmentLevels: startEquipmentLevels,
   masteryLevels: startMasteryLevels,
@@ -213,7 +218,7 @@ export const useGameStore = create<GameState>((set, get) => ({
 
   upgradeStat: (key) => {
     const level = get().statLevels[key]
-    const cost = statUpgradeCost(level)
+    const cost = statUpgradeCost(key, level)
     if (!get().spendCurrency('growthEnergy', cost)) return false
 
     set((state) => {
@@ -235,8 +240,8 @@ export const useGameStore = create<GameState>((set, get) => ({
 
     for (const key of order) {
       let level = statLevels[key]
-      while (growthEnergy >= statUpgradeCost(level)) {
-        growthEnergy -= statUpgradeCost(level)
+      while (growthEnergy >= statUpgradeCost(key, level)) {
+        growthEnergy -= statUpgradeCost(key, level)
         level += 1
       }
       statLevels[key] = level
@@ -254,7 +259,7 @@ export const useGameStore = create<GameState>((set, get) => ({
 
   upgradeEquipment: (slotId) => {
     const level = get().equipmentLevels[slotId]
-    const cost = equipmentUpgradeCost(level)
+    const cost = equipmentUpgradeCost(slotId, level)
     if (!get().spendCurrency('gold', cost)) return false
 
     set((state) => {
@@ -275,8 +280,8 @@ export const useGameStore = create<GameState>((set, get) => ({
 
     for (const slot of EQUIPMENT_SLOTS) {
       let level = equipmentLevels[slot.id]
-      while (gold >= equipmentUpgradeCost(level)) {
-        gold -= equipmentUpgradeCost(level)
+      while (gold >= equipmentUpgradeCost(slot.id, level)) {
+        gold -= equipmentUpgradeCost(slot.id, level)
         level += 1
       }
       equipmentLevels[slot.id] = level
@@ -294,7 +299,7 @@ export const useGameStore = create<GameState>((set, get) => ({
 
   upgradeMastery: (weaponId) => {
     const level = get().masteryLevels[weaponId] ?? 0
-    const cost = masteryUpgradeCost(level)
+    const cost = masteryUpgradeCost(weaponId, level)
     if (!get().spendCurrency('essence', cost)) return false
 
     set((state) => {
@@ -315,8 +320,8 @@ export const useGameStore = create<GameState>((set, get) => ({
 
     for (const weapon of MASTERY_WEAPONS) {
       let level = masteryLevels[weapon.id] ?? 0
-      while (essence >= masteryUpgradeCost(level)) {
-        essence -= masteryUpgradeCost(level)
+      while (essence >= masteryUpgradeCost(weapon.id, level)) {
+        essence -= masteryUpgradeCost(weapon.id, level)
         level += 1
       }
       masteryLevels[weapon.id] = level
@@ -377,28 +382,40 @@ export const useGameStore = create<GameState>((set, get) => ({
   },
 
   executeRebirth: () => {
-    set((state) => ({
-      currentStage: INITIAL_STAGE,
-      battle: battleStateForStage(INITIAL_STAGE),
-      statLevels: initialStatLevels,
-      equipmentLevels: initialEquipmentLevels,
-      masteryLevels: initialMasteryLevels,
-      stats: computeEffectiveStats(
-        initialStatLevels,
-        initialEquipmentLevels,
-        initialMasteryLevels,
-        state.existTreeStatBonus,
-      ),
-      currencies: {
-        ...state.currencies,
-        growthEnergy: state.currencies.growthEnergy + state.rebirthSpent.growthEnergy,
-        gold: state.currencies.gold + state.rebirthSpent.gold,
-        essence: state.currencies.essence + state.rebirthSpent.essence,
-      },
-      rebirthSpent: initialRebirthSpent,
-      timeHeistUsedCount: 0,
-      timeHeistLastUsedAt: null,
-    }))
+    const config = getRebirthConfig()
+
+    set((state) => {
+      const nextStage = config.ResetStage ? INITIAL_STAGE : state.currentStage
+      const nextStatLevels = config.ResetStats ? initialStatLevels : state.statLevels
+      const nextEquipmentLevels = config.ResetEquipment ? initialEquipmentLevels : state.equipmentLevels
+      const nextMasteryLevels = config.ResetMastery ? initialMasteryLevels : state.masteryLevels
+      const nextExistTreeStatBonus = config.KeepExistTree ? state.existTreeStatBonus : initialExistTreeStatBonus
+      const nextUnlockedCount = config.KeepExistTree ? state.unlockedCount : 0
+      const nextSpecialUnlocks = config.KeepExistTree
+        ? state.specialUnlocks
+        : { reverse: false, timeHeist: false }
+
+      return {
+        currentStage: nextStage,
+        battle: config.ResetStage ? battleStateForStage(nextStage) : state.battle,
+        statLevels: nextStatLevels,
+        equipmentLevels: nextEquipmentLevels,
+        masteryLevels: nextMasteryLevels,
+        existTreeStatBonus: nextExistTreeStatBonus,
+        unlockedCount: nextUnlockedCount,
+        specialUnlocks: nextSpecialUnlocks,
+        stats: computeEffectiveStats(nextStatLevels, nextEquipmentLevels, nextMasteryLevels, nextExistTreeStatBonus),
+        currencies: {
+          ...state.currencies,
+          growthEnergy: state.currencies.growthEnergy + (config.RefundGrowthEnergy ? state.rebirthSpent.growthEnergy : 0),
+          gold: state.currencies.gold + (config.RefundGold ? state.rebirthSpent.gold : 0),
+          essence: state.currencies.essence + (config.RefundMasteryEssence ? state.rebirthSpent.essence : 0),
+        },
+        rebirthSpent: initialRebirthSpent,
+        timeHeistUsedCount: 0,
+        timeHeistLastUsedAt: null,
+      }
+    })
   },
 
   executeTimeHeist: () => {

@@ -55,7 +55,7 @@ export function GrowthPanel() {
       <div className="flex flex-col gap-1.5">
         {STAT_ORDER.map((key) => {
           const level = statLevels[key]
-          const cost = statUpgradeCost(level)
+          const cost = statUpgradeCost(key, level)
           const canAfford = growthEnergy >= cost
 
           return (

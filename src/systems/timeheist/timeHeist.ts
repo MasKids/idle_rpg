@@ -1,14 +1,14 @@
-import { BALANCE } from '../../data/balance'
+import { getTimeHeistConfig } from '../../data/balance'
 import { generateStage } from '../../data/stages'
 
-const { timeHeist } = BALANCE
-
 export function timeHeistCost(usedCount: number): number {
-  return Math.floor(timeHeist.baseCost * timeHeist.costGrowth ** usedCount)
+  const config = getTimeHeistConfig()
+  return Math.floor(config.CostBase * config.CostGrowthRate ** usedCount)
 }
 
 export function timeHeistCooldownMs(usedCount: number): number {
-  return Math.floor(timeHeist.baseCooldownSeconds * 1000 * timeHeist.cooldownGrowth ** usedCount)
+  const config = getTimeHeistConfig()
+  return Math.floor(config.CooldownBase * 1000 * config.CooldownGrowthRate ** usedCount)
 }
 
 // 저장은 "마지막 사용 시각"만 하고, 쿨타임 종료 시각은 항상 여기서 역산한다.
@@ -35,19 +35,20 @@ export interface TimeHeistPreview {
 // existGain은 존재력 보상에도 평소 전투와 동일하게 배율로 반영한다.
 // usedCount는 "지금까지 완료된 사용 횟수" — 이번 사용의 비용/이후 쿨타임 계산에 쓰인다.
 export function computeTimeHeistPreview(currentStage: number, existGain: number, usedCount: number): TimeHeistPreview {
-  const targetStage = currentStage + timeHeist.stageOffset
+  const config = getTimeHeistConfig()
+  const targetStage = currentStage + config.TargetStageOffset
   const perClear = generateStage(targetStage).rewards
 
   return {
     currentStage,
     targetStage,
-    clearCount: timeHeist.clearCount,
+    clearCount: config.RewardMultiplier,
     cost: timeHeistCost(usedCount),
     cooldownMs: timeHeistCooldownMs(usedCount),
     rewards: {
-      gold: perClear.gold * timeHeist.clearCount,
-      growthEnergy: perClear.growthEnergy * timeHeist.clearCount,
-      exist: Math.floor(perClear.exist * timeHeist.clearCount * existGain),
+      gold: perClear.gold * config.RewardMultiplier,
+      growthEnergy: perClear.growthEnergy * config.RewardMultiplier,
+      exist: Math.floor(perClear.exist * config.RewardMultiplier * existGain),
     },
   }
 }

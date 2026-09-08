@@ -1,71 +1,737 @@
 {
-  "battle": {
-    "enemyBaseHp": 20,
-    "enemyHpGrowth": 1.15,
-    "enemyBaseAtk": 3,
-    "enemyAtkGrowth": 1.12,
-    "killsRequiredPerStage": 5,
-    "bossInterval": 10,
-    "bossHpMultiplier": 5,
-    "bossAtkMultiplier": 2,
-    "bossRewardMultiplier": 3
-  },
-  "rewards": {
-    "goldBaseReward": 5,
-    "goldGrowth": 1.1,
-    "growthEnergyBaseReward": 2,
-    "growthEnergyGrowth": 1.08,
-    "existRewardStageDivisor": 10,
-    "existRewardBossMultiplier": 2,
-    "bossTimeEnergyReward": 5
-  },
-  "stats": {
-    "statBaseAtk": 1,
-    "statBaseDef": 1,
-    "statBaseAspd": 1,
-    "statBaseCrit": 0,
-    "statBaseCritDmg": 150,
-    "statBaseExistGain": 1,
-    "statGrowthAtk": 1,
-    "statGrowthDef": 1,
-    "statGrowthAspd": 0.05,
-    "statGrowthCrit": 0.5,
-    "statGrowthCritDmg": 2,
-    "statGrowthExistGain": 0.02,
-    "statUpgradeCostBase": 8,
-    "statUpgradeCostGrowth": 1.18
-  },
-  "equipmentMastery": {
-    "equipmentValuePerLevel": 2,
-    "equipmentCostBase": 15,
-    "equipmentCostGrowth": 1.22,
-    "masteryMultiplierPerLevel": 0.05,
-    "masteryCostBase": 10,
-    "masteryCostGrowth": 1.25
-  },
-  "existTree": {
-    "totalNodes": 50,
-    "nodeCostBase": 10,
-    "nodeCostGrowth": 1.35,
-    "statValueBase": 5,
-    "statValueTierStep": 3,
-    "currencyAmountBase": 5,
-    "currencyAmountTierStep": 5,
-    "reverseRequiredNodes": 15,
-    "timeHeistRequiredNodes": 33,
-    "reverseUnlockCost": 667,
-    "timeHeistUnlockCost": 148142
-  },
-  "timeHeist": {
-    "stageOffset": 10,
-    "clearCount": 5,
-    "baseCost": 20,
-    "costGrowth": 2,
-    "baseCooldownSeconds": 7200,
-    "cooldownGrowth": 1.5
-  },
-  "offline": {
-    "maxHours": 8,
-    "rewardMultiplier": 1
-  }
+  "StageTable": [
+    {
+      "Index": 1,
+      "Id": 10001,
+      "Chapter": 1,
+      "StageType": "Normal",
+      "EnemyHp": 20,
+      "EnemyAtk": 3,
+      "KillCount": 5,
+      "RewardGold": 5,
+      "RewardGrowth": 2,
+      "RewardExist": 1,
+      "RewardTimeEnergy": 0,
+      "HpGrowthRate": 1.15,
+      "RewardGrowthRate": 1.1
+    },
+    {
+      "Index": 2,
+      "Id": 10002,
+      "Chapter": 1,
+      "StageType": "Boss",
+      "EnemyHp": 350,
+      "EnemyAtk": 16,
+      "KillCount": 1,
+      "RewardGold": 33,
+      "RewardGrowth": 9,
+      "RewardExist": 2,
+      "RewardTimeEnergy": 5,
+      "HpGrowthRate": 1.15,
+      "RewardGrowthRate": 1.1
+    },
+    {
+      "Index": 3,
+      "Id": 10003,
+      "Chapter": 2,
+      "StageType": "Normal",
+      "EnemyHp": 80,
+      "EnemyAtk": 9,
+      "KillCount": 5,
+      "RewardGold": 12,
+      "RewardGrowth": 4,
+      "RewardExist": 1,
+      "RewardTimeEnergy": 0,
+      "HpGrowthRate": 1.15,
+      "RewardGrowthRate": 1.1
+    },
+    {
+      "Index": 4,
+      "Id": 10004,
+      "Chapter": 2,
+      "StageType": "Boss",
+      "EnemyHp": 1420,
+      "EnemyAtk": 50,
+      "KillCount": 1,
+      "RewardGold": 90,
+      "RewardGrowth": 24,
+      "RewardExist": 4,
+      "RewardTimeEnergy": 5,
+      "HpGrowthRate": 1.15,
+      "RewardGrowthRate": 1.1
+    },
+    {
+      "Index": 5,
+      "Id": 10005,
+      "Chapter": 3,
+      "StageType": "Normal",
+      "EnemyHp": 327,
+      "EnemyAtk": 28,
+      "KillCount": 5,
+      "RewardGold": 33,
+      "RewardGrowth": 9,
+      "RewardExist": 2,
+      "RewardTimeEnergy": 0,
+      "HpGrowthRate": 1.15,
+      "RewardGrowthRate": 1.1
+    },
+    {
+      "Index": 6,
+      "Id": 10006,
+      "Chapter": 3,
+      "StageType": "Boss",
+      "EnemyHp": 5755,
+      "EnemyAtk": 160,
+      "KillCount": 1,
+      "RewardGold": 237,
+      "RewardGrowth": 54,
+      "RewardExist": 6,
+      "RewardTimeEnergy": 5,
+      "HpGrowthRate": 1.15,
+      "RewardGrowthRate": 1.1
+    },
+    {
+      "Index": 7,
+      "Id": 10007,
+      "Chapter": 4,
+      "StageType": "Normal",
+      "EnemyHp": 1324,
+      "EnemyAtk": 89,
+      "KillCount": 5,
+      "RewardGold": 87,
+      "RewardGrowth": 20,
+      "RewardExist": 3,
+      "RewardTimeEnergy": 0,
+      "HpGrowthRate": 1.15,
+      "RewardGrowthRate": 1.1
+    },
+    {
+      "Index": 8,
+      "Id": 10008,
+      "Chapter": 4,
+      "StageType": "Boss",
+      "EnemyHp": 23290,
+      "EnemyAtk": 498,
+      "KillCount": 1,
+      "RewardGold": 615,
+      "RewardGrowth": 120,
+      "RewardExist": 8,
+      "RewardTimeEnergy": 5,
+      "HpGrowthRate": 1.15,
+      "RewardGrowthRate": 1.1
+    },
+    {
+      "Index": 9,
+      "Id": 10009,
+      "Chapter": 5,
+      "StageType": "Normal",
+      "EnemyHp": 5357,
+      "EnemyAtk": 279,
+      "KillCount": 5,
+      "RewardGold": 226,
+      "RewardGrowth": 43,
+      "RewardExist": 4,
+      "RewardTimeEnergy": 0,
+      "HpGrowthRate": 1.15,
+      "RewardGrowthRate": 1.1
+    },
+    {
+      "Index": 10,
+      "Id": 10010,
+      "Chapter": 5,
+      "StageType": "Boss",
+      "EnemyHp": 94230,
+      "EnemyAtk": 1548,
+      "KillCount": 1,
+      "RewardGold": 1599,
+      "RewardGrowth": 258,
+      "RewardExist": 10,
+      "RewardTimeEnergy": 5,
+      "HpGrowthRate": 1.15,
+      "RewardGrowthRate": 1.1
+    },
+    {
+      "Index": 11,
+      "Id": 10011,
+      "Chapter": 6,
+      "StageType": "Normal",
+      "EnemyHp": 21673,
+      "EnemyAtk": 867,
+      "KillCount": 5,
+      "RewardGold": 586,
+      "RewardGrowth": 93,
+      "RewardExist": 5,
+      "RewardTimeEnergy": 0,
+      "HpGrowthRate": 1.15,
+      "RewardGrowthRate": 1.1
+    },
+    {
+      "Index": 12,
+      "Id": 10012,
+      "Chapter": 6,
+      "StageType": "Boss",
+      "EnemyHp": 381215,
+      "EnemyAtk": 4808,
+      "KillCount": 1,
+      "RewardGold": 4152,
+      "RewardGrowth": 561,
+      "RewardExist": 12,
+      "RewardTimeEnergy": 5,
+      "HpGrowthRate": 1.15,
+      "RewardGrowthRate": 1.1
+    },
+    {
+      "Index": 13,
+      "Id": 10013,
+      "Chapter": 7,
+      "StageType": "Normal",
+      "EnemyHp": 87679,
+      "EnemyAtk": 2692,
+      "KillCount": 5,
+      "RewardGold": 1522,
+      "RewardGrowth": 202,
+      "RewardExist": 6,
+      "RewardTimeEnergy": 0,
+      "HpGrowthRate": 1.15,
+      "RewardGrowthRate": 1.1
+    },
+    {
+      "Index": 14,
+      "Id": 10014,
+      "Chapter": 7,
+      "StageType": "Boss",
+      "EnemyHp": 1542235,
+      "EnemyAtk": 14934,
+      "KillCount": 1,
+      "RewardGold": 10767,
+      "RewardGrowth": 1212,
+      "RewardExist": 14,
+      "RewardTimeEnergy": 5,
+      "HpGrowthRate": 1.15,
+      "RewardGrowthRate": 1.1
+    },
+    {
+      "Index": 15,
+      "Id": 10015,
+      "Chapter": 8,
+      "StageType": "Normal",
+      "EnemyHp": 354714,
+      "EnemyAtk": 8363,
+      "KillCount": 5,
+      "RewardGold": 3948,
+      "RewardGrowth": 437,
+      "RewardExist": 7,
+      "RewardTimeEnergy": 0,
+      "HpGrowthRate": 1.15,
+      "RewardGrowthRate": 1.1
+    },
+    {
+      "Index": 16,
+      "Id": 10016,
+      "Chapter": 8,
+      "StageType": "Boss",
+      "EnemyHp": 6239205,
+      "EnemyAtk": 46384,
+      "KillCount": 1,
+      "RewardGold": 27930,
+      "RewardGrowth": 2619,
+      "RewardExist": 16,
+      "RewardTimeEnergy": 5,
+      "HpGrowthRate": 1.15,
+      "RewardGrowthRate": 1.1
+    },
+    {
+      "Index": 17,
+      "Id": 10017,
+      "Chapter": 9,
+      "StageType": "Normal",
+      "EnemyHp": 1435017,
+      "EnemyAtk": 25975,
+      "KillCount": 5,
+      "RewardGold": 10242,
+      "RewardGrowth": 943,
+      "RewardExist": 8,
+      "RewardTimeEnergy": 0,
+      "HpGrowthRate": 1.15,
+      "RewardGrowthRate": 1.1
+    },
+    {
+      "Index": 18,
+      "Id": 10018,
+      "Chapter": 9,
+      "StageType": "Boss",
+      "EnemyHp": 25241070,
+      "EnemyAtk": 144062,
+      "KillCount": 1,
+      "RewardGold": 72450,
+      "RewardGrowth": 5658,
+      "RewardExist": 18,
+      "RewardTimeEnergy": 5,
+      "HpGrowthRate": 1.15,
+      "RewardGrowthRate": 1.1
+    },
+    {
+      "Index": 19,
+      "Id": 10019,
+      "Chapter": 10,
+      "StageType": "Normal",
+      "EnemyHp": 5805446,
+      "EnemyAtk": 80675,
+      "KillCount": 5,
+      "RewardGold": 26565,
+      "RewardGrowth": 2037,
+      "RewardExist": 9,
+      "RewardTimeEnergy": 0,
+      "HpGrowthRate": 1.15,
+      "RewardGrowthRate": 1.1
+    },
+    {
+      "Index": 20,
+      "Id": 10020,
+      "Chapter": 10,
+      "StageType": "Boss",
+      "EnemyHp": 102114210,
+      "EnemyAtk": 447440,
+      "KillCount": 1,
+      "RewardGold": 187917,
+      "RewardGrowth": 12219,
+      "RewardExist": 20,
+      "RewardTimeEnergy": 5,
+      "HpGrowthRate": 1.15,
+      "RewardGrowthRate": 1.1
+    }
+  ],
+  "StatTable": [
+    {
+      "Index": 1,
+      "Id": 20001,
+      "StatType": "ATK",
+      "Name": 40001,
+      "BaseValue": 1,
+      "ValuePerLevel": 1,
+      "CostBase": 8,
+      "CostGrowthRate": 1.18,
+      "MaxLevel": 9999
+    },
+    {
+      "Index": 2,
+      "Id": 20002,
+      "StatType": "DEF",
+      "Name": 40002,
+      "BaseValue": 1,
+      "ValuePerLevel": 1,
+      "CostBase": 8,
+      "CostGrowthRate": 1.18,
+      "MaxLevel": 9999
+    },
+    {
+      "Index": 3,
+      "Id": 20003,
+      "StatType": "ASPD",
+      "Name": 40003,
+      "BaseValue": 1,
+      "ValuePerLevel": 0.05,
+      "CostBase": 8,
+      "CostGrowthRate": 1.18,
+      "MaxLevel": 9999
+    },
+    {
+      "Index": 4,
+      "Id": 20004,
+      "StatType": "CRIT",
+      "Name": 40004,
+      "BaseValue": 0,
+      "ValuePerLevel": 0.5,
+      "CostBase": 8,
+      "CostGrowthRate": 1.18,
+      "MaxLevel": 9999
+    },
+    {
+      "Index": 5,
+      "Id": 20005,
+      "StatType": "CRIT_DMG",
+      "Name": 40005,
+      "BaseValue": 150,
+      "ValuePerLevel": 2,
+      "CostBase": 8,
+      "CostGrowthRate": 1.18,
+      "MaxLevel": 9999
+    },
+    {
+      "Index": 6,
+      "Id": 20006,
+      "StatType": "EXIST_GAIN",
+      "Name": 40006,
+      "BaseValue": 1,
+      "ValuePerLevel": 0.02,
+      "CostBase": 8,
+      "CostGrowthRate": 1.18,
+      "MaxLevel": 9999
+    }
+  ],
+  "ExistTreeTable": [
+    {
+      "Index": 1,
+      "Id": 30001,
+      "Tier": 1,
+      "OrderFrom": 1,
+      "OrderTo": 10,
+      "EffectType": "STAT",
+      "StatType": "ATK",
+      "GrantCurrency": "",
+      "ValueBase": 5,
+      "ValuePerNode": 0.6,
+      "CostBase": 10,
+      "CostGrowthRate": 1.35
+    },
+    {
+      "Index": 2,
+      "Id": 30002,
+      "Tier": 2,
+      "OrderFrom": 11,
+      "OrderTo": 20,
+      "EffectType": "STAT",
+      "StatType": "DEF",
+      "GrantCurrency": "",
+      "ValueBase": 11,
+      "ValuePerNode": 0.6,
+      "CostBase": 201,
+      "CostGrowthRate": 1.35
+    },
+    {
+      "Index": 3,
+      "Id": 30003,
+      "Tier": 3,
+      "OrderFrom": 21,
+      "OrderTo": 30,
+      "EffectType": "STAT",
+      "StatType": "ASPD",
+      "GrantCurrency": "",
+      "ValueBase": 17,
+      "ValuePerNode": 0.6,
+      "CostBase": 4042,
+      "CostGrowthRate": 1.35
+    },
+    {
+      "Index": 4,
+      "Id": 30004,
+      "Tier": 4,
+      "OrderFrom": 31,
+      "OrderTo": 40,
+      "EffectType": "GRANT",
+      "StatType": "",
+      "GrantCurrency": "MASTERY_ESSENCE",
+      "ValueBase": 35,
+      "ValuePerNode": 1,
+      "CostBase": 81285,
+      "CostGrowthRate": 1.35
+    },
+    {
+      "Index": 5,
+      "Id": 30005,
+      "Tier": 5,
+      "OrderFrom": 41,
+      "OrderTo": 50,
+      "EffectType": "STAT",
+      "StatType": "EXIST_GAIN",
+      "GrantCurrency": "",
+      "ValueBase": 29,
+      "ValuePerNode": 0.6,
+      "CostBase": 1634371,
+      "CostGrowthRate": 1.35
+    }
+  ],
+  "FeatureUnlockTable": [
+    {
+      "Index": 1,
+      "Id": 31001,
+      "FeatureType": "REBIRTH",
+      "Name": 40007,
+      "RequireNodeCount": 15,
+      "UnlockCost": 667
+    },
+    {
+      "Index": 2,
+      "Id": 31002,
+      "FeatureType": "TIME_HEIST",
+      "Name": 40008,
+      "RequireNodeCount": 33,
+      "UnlockCost": 148142
+    }
+  ],
+  "EquipmentTable": [
+    {
+      "Index": 1,
+      "Id": 32001,
+      "EquipSlot": "Weapon",
+      "Name": 40009,
+      "StatType": "ATK",
+      "ValuePerLevel": 2,
+      "CostBase": 15,
+      "CostGrowthRate": 1.22,
+      "MaxLevel": 9999
+    },
+    {
+      "Index": 2,
+      "Id": 32002,
+      "EquipSlot": "Helmet",
+      "Name": 40010,
+      "StatType": "DEF",
+      "ValuePerLevel": 2,
+      "CostBase": 15,
+      "CostGrowthRate": 1.22,
+      "MaxLevel": 9999
+    },
+    {
+      "Index": 3,
+      "Id": 32003,
+      "EquipSlot": "Armor",
+      "Name": 40011,
+      "StatType": "DEF",
+      "ValuePerLevel": 2,
+      "CostBase": 15,
+      "CostGrowthRate": 1.22,
+      "MaxLevel": 9999
+    },
+    {
+      "Index": 4,
+      "Id": 32004,
+      "EquipSlot": "Gloves",
+      "Name": 40012,
+      "StatType": "ATK",
+      "ValuePerLevel": 2,
+      "CostBase": 15,
+      "CostGrowthRate": 1.22,
+      "MaxLevel": 9999
+    },
+    {
+      "Index": 5,
+      "Id": 32005,
+      "EquipSlot": "Boots",
+      "Name": 40013,
+      "StatType": "DEF",
+      "ValuePerLevel": 2,
+      "CostBase": 15,
+      "CostGrowthRate": 1.22,
+      "MaxLevel": 9999
+    }
+  ],
+  "MasteryTable": [
+    {
+      "Index": 1,
+      "Id": 33001,
+      "WeaponId": 1,
+      "Name": 40014,
+      "AtkMultiplierPerLevel": 0.05,
+      "CostBase": 10,
+      "CostGrowthRate": 1.25,
+      "MaxLevel": 9999
+    }
+  ],
+  "TimeHeistTable": [
+    {
+      "Index": 1,
+      "Id": 34001,
+      "CostBase": 20,
+      "CostGrowthRate": 2,
+      "CooldownBase": 7200,
+      "CooldownGrowthRate": 1.5,
+      "TargetStageOffset": 10,
+      "RewardMultiplier": 5
+    }
+  ],
+  "RebirthTable": [
+    {
+      "Index": 1,
+      "Id": 35001,
+      "ResetStage": true,
+      "ResetStats": true,
+      "ResetEquipment": true,
+      "ResetMastery": true,
+      "RefundGrowthEnergy": true,
+      "RefundGold": true,
+      "RefundMasteryEssence": true,
+      "KeepExistTree": true
+    }
+  ],
+  "CommonTable": [
+    {
+      "Index": 1,
+      "Id": 36001,
+      "Key": "OfflineMaxHours",
+      "Value": 8,
+      "ValueType": "int"
+    },
+    {
+      "Index": 2,
+      "Id": 36002,
+      "Key": "OfflineRewardMultiplier",
+      "Value": 1,
+      "ValueType": "float"
+    },
+    {
+      "Index": 3,
+      "Id": 36003,
+      "Key": "InitialGold",
+      "Value": 0,
+      "ValueType": "int"
+    },
+    {
+      "Index": 4,
+      "Id": 36004,
+      "Key": "InitialGrowthEnergy",
+      "Value": 0,
+      "ValueType": "int"
+    },
+    {
+      "Index": 5,
+      "Id": 36005,
+      "Key": "InitialExist",
+      "Value": 0,
+      "ValueType": "int"
+    },
+    {
+      "Index": 6,
+      "Id": 36006,
+      "Key": "InitialTimeEnergy",
+      "Value": 0,
+      "ValueType": "int"
+    },
+    {
+      "Index": 7,
+      "Id": 36007,
+      "Key": "InitialMasteryEssence",
+      "Value": 0,
+      "ValueType": "int"
+    },
+    {
+      "Index": 8,
+      "Id": 36008,
+      "Key": "AutoSaveIntervalSec",
+      "Value": 2,
+      "ValueType": "float"
+    }
+  ],
+  "StringTable": [
+    {
+      "Index": 1,
+      "Id": 40001,
+      "KOR": "공격력",
+      "ENG": "ATK"
+    },
+    {
+      "Index": 2,
+      "Id": 40002,
+      "KOR": "방어력",
+      "ENG": "DEF"
+    },
+    {
+      "Index": 3,
+      "Id": 40003,
+      "KOR": "공격속도",
+      "ENG": "ASPD"
+    },
+    {
+      "Index": 4,
+      "Id": 40004,
+      "KOR": "치명타확률",
+      "ENG": "CRIT"
+    },
+    {
+      "Index": 5,
+      "Id": 40005,
+      "KOR": "치명타피해",
+      "ENG": "CRIT_DMG"
+    },
+    {
+      "Index": 6,
+      "Id": 40006,
+      "KOR": "존재력획득량",
+      "ENG": "EXIST_GAIN"
+    },
+    {
+      "Index": 7,
+      "Id": 40007,
+      "KOR": "리버스",
+      "ENG": "REBIRTH"
+    },
+    {
+      "Index": 8,
+      "Id": 40008,
+      "KOR": "타임 하이스트",
+      "ENG": "TIME_HEIST"
+    },
+    {
+      "Index": 9,
+      "Id": 40009,
+      "KOR": "무기",
+      "ENG": "Weapon"
+    },
+    {
+      "Index": 10,
+      "Id": 40010,
+      "KOR": "투구",
+      "ENG": "Helmet"
+    },
+    {
+      "Index": 11,
+      "Id": 40011,
+      "KOR": "갑옷",
+      "ENG": "Armor"
+    },
+    {
+      "Index": 12,
+      "Id": 40012,
+      "KOR": "장갑",
+      "ENG": "Gloves"
+    },
+    {
+      "Index": 13,
+      "Id": 40013,
+      "KOR": "신발",
+      "ENG": "Boots"
+    },
+    {
+      "Index": 14,
+      "Id": 40014,
+      "KOR": "기본 검",
+      "ENG": "Basic Sword"
+    },
+    {
+      "Index": 15,
+      "Id": 40015,
+      "KOR": "존재력",
+      "ENG": "EXIST"
+    },
+    {
+      "Index": 16,
+      "Id": 40016,
+      "KOR": "성장에너지",
+      "ENG": "GROWTH_ENERGY"
+    },
+    {
+      "Index": 17,
+      "Id": 40017,
+      "KOR": "숙련의 정수",
+      "ENG": "MASTERY_ESSENCE"
+    },
+    {
+      "Index": 18,
+      "Id": 40018,
+      "KOR": "시간에너지",
+      "ENG": "TIME_ENERGY"
+    },
+    {
+      "Index": 19,
+      "Id": 40019,
+      "KOR": "골드",
+      "ENG": "GOLD"
+    },
+    {
+      "Index": 20,
+      "Id": 40020,
+      "KOR": "존재력",
+      "ENG": "EXIST_TREE"
+    }
+  ]
 }

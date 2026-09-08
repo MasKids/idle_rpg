@@ -1,4 +1,4 @@
-import { BALANCE } from './balance'
+import { BALANCE_TABLES, getExistTreeTier, getFeatureUnlock, getString } from './balance'
 import type {
   CurrencyKey,
   ExistNodeEffect,
@@ -6,20 +6,20 @@ import type {
   ExistSpecialUnlock,
   ExistTreeLane,
   ExistTreeNode,
+  SpecialUnlockId,
   StatKey,
 } from '../types/game'
 
-const { existTree } = BALANCE
+// ExistTreeTable은 50노드를 나열하지 않고 티어(10노드) 단위 계수만 담는다.
+// 총 노드 개수는 테이블에 정의된 마지막 티어의 OrderTo로부터 그대로 계산한다.
+export const EXIST_TREE_TOTAL_NODES = Math.max(...BALANCE_TABLES.ExistTreeTable.map((row) => row.OrderTo))
 
-export const EXIST_TREE_TOTAL_NODES = existTree.totalNodes
+// 이름 자동생성(T{tier}-{n})용 표시 상수 — ExistTreeTable이 티어당 10노드로 설계된 것과 동일 전제
 const NODES_PER_TIER = 10
 
 // 노드 이름 오버라이드 (index = order - 1). 채워지면 자동 생성 대신 사용.
 // 이름이 확정되면 이 배열만 채우면 된다.
 const NODE_NAME_OVERRIDES: (string | null)[] = new Array(EXIST_TREE_TOTAL_NODES).fill(null)
-
-const CYCLE3_STATS: StatKey[] = ['aspd', 'crit', 'critDmg']
-const CYCLE4_CURRENCIES: CurrencyKey[] = ['essence', 'timeEnergy']
 
 function tierOf(order: number): number {
   return Math.floor((order - 1) / NODES_PER_TIER) + 1
@@ -40,38 +40,45 @@ function nodeName(order: number): string {
 }
 
 function nodeCost(order: number): number {
-  return Math.floor(existTree.nodeCostBase * existTree.nodeCostGrowth ** (order - 1))
+  const tier = getExistTreeTier(order)
+  return Math.floor(tier.CostBase * tier.CostGrowthRate ** (order - tier.OrderFrom))
 }
 
-function statValue(order: number): number {
-  return existTree.statValueBase + Math.floor(order / 5) * existTree.statValueTierStep
+function nodeValue(order: number): number {
+  const tier = getExistTreeTier(order)
+  return tier.ValueBase + (order - tier.OrderFrom) * tier.ValuePerNode
 }
 
-function currencyAmount(order: number): number {
-  return existTree.currencyAmountBase + Math.floor(order / 5) * existTree.currencyAmountTierStep
+const STAT_TYPE_TO_KEY: Record<string, StatKey> = {
+  ATK: 'atk',
+  DEF: 'def',
+  ASPD: 'aspd',
+  CRIT: 'crit',
+  CRIT_DMG: 'critDmg',
+  EXIST_GAIN: 'existGain',
+}
+
+const CURRENCY_TYPE_TO_KEY: Record<string, CurrencyKey> = {
+  EXIST: 'exist',
+  GROWTH_ENERGY: 'growthEnergy',
+  MASTERY_ESSENCE: 'essence',
+  TIME_ENERGY: 'timeEnergy',
+  GOLD: 'gold',
 }
 
 function effectFor(order: number): ExistNodeEffect {
-  const cycle = order % 5
+  const tier = getExistTreeTier(order)
+  const value = nodeValue(order)
 
-  if (cycle === 1) return { kind: 'stat', stat: 'atk', value: statValue(order) }
-  if (cycle === 2) return { kind: 'stat', stat: 'def', value: statValue(order) }
-
-  if (cycle === 3) {
-    const stat = CYCLE3_STATS[Math.floor((order - 3) / 5) % CYCLE3_STATS.length]
-    return { kind: 'stat', stat, value: statValue(order) }
+  if (tier.EffectType === 'GRANT' && tier.GrantCurrency) {
+    return { kind: 'currency', currency: CURRENCY_TYPE_TO_KEY[tier.GrantCurrency], amount: value }
+  }
+  if (tier.StatType) {
+    return { kind: 'stat', stat: STAT_TYPE_TO_KEY[tier.StatType], value }
   }
 
-  if (cycle === 4) {
-    const currency = CYCLE4_CURRENCIES[Math.floor((order - 4) / 5) % CYCLE4_CURRENCIES.length]
-    return { kind: 'currency', currency, amount: currencyAmount(order) }
-  }
-
-  // cycle === 0: EXIST_GAIN 스탯 / 성장에너지 지급 교대
-  const isStatTurn = Math.floor((order - 5) / 5) % 2 === 0
-  return isStatTurn
-    ? { kind: 'stat', stat: 'existGain', value: statValue(order) }
-    : { kind: 'currency', currency: 'growthEnergy', amount: currencyAmount(order) }
+  console.warn(`[existTree] order ${order} (tier ${tier.Tier})의 효과 설정이 비어있어 기본값(ATK)으로 대체합니다.`)
+  return { kind: 'stat', stat: 'atk', value }
 }
 
 export function generateExistTree(): ExistTreeNode[] {
@@ -98,20 +105,21 @@ export function existNodeStatus(order: number, unlockedCount: number): ExistNode
   return 'locked'
 }
 
-// 트리 소속 아님 — 트리 옆 여백에 조건 충족 시 등장하는 특별 해금.
-export const EXIST_SPECIAL_UNLOCKS: ExistSpecialUnlock[] = [
-  {
-    id: 'reverse',
-    label: '리버스',
-    anchorOrder: existTree.reverseRequiredNodes,
-    requiredUnlockedCount: existTree.reverseRequiredNodes,
-    cost: existTree.reverseUnlockCost,
+// 트리 소속 아님 — 트리 옆 여백에 조건 충족 시 등장하는 특별 해금. FeatureUnlockTable 기반.
+const SPECIAL_UNLOCK_FEATURE_TYPE: Record<SpecialUnlockId, 'REBIRTH' | 'TIME_HEIST'> = {
+  reverse: 'REBIRTH',
+  timeHeist: 'TIME_HEIST',
+}
+
+export const EXIST_SPECIAL_UNLOCKS: ExistSpecialUnlock[] = (Object.keys(SPECIAL_UNLOCK_FEATURE_TYPE) as SpecialUnlockId[]).map(
+  (id) => {
+    const config = getFeatureUnlock(SPECIAL_UNLOCK_FEATURE_TYPE[id])
+    return {
+      id,
+      label: getString(config.Name, 'KOR'),
+      anchorOrder: config.RequireNodeCount,
+      requiredUnlockedCount: config.RequireNodeCount,
+      cost: config.UnlockCost,
+    }
   },
-  {
-    id: 'timeHeist',
-    label: '타임 하이스트',
-    anchorOrder: existTree.timeHeistRequiredNodes,
-    requiredUnlockedCount: existTree.timeHeistRequiredNodes,
-    cost: existTree.timeHeistUnlockCost,
-  },
-]
+)

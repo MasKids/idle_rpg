@@ -1,31 +1,48 @@
-import { BALANCE } from './balance'
-import type { EquipmentSlotData, WeaponMasteryData } from '../types/game'
+import { getEquipmentConfig, getMasteryConfig, getString, type EquipSlotEnum } from './balance'
+import type { EquipmentSlotData, EquipmentSlotId, WeaponMasteryData } from '../types/game'
 
-const { equipmentMastery } = BALANCE
-
-export const EQUIPMENT_SLOTS: EquipmentSlotData[] = [
-  { id: 'weapon', label: '무기', stat: 'atk' },
-  { id: 'helmet', label: '투구', stat: 'def' },
-  { id: 'armor', label: '갑옷', stat: 'def' },
-  { id: 'gloves', label: '장갑', stat: 'atk' },
-  { id: 'boots', label: '신발', stat: 'def' },
-]
-
-export function equipmentValuePerLevel(): number {
-  return equipmentMastery.equipmentValuePerLevel
+const EQUIP_SLOT_BY_ID: Record<EquipmentSlotId, EquipSlotEnum> = {
+  weapon: 'Weapon',
+  helmet: 'Helmet',
+  armor: 'Armor',
+  gloves: 'Gloves',
+  boots: 'Boots',
 }
 
-export function equipmentUpgradeCost(currentLevel: number): number {
-  return Math.floor(equipmentMastery.equipmentCostBase * equipmentMastery.equipmentCostGrowth ** currentLevel)
+const SLOT_ORDER: EquipmentSlotId[] = ['weapon', 'helmet', 'armor', 'gloves', 'boots']
+
+export const EQUIPMENT_SLOTS: EquipmentSlotData[] = SLOT_ORDER.map((id) => {
+  const config = getEquipmentConfig(EQUIP_SLOT_BY_ID[id])
+  return {
+    id,
+    label: getString(config.Name, 'KOR'),
+    stat: config.StatType === 'DEF' ? 'def' : 'atk',
+  }
+})
+
+export function equipmentValuePerLevel(slotId: EquipmentSlotId): number {
+  return getEquipmentConfig(EQUIP_SLOT_BY_ID[slotId]).ValuePerLevel
 }
 
-// 무기 숙련 — 1종만 정의. 배열이라 나중에 추가 가능
-export const MASTERY_WEAPONS: WeaponMasteryData[] = [{ id: 'sword', name: '기본 검' }]
-
-export function masteryAtkMultiplier(level: number): number {
-  return 1 + level * equipmentMastery.masteryMultiplierPerLevel
+export function equipmentUpgradeCost(slotId: EquipmentSlotId, currentLevel: number): number {
+  const config = getEquipmentConfig(EQUIP_SLOT_BY_ID[slotId])
+  return Math.floor(config.CostBase * config.CostGrowthRate ** currentLevel)
 }
 
-export function masteryUpgradeCost(currentLevel: number): number {
-  return Math.floor(equipmentMastery.masteryCostBase * equipmentMastery.masteryCostGrowth ** currentLevel)
+// 무기 숙련 — MasteryTable 행 하나당 무기 1종. WeaponId(숫자)를 문자열로 캐스팅해 내부 키로 쓴다.
+const MASTERY_WEAPON_IDS = [1]
+
+export const MASTERY_WEAPONS: WeaponMasteryData[] = MASTERY_WEAPON_IDS.map((weaponId) => {
+  const config = getMasteryConfig(weaponId)
+  return { id: String(weaponId), name: getString(config.Name, 'KOR') }
+})
+
+export function masteryAtkMultiplier(weaponId: string, level: number): number {
+  const config = getMasteryConfig(Number(weaponId))
+  return 1 + level * config.AtkMultiplierPerLevel
+}
+
+export function masteryUpgradeCost(weaponId: string, currentLevel: number): number {
+  const config = getMasteryConfig(Number(weaponId))
+  return Math.floor(config.CostBase * config.CostGrowthRate ** currentLevel)
 }

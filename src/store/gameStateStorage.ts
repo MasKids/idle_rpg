@@ -2,6 +2,7 @@
 // localStorage에 저장해 새로고침·재접속 시 복원한다.
 // 전투 틱마다 상태가 바뀌므로 매번 쓰지 않고 일정 주기로 묶어서(debounce) 저장한다.
 
+import { getCommon } from '../data/balance'
 import type {
   BattleState,
   CurrencyKey,
@@ -12,7 +13,7 @@ import type {
 } from '../types/game'
 
 const STORAGE_KEY = 'idle-rpg:game'
-const SAVE_DEBOUNCE_MS = 2000
+const SAVE_DEBOUNCE_MS = getCommon('AutoSaveIntervalSec') * 1000
 
 // 저장 구조가 바뀌면 이 값을 올린다. 로드 시 버전이 다르면 깨진 값으로 취급하지 않고
 // 그냥 "저장 없음"과 동일하게 취급해 초기 상태로 시작한다 (마이그레이션은 하지 않음 — 프로토타입 범위 밖).
