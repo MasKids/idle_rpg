@@ -1,8 +1,7 @@
 import type { ReactNode } from 'react'
-import { getRebirthConfig } from '../../data/balance'
 import { getButtonLabel, getRebirthBonusLabel, getSystemName } from '../../data/uiStrings'
 import { useGameStore } from '../../store/gameStore'
-import { computeAllStatBonusPercent, computeRebirthBonusPoints } from './rebirthBonus'
+import { computeRebirthBonusPoints, computeRefundMultiplier } from './rebirthBonus'
 import { formatNumber } from '../../utils/format'
 
 interface RebirthModalProps {
@@ -11,8 +10,12 @@ interface RebirthModalProps {
   onConfirm: () => void
 }
 
-function formatPercent(value: number): string {
-  return `${value.toFixed(1)}%`
+function formatMultiplier(value: number): string {
+  return `×${value.toFixed(2)}`
+}
+
+function formatPoints(value: number): string {
+  return value.toFixed(2)
 }
 
 export function RebirthModal({ isOpen, onCancel, onConfirm }: RebirthModalProps) {
@@ -24,11 +27,11 @@ export function RebirthModal({ isOpen, onCancel, onConfirm }: RebirthModalProps)
 
   if (!isOpen) return null
 
-  const config = getRebirthConfig()
+  // 이번 리버스의 환급에는 "지금까지 누적된" 포인트만 반영된다.
+  // 이번에 새로 얻는 포인트(pendingPoints)는 다음 리버스부터 적용된다.
   const pendingPoints = computeRebirthBonusPoints(currentStage)
-  const currentBonusPercent = computeAllStatBonusPercent(rebirthBonusPoint)
-  const nextBonusPercent = computeAllStatBonusPercent(rebirthBonusPoint + pendingPoints)
-  const belowMinStage = currentStage < config.MinStageForBonus
+  const currentMultiplier = computeRefundMultiplier(rebirthBonusPoint)
+  const nextMultiplier = computeRefundMultiplier(rebirthBonusPoint + pendingPoints)
 
   return (
     <div
@@ -50,20 +53,15 @@ export function RebirthModal({ isOpen, onCancel, onConfirm }: RebirthModalProps)
             {getRebirthBonusLabel('currentCycle')} {rebirthCount + 1}회차
           </li>
           <li>
-            {getRebirthBonusLabel('totalPoints')} {formatNumber(rebirthBonusPoint)} ({getRebirthBonusLabel('allStatBonus')}{' '}
-            +{formatPercent(currentBonusPercent)})
+            {getRebirthBonusLabel('totalPoints')} {formatPoints(rebirthBonusPoint)} ({getRebirthBonusLabel('refundMultiplier')}{' '}
+            {formatMultiplier(currentMultiplier)})
           </li>
           <li>
-            {getRebirthBonusLabel('pendingPoints')} +{formatNumber(pendingPoints)}
+            {getRebirthBonusLabel('pendingPoints')} +{formatPoints(pendingPoints)}
           </li>
           <li>
-            리버스 후 {getRebirthBonusLabel('allStatBonus')} +{formatPercent(nextBonusPercent)}
+            다음 회차 {getRebirthBonusLabel('refundMultiplier')} {formatMultiplier(nextMultiplier)}
           </li>
-          {belowMinStage && (
-            <li className="text-red-400">
-              ⚠ 현재 스테이지가 {config.MinStageForBonus}스테이지 미만이라 이번 리버스는 보너스를 얻지 못합니다
-            </li>
-          )}
         </RebirthSection>
 
         <RebirthSection title="초기화" tone="text-red-300">
@@ -73,10 +71,16 @@ export function RebirthModal({ isOpen, onCancel, onConfirm }: RebirthModalProps)
           <li>무기 숙련 레벨 0</li>
         </RebirthSection>
 
-        <RebirthSection title="환급" tone="text-emerald-300">
-          <li>성장에너지 +{formatNumber(spent.growthEnergy)}</li>
-          <li>골드 +{formatNumber(spent.gold)}</li>
-          <li>정수 +{formatNumber(spent.essence)}</li>
+        <RebirthSection title={`환급 (${getRebirthBonusLabel('refundMultiplier')} ${formatMultiplier(currentMultiplier)})`} tone="text-emerald-300">
+          <li>
+            성장에너지 {formatNumber(spent.growthEnergy)} → +{formatNumber(Math.floor(spent.growthEnergy * currentMultiplier))}
+          </li>
+          <li>
+            골드 {formatNumber(spent.gold)} → +{formatNumber(Math.floor(spent.gold * currentMultiplier))}
+          </li>
+          <li>
+            정수 {formatNumber(spent.essence)} → +{formatNumber(Math.floor(spent.essence * currentMultiplier))}
+          </li>
         </RebirthSection>
 
         <RebirthSection title="유지" tone="text-sky-300">

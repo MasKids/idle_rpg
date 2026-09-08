@@ -781,7 +781,7 @@ REBIRTH_TABLE_COLUMNS = register(
             "kor": "회차 보너스 계수",
             "type": "float",
             "ref": "",
-            "desc": "회차 보너스 포인트 공식의 기준 계수. 포인트 = floor(BonusBase × 도달스테이지^BonusExponent)",
+            "desc": "회차 보너스 포인트 공식의 기준 계수. 포인트 = BonusBase × 도달스테이지^BonusExponent (소수점 유지, 최소 스테이지 제한 없음)",
         },
         {
             "eng": "BonusExponent",
@@ -791,18 +791,18 @@ REBIRTH_TABLE_COLUMNS = register(
             "desc": "회차 보너스 포인트 공식에서 도달 스테이지에 적용하는 지수",
         },
         {
-            "eng": "BonusPerPoint",
-            "kor": "포인트당 스탯 상승률",
+            "eng": "RefundBonusPerPoint",
+            "kor": "포인트당 환급 증폭률",
             "type": "float",
             "ref": "",
-            "desc": "누적 보너스 포인트 1당 전 스탯에 곱연산으로 붙는 상승률(%). 전 스탯 보너스율 = 누적 포인트 × 이 값",
+            "desc": "누적 보너스 포인트 1당 리버스 환급량에 곱연산으로 붙는 증폭률(%). 환급 배율 = 1 + (누적 포인트 × 이 값 / 100). 전투 중 재화 획득량/스탯에는 영향 없음",
         },
         {
-            "eng": "MinStageForBonus",
-            "kor": "보너스 최소 스테이지",
-            "type": "int",
+            "eng": "MaxRefundMultiplier",
+            "kor": "환급 배율 상한",
+            "type": "float",
             "ref": "",
-            "desc": "리버스 시점의 도달 스테이지가 이 값 미만이면 보너스 포인트를 얻지 못함",
+            "desc": "환급 배율이 이 값을 넘지 않도록 제한",
         },
         {
             "eng": "//BonusDescription",
@@ -833,8 +833,8 @@ def build_rebirth_rows() -> list[list]:
             1.0,
             0.5,
             1.0,
-            10,
-            "포인트 = floor(1.0 × 도달스테이지^0.5), 10스테이지 미만이면 0. 전 스탯 보너스율(%) = 누적 포인트 × 1.0",
+            5.0,
+            "포인트 = 1.0 × 도달스테이지^0.5 (소수점 유지, 최소 스테이지 제한 없음). 환급 배율 = 1 + (누적 포인트 × 1.0 / 100), 최대 5.0배. 전투 중 재화 획득량/스탯에는 영향 없음",
         ]
     ]
 
@@ -949,7 +949,7 @@ def build_string_rows() -> list[list]:
         (40050, "현재 회차", "CurrentCycle", "RebirthBonus"),
         (40051, "누적 포인트", "TotalPoints", "RebirthBonus"),
         (40052, "획득 예정 포인트", "PendingPoints", "RebirthBonus"),
-        (40053, "전 스탯 보너스", "AllStatBonus", "RebirthBonus"),
+        (40053, "환급 배율", "RefundMultiplier", "RebirthBonus"),
         (40054, "최고 도달 스테이지", "MaxStageReached", "RebirthBonus"),
     ]
     rows = []

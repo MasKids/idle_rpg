@@ -1,7 +1,7 @@
 import { generateStage, stageLabel } from '../data/stages'
 import { getButtonLabel, getCurrencyName, getRebirthBonusLabel, getSystemName } from '../data/uiStrings'
 import { useGameStore } from '../store/gameStore'
-import { computeAllStatBonusPercent } from '../systems/rebirth/rebirthBonus'
+import { computeRefundMultiplier } from '../systems/rebirth/rebirthBonus'
 import { formatNumber } from '../utils/format'
 
 interface StageInfoModalProps {
@@ -23,7 +23,7 @@ export function StageInfoModal({ isOpen, onClose, onRebirthClick }: StageInfoMod
   if (!isOpen) return null
 
   const data = generateStage(stage)
-  const bonusPercent = computeAllStatBonusPercent(rebirthBonusPoint)
+  const refundMultiplier = computeRefundMultiplier(rebirthBonusPoint)
 
   return (
     <div
@@ -74,8 +74,8 @@ export function StageInfoModal({ isOpen, onClose, onRebirthClick }: StageInfoMod
                 <dd className="text-white">{rebirthCount + 1}회차</dd>
               </div>
               <div className="flex justify-between">
-                <dt>{getRebirthBonusLabel('allStatBonus')}</dt>
-                <dd className="text-white">+{bonusPercent.toFixed(1)}%</dd>
+                <dt>{getRebirthBonusLabel('refundMultiplier')}</dt>
+                <dd className="text-white">×{refundMultiplier.toFixed(2)}</dd>
               </div>
               <div className="flex justify-between">
                 <dt>{getRebirthBonusLabel('maxStageReached')}</dt>

@@ -118,8 +118,8 @@ export interface RebirthTableRow {
   KeepExistTree: boolean
   BonusBase: number
   BonusExponent: number
-  BonusPerPoint: number
-  MinStageForBonus: number
+  RefundBonusPerPoint: number
+  MaxRefundMultiplier: number
 }
 
 export interface CommonTableRow {
@@ -259,8 +259,8 @@ const DEFAULT_REBIRTH: RebirthTableRow = {
   KeepExistTree: true,
   BonusBase: 1.0,
   BonusExponent: 0.5,
-  BonusPerPoint: 1.0,
-  MinStageForBonus: 10,
+  RefundBonusPerPoint: 1.0,
+  MaxRefundMultiplier: 5.0,
 }
 
 // ---------------------------------------------------------------------------

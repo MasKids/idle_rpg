@@ -93,7 +93,7 @@ export type RebirthBonusLabelKey =
   | 'currentCycle'
   | 'totalPoints'
   | 'pendingPoints'
-  | 'allStatBonus'
+  | 'refundMultiplier'
   | 'maxStageReached'
 
 const REBIRTH_BONUS_LABEL_ID: Record<RebirthBonusLabelKey, number> = {
@@ -101,7 +101,7 @@ const REBIRTH_BONUS_LABEL_ID: Record<RebirthBonusLabelKey, number> = {
   currentCycle: 40050,
   totalPoints: 40051,
   pendingPoints: 40052,
-  allStatBonus: 40053,
+  refundMultiplier: 40053,
   maxStageReached: 40054,
 }
 
