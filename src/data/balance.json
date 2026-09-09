@@ -26,7 +26,7 @@
       "RewardGold": 33,
       "RewardGrowth": 9,
       "RewardExist": 2,
-      "RewardTimeEnergy": 5,
+      "RewardTimeEnergy": 15,
       "HpGrowthRate": 1.15,
       "RewardGrowthRate": 1.1
     },
@@ -56,7 +56,7 @@
       "RewardGold": 90,
       "RewardGrowth": 24,
       "RewardExist": 4,
-      "RewardTimeEnergy": 5,
+      "RewardTimeEnergy": 20,
       "HpGrowthRate": 1.15,
       "RewardGrowthRate": 1.1
     },
@@ -86,7 +86,7 @@
       "RewardGold": 237,
       "RewardGrowth": 54,
       "RewardExist": 6,
-      "RewardTimeEnergy": 5,
+      "RewardTimeEnergy": 25,
       "HpGrowthRate": 1.15,
       "RewardGrowthRate": 1.1
     },
@@ -116,7 +116,7 @@
       "RewardGold": 615,
       "RewardGrowth": 120,
       "RewardExist": 8,
-      "RewardTimeEnergy": 5,
+      "RewardTimeEnergy": 30,
       "HpGrowthRate": 1.15,
       "RewardGrowthRate": 1.1
     },
@@ -146,7 +146,7 @@
       "RewardGold": 1599,
       "RewardGrowth": 258,
       "RewardExist": 10,
-      "RewardTimeEnergy": 5,
+      "RewardTimeEnergy": 35,
       "HpGrowthRate": 1.15,
       "RewardGrowthRate": 1.1
     },
@@ -176,7 +176,7 @@
       "RewardGold": 4152,
       "RewardGrowth": 561,
       "RewardExist": 12,
-      "RewardTimeEnergy": 5,
+      "RewardTimeEnergy": 40,
       "HpGrowthRate": 1.15,
       "RewardGrowthRate": 1.1
     },
@@ -206,7 +206,7 @@
       "RewardGold": 10767,
       "RewardGrowth": 1212,
       "RewardExist": 14,
-      "RewardTimeEnergy": 5,
+      "RewardTimeEnergy": 45,
       "HpGrowthRate": 1.15,
       "RewardGrowthRate": 1.1
     },
@@ -236,7 +236,7 @@
       "RewardGold": 27930,
       "RewardGrowth": 2619,
       "RewardExist": 16,
-      "RewardTimeEnergy": 5,
+      "RewardTimeEnergy": 50,
       "HpGrowthRate": 1.15,
       "RewardGrowthRate": 1.1
     },
@@ -266,7 +266,7 @@
       "RewardGold": 72450,
       "RewardGrowth": 5658,
       "RewardExist": 18,
-      "RewardTimeEnergy": 5,
+      "RewardTimeEnergy": 55,
       "HpGrowthRate": 1.15,
       "RewardGrowthRate": 1.1
     },
@@ -296,7 +296,7 @@
       "RewardGold": 187917,
       "RewardGrowth": 12219,
       "RewardExist": 20,
-      "RewardTimeEnergy": 5,
+      "RewardTimeEnergy": 60,
       "HpGrowthRate": 1.15,
       "RewardGrowthRate": 1.1
     }
@@ -835,7 +835,6 @@
       "Id": 35001,
       "ResetStage": true,
       "ResetStats": true,
-      "ResetEquipment": true,
       "ResetMastery": true,
       "RefundGrowthEnergy": true,
       "RefundGold": true,
@@ -843,6 +842,8 @@
       "KeepExistTree": true,
       "BonusBase": 1,
       "BonusExponent": 0.5,
+      "DiamondBase": 20,
+      "DiamondExponent": 0.6,
       "RefundBonusPerPoint": 1,
       "MaxRefundMultiplier": 5
     }
@@ -908,7 +909,7 @@
       "Index": 9,
       "Id": 36009,
       "Key": "InitialDiamond",
-      "Value": 0,
+      "Value": 200,
       "ValueType": "int"
     },
     {
@@ -977,561 +978,681 @@
     },
     {
       "Index": 9,
-      "Id": 40009,
-      "KOR": "무기",
-      "ENG": "Weapon"
-    },
-    {
-      "Index": 10,
-      "Id": 40014,
-      "KOR": "기본 검",
-      "ENG": "Basic Sword"
-    },
-    {
-      "Index": 11,
       "Id": 40015,
       "KOR": "존재력",
       "ENG": "EXIST"
     },
     {
-      "Index": 12,
+      "Index": 10,
       "Id": 40016,
       "KOR": "성장에너지",
       "ENG": "GROWTH_ENERGY"
     },
     {
-      "Index": 13,
+      "Index": 11,
       "Id": 40017,
       "KOR": "숙련의 정수",
       "ENG": "MASTERY_ESSENCE"
     },
     {
-      "Index": 14,
+      "Index": 12,
       "Id": 40018,
       "KOR": "시간에너지",
       "ENG": "TIME_ENERGY"
     },
     {
-      "Index": 15,
+      "Index": 13,
       "Id": 40019,
       "KOR": "골드",
       "ENG": "GOLD"
     },
     {
-      "Index": 16,
+      "Index": 14,
       "Id": 40020,
       "KOR": "존재력 트리",
       "ENG": "EXIST_TREE"
     },
     {
-      "Index": 17,
+      "Index": 15,
       "Id": 40021,
       "KOR": "존재",
       "ENG": "EXIST_ABBR"
     },
     {
-      "Index": 18,
+      "Index": 16,
       "Id": 40022,
       "KOR": "성장",
       "ENG": "GROWTH_ABBR"
     },
     {
-      "Index": 19,
+      "Index": 17,
       "Id": 40023,
       "KOR": "시간",
       "ENG": "TIME_ABBR"
     },
     {
-      "Index": 20,
+      "Index": 18,
       "Id": 40024,
       "KOR": "골드",
       "ENG": "GOLD_ABBR"
     },
     {
-      "Index": 21,
+      "Index": 19,
       "Id": 40025,
       "KOR": "정수",
       "ENG": "ESSENCE_ABBR"
     },
     {
-      "Index": 22,
+      "Index": 20,
       "Id": 40026,
       "KOR": "성장",
       "ENG": "Growth"
     },
     {
-      "Index": 23,
+      "Index": 21,
       "Id": 40027,
       "KOR": "무기고",
       "ENG": "Armory"
     },
     {
-      "Index": 24,
+      "Index": 22,
       "Id": 40028,
       "KOR": "가챠",
       "ENG": "Gacha"
     },
     {
-      "Index": 25,
+      "Index": 23,
       "Id": 40029,
       "KOR": "존재력",
       "ENG": "ExistTree"
     },
     {
-      "Index": 26,
+      "Index": 24,
       "Id": 40030,
       "KOR": "도감",
       "ENG": "Dogam"
     },
     {
-      "Index": 27,
+      "Index": 25,
       "Id": 40031,
       "KOR": "닫기",
       "ENG": "Close"
     },
     {
-      "Index": 28,
+      "Index": 26,
       "Id": 40032,
       "KOR": "취소",
       "ENG": "Cancel"
     },
     {
-      "Index": 29,
+      "Index": 27,
       "Id": 40033,
       "KOR": "확인",
       "ENG": "Confirm"
     },
     {
-      "Index": 30,
+      "Index": 28,
       "Id": 40034,
       "KOR": "실행",
       "ENG": "Execute"
     },
     {
-      "Index": 31,
+      "Index": 29,
       "Id": 40035,
       "KOR": "강탈",
       "ENG": "Steal"
     },
     {
-      "Index": 32,
+      "Index": 30,
       "Id": 40036,
       "KOR": "받기",
       "ENG": "Claim"
     },
     {
-      "Index": 33,
+      "Index": 31,
       "Id": 40037,
       "KOR": "해금",
       "ENG": "Unlock"
     },
     {
-      "Index": 34,
+      "Index": 32,
       "Id": 40038,
       "KOR": "강화",
       "ENG": "Enhance"
     },
     {
-      "Index": 35,
+      "Index": 33,
       "Id": 40039,
       "KOR": "수련",
       "ENG": "Train"
     },
     {
-      "Index": 36,
+      "Index": 34,
       "Id": 40040,
       "KOR": "업그레이드",
       "ENG": "Upgrade"
     },
     {
-      "Index": 37,
+      "Index": 35,
       "Id": 40041,
       "KOR": "최대로",
       "ENG": "MaxAll"
     },
     {
-      "Index": 38,
+      "Index": 36,
       "Id": 40042,
       "KOR": "뒤로",
       "ENG": "Back"
     },
     {
-      "Index": 39,
+      "Index": 37,
       "Id": 40043,
       "KOR": "잠김",
       "ENG": "Locked"
     },
     {
-      "Index": 40,
+      "Index": 38,
       "Id": 40044,
       "KOR": "해금됨",
       "ENG": "Unlocked"
     },
     {
-      "Index": 41,
+      "Index": 39,
       "Id": 40045,
       "KOR": "사용 가능",
       "ENG": "Available"
     },
     {
-      "Index": 42,
+      "Index": 40,
       "Id": 40046,
       "KOR": "티어",
       "ENG": "Tier"
     },
     {
-      "Index": 43,
+      "Index": 41,
       "Id": 40047,
       "KOR": "효과",
       "ENG": "Effect"
     },
     {
-      "Index": 44,
+      "Index": 42,
       "Id": 40048,
       "KOR": "비용",
       "ENG": "Cost"
     },
     {
-      "Index": 45,
+      "Index": 43,
       "Id": 40049,
       "KOR": "회차 보너스",
       "ENG": "RebirthBonus"
     },
     {
-      "Index": 46,
+      "Index": 44,
       "Id": 40050,
       "KOR": "현재 회차",
       "ENG": "CurrentCycle"
     },
     {
-      "Index": 47,
+      "Index": 45,
       "Id": 40051,
       "KOR": "누적 포인트",
       "ENG": "TotalPoints"
     },
     {
-      "Index": 48,
+      "Index": 46,
       "Id": 40052,
       "KOR": "획득 예정 포인트",
       "ENG": "PendingPoints"
     },
     {
-      "Index": 49,
+      "Index": 47,
       "Id": 40053,
       "KOR": "환급 배율",
       "ENG": "RefundMultiplier"
     },
     {
-      "Index": 50,
+      "Index": 48,
       "Id": 40054,
       "KOR": "최고 도달 스테이지",
       "ENG": "MaxStageReached"
     },
     {
-      "Index": 51,
+      "Index": 49,
       "Id": 40055,
       "KOR": "검",
       "ENG": "Sword"
     },
     {
-      "Index": 52,
+      "Index": 50,
       "Id": 40056,
       "KOR": "창",
       "ENG": "Spear"
     },
     {
-      "Index": 53,
+      "Index": 51,
       "Id": 40057,
       "KOR": "활",
       "ENG": "Bow"
     },
     {
-      "Index": 54,
+      "Index": 52,
       "Id": 40058,
       "KOR": "노말",
       "ENG": "Normal"
     },
     {
-      "Index": 55,
+      "Index": 53,
       "Id": 40059,
       "KOR": "레어",
       "ENG": "Rare"
     },
     {
-      "Index": 56,
+      "Index": 54,
       "Id": 40060,
       "KOR": "에픽",
       "ENG": "Epic"
     },
     {
-      "Index": 57,
+      "Index": 55,
       "Id": 40061,
       "KOR": "유니크",
       "ENG": "Unique"
     },
     {
-      "Index": 58,
+      "Index": 56,
       "Id": 40062,
       "KOR": "레전드리",
       "ENG": "Legendary"
     },
     {
-      "Index": 59,
+      "Index": 57,
       "Id": 40063,
       "KOR": "힘의 유물",
       "ENG": "Relic of Strength"
     },
     {
-      "Index": 60,
+      "Index": 58,
       "Id": 40064,
       "KOR": "방패의 유물",
       "ENG": "Relic of Shield"
     },
     {
-      "Index": 61,
+      "Index": 59,
       "Id": 40065,
       "KOR": "행운의 유물",
       "ENG": "Relic of Luck"
     },
     {
-      "Index": 62,
+      "Index": 60,
       "Id": 40066,
       "KOR": "가속의 유물",
       "ENG": "Relic of Haste"
     },
     {
-      "Index": 63,
+      "Index": 61,
       "Id": 40067,
       "KOR": "파괴의 유물",
       "ENG": "Relic of Destruction"
     },
     {
-      "Index": 64,
+      "Index": 62,
       "Id": 40068,
       "KOR": "상인의 유물",
       "ENG": "Relic of Merchant"
     },
     {
-      "Index": 65,
+      "Index": 63,
       "Id": 40069,
       "KOR": "균열의 유물",
       "ENG": "Relic of Rift"
     },
     {
-      "Index": 66,
+      "Index": 64,
       "Id": 40070,
       "KOR": "시간의 유물",
       "ENG": "Relic of Time"
     },
     {
-      "Index": 67,
+      "Index": 65,
       "Id": 40071,
       "KOR": "전능의 유물",
       "ENG": "Relic of Omnipotence"
     },
     {
-      "Index": 68,
+      "Index": 66,
       "Id": 40072,
       "KOR": "검 숙련",
       "ENG": "Sword Mastery"
     },
     {
-      "Index": 69,
+      "Index": 67,
       "Id": 40073,
       "KOR": "창 숙련",
       "ENG": "Spear Mastery"
     },
     {
-      "Index": 70,
+      "Index": 68,
       "Id": 40074,
       "KOR": "활 숙련",
       "ENG": "Bow Mastery"
     },
     {
-      "Index": 71,
+      "Index": 69,
       "Id": 40075,
       "KOR": "다이아",
       "ENG": "DIAMOND"
     },
     {
-      "Index": 72,
+      "Index": 70,
       "Id": 40076,
       "KOR": "다이아",
       "ENG": "DIAMOND_ABBR"
     },
     {
-      "Index": 73,
+      "Index": 71,
       "Id": 40077,
       "KOR": "장착",
       "ENG": "Equip"
     },
     {
-      "Index": 74,
+      "Index": 72,
       "Id": 40078,
       "KOR": "돌파",
       "ENG": "Breakthrough"
     },
     {
-      "Index": 75,
+      "Index": 73,
       "Id": 40079,
       "KOR": "합성",
       "ENG": "Fuse"
     },
     {
-      "Index": 76,
+      "Index": 74,
       "Id": 40080,
       "KOR": "장비",
       "ENG": "Equipment"
     },
     {
-      "Index": 77,
+      "Index": 75,
       "Id": 40081,
       "KOR": "유물",
       "ENG": "Relic"
     },
     {
-      "Index": 78,
+      "Index": 76,
       "Id": 40082,
       "KOR": "보유 효과",
       "ENG": "Own Bonus"
     },
     {
-      "Index": 79,
+      "Index": 77,
       "Id": 40083,
       "KOR": "장착 효과",
       "ENG": "Equip Bonus"
     },
     {
-      "Index": 80,
+      "Index": 78,
       "Id": 40084,
       "KOR": "장착 중",
       "ENG": "Equipped"
     },
     {
-      "Index": 81,
+      "Index": 79,
       "Id": 40085,
       "KOR": "장착된 무기 없음",
       "ENG": "No Weapon Equipped"
     },
     {
-      "Index": 82,
+      "Index": 80,
       "Id": 40086,
       "KOR": "보유 개수",
       "ENG": "Owned Count"
     },
     {
-      "Index": 83,
+      "Index": 81,
       "Id": 40087,
       "KOR": "등급",
       "ENG": "Grade"
     },
     {
-      "Index": 84,
+      "Index": 82,
       "Id": 40088,
       "KOR": "가챠 레벨",
       "ENG": "Gacha Level"
     },
     {
-      "Index": 85,
+      "Index": 83,
       "Id": 40089,
       "KOR": "다음 레벨까지",
       "ENG": "To Next Level"
     },
     {
-      "Index": 86,
+      "Index": 84,
       "Id": 40090,
       "KOR": "1회 뽑기",
       "ENG": "Pull x1"
     },
     {
-      "Index": 87,
+      "Index": 85,
       "Id": 40091,
       "KOR": "10회 뽑기",
       "ENG": "Pull x10"
     },
     {
-      "Index": 88,
+      "Index": 86,
       "Id": 40092,
       "KOR": "신규",
       "ENG": "New"
     },
     {
-      "Index": 89,
+      "Index": 87,
       "Id": 40093,
       "KOR": "중복",
       "ENG": "Duplicate"
     },
     {
-      "Index": 90,
+      "Index": 88,
       "Id": 40094,
       "KOR": "유물 뽑기",
       "ENG": "Pull Relic"
     },
     {
-      "Index": 91,
+      "Index": 89,
       "Id": 40095,
       "KOR": "중복 환급",
       "ENG": "Duplicate Refund"
     },
     {
-      "Index": 92,
+      "Index": 90,
       "Id": 40096,
       "KOR": "다음 슬롯",
       "ENG": "Next Slot"
     },
     {
-      "Index": 93,
+      "Index": 91,
       "Id": 40097,
       "KOR": "활성 슬롯",
       "ENG": "Active Slots"
     },
     {
-      "Index": 94,
+      "Index": 92,
       "Id": 40098,
       "KOR": "보유 유물",
       "ENG": "Owned Relics"
     },
     {
-      "Index": 95,
+      "Index": 93,
       "Id": 40099,
       "KOR": "슬롯이 가득 참",
       "ENG": "Slots Full"
     },
     {
-      "Index": 96,
+      "Index": 94,
       "Id": 40100,
       "KOR": "골드 획득량",
       "ENG": "Gold Gain"
     },
     {
-      "Index": 97,
+      "Index": 95,
       "Id": 40101,
       "KOR": "타임 하이스트 쿨타임",
       "ENG": "Time Heist Cooldown"
     },
     {
-      "Index": 98,
+      "Index": 96,
       "Id": 40102,
       "KOR": "활성화",
       "ENG": "Activate"
     },
     {
-      "Index": 99,
+      "Index": 97,
       "Id": 40103,
       "KOR": "비활성화",
       "ENG": "Deactivate"
     },
     {
-      "Index": 100,
+      "Index": 98,
       "Id": 40104,
       "KOR": "스탯",
       "ENG": "Stat"
     },
     {
-      "Index": 101,
+      "Index": 99,
       "Id": 40105,
       "KOR": "숙련",
       "ENG": "Mastery"
+    },
+    {
+      "Index": 100,
+      "Id": 40106,
+      "KOR": "적 HP",
+      "ENG": "Enemy HP"
+    },
+    {
+      "Index": 101,
+      "Id": 40107,
+      "KOR": "적 공격력",
+      "ENG": "Enemy ATK"
+    },
+    {
+      "Index": 102,
+      "Id": 40108,
+      "KOR": "처치 진행도",
+      "ENG": "Kill Progress"
+    },
+    {
+      "Index": 103,
+      "Id": 40109,
+      "KOR": "스테이지 보상 (처치당)",
+      "ENG": "Stage Reward (per kill)"
+    },
+    {
+      "Index": 104,
+      "Id": 40110,
+      "KOR": "회차",
+      "ENG": "Cycle"
+    },
+    {
+      "Index": 105,
+      "Id": 40111,
+      "KOR": "오프라인 보상",
+      "ENG": "Offline Reward"
+    },
+    {
+      "Index": 106,
+      "Id": 40112,
+      "KOR": "비운 시간",
+      "ENG": "Time Away"
+    },
+    {
+      "Index": 107,
+      "Id": 40113,
+      "KOR": "최대",
+      "ENG": "Max"
+    },
+    {
+      "Index": 108,
+      "Id": 40114,
+      "KOR": "인정",
+      "ENG": "Recognized"
+    },
+    {
+      "Index": 109,
+      "Id": 40115,
+      "KOR": "획득 재화",
+      "ENG": "Rewards Earned"
+    },
+    {
+      "Index": 110,
+      "Id": 40116,
+      "KOR": "1회 비용",
+      "ENG": "Cost per Pull"
+    },
+    {
+      "Index": 111,
+      "Id": 40117,
+      "KOR": "종",
+      "ENG": "Kinds"
+    },
+    {
+      "Index": 112,
+      "Id": 40118,
+      "KOR": "노드",
+      "ENG": "Nodes"
+    },
+    {
+      "Index": 113,
+      "Id": 40119,
+      "KOR": "대상 스테이지",
+      "ENG": "Target Stage"
+    },
+    {
+      "Index": 114,
+      "Id": 40120,
+      "KOR": "클리어 환산",
+      "ENG": "Clears Converted"
+    },
+    {
+      "Index": 115,
+      "Id": 40121,
+      "KOR": "획득 예정",
+      "ENG": "Expected Gain"
+    },
+    {
+      "Index": 116,
+      "Id": 40122,
+      "KOR": "소모",
+      "ENG": "Consume"
+    },
+    {
+      "Index": 117,
+      "Id": 40123,
+      "KOR": "사용 횟수",
+      "ENG": "Use Count"
+    },
+    {
+      "Index": 118,
+      "Id": 40124,
+      "KOR": "쿨타임",
+      "ENG": "Cooldown"
+    },
+    {
+      "Index": 119,
+      "Id": 40125,
+      "KOR": "회",
+      "ENG": "Times"
+    },
+    {
+      "Index": 120,
+      "Id": 40126,
+      "KOR": "등급 확률",
+      "ENG": "Grade Probability"
+    },
+    {
+      "Index": 121,
+      "Id": 40127,
+      "KOR": "보유",
+      "ENG": "Owned"
     }
   ]
 }

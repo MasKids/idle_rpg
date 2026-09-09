@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { BALANCE_TABLES, getCommon, getString } from '../../data/balance'
-import { getCurrencyName, getRelicUiLabel, getStateLabel } from '../../data/uiStrings'
+import { BALANCE_TABLES, getCommon, getRelicConfig, getString } from '../../data/balance'
+import { getCommonUiLabel, getCurrencyName, getRelicUiLabel, getStateLabel } from '../../data/uiStrings'
 import { useGameStore } from '../../store/gameStore'
 import type { RelicGachaPullResult } from '../../types/game'
 import { formatNumber } from '../../utils/format'
@@ -51,7 +51,8 @@ function SlotSection({
         </span>
         {nextSlotRow && (
           <span className="text-[10px] text-white/50">
-            {getRelicUiLabel('nextSlot')}: 존재력 {nextSlotRow.RequireUnlockedCount}노드 ({unlockedCount}/
+            {getRelicUiLabel('nextSlot')}: {getCurrencyName('exist')} {nextSlotRow.RequireUnlockedCount}
+            {getCommonUiLabel('nodeSuffix')} ({unlockedCount}/
             {nextSlotRow.RequireUnlockedCount})
           </span>
         )}
@@ -61,7 +62,7 @@ function SlotSection({
         {Array.from({ length: RELIC_SLOT_MAX }, (_, index) => {
           const locked = index >= slotCount
           const relicId = activeRelics[index] ?? null
-          const relic = relicId !== null ? BALANCE_TABLES.RelicTable.find((r) => r.Id === relicId) : undefined
+          const relic = relicId !== null ? getRelicConfig(relicId) : undefined
 
           return (
             <button
@@ -104,7 +105,7 @@ function RelicGachaSection({ ownedRelics }: { ownedRelics: number[] }) {
     setLastResult(pullRelicGacha())
   }
 
-  const resultRelic = lastResult ? BALANCE_TABLES.RelicTable.find((r) => r.Id === lastResult.relicId) : undefined
+  const resultRelic = lastResult ? getRelicConfig(lastResult.relicId) : undefined
 
   return (
     <div className="shrink-0 border-b border-white/10 p-3">
@@ -112,10 +113,10 @@ function RelicGachaSection({ ownedRelics }: { ownedRelics: number[] }) {
 
       <div className="mb-2 flex items-center justify-between text-[11px] text-white/70">
         <span>
-          보유 {getCurrencyName('timeEnergy')} {formatNumber(timeEnergy)}
+          {getCommonUiLabel('owned')} {getCurrencyName('timeEnergy')} {formatNumber(timeEnergy)}
         </span>
         <span>
-          1회 비용 {formatNumber(cost)} {getCurrencyName('timeEnergy')}
+          {getCommonUiLabel('costPerPull')} {formatNumber(cost)} {getCurrencyName('timeEnergy')}
         </span>
       </div>
 
@@ -146,7 +147,10 @@ function RelicGachaSection({ ownedRelics }: { ownedRelics: number[] }) {
           )}
         </div>
       )}
-      <p className="mt-1 text-center text-[10px] text-white/30">보유 {ownedRelics.length}종</p>
+      <p className="mt-1 text-center text-[10px] text-white/30">
+        {getCommonUiLabel('owned')} {ownedRelics.length}
+        {getCommonUiLabel('kindSuffix')}
+      </p>
     </div>
   )
 }

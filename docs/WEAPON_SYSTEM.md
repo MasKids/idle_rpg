@@ -206,22 +206,32 @@
 자료형 / 4행 영문 칼럼명, 5행부터 데이터)을 그대로 따른다. 아래 표는 그 4행을
 한 줄로 풀어 쓴 것이다.
 
-### 6.1 Id 대역
+### 6.1 Id 대역 (실제 구현 기준)
 
-기존 대역(`StageTable` 10000대 ~ `StringTable` 40000대)을 건드리지 않도록
-비어 있는 37000/38000/39000대를 신규 테이블에 할당한다.
+기존 대역(`StageTable` 10000대 ~ `StringTable` 40000대)을 건드리지 않도록 비어 있는
+33000/37000/38000대를 신규 테이블에 할당했다. 아래 표는 구현 완료 후의 실제 배정이며,
+애초 제안(§6.1 초안의 "WeaponTable 37001~37015 15행 하나" 구조)과는 테이블 분리
+방식이 달라졌다 — 75개 아이템을 "종류×등급 15행" 하나로 묶는 대신, 종류(3)/등급(5)/
+성장 규칙(1)/돌파 단계(5)/합성 규칙(1)을 각각 별도 테이블로 나눴다(6.2~6.3 참고).
+무기 숙련도 33000대를 새로 할당해 별도 테이블(`MasteryTable`)로 관리한다.
 
-| 테이블 | Id 대역 |
-|---|---|
-| WeaponTable | 37001 ~ 37015 (3종 × 5등급 = 15행) |
-| WeaponGrowthTable | 37101 (단일 행, TimeHeistTable/RebirthTable과 동일 패턴) |
-| WeaponGachaLevelTable | 37201 ~ (가챠 레벨 수만큼, 기본값 5레벨 제안 → 37201~37205) |
-| RelicTable | 38001 ~ (유물 개수만큼, 기본값 9종 제안 → 38001~38009) |
-| CommonTable 추가 행 | 36009 ~ (기존 테이블에 이어서) |
+| 테이블 | Id 대역 | 행 수 |
+|---|---|---|
+| MasteryTable | 33002 ~ 33004 | 3 (검/창/활 숙련) |
+| WeaponTypeTable | 37001 ~ 37003 | 3 (검/창/활) |
+| WeaponGradeTable | 37011 ~ 37015 | 5 (Normal~Legendary) |
+| WeaponUpgradeTable | 37021 | 1 (단일 행, TimeHeistTable/RebirthTable과 동일 패턴) |
+| WeaponBreakthroughTable | 37031 ~ 37035 | 5 (돌파 1~5단계) |
+| WeaponFusionTable | 37041 | 1 (단일 행) |
+| GachaTable | 37101 ~ 37105 | 5 (가챠 레벨 0~4, §6.4의 WeaponGachaLevelTable에 대응) |
+| RelicTable | 38001 ~ 38009 | 9 (유물 9종) |
+| RelicSlotTable | 38101 ~ 38105 | 5 (슬롯 1~5번째 해금 조건, §6.6 참고) |
+| CommonTable 추가 행 | 36009 ~ | 기존 테이블에 이어서 |
 
-`#EnumDefine`에도 `WeaponKindEnum`(Sword/Spear/Bow), `WeaponGradeEnum`
-(Normal/Rare/Epic/Unique/Legendary), `RelicGradeEnum`(Normal/Rare/Epic),
-`RelicEffectTypeEnum`(6.5 참고) 4종을 추가해야 한다.
+`#EnumDefine`에는 `WeaponType`(Sword/Spear/Bow), `WeaponGrade`(Normal/Rare/Epic/
+Unique/Legendary), `RelicGrade`(Normal/Rare/Epic), `RelicEffectType`(6.5 참고) 4종을
+추가했다(당초 제안한 `WeaponKindEnum`/`WeaponGradeEnum` 이름 대신, 다른 Enum들과
+동일하게 접미사 없는 이름을 썼다).
 
 ### 6.2 WeaponTable — 무기 종류×등급별 기본 계수 (15행)
 
@@ -335,19 +345,34 @@
 | 38008 | Epic | 시간의 유물 | TIMEHEIST_COOLDOWN | 10 | 10 |
 | 38009 | Epic | 전능의 유물 | STAT_ATK | 20 | 10 |
 
-### 6.6 CommonTable 추가 행
+### 6.6 CommonTable 추가 행 (실제 구현 기준)
 
-기존 `CommonTable`(36001~36008)에 이어서 추가. 전부 밸런싱 영역이라 기본값만
-넣어두고 엑셀에서 조정한다.
+기존 `CommonTable`(36001~36008)에 이어서 추가. 당초 이 절에서 CommonTable 스칼라 값으로
+제안했던 `RelicSlotUnlockInterval`/`RelicSlotMax`/`WeaponGachaCostDiamond` 3개는
+구현 단계에서 아래처럼 전용 테이블로 옮겼다 — CommonTable에는 존재하지 않는다:
+
+- **유물 슬롯 해금 조건**: `RelicSlotUnlockInterval`(간격)+`RelicSlotMax`(개수) 두
+  스칼라 대신 `RelicSlotTable`(38101~38105, §6.1)에 슬롯 1~5번째마다
+  `RequireUnlockedCount`(10/20/30/40/50)를 개별 행으로 넣었다. 슬롯 최대 개수는
+  `BALANCE_TABLES.RelicSlotTable.length`로 파생([relic.ts](../src/systems/relic/relic.ts)의
+  `RELIC_SLOT_MAX`) — 간격이 균등하지 않아져도(예: 나중에 10/25/40/... 로 바꿔도) 코드
+  변경 없이 그대로 반영된다.
+- **무기 가챠 1회 비용**: 고정 스칼라 대신 `GachaTable.PullCostDiamond`(§6.1의
+  37101~37105, 가챠 레벨별 1행)로 옮겨 레벨마다 다른 비용을 매길 수 있게 했다
+  (현재 기본값은 전 레벨 100으로 동일하지만, 구조상 레벨별로 달리 조정 가능하다).
+
+CommonTable에 실제로 남아 있는 행(전부 밸런싱 영역, 엑셀에서 조정):
 
 | Key | 자료형 | 기본값 | 설명 |
 |---|---|---|---|
-| InitialDiamond | int | 0 | 초기 다이아 보유량 |
-| RelicSlotUnlockInterval | int | 10 | 존재력 트리 몇 노드마다 유물 슬롯 +1 |
-| RelicSlotMax | int | 5 | 유물 슬롯 최대 개수 |
-| WeaponGachaCostDiamond | int | 100 | 무기 가챠 1회 비용 |
+| InitialDiamond | int | 200 | 초기 다이아 보유량 — 리버스 전에도 무기 가챠를 1~2회 체험 가능한 양 |
 | RelicGachaCostTimeEnergy | int | 50 | 유물 뽑기 1회 비용 |
 | RelicDuplicateRefundTimeEnergy | int | 20 | 유물 중복 획득 시 자동 환급되는 시간에너지 |
+
+다이아의 또 다른 획득 경로(리버스 시 신규 지급)는 무기/유물 시스템이 아니라 리버스
+시스템 소관이라 `RebirthTable`(§6.1 밖, 35000번대)에 `DiamondBase`/`DiamondExponent`
+컬럼으로 추가했다 — 자세한 내용은 `CLAUDE.md`의 재화 절과
+[docs/ARCHITECTURE.md](ARCHITECTURE.md) 6장 참고.
 
 ### 6.7 StringTable 추가
 

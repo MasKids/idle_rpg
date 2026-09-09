@@ -1,12 +1,12 @@
 import { create } from 'zustand'
-import { MASTERY_WEAPONS, masteryMultiplier, masteryPrimaryStat, masteryUpgradeCost } from '../data/equipment'
+import { MASTERY_WEAPONS, masteryMultiplier, masteryPrimaryStat, masteryUpgradeCost } from '../data/mastery'
 import { BALANCE_TABLES, getCommon, getRebirthConfig, getWeaponFusionConfig } from '../data/balance'
 import { EXIST_SPECIAL_UNLOCKS, generateExistTree } from '../data/existTree'
 import { generateStage, killsRequiredForStage } from '../data/stages'
 import { computeStatValue, statUpgradeCost } from '../data/stats'
 import { computeOfflineReward, type OfflineRewardResult } from '../systems/battle/offlineReward'
 import { computeActiveRelicEffects, computeRelicSlotCount, RELIC_SLOT_MAX, rollRelicGacha } from '../systems/relic/relic'
-import { computeRebirthBonusPoints, computeRefundMultiplier } from '../systems/rebirth/rebirthBonus'
+import { computeRebirthBonusPoints, computeRebirthDiamondReward, computeRefundMultiplier } from '../systems/rebirth/rebirthBonus'
 import { computeTimeHeistPreview, timeHeistCooldownEndsAt } from '../systems/timeheist/timeHeist'
 import {
   canBreakthrough,
@@ -473,6 +473,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       // 순서 중요: 이번에 얻는 포인트는 이번 환급 배율에 반영되지 않고 다음 리버스부터 적용된다.
       const earnedBonusPoints = computeRebirthBonusPoints(state.currentStage)
       const refundMultiplier = computeRefundMultiplier(state.rebirthBonusPoint)
+      const diamondReward = computeRebirthDiamondReward(state.currentStage)
       const nextRebirthBonusPoint = state.rebirthBonusPoint + earnedBonusPoints
       const nextRebirthCount = state.rebirthCount + 1
       const nextRebirthMaxStage = Math.max(state.rebirthMaxStage, state.currentStage)
@@ -486,7 +487,9 @@ export const useGameStore = create<GameState>((set, get) => ({
         ? state.specialUnlocks
         : { reverse: false, timeHeist: false }
 
-      // 무기는 전부 소멸, 유물은 전부 초기화. 가챠 레벨/누적 뽑기 횟수와 다이아는 유지.
+      // 무기는 전부 소멸, 유물은 전부 초기화. 가챠 레벨/누적 뽑기 횟수는 유지.
+      // 다이아는 환급 대상이 아니라(rebirthSpent가 추적하지 않음) 도달 스테이지 기준으로
+      // 매번 새로 지급된다 — 다이아의 유일한 획득 경로.
       const nextOwnedWeapons = initialOwnedWeapons
       const nextEquippedWeaponId = null
       const nextOwnedRelics: number[] = []
@@ -525,6 +528,7 @@ export const useGameStore = create<GameState>((set, get) => ({
           essence:
             state.currencies.essence +
             (config.RefundMasteryEssence ? Math.floor(state.rebirthSpent.essence * refundMultiplier) : 0),
+          diamond: state.currencies.diamond + diamondReward,
         },
         rebirthSpent: initialRebirthSpent,
         timeHeistUsedCount: 0,

@@ -1,7 +1,8 @@
 import type { ReactNode } from 'react'
-import { getButtonLabel, getRebirthBonusLabel, getSystemName } from '../../data/uiStrings'
+import { EXIST_TREE_TOTAL_NODES } from '../../data/existTree'
+import { getButtonLabel, getCurrencyName, getRebirthBonusLabel, getSystemName } from '../../data/uiStrings'
 import { useGameStore } from '../../store/gameStore'
-import { computeRebirthBonusPoints, computeRefundMultiplier } from './rebirthBonus'
+import { computeRebirthBonusPoints, computeRebirthDiamondReward, computeRefundMultiplier } from './rebirthBonus'
 import { formatNumber } from '../../utils/format'
 
 interface RebirthModalProps {
@@ -32,6 +33,7 @@ export function RebirthModal({ isOpen, onCancel, onConfirm }: RebirthModalProps)
   const pendingPoints = computeRebirthBonusPoints(currentStage)
   const currentMultiplier = computeRefundMultiplier(rebirthBonusPoint)
   const nextMultiplier = computeRefundMultiplier(rebirthBonusPoint + pendingPoints)
+  const diamondReward = computeRebirthDiamondReward(currentStage)
 
   return (
     <div
@@ -73,18 +75,28 @@ export function RebirthModal({ isOpen, onCancel, onConfirm }: RebirthModalProps)
 
         <RebirthSection title={`환급 (${getRebirthBonusLabel('refundMultiplier')} ${formatMultiplier(currentMultiplier)})`} tone="text-emerald-300">
           <li>
-            성장에너지 {formatNumber(spent.growthEnergy)} → +{formatNumber(Math.floor(spent.growthEnergy * currentMultiplier))}
+            {getCurrencyName('growthEnergy')} {formatNumber(spent.growthEnergy)} → +
+            {formatNumber(Math.floor(spent.growthEnergy * currentMultiplier))}
           </li>
           <li>
-            골드 {formatNumber(spent.gold)} → +{formatNumber(Math.floor(spent.gold * currentMultiplier))}
+            {getCurrencyName('gold')} {formatNumber(spent.gold)} → +{formatNumber(Math.floor(spent.gold * currentMultiplier))}
           </li>
           <li>
-            정수 {formatNumber(spent.essence)} → +{formatNumber(Math.floor(spent.essence * currentMultiplier))}
+            {getCurrencyName('essence')} {formatNumber(spent.essence)} → +
+            {formatNumber(Math.floor(spent.essence * currentMultiplier))}
+          </li>
+        </RebirthSection>
+
+        <RebirthSection title="지급" tone="text-amber-200">
+          <li>
+            {getCurrencyName('diamond')} +{formatNumber(diamondReward)}
           </li>
         </RebirthSection>
 
         <RebirthSection title="유지" tone="text-sky-300">
-          <li>존재력 트리 ({unlockedCount}/50 해금)</li>
+          <li>
+            존재력 트리 ({unlockedCount}/{EXIST_TREE_TOTAL_NODES} 해금)
+          </li>
           <li>리버스 · 타임 하이스트 해금 상태</li>
           <li>존재력(EXIST), 시간에너지 보유량</li>
         </RebirthSection>

@@ -1,5 +1,5 @@
 import { stageLabel } from '../../data/stages'
-import { getButtonLabel, getCurrencyName, getStateLabel, getSystemName } from '../../data/uiStrings'
+import { getButtonLabel, getCommonUiLabel, getCurrencyName, getStateLabel, getSystemName } from '../../data/uiStrings'
 import { computeActiveRelicEffects } from '../relic/relic'
 import { useGameStore } from '../../store/gameStore'
 import { formatCountdown, formatNumber } from '../../utils/format'
@@ -52,14 +52,15 @@ export function TimeHeistModal({ isOpen, onCancel, onConfirm }: TimeHeistModalPr
         </p>
 
         <div className="mt-3 border-t border-white/10 pt-2">
-          <p className="mb-1 text-[10px] font-semibold text-amber-300">대상 스테이지</p>
+          <p className="mb-1 text-[10px] font-semibold text-amber-300">{getCommonUiLabel('targetStage')}</p>
           <p className="text-[11px] text-white/70">
-            {stageLabel(preview.currentStage)} → {stageLabel(preview.targetStage)} ({preview.clearCount}클리어 환산)
+            {stageLabel(preview.currentStage)} → {stageLabel(preview.targetStage)} ({preview.clearCount}
+            {getCommonUiLabel('clearConversion')})
           </p>
         </div>
 
         <div className="mt-3 border-t border-white/10 pt-2">
-          <p className="mb-1 text-[10px] font-semibold text-emerald-300">획득 예정</p>
+          <p className="mb-1 text-[10px] font-semibold text-emerald-300">{getCommonUiLabel('expectedGain')}</p>
           <ul className="space-y-0.5 text-[11px] text-white/70">
             <li>{getCurrencyName('gold')} +{formatNumber(preview.rewards.gold)}</li>
             <li>{getCurrencyName('growthEnergy')} +{formatNumber(preview.rewards.growthEnergy)}</li>
@@ -69,19 +70,26 @@ export function TimeHeistModal({ isOpen, onCancel, onConfirm }: TimeHeistModalPr
 
         <div className="mt-3 border-t border-white/10 pt-2 text-[11px] text-white/70">
           <div className="flex justify-between">
-            <span>소모 {getCurrencyName('timeEnergy')}</span>
+            <span>
+              {getCommonUiLabel('consume')} {getCurrencyName('timeEnergy')}
+            </span>
             <span className={canAfford ? 'text-white' : 'text-red-400'}>{formatNumber(preview.cost)}</span>
           </div>
           <div className="flex justify-between">
-            <span>보유 {getCurrencyName('timeEnergy')}</span>
+            <span>
+              {getCommonUiLabel('owned')} {getCurrencyName('timeEnergy')}
+            </span>
             <span>{formatNumber(timeEnergy)}</span>
           </div>
           <div className="flex justify-between">
-            <span>사용 횟수</span>
-            <span>{usedCount}회</span>
+            <span>{getCommonUiLabel('useCount')}</span>
+            <span>
+              {usedCount}
+              {getCommonUiLabel('timesSuffix')}
+            </span>
           </div>
           <div className="flex justify-between">
-            <span>쿨타임</span>
+            <span>{getCommonUiLabel('cooldown')}</span>
             <span className={isOnCooldown ? 'text-red-400' : 'text-emerald-300'}>
               {isOnCooldown ? formatCountdown(cooldownRemainingMs) : getStateLabel('available')}
             </span>

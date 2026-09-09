@@ -2,6 +2,7 @@
 // 활성화된 유물의 효과 집계. docs/WEAPON_SYSTEM.md 3장 참고.
 import {
   BALANCE_TABLES,
+  getRelicConfig,
   getRelicSlotConfig,
   getString,
   getWeaponGradeConfig,
@@ -103,8 +104,9 @@ export function computeActiveRelicEffects(activeRelics: ActiveRelicSlots): Activ
 
   for (const relicId of activeRelics) {
     if (relicId === null) continue
-    const relic = BALANCE_TABLES.RelicTable.find((r) => r.Id === relicId)
-    if (!relic) continue
+    // activeRelics는 항상 setRelicSlot으로 검증된 id만 담기므로 존재를 항상 보장하는
+    // getRelicConfig를 그대로 써도 안전하다(없으면 기본값+경고).
+    const relic = getRelicConfig(relicId)
 
     const statKey = STAT_EFFECT_TO_KEY[relic.EffectType]
     if (statKey) {

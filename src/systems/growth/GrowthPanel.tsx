@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { MASTERY_WEAPONS, masteryMultiplier, masteryPrimaryStat, masteryUpgradeCost } from '../../data/equipment'
+import { MASTERY_WEAPONS, masteryMultiplier, masteryPrimaryStat, masteryUpgradeCost } from '../../data/mastery'
 import { statUpgradeCost } from '../../data/stats'
 import { getButtonLabel, getCurrencyName, getGrowthUiLabel, getStatName, getTabName, getWeaponUiLabel } from '../../data/uiStrings'
 import { useGameStore } from '../../store/gameStore'

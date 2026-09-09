@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { BALANCE_TABLES, type WeaponGradeEnum } from '../../data/balance'
-import { getButtonLabel, getCurrencyName, getGachaUiLabel, getTabName } from '../../data/uiStrings'
+import { getButtonLabel, getCommonUiLabel, getCurrencyName, getGachaUiLabel, getTabName } from '../../data/uiStrings'
 import { useGameStore } from '../../store/gameStore'
 import type { WeaponGachaPullResult } from '../../types/game'
 import { formatNumber } from '../../utils/format'
@@ -62,12 +62,14 @@ export function WeaponGachaPanel({ onBack }: WeaponGachaPanelProps) {
             {getGachaUiLabel('gachaLevel')} {gachaLevel}
           </span>
           <span className="text-white/60">
-            {remainingToNextLevel === null ? 'MAX' : `${getGachaUiLabel('toNextLevel')} ${remainingToNextLevel}회`}
+            {remainingToNextLevel === null
+              ? 'MAX'
+              : `${getGachaUiLabel('toNextLevel')} ${remainingToNextLevel}${getCommonUiLabel('timesSuffix')}`}
           </span>
         </div>
 
         <div className="mt-3 rounded-lg bg-black/20 p-3">
-          <p className="mb-1.5 text-[11px] text-white/50">등급 확률</p>
+          <p className="mb-1.5 text-[11px] text-white/50">{getCommonUiLabel('gradeProbability')}</p>
           <div className="flex flex-col gap-1">
             {GRADES.map((grade, index) => {
               const weight = Math.max(0, levelConfig[GRADE_WEIGHT_KEYS[index]])

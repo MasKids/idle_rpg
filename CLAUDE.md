@@ -44,13 +44,15 @@ B는 A가 돋보이는 데 필요한 만큼만. 과설계 금지.
 - 화면 진입 시 초기 스크롤 위치는 최하단(1번 노드)
 - 위로 스크롤하며 상위 노드를 확인하는 구조
 
-노드는 하드코딩하지 말고 data/existTree.ts 에서 계산식으로 생성:
-- 효과 순환 (order % 5): 1=ATK, 2=DEF,
-  3=ASPD/CRIT/CRIT_DMG 순환, 4=재화지급(정수/시간에너지 교대),
-  0=EXIST_GAIN 또는 성장에너지획득량 교대
-- cost = floor(10 * 1.35^(order-1))
-- 스탯 value = 5 + floor(order/5) * 3
-- 재화 amount = 5 + floor(order/5) * 5
+노드는 하드코딩하지 말고 data/existTree.ts 에서 계산식으로 생성한다. balance.xlsx의
+ExistTreeTable에 50개 노드를 전부 나열하지 않고 **5티어(10노드씩) 밴드**만 정의해두고,
+노드 하나하나의 비용/효과는 그 노드가 속한 티어의 계수로 계산한다 (order%5로 효과를
+순환시키는 방식이 아니다 — 티어 하나가 통째로 10개 연속 노드를 차지한다):
+- 티어 구성(고정): 1티어(1~10번)=ATK, 2티어(11~20번)=DEF, 3티어(21~30번)=ASPD,
+  4티어(31~40번)=재화 지급(숙련의 정수), 5티어(41~50번)=EXIST_GAIN
+- cost = floor(티어.CostBase × 티어.CostGrowthRate ^ (order − 티어 시작 order))
+- 스탯 상승량 / 재화 지급량 = 티어.ValueBase + (order − 티어 시작 order) × 티어.ValuePerNode
+- 티어별 CostBase/CostGrowthRate/ValueBase/ValuePerNode는 전부 balance.xlsx에서 조정
 
 특별 해금 (트리 소속 아님, 트리 옆 여백에 등장):
 - 트리 15개 해금 시 → 15번 노드 옆에 [리버스] 등장
@@ -59,12 +61,18 @@ B는 A가 돋보이는 데 필요한 만큼만. 과설계 금지.
 - 조건 미달 시 표시되지 않음. 화면 고정 아니고 스크롤 따라 만남
 - 배열로 정의해 확장 가능하게
 
-## 재화
-- EXIST (존재력): 존재력 트리 해금
-- GROWTH_ENERGY (성장에너지): 6스탯 업그레이드
-- TIME_ENERGY (시간에너지): TIME HEIST, 유물 뽑기
-- GOLD (골드): 무기 레벨업
-- DIAMOND (다이아): 무기 가챠
+## 재화 (6종 — 획득처 → 소비처)
+- DIAMOND (다이아): 초기 지급 + 리버스 시 도달 스테이지 기준 신규 지급(환급이 아님,
+  `floor(DiamondBase × 도달스테이지^DiamondExponent)`) → 무기 가챠
+- EXIST (존재력): 전투 처치 보상(EXIST_GAIN 배율 적용) → 존재력 트리 해금, 리버스/
+  타임 하이스트 특별 해금
+- GROWTH_ENERGY (성장에너지): 전투 처치 보상 → 6스탯 업그레이드
+- MASTERY_ESSENCE (숙련의 정수): 존재력 트리 4티어(31~40번 노드) 해금 → 무기 종류별
+  (검/창/활) 숙련 업그레이드
+- TIME_ENERGY (시간에너지): 보스 스테이지 처치(챕터가 오를수록 지급량 증가) + 유물
+  중복 획득 시 소량 환급 → 유물 뽑기, 타임 하이스트 (두 소비처가 재화를 공유하므로
+  총량이 부족해지지 않도록 보스 보상을 챕터별로 늘려뒀다)
+- GOLD (골드): 전투 처치 보상 → 무기 레벨업
 
 ## 6스탯
 ATK(공격력), DEF(방어력), ASPD(공격속도), CRIT(치명타율),
@@ -98,7 +106,7 @@ src/
     battle/      # B
     growth/      # B
   components/    # 공용 UI, StubPanel
-  data/          # existTree.ts, stages.ts, stats.ts, weapon.ts, relic.ts
+  data/          # existTree.ts, stages.ts, stats.ts, mastery.ts, balance.ts, uiStrings.ts
   store/         # gameStore.ts
   types/
 

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { getString, getWeaponTypeConfig, type WeaponGradeEnum, type WeaponTypeEnum } from '../../data/balance'
-import { masteryPrimaryStat } from '../../data/equipment'
+import { masteryPrimaryStat } from '../../data/mastery'
 import { getStatName, getWeaponUiLabel } from '../../data/uiStrings'
 import { useGameStore } from '../../store/gameStore'
 import type { WeaponInstance } from '../../types/game'
@@ -12,6 +12,7 @@ import {
   computeWeaponReadiness,
   weaponDisplayName,
   WEAPON_GRADES,
+  WEAPON_MAX_BREAKTHROUGH,
   WEAPON_TIERS,
   WEAPON_TYPES,
 } from './weapon'
@@ -179,7 +180,7 @@ function EquippedSummary({
       <div className="flex items-baseline justify-between">
         <span className={`text-xs font-semibold ${GRADE_TEXT_COLOR[grade]}`}>{weaponDisplayName(equippedWeaponId)}</span>
         <span className="text-[10px] text-white/50">
-          Lv.{entry?.level ?? 0} · 돌파 {entry?.breakthroughCount ?? 0}/5
+          Lv.{entry?.level ?? 0} · 돌파 {entry?.breakthroughCount ?? 0}/{WEAPON_MAX_BREAKTHROUGH}
         </span>
       </div>
       <div className="mt-1 flex flex-wrap justify-end gap-x-3 gap-y-0.5 text-[11px] text-white/70">

@@ -42,23 +42,20 @@ const TAB_NAME_ID: Record<TabKey, number> = {
   dogam: 40030,
 }
 
-export type SystemNameKey = 'reverse' | 'timeHeist' | 'existTree'
+export type SystemNameKey = 'reverse' | 'timeHeist'
 
 const SYSTEM_NAME_ID: Record<SystemNameKey, number> = {
   reverse: 40007,
   timeHeist: 40008,
-  existTree: 40020,
 }
 
 export type ButtonLabelKey =
   | 'close'
   | 'cancel'
-  | 'confirm'
   | 'execute'
   | 'steal'
   | 'claim'
   | 'unlock'
-  | 'enhance'
   | 'train'
   | 'upgrade'
   | 'maxAll'
@@ -72,12 +69,10 @@ export type ButtonLabelKey =
 const BUTTON_LABEL_ID: Record<ButtonLabelKey, number> = {
   close: 40031,
   cancel: 40032,
-  confirm: 40033,
   execute: 40034,
   steal: 40035,
   claim: 40036,
   unlock: 40037,
-  enhance: 40038,
   train: 40039,
   upgrade: 40040,
   maxAll: 40041,
@@ -225,4 +220,59 @@ const GROWTH_UI_LABEL_ID: Record<GrowthUiLabelKey, number> = {
 
 export function getGrowthUiLabel(key: GrowthUiLabelKey): string {
   return getString(GROWTH_UI_LABEL_ID[key], 'KOR', key)
+}
+
+// 특정 화면 하나에 속하지 않고 여러 화면(스테이지 정보/오프라인 보상/유물/
+// 타임 하이스트/무기 가챠)에서 재사용되는 짧은 라벨.
+export type CommonUiLabelKey =
+  | 'enemyHp'
+  | 'enemyAtk'
+  | 'killProgress'
+  | 'rewardPerKill'
+  | 'cycleSuffix'
+  | 'offlineRewardTitle'
+  | 'awayTime'
+  | 'maxRecognizedPrefix'
+  | 'maxRecognizedSuffix'
+  | 'rewardsEarned'
+  | 'costPerPull'
+  | 'kindSuffix'
+  | 'nodeSuffix'
+  | 'targetStage'
+  | 'clearConversion'
+  | 'expectedGain'
+  | 'consume'
+  | 'useCount'
+  | 'cooldown'
+  | 'timesSuffix'
+  | 'gradeProbability'
+  | 'owned'
+
+const COMMON_UI_LABEL_ID: Record<CommonUiLabelKey, number> = {
+  enemyHp: 40106,
+  enemyAtk: 40107,
+  killProgress: 40108,
+  rewardPerKill: 40109,
+  cycleSuffix: 40110,
+  offlineRewardTitle: 40111,
+  awayTime: 40112,
+  maxRecognizedPrefix: 40113,
+  maxRecognizedSuffix: 40114,
+  rewardsEarned: 40115,
+  costPerPull: 40116,
+  kindSuffix: 40117,
+  nodeSuffix: 40118,
+  targetStage: 40119,
+  clearConversion: 40120,
+  expectedGain: 40121,
+  consume: 40122,
+  useCount: 40123,
+  cooldown: 40124,
+  timesSuffix: 40125,
+  gradeProbability: 40126,
+  owned: 40127,
+}
+
+export function getCommonUiLabel(key: CommonUiLabelKey): string {
+  return getString(COMMON_UI_LABEL_ID[key], 'KOR', key)
 }

@@ -1,4 +1,4 @@
-import { getMasteryConfig, getString, getWeaponTypeConfig, type WeaponTypeEnum } from './balance'
+import { getMasteryConfig, getString, getWeaponTypeConfig, WEAPON_TYPES, type WeaponTypeEnum } from './balance'
 import type { StatKey, WeaponMasteryData } from '../types/game'
 
 const STAT_TYPE_TO_KEY: Record<string, StatKey> = {
@@ -15,8 +15,6 @@ export function masteryPrimaryStat(weaponType: string): StatKey {
   const config = getWeaponTypeConfig(weaponType as WeaponTypeEnum)
   return STAT_TYPE_TO_KEY[config.PrimaryStat] ?? 'atk'
 }
-
-const WEAPON_TYPES: WeaponTypeEnum[] = ['Sword', 'Spear', 'Bow']
 
 // 무기 숙련 — 종류(검/창/활)별로 하나씩. MasteryTable 행 하나당 무기 종류 1개.
 // WeaponMasteryData.id에는 WeaponTypeEnum 값('Sword' 등)이 그대로 들어간다.

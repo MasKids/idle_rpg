@@ -179,6 +179,13 @@ def exist_reward(stage: int) -> int:
     return max(1, math.floor(stage / 10))
 
 
+# 보스 처치가 시간에너지의 유일한 획득 경로라, 챕터가 올라가도 고정값이면 유물 뽑기
+# (1회 50)·타임 하이스트(사용할수록 지수적으로 비싸짐)를 감당할 총량이 금방 부족해진다.
+# 골드처럼 지수 성장(×1.1/스테이지)까지는 필요 없어 완만한 선형 성장으로 완충한다.
+def boss_time_energy_reward(chapter: int) -> int:
+    return 15 + (chapter - 1) * 5
+
+
 def node_cost(order: int) -> int:
     return math.floor(10 * 1.35 ** (order - 1))
 
@@ -195,7 +202,6 @@ BOSS_HP_MULT = 5
 BOSS_ATK_MULT = 2
 BOSS_REWARD_MULT = 3
 BOSS_EXIST_MULT = 2
-BOSS_TIME_ENERGY_REWARD = 5
 
 HP_GROWTH_RATE = 1.15  # EnemyHp/EnemyAtk 공통 적용
 REWARD_GROWTH_RATE = 1.1  # 골드/성장에너지/존재력 보상 공통 적용
@@ -333,7 +339,7 @@ def build_stage_rows() -> list[list]:
                 gold_reward(boss_stage) * BOSS_REWARD_MULT,
                 growth_reward(boss_stage) * BOSS_REWARD_MULT,
                 exist_reward(boss_stage) * BOSS_EXIST_MULT,
-                BOSS_TIME_ENERGY_REWARD,
+                boss_time_energy_reward(chapter),
                 HP_GROWTH_RATE,
                 REWARD_GROWTH_RATE,
             ]
@@ -570,9 +576,10 @@ def build_feature_unlock_rows() -> list[list]:
     ]
 
 
-# EquipmentTable는 장비 5부위 강화 시스템 폐기와 함께 제거됨 (무기 시스템으로 대체 예정).
-# 관련 StringTable 부위명(투구/갑옷/장갑/신발)도 함께 제거했다. "무기"(40009)는
-# MasteryTable이 여전히 참조하므로 유지한다.
+# EquipmentTable는 장비 5부위 강화 시스템 폐기와 함께 제거됨 (무기 시스템으로 대체됨).
+# 관련 StringTable 부위명(무기/투구/갑옷/장갑/신발/기본 검)도 전부 함께 제거했다 —
+# MasteryTable은 지금 40072~74(검/창/활 숙련 이름)를 참조하므로 이 이름들에
+# 더 이상 의존하지 않는다.
 
 # ---------------------------------------------------------------------------
 # MasteryTable
@@ -1058,13 +1065,6 @@ REBIRTH_TABLE_COLUMNS = register(
         {"eng": "//Name", "kor": "이름", "type": "string", "ref": "", "desc": "행 구분용 참고 이름 (파싱 제외)"},
         {"eng": "ResetStage", "kor": "스테이지 초기화", "type": "bool", "ref": "", "desc": "실행 시 스테이지를 1로 되돌리는지"},
         {"eng": "ResetStats", "kor": "스탯 초기화", "type": "bool", "ref": "", "desc": "실행 시 6스탯 레벨을 초기화하는지"},
-        {
-            "eng": "ResetEquipment",
-            "kor": "장비 초기화",
-            "type": "bool",
-            "ref": "",
-            "desc": "실행 시 장비 강화 레벨을 초기화하는지",
-        },
         {"eng": "ResetMastery", "kor": "숙련 초기화", "type": "bool", "ref": "", "desc": "실행 시 무기 숙련 레벨을 초기화하는지"},
         {
             "eng": "RefundGrowthEnergy",
@@ -1104,6 +1104,20 @@ REBIRTH_TABLE_COLUMNS = register(
             "desc": "회차 보너스 포인트 공식에서 도달 스테이지에 적용하는 지수",
         },
         {
+            "eng": "DiamondBase",
+            "kor": "다이아 지급 계수",
+            "type": "float",
+            "ref": "",
+            "desc": "리버스 시 신규 지급되는 다이아 공식의 기준 계수. 지급량 = floor(DiamondBase × 도달스테이지^DiamondExponent). 환급이 아니라 신규 지급이라 rebirthSpent/환급 배율과 무관",
+        },
+        {
+            "eng": "DiamondExponent",
+            "kor": "다이아 지급 지수",
+            "type": "float",
+            "ref": "",
+            "desc": "다이아 지급 공식에서 도달 스테이지에 적용하는 지수",
+        },
+        {
             "eng": "RefundBonusPerPoint",
             "kor": "포인트당 환급 증폭률",
             "type": "float",
@@ -1141,13 +1155,14 @@ def build_rebirth_rows() -> list[list]:
             True,
             True,
             True,
-            True,
-            "스테이지/스탯/장비/숙련 초기화 + 소비 재화 전액 환급. 존재력 트리는 유지",
+            "스테이지/스탯/숙련 초기화 + 소비 재화 전액 환급 + 다이아 신규 지급. 존재력 트리는 유지",
             1.0,
             0.5,
+            20.0,
+            0.6,
             1.0,
             5.0,
-            "포인트 = 1.0 × 도달스테이지^0.5 (소수점 유지, 최소 스테이지 제한 없음). 환급 배율 = 1 + (누적 포인트 × 1.0 / 100), 최대 5.0배. 전투 중 재화 획득량/스탯에는 영향 없음",
+            "포인트 = 1.0 × 도달스테이지^0.5 (소수점 유지, 최소 스테이지 제한 없음). 다이아 지급량 = floor(20.0 × 도달스테이지^0.6, 환급과 무관한 신규 지급). 환급 배율 = 1 + (누적 포인트 × 1.0 / 100), 최대 5.0배. 전투 중 재화 획득량/스탯에는 영향 없음",
         ]
     ]
 
@@ -1180,7 +1195,7 @@ def build_common_rows() -> list[list]:
         ("InitialTimeEnergy", "초기 시간에너지", 0, "int", "게임 시작 시 지급되는 초기 시간에너지"),
         ("InitialMasteryEssence", "초기 숙련의정수", 0, "int", "게임 시작 시 지급되는 초기 숙련의 정수"),
         ("AutoSaveIntervalSec", "자동저장 간격(초)", 2, "float", "상태 변경 후 실제 저장까지의 최소 대기 간격"),
-        ("InitialDiamond", "초기 다이아", 0, "int", "게임 시작 시 지급되는 초기 다이아"),
+        ("InitialDiamond", "초기 다이아", 200, "int", "게임 시작 시 지급되는 초기 다이아 — 첫 리버스 전에도 무기 가챠를 1~2회 체험할 수 있는 양"),
         ("RelicGachaCostTimeEnergy", "유물 뽑기 비용", 50, "int", "유물 뽑기 1회당 소모되는 시간에너지"),
         (
             "RelicDuplicateRefundTimeEnergy",
@@ -1222,10 +1237,9 @@ def build_string_rows() -> list[list]:
         (40006, "존재력 획득량", "EXIST_GAIN", "Stat"),
         (40007, "리버스", "REBIRTH", "System"),
         (40008, "타임 하이스트", "TIME_HEIST", "System"),
-        # 40010~40013(투구/갑옷/장갑/신발)은 장비 5부위 강화 폐기와 함께 제거됨.
-        # "무기"(40009)는 MasteryTable이 참조하므로 유지 — 번호는 재사용하지 않는다.
-        (40009, "무기", "Weapon", "Weapon"),
-        (40014, "기본 검", "Basic Sword", "Weapon"),
+        # 40009~40014(무기/투구/갑옷/장갑/신발/기본 검)는 장비 5부위 강화 폐기와 함께
+        # 전부 제거됨. MasteryTable은 지금 40072~74(검/창/활 숙련 이름)를 참조하므로
+        # "무기"(구 40009)에 더 이상 의존하지 않는다. 번호는 재사용하지 않는다.
         (40015, "존재력", "EXIST", "Currency"),
         (40016, "성장에너지", "GROWTH_ENERGY", "Currency"),
         (40017, "숙련의 정수", "MASTERY_ESSENCE", "Currency"),
@@ -1332,6 +1346,30 @@ def build_string_rows() -> list[list]:
         # 성장 화면
         (40104, "스탯", "Stat", "GrowthUi"),
         (40105, "숙련", "Mastery", "GrowthUi"),
+        # 여러 화면에서 재사용되는 짧은 라벨 — StageInfoModal/OfflineRewardModal/
+        # RelicTab/RelicDetailModal/TimeHeistModal/WeaponGachaPanel의 하드코딩 정리용.
+        (40106, "적 HP", "Enemy HP", "CommonUi"),
+        (40107, "적 공격력", "Enemy ATK", "CommonUi"),
+        (40108, "처치 진행도", "Kill Progress", "CommonUi"),
+        (40109, "스테이지 보상 (처치당)", "Stage Reward (per kill)", "CommonUi"),
+        (40110, "회차", "Cycle", "CommonUi"),
+        (40111, "오프라인 보상", "Offline Reward", "CommonUi"),
+        (40112, "비운 시간", "Time Away", "CommonUi"),
+        (40113, "최대", "Max", "CommonUi"),
+        (40114, "인정", "Recognized", "CommonUi"),
+        (40115, "획득 재화", "Rewards Earned", "CommonUi"),
+        (40116, "1회 비용", "Cost per Pull", "CommonUi"),
+        (40117, "종", "Kinds", "CommonUi"),
+        (40118, "노드", "Nodes", "CommonUi"),
+        (40119, "대상 스테이지", "Target Stage", "CommonUi"),
+        (40120, "클리어 환산", "Clears Converted", "CommonUi"),
+        (40121, "획득 예정", "Expected Gain", "CommonUi"),
+        (40122, "소모", "Consume", "CommonUi"),
+        (40123, "사용 횟수", "Use Count", "CommonUi"),
+        (40124, "쿨타임", "Cooldown", "CommonUi"),
+        (40125, "회", "Times", "CommonUi"),
+        (40126, "등급 확률", "Grade Probability", "CommonUi"),
+        (40127, "보유", "Owned", "CommonUi"),
     ]
     rows = []
     for i, (string_id, kor, eng, category) in enumerate(specs, start=1):

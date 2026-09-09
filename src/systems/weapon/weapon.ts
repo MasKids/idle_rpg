@@ -4,19 +4,22 @@ import {
   BALANCE_TABLES,
   getGachaLevelForPullCount,
   getString,
+  getWeaponBreakthroughStep,
   getWeaponFusionConfig,
   getWeaponGradeConfig,
   getWeaponTypeConfig,
   getWeaponUpgradeConfig,
+  WEAPON_TYPES,
   type GachaTableRow,
   type WeaponGradeEnum,
   type WeaponTypeEnum,
 } from '../../data/balance'
 import type { OwnedWeapons, WeaponInstance } from '../../types/game'
 
-export const WEAPON_TYPES: WeaponTypeEnum[] = ['Sword', 'Spear', 'Bow']
+export { WEAPON_TYPES }
 export const WEAPON_GRADES: WeaponGradeEnum[] = ['Normal', 'Rare', 'Epic', 'Unique', 'Legendary']
 export const WEAPON_TIERS = [1, 2, 3, 4, 5] as const
+export const WEAPON_MAX_BREAKTHROUGH = BALANCE_TABLES.WeaponBreakthroughTable.length
 
 // ---------------------------------------------------------------------------
 // 무기 식별자 — "{종류}_{등급}_{단계}" 문자열 하나가 75종 중 하나를 가리킨다.
@@ -59,13 +62,15 @@ export function weaponTierMultiplier(tier: number): number {
   return 1 + (tier - 1) * (upgrade.TierStepBonusPercent / 100)
 }
 
-// 돌파 완료 단계 수에 따른 레벨 상한 (기본 상한 + 완료한 각 단계의 LevelCapBonus 합)
+// 돌파 완료 단계 수에 따른 레벨 상한 (기본 상한 + 완료한 각 단계의 LevelCapBonus 합).
+// breakthroughCount는 항상 0~WEAPON_MAX_BREAKTHROUGH 범위라 step이 테이블에 없는
+// 경우가 실제로 없으므로, "없으면 기본값+경고"로 항상 행을 보장하는 getWeaponBreakthroughStep을
+// 그대로 써도 안전하다 (nextBreakthroughStep과 달리 여기선 "없음"이 의미를 갖지 않는다).
 export function weaponMaxLevel(breakthroughCount: number): number {
   const upgrade = getWeaponUpgradeConfig()
   let cap = upgrade.BaseMaxLevel
   for (let step = 1; step <= breakthroughCount; step++) {
-    const row = BALANCE_TABLES.WeaponBreakthroughTable.find((r) => r.BreakthroughStep === step)
-    if (row) cap += row.LevelCapBonus
+    cap += getWeaponBreakthroughStep(step).LevelCapBonus
   }
   return cap
 }

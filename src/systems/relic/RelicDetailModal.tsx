@@ -1,5 +1,5 @@
-import { BALANCE_TABLES, getString } from '../../data/balance'
-import { getButtonLabel, getRelicUiLabel, getStateLabel, getWeaponUiLabel } from '../../data/uiStrings'
+import { getRelicConfig, getString } from '../../data/balance'
+import { getButtonLabel, getCommonUiLabel, getRelicUiLabel, getStateLabel, getWeaponUiLabel } from '../../data/uiStrings'
 import { useGameStore } from '../../store/gameStore'
 import { GRADE_TEXT_COLOR } from '../weapon/weaponUi'
 import { computeRelicSlotCount, relicEffectLabel, relicGradeName } from './relic'
@@ -15,8 +15,9 @@ export function RelicDetailModal({ relicId, onClose }: RelicDetailModalProps) {
   const unlockedCount = useGameStore((state) => state.unlockedCount)
   const setRelicSlot = useGameStore((state) => state.setRelicSlot)
 
-  const relic = BALANCE_TABLES.RelicTable.find((row) => row.Id === relicId)
-  if (!relic) return null
+  // relicId는 항상 sortedRelicRows()가 나열한 실제 유물 id만 넘어오므로
+  // 존재를 항상 보장하는 getRelicConfig를 그대로 쓴다(없으면 기본값+경고).
+  const relic = getRelicConfig(relicId)
 
   const owned = ownedRelics.includes(relicId)
   const activeIndex = activeRelics.indexOf(relicId)
@@ -66,7 +67,7 @@ export function RelicDetailModal({ relicId, onClose }: RelicDetailModalProps) {
             <dd className="text-white">{relicEffectLabel(relic)}</dd>
           </div>
           <div className="flex justify-between">
-            <dt>보유</dt>
+            <dt>{getCommonUiLabel('owned')}</dt>
             <dd className="text-white">{owned ? getStateLabel('unlocked') : getStateLabel('locked')}</dd>
           </div>
         </dl>

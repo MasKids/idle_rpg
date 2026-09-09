@@ -15,9 +15,10 @@ import {
   weaponLevelUpCost,
   weaponMaxLevel,
   weaponOwnBonus,
+  WEAPON_MAX_BREAKTHROUGH,
 } from './weapon'
 import { GRADE_TEXT_COLOR } from './weaponUi'
-import { masteryPrimaryStat } from '../../data/equipment'
+import { masteryPrimaryStat } from '../../data/mastery'
 
 interface WeaponDetailModalProps {
   weaponId: string
@@ -100,7 +101,9 @@ export function WeaponDetailModal({ weaponId, onClose }: WeaponDetailModalProps)
           </div>
           <div className="flex justify-between">
             <dt>돌파</dt>
-            <dd className="text-white">{breakthroughCount} / 5</dd>
+            <dd className="text-white">
+              {breakthroughCount} / {WEAPON_MAX_BREAKTHROUGH}
+            </dd>
           </div>
           <div className="flex justify-between">
             <dt>{getWeaponUiLabel('ownedCount')}</dt>

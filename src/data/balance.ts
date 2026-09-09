@@ -14,6 +14,9 @@ export type NodeEffectTypeEnum = 'STAT' | 'GRANT'
 export type CurrencyTypeEnum = 'EXIST' | 'GROWTH_ENERGY' | 'MASTERY_ESSENCE' | 'TIME_ENERGY' | 'GOLD'
 export type FeatureTypeEnum = 'REBIRTH' | 'TIME_HEIST'
 export type WeaponTypeEnum = 'Sword' | 'Spear' | 'Bow'
+// weapon.ts(무기 로직)와 mastery.ts(숙련 로직) 양쪽이 같은 목록을 쓰므로, 두 시스템
+// 사이 의존 방향이 꼬이지 않도록 더 하위 계층인 여기(data/)에 한 곳만 둔다.
+export const WEAPON_TYPES: WeaponTypeEnum[] = ['Sword', 'Spear', 'Bow']
 export type WeaponGradeEnum = 'Normal' | 'Rare' | 'Epic' | 'Unique' | 'Legendary'
 export type RelicGradeEnum = 'Normal' | 'Rare' | 'Epic'
 export type RelicEffectTypeEnum =
@@ -189,7 +192,6 @@ export interface RebirthTableRow {
   Id: number
   ResetStage: boolean
   ResetStats: boolean
-  ResetEquipment: boolean
   ResetMastery: boolean
   RefundGrowthEnergy: boolean
   RefundGold: boolean
@@ -197,6 +199,10 @@ export interface RebirthTableRow {
   KeepExistTree: boolean
   BonusBase: number
   BonusExponent: number
+  // 리버스 시 신규 지급되는 다이아 공식 계수 — 환급이 아니므로 rebirthSpent/환급
+  // 배율과 무관하다. 지급량 = floor(DiamondBase × 도달스테이지^DiamondExponent)
+  DiamondBase: number
+  DiamondExponent: number
   RefundBonusPerPoint: number
   MaxRefundMultiplier: number
 }
@@ -405,7 +411,6 @@ const DEFAULT_REBIRTH: RebirthTableRow = {
   Id: 0,
   ResetStage: true,
   ResetStats: true,
-  ResetEquipment: true,
   ResetMastery: true,
   RefundGrowthEnergy: true,
   RefundGold: true,
@@ -413,6 +418,8 @@ const DEFAULT_REBIRTH: RebirthTableRow = {
   KeepExistTree: true,
   BonusBase: 1.0,
   BonusExponent: 0.5,
+  DiamondBase: 20.0,
+  DiamondExponent: 0.6,
   RefundBonusPerPoint: 1.0,
   MaxRefundMultiplier: 5.0,
 }
