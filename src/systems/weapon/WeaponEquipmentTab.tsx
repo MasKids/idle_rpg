@@ -3,11 +3,13 @@ import { getString, getWeaponTypeConfig, type WeaponGradeEnum, type WeaponTypeEn
 import { masteryPrimaryStat } from '../../data/equipment'
 import { getStatName, getWeaponUiLabel } from '../../data/uiStrings'
 import { useGameStore } from '../../store/gameStore'
+import type { WeaponInstance } from '../../types/game'
 import { formatNumber } from '../../utils/format'
 import { WeaponDetailModal } from './WeaponDetailModal'
 import {
   buildWeaponId,
   computeWeaponBonusBreakdown,
+  computeWeaponReadiness,
   weaponDisplayName,
   WEAPON_GRADES,
   WEAPON_TIERS,
@@ -54,9 +56,7 @@ export function WeaponEquipmentTab() {
                   {owned ? (
                     <>
                       <span className="text-white">Lv.{entry.level}</span>
-                      <span className="text-white/50">
-                        ×{entry.count} · 돌{entry.breakthroughCount}
-                      </span>
+                      <CountReadinessBar weaponId={weaponId} entry={entry} isEquipped={isEquipped} />
                     </>
                   ) : (
                     <span className="text-white/20">0</span>
@@ -71,6 +71,42 @@ export function WeaponEquipmentTab() {
       {selectedWeaponId && (
         <WeaponDetailModal weaponId={selectedWeaponId} onClose={() => setSelectedWeaponId(null)} />
       )}
+    </div>
+  )
+}
+
+// "보유 개수 / 돌파·합성 중 더 빨리 되는 쪽 필요 개수"를 막대로. 그 조건을 채우면(돌파나
+// 합성 중 하나라도 가능해지면) 초록으로 바뀐다. 더 이상 돌파도 합성도 불가능한 완성
+// 상태면 막대 없이 보유 개수만 보여준다.
+function CountReadinessBar({
+  weaponId,
+  entry,
+  isEquipped,
+}: {
+  weaponId: string
+  entry: WeaponInstance
+  isEquipped: boolean
+}) {
+  const readiness = computeWeaponReadiness(weaponId, entry, isEquipped)
+
+  if (!readiness) {
+    return <span className="text-white/50">×{entry.count}</span>
+  }
+
+  const { count, required, ready } = readiness
+  const fillPercent = Math.min(100, (count / required) * 100)
+
+  return (
+    <div className="mt-0.5 flex w-full flex-col items-center gap-0.5 px-1.5">
+      <span className={ready ? 'font-semibold text-emerald-400' : 'text-white/50'}>
+        {count}/{required}
+      </span>
+      <div className="h-1 w-full overflow-hidden rounded-full bg-black/40">
+        <div
+          className={`h-full rounded-full ${ready ? 'bg-emerald-400' : 'bg-cyan-500/70'}`}
+          style={{ width: `${fillPercent}%` }}
+        />
+      </div>
     </div>
   )
 }

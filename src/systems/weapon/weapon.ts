@@ -178,6 +178,33 @@ export function canMerge(id: string, entry: WeaponInstance, isEquipped: boolean)
   return available >= fusion.RequiredCount
 }
 
+export interface WeaponReadiness {
+  count: number
+  // 합성(등급 승급) 필요 개수 — 합성이 이미 끝(레전드리 5단계)이면 돌파 다음 단계 필요 개수로 대체
+  required: number
+  // count >= required
+  ready: boolean
+}
+
+// 그리드에 보여줄 "보유 개수 / 목표 개수" — 기본은 합성(다음 등급으로의 승급) 기준이다.
+// 합성이 더 불가능한 마지막 칸(레전드리 5단계)에서만 돌파 다음 단계 필요 개수를 대신 보여준다
+// (돌파는 1단계가 항상 1개라 항상 초록이 되어버려 진행도 표시로는 덜 유용하다).
+// 돌파도 합성도 더는 불가능하면(완전히 다 키운 상태) null.
+export function computeWeaponReadiness(id: string, entry: WeaponInstance, isEquipped: boolean): WeaponReadiness | null {
+  if (nextWeaponIdForMerge(id) !== null) {
+    const fusion = getWeaponFusionConfig()
+    const required = fusion.RequiredCount + (isEquipped ? 1 : 0)
+    return { count: entry.count, required, ready: entry.count >= required }
+  }
+
+  const nextStep = nextBreakthroughStep(entry)
+  if (nextStep) {
+    return { count: entry.count, required: nextStep.RequiredDuplicateCount, ready: entry.count >= nextStep.RequiredDuplicateCount }
+  }
+
+  return null
+}
+
 // ---------------------------------------------------------------------------
 // 가챠 — 종류는 균등, 등급/단계는 가챠 레벨에 따른 가중치로 각각 독립 추첨
 // ---------------------------------------------------------------------------
