@@ -63,6 +63,9 @@ export type ButtonLabelKey =
   | 'upgrade'
   | 'maxAll'
   | 'back'
+  | 'equip'
+  | 'breakthrough'
+  | 'fuse'
 
 const BUTTON_LABEL_ID: Record<ButtonLabelKey, number> = {
   close: 40031,
@@ -77,6 +80,9 @@ const BUTTON_LABEL_ID: Record<ButtonLabelKey, number> = {
   upgrade: 40040,
   maxAll: 40041,
   back: 40042,
+  equip: 40077,
+  breakthrough: 40078,
+  fuse: 40079,
 }
 
 export type StateLabelKey = 'locked' | 'unlocked' | 'available' | 'tier' | 'effect' | 'cost'
@@ -139,4 +145,44 @@ export function getStateLabel(key: StateLabelKey): string {
 
 export function getRebirthBonusLabel(key: RebirthBonusLabelKey): string {
   return getString(REBIRTH_BONUS_LABEL_ID[key], 'KOR', key)
+}
+
+export type WeaponUiLabelKey =
+  | 'equipmentSubTab'
+  | 'relicSubTab'
+  | 'ownBonus'
+  | 'equipBonus'
+  | 'equipped'
+  | 'noWeaponEquipped'
+  | 'ownedCount'
+  | 'grade'
+
+const WEAPON_UI_LABEL_ID: Record<WeaponUiLabelKey, number> = {
+  equipmentSubTab: 40080,
+  relicSubTab: 40081,
+  ownBonus: 40082,
+  equipBonus: 40083,
+  equipped: 40084,
+  noWeaponEquipped: 40085,
+  ownedCount: 40086,
+  grade: 40087,
+}
+
+export function getWeaponUiLabel(key: WeaponUiLabelKey): string {
+  return getString(WEAPON_UI_LABEL_ID[key], 'KOR', key)
+}
+
+export type GachaUiLabelKey = 'gachaLevel' | 'toNextLevel' | 'pullOnce' | 'pullTen' | 'newItem' | 'duplicate'
+
+const GACHA_UI_LABEL_ID: Record<GachaUiLabelKey, number> = {
+  gachaLevel: 40088,
+  toNextLevel: 40089,
+  pullOnce: 40090,
+  pullTen: 40091,
+  newItem: 40092,
+  duplicate: 40093,
+}
+
+export function getGachaUiLabel(key: GachaUiLabelKey): string {
+  return getString(GACHA_UI_LABEL_ID[key], 'KOR', key)
 }

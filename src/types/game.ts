@@ -84,6 +84,12 @@ export interface WeaponInstance {
 
 export type OwnedWeapons = Record<string, WeaponInstance>
 
+// 무기 가챠 1회 결과 — 화면에 등급별 색상/중복 여부를 표시하기 위해 판정까지 함께 담는다.
+export interface WeaponGachaPullResult {
+  weaponId: string
+  isDuplicate: boolean
+}
+
 // 유물 슬롯 — 인덱스 위치에 유물 Id(RelicTable.Id)를 꽂거나 비워둔다(null).
 export type ActiveRelicSlots = (number | null)[]
 

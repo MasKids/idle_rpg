@@ -48,6 +48,14 @@ export function DevPanel() {
 
           <button
             type="button"
+            onClick={() => addCurrency('diamond', 1_000)}
+            className="mb-1 w-full rounded bg-white/10 px-2 py-1 text-left text-[11px] text-white hover:bg-white/20"
+          >
+            다이아 +1,000
+          </button>
+
+          <button
+            type="button"
             onClick={() => addCurrency('timeEnergy', 1_000)}
             className="mb-1 w-full rounded bg-white/10 px-2 py-1 text-left text-[11px] text-white hover:bg-white/20"
           >

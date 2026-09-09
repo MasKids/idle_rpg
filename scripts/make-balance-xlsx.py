@@ -758,13 +758,42 @@ WEAPON_UPGRADE_TABLE_COLUMNS = register(
             "ref": "",
             "desc": "단계 하나 오를 때마다 등급 배율에 추가로 곱해지는 가산율(%). tier=1 기준 0%, tier=5는 (tier-1)×이 값",
         },
+        {
+            "eng": "BaseAtkOwnBonusPerLevel",
+            "kor": "공통 기본 공격력 보유효과 계수",
+            "type": "float",
+            "ref": "",
+            "desc": "종류 불문 모든 무기가 공통으로 갖는 공격력 보유효과 계수. "
+            "보유효과 = 이 값 × 등급배율 × 단계배율 × 레벨 × 보유개수, 장착 여부·종류 무관하게 항상 합산",
+        },
+        {
+            "eng": "BaseAtkEquipBonusPerLevel",
+            "kor": "공통 기본 공격력 장착효과 계수",
+            "type": "float",
+            "ref": "",
+            "desc": "종류 불문 모든 무기가 공통으로 갖는 공격력 장착효과 계수. "
+            "장착효과 = 이 값 × 등급배율 × 단계배율 × 레벨. 장착한 무기 1개에서만 발생, 종류 무관",
+        },
         {"eng": "//Description", "kor": "설명", "type": "string", "ref": "", "desc": "행에 대한 참고 설명 (파싱 제외)"},
     ],
 )
 
 
 def build_weapon_upgrade_rows() -> list[list]:
-    return [[1, 37021, 10, 15, 1.2, 10.0, "레벨 상한 10, 돌파 1회당 +10 (WeaponBreakthroughTable 참고)"]]
+    return [
+        [
+            1,
+            37021,
+            10,
+            15,
+            1.2,
+            10.0,
+            0.5,
+            5.0,
+            "레벨 상한 10, 돌파 1회당 +10 (WeaponBreakthroughTable 참고). "
+            "BaseAtk 계수는 검의 특화 계수와 동일값 — 모든 무기가 검만큼의 기본 공격력은 갖는다는 의미",
+        ]
+    ]
 
 
 # ---------------------------------------------------------------------------
@@ -1211,7 +1240,7 @@ def build_string_rows() -> list[list]:
         (40025, "정수", "ESSENCE_ABBR", "CurrencyAbbr"),
         # 하단 메뉴 탭 이름
         (40026, "성장", "Growth", "Tab"),
-        (40027, "장비", "Equipment", "Tab"),
+        (40027, "무기고", "Armory", "Tab"),
         (40028, "가챠", "Gacha", "Tab"),
         (40029, "존재력", "ExistTree", "Tab"),
         (40030, "도감", "Dogam", "Tab"),
@@ -1269,6 +1298,26 @@ def build_string_rows() -> list[list]:
         # 신규 재화 — 다이아
         (40075, "다이아", "DIAMOND", "Currency"),
         (40076, "다이아", "DIAMOND_ABBR", "CurrencyAbbr"),
+        # 무기고 화면 — 버튼
+        (40077, "장착", "Equip", "Button"),
+        (40078, "돌파", "Breakthrough", "Button"),
+        (40079, "합성", "Fuse", "Button"),
+        # 무기고 화면 — 하위 탭/라벨
+        (40080, "장비", "Equipment", "WeaponUi"),
+        (40081, "유물", "Relic", "WeaponUi"),
+        (40082, "보유 효과", "Own Bonus", "WeaponUi"),
+        (40083, "장착 효과", "Equip Bonus", "WeaponUi"),
+        (40084, "장착 중", "Equipped", "WeaponUi"),
+        (40085, "장착된 무기 없음", "No Weapon Equipped", "WeaponUi"),
+        (40086, "보유 개수", "Owned Count", "WeaponUi"),
+        (40087, "등급", "Grade", "WeaponUi"),
+        # 가챠 화면
+        (40088, "가챠 레벨", "Gacha Level", "GachaUi"),
+        (40089, "다음 레벨까지", "To Next Level", "GachaUi"),
+        (40090, "1회 뽑기", "Pull x1", "GachaUi"),
+        (40091, "10회 뽑기", "Pull x10", "GachaUi"),
+        (40092, "신규", "New", "GachaUi"),
+        (40093, "중복", "Duplicate", "GachaUi"),
     ]
     rows = []
     for i, (string_id, kor, eng, category) in enumerate(specs, start=1):

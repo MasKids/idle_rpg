@@ -13,42 +13,49 @@ let timeoutId: ReturnType<typeof setTimeout> | null = null
 let hitCounter = 0
 
 function tick() {
-  const state = useGameStore.getState()
-  const { amount, isCrit } = calculateDamage(state.stats)
+  // 한 틱에서 예기치 못한 예외가 나도(밸런스 데이터 이상 등) 재귀 setTimeout 체인
+  // 자체는 절대 끊기지 않게 몸통 전체를 try/catch로 감싼다 — 안 그러면 그 순간부터
+  // 전투가 영구히 멈춘 채로 새로고침 전까지 복구되지 않는다.
+  try {
+    const state = useGameStore.getState()
+    const { amount, isCrit } = calculateDamage(state.stats)
 
-  hitCounter += 1
-  useGameStore.setState({ lastHit: { id: hitCounter, amount, isCrit } })
+    hitCounter += 1
+    useGameStore.setState({ lastHit: { id: hitCounter, amount, isCrit } })
 
-  const remainingHp = state.battle.enemyHp - amount
+    const remainingHp = state.battle.enemyHp - amount
 
-  if (remainingHp <= 0) {
-    const clearedStage = generateStage(state.currentStage)
-    state.addCurrency('gold', clearedStage.rewards.gold)
-    state.addCurrency('growthEnergy', clearedStage.rewards.growthEnergy)
-    state.addCurrency('exist', Math.floor(clearedStage.rewards.exist * state.stats.existGain))
-    if (clearedStage.rewards.timeEnergy > 0) {
-      state.addCurrency('timeEnergy', clearedStage.rewards.timeEnergy)
-    }
+    if (remainingHp <= 0) {
+      const clearedStage = generateStage(state.currentStage)
+      state.addCurrency('gold', clearedStage.rewards.gold)
+      state.addCurrency('growthEnergy', clearedStage.rewards.growthEnergy)
+      state.addCurrency('exist', Math.floor(clearedStage.rewards.exist * state.stats.existGain))
+      if (clearedStage.rewards.timeEnergy > 0) {
+        state.addCurrency('timeEnergy', clearedStage.rewards.timeEnergy)
+      }
 
-    const kills = state.battle.kills + 1
+      const kills = state.battle.kills + 1
 
-    if (kills >= state.battle.killsRequired) {
-      const nextStageNumber = state.currentStage + 1
-      const nextStage = generateStage(nextStageNumber)
-      state.setStage(nextStageNumber)
-      state.setBattle({
-        stage: nextStageNumber,
-        enemyMaxHp: nextStage.enemyHp,
-        enemyHp: nextStage.enemyHp,
-        isBossStage: nextStage.isBoss,
-        kills: 0,
-        killsRequired: killsRequiredForStage(nextStageNumber),
-      })
+      if (kills >= state.battle.killsRequired) {
+        const nextStageNumber = state.currentStage + 1
+        const nextStage = generateStage(nextStageNumber)
+        state.setStage(nextStageNumber)
+        state.setBattle({
+          stage: nextStageNumber,
+          enemyMaxHp: nextStage.enemyHp,
+          enemyHp: nextStage.enemyHp,
+          isBossStage: nextStage.isBoss,
+          kills: 0,
+          killsRequired: killsRequiredForStage(nextStageNumber),
+        })
+      } else {
+        state.setBattle({ ...state.battle, enemyHp: clearedStage.enemyHp, kills })
+      }
     } else {
-      state.setBattle({ ...state.battle, enemyHp: clearedStage.enemyHp, kills })
+      state.setBattle({ ...state.battle, enemyHp: remainingHp })
     }
-  } else {
-    state.setBattle({ ...state.battle, enemyHp: remainingHp })
+  } catch (error) {
+    console.error('[battleLoop] 틱 처리 중 오류 — 이번 틱만 건너뛰고 계속 진행합니다.', error)
   }
 
   const nextAspd = useGameStore.getState().stats.aspd

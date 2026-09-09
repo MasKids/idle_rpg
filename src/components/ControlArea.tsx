@@ -1,4 +1,3 @@
-import { EquipmentPanel } from '../systems/equipment/EquipmentPanel'
 import { GrowthPanel } from '../systems/growth/GrowthPanel'
 import type { TabKey } from '../types/game'
 
@@ -10,7 +9,6 @@ export function ControlArea({ activeTab }: ControlAreaProps) {
   return (
     <div className="h-[44dvh] shrink-0 overflow-y-auto bg-cyan-950/30 p-4">
       {activeTab === 'growth' && <GrowthPanel />}
-      {activeTab === 'equipment' && <EquipmentPanel />}
     </div>
   )
 }

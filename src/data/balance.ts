@@ -118,6 +118,8 @@ export interface WeaponUpgradeTableRow {
   LevelCostBase: number
   LevelCostGrowthRate: number
   TierStepBonusPercent: number
+  BaseAtkOwnBonusPerLevel: number
+  BaseAtkEquipBonusPerLevel: number
 }
 
 export interface WeaponBreakthroughTableRow {
@@ -332,6 +334,8 @@ const DEFAULT_WEAPON_UPGRADE: WeaponUpgradeTableRow = {
   LevelCostBase: 15,
   LevelCostGrowthRate: 1.2,
   TierStepBonusPercent: 10,
+  BaseAtkOwnBonusPerLevel: 0.5,
+  BaseAtkEquipBonusPerLevel: 5,
 }
 
 const DEFAULT_WEAPON_BREAKTHROUGH: WeaponBreakthroughTableRow = {

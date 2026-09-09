@@ -564,7 +564,9 @@
       "BaseMaxLevel": 10,
       "LevelCostBase": 15,
       "LevelCostGrowthRate": 1.2,
-      "TierStepBonusPercent": 10
+      "TierStepBonusPercent": 10,
+      "BaseAtkOwnBonusPerLevel": 0.5,
+      "BaseAtkEquipBonusPerLevel": 5
     }
   ],
   "WeaponBreakthroughTable": [
@@ -1060,8 +1062,8 @@
     {
       "Index": 23,
       "Id": 40027,
-      "KOR": "장비",
-      "ENG": "Equipment"
+      "KOR": "무기고",
+      "ENG": "Armory"
     },
     {
       "Index": 24,
@@ -1356,6 +1358,108 @@
       "Id": 40076,
       "KOR": "다이아",
       "ENG": "DIAMOND_ABBR"
+    },
+    {
+      "Index": 73,
+      "Id": 40077,
+      "KOR": "장착",
+      "ENG": "Equip"
+    },
+    {
+      "Index": 74,
+      "Id": 40078,
+      "KOR": "돌파",
+      "ENG": "Breakthrough"
+    },
+    {
+      "Index": 75,
+      "Id": 40079,
+      "KOR": "합성",
+      "ENG": "Fuse"
+    },
+    {
+      "Index": 76,
+      "Id": 40080,
+      "KOR": "장비",
+      "ENG": "Equipment"
+    },
+    {
+      "Index": 77,
+      "Id": 40081,
+      "KOR": "유물",
+      "ENG": "Relic"
+    },
+    {
+      "Index": 78,
+      "Id": 40082,
+      "KOR": "보유 효과",
+      "ENG": "Own Bonus"
+    },
+    {
+      "Index": 79,
+      "Id": 40083,
+      "KOR": "장착 효과",
+      "ENG": "Equip Bonus"
+    },
+    {
+      "Index": 80,
+      "Id": 40084,
+      "KOR": "장착 중",
+      "ENG": "Equipped"
+    },
+    {
+      "Index": 81,
+      "Id": 40085,
+      "KOR": "장착된 무기 없음",
+      "ENG": "No Weapon Equipped"
+    },
+    {
+      "Index": 82,
+      "Id": 40086,
+      "KOR": "보유 개수",
+      "ENG": "Owned Count"
+    },
+    {
+      "Index": 83,
+      "Id": 40087,
+      "KOR": "등급",
+      "ENG": "Grade"
+    },
+    {
+      "Index": 84,
+      "Id": 40088,
+      "KOR": "가챠 레벨",
+      "ENG": "Gacha Level"
+    },
+    {
+      "Index": 85,
+      "Id": 40089,
+      "KOR": "다음 레벨까지",
+      "ENG": "To Next Level"
+    },
+    {
+      "Index": 86,
+      "Id": 40090,
+      "KOR": "1회 뽑기",
+      "ENG": "Pull x1"
+    },
+    {
+      "Index": 87,
+      "Id": 40091,
+      "KOR": "10회 뽑기",
+      "ENG": "Pull x10"
+    },
+    {
+      "Index": 88,
+      "Id": 40092,
+      "KOR": "신규",
+      "ENG": "New"
+    },
+    {
+      "Index": 89,
+      "Id": 40093,
+      "KOR": "중복",
+      "ENG": "Duplicate"
     }
   ]
 }

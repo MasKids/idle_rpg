@@ -11,7 +11,7 @@ import { computeTimeHeistPreview, timeHeistCooldownEndsAt } from '../systems/tim
 import {
   canBreakthrough,
   canMerge,
-  computeWeaponStatBonus,
+  computeWeaponBonusBreakdown,
   currentGachaLevelConfig,
   nextBreakthroughStep,
   nextWeaponIdForMerge,
@@ -30,6 +30,7 @@ import type {
   RebirthSpentTotals,
   SpecialUnlockId,
   StatKey,
+  WeaponGachaPullResult,
   WeaponInstance,
 } from '../types/game'
 
@@ -71,8 +72,11 @@ function grantWeaponEntry(
 }
 
 // 성장 스탯 + 존재력 트리 영구 보너스(가산) + 활성 유물 스탯형 효과(가산)를 먼저 합치고,
-// 장착 중인 무기가 있으면 그 종류의 주 스탯(ATK/ASPD/CRIT)에 무기 보유·장착 효과를
-// 가산한 뒤, 그 종류의 숙련 배율을 곱연산으로 적용한다.
+// 모든 보유 무기의 공통 기본 공격력(종류 불문)을 ATK에 가산한다. 장착 중인 무기가
+// 있으면 그 종류의 특화 스탯(ATK/ASPD/CRIT)에 추가로 보유·장착 효과를 가산한 뒤,
+// 그 종류의 숙련 배율을 곱연산으로 적용한다 — 검이면 특화 스탯도 ATK라 배율이
+// ATK 전체에 걸리고, 창/활이면 ATK는 기본 공격력만 남고 특화 스탯(ASPD/CRIT)에만
+// 배율이 걸린다. 무기 종류를 바꿔도 ATK가 0으로 꺼지지 않는다.
 // 리버스 회차 보너스는 리버스 환급량에만 영향을 주고 이 계산에는 관여하지 않는다.
 function computeEffectiveStats(
   statLevels: Record<StatKey, number>,
@@ -96,10 +100,13 @@ function computeEffectiveStats(
   const relicEffects = computeActiveRelicEffects(activeRelics)
   for (const key of STAT_KEYS) combined[key] += relicEffects.statBonus[key]
 
+  const weaponBonus = computeWeaponBonusBreakdown(ownedWeapons, equippedWeaponId)
+  combined.atk += weaponBonus.baseAtkTotal
+
   if (equippedWeaponId) {
     const { type } = parseWeaponId(equippedWeaponId)
     const primaryStat = masteryPrimaryStat(type)
-    combined[primaryStat] += computeWeaponStatBonus(ownedWeapons, equippedWeaponId)
+    combined[primaryStat] += weaponBonus.specialtyOwnTotal + weaponBonus.specialtyEquipBonus
     combined[primaryStat] *= masteryMultiplier(type, masteryLevels[type] ?? 0)
   }
 
@@ -167,9 +174,11 @@ interface GameState {
 
   // 무기
   grantWeapon: (weaponId: string, count: number) => void
-  pullWeaponGacha: () => boolean
+  pullWeaponGacha: () => WeaponGachaPullResult | null
+  pullWeaponGachaTimes: (times: number) => WeaponGachaPullResult[]
   equipWeapon: (weaponId: string) => boolean
   levelUpWeapon: (weaponId: string) => boolean
+  maxLevelUpWeapon: (weaponId: string) => void
   breakthroughWeapon: (weaponId: string) => boolean
   mergeWeapon: (weaponId: string) => boolean
 
@@ -579,9 +588,10 @@ export const useGameStore = create<GameState>((set, get) => ({
 
   pullWeaponGacha: () => {
     const cost = currentGachaLevelConfig(get().gachaCount).PullCostDiamond
-    if (!get().spendCurrency('diamond', cost)) return false
+    if (!get().spendCurrency('diamond', cost)) return null
 
     const weaponId = rollWeaponGacha(get().gachaCount)
+    const isDuplicate = (get().ownedWeapons[weaponId]?.count ?? 0) > 0
 
     set((state) => {
       const nextGachaCount = state.gachaCount + 1
@@ -600,7 +610,18 @@ export const useGameStore = create<GameState>((set, get) => ({
         ),
       }
     })
-    return true
+    return { weaponId, isDuplicate }
+  },
+
+  // 1회 뽑기를 n번 반복 — 도중에 다이아가 부족해지면 그 시점에서 멈춘다.
+  pullWeaponGachaTimes: (times) => {
+    const results: WeaponGachaPullResult[] = []
+    for (let i = 0; i < times; i++) {
+      const result = get().pullWeaponGacha()
+      if (!result) break
+      results.push(result)
+    }
+    return results
   },
 
   equipWeapon: (weaponId) => {
@@ -648,6 +669,44 @@ export const useGameStore = create<GameState>((set, get) => ({
       }
     })
     return true
+  },
+
+  maxLevelUpWeapon: (weaponId) => {
+    const entry = get().ownedWeapons[weaponId]
+    if (!entry) return
+    const { grade } = parseWeaponId(weaponId)
+    const maxLevel = weaponMaxLevel(entry.breakthroughCount)
+
+    let level = entry.level
+    let gold = get().currencies.gold
+    let spent = 0
+    while (level < maxLevel) {
+      const cost = weaponLevelUpCost(grade, level)
+      if (gold < cost) break
+      gold -= cost
+      spent += cost
+      level += 1
+    }
+    if (spent === 0) return
+
+    set((state) => {
+      const current = state.ownedWeapons[weaponId]
+      if (!current) return {}
+      const ownedWeapons = { ...state.ownedWeapons, [weaponId]: { ...current, level } }
+      return {
+        ownedWeapons,
+        currencies: { ...state.currencies, gold },
+        stats: computeEffectiveStats(
+          state.statLevels,
+          state.masteryLevels,
+          state.existTreeStatBonus,
+          ownedWeapons,
+          state.equippedWeaponId,
+          state.activeRelics,
+        ),
+        rebirthSpent: { ...state.rebirthSpent, gold: state.rebirthSpent.gold + spent },
+      }
+    })
   },
 
   breakthroughWeapon: (weaponId) => {

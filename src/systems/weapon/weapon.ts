@@ -76,6 +76,21 @@ export function weaponLevelUpCost(grade: WeaponGradeEnum, level: number): number
   return Math.floor(upgrade.LevelCostBase * upgrade.LevelCostGrowthRate ** (level - 1) * weaponGradeMultiplier(grade))
 }
 
+// 모든 무기가 종류 불문 공통으로 갖는 "기본 공격력" — 검의 특화 계수와 같은 크기라
+// 무기 종류를 바꿔도 ATK가 0으로 떨어지지 않는다. 장착 여부와 무관하게 보유만
+// 해도(어떤 종류든) 적용된다.
+export function weaponBaseAtkOwnBonus(grade: WeaponGradeEnum, tier: number, level: number, count: number): number {
+  const upgrade = getWeaponUpgradeConfig()
+  return upgrade.BaseAtkOwnBonusPerLevel * weaponGradeMultiplier(grade) * weaponTierMultiplier(tier) * level * count
+}
+
+export function weaponBaseAtkEquipBonus(grade: WeaponGradeEnum, tier: number, level: number): number {
+  const upgrade = getWeaponUpgradeConfig()
+  return upgrade.BaseAtkEquipBonusPerLevel * weaponGradeMultiplier(grade) * weaponTierMultiplier(tier) * level
+}
+
+// 종류별 특화 스탯(검=ATK 추가 특화, 창=ASPD, 활=CRIT) 보유 효과 —
+// 장착 중인 무기와 같은 종류의 보유 무기에만 적용된다(docs/WEAPON_SYSTEM.md 1.4).
 // 타입 하나의 보유 효과 = OwnBonusBase × 등급배율 × Tier배율 × 레벨 × 보유개수
 export function weaponOwnBonus(type: WeaponTypeEnum, grade: WeaponGradeEnum, tier: number, level: number, count: number): number {
   return getWeaponTypeConfig(type).OwnBonusBase * weaponGradeMultiplier(grade) * weaponTierMultiplier(tier) * level * count
@@ -86,23 +101,46 @@ export function weaponEquipBonus(type: WeaponTypeEnum, grade: WeaponGradeEnum, t
   return getWeaponTypeConfig(type).EquipBonusBase * weaponGradeMultiplier(grade) * weaponTierMultiplier(tier) * level
 }
 
-// 장착 중인 종류와 같은 종류의 보유 무기들(장착한 것 포함) 보유 효과 합 + 장착 효과.
-// 결과는 해당 종류의 주 스탯(ATK/ASPD/CRIT)에 가산될 값 하나.
-export function computeWeaponStatBonus(ownedWeapons: OwnedWeapons, equippedWeaponId: string | null): number {
-  if (!equippedWeaponId) return 0
-  const equipped = parseWeaponId(equippedWeaponId)
+export interface WeaponBonusBreakdown {
+  // 종류 불문 모든 보유 무기의 기본 공격력 합(장착한 무기가 있으면 그 장착효과도 포함) — 항상 ATK에 가산
+  baseAtkTotal: number
+  // 장착 중인 종류와 같은 종류의 보유 무기들 특화 스탯 보유 효과 합
+  specialtyOwnTotal: number
+  // 장착한 무기 1개만의 특화 스탯 장착 효과
+  specialtyEquipBonus: number
+}
 
-  let total = 0
+const EMPTY_BREAKDOWN: WeaponBonusBreakdown = { baseAtkTotal: 0, specialtyOwnTotal: 0, specialtyEquipBonus: 0 }
+
+// 기본 공격력(종류 불문, 장착 여부 무관 항상 합산)과, 장착 중인 종류의 특화 스탯
+// 보유/장착 효과(같은 종류만 대상)를 분리해서 반환한다.
+export function computeWeaponBonusBreakdown(ownedWeapons: OwnedWeapons, equippedWeaponId: string | null): WeaponBonusBreakdown {
+  let baseAtkTotal = 0
+  for (const [id, entry] of Object.entries(ownedWeapons)) {
+    if (entry.count <= 0) continue
+    const { grade, tier } = parseWeaponId(id)
+    baseAtkTotal += weaponBaseAtkOwnBonus(grade, tier, entry.level, entry.count)
+  }
+
+  if (!equippedWeaponId) return { ...EMPTY_BREAKDOWN, baseAtkTotal }
+  const equippedEntry = ownedWeapons[equippedWeaponId]
+  if (!equippedEntry || equippedEntry.count <= 0) return { ...EMPTY_BREAKDOWN, baseAtkTotal }
+
+  const equipped = parseWeaponId(equippedWeaponId)
+  baseAtkTotal += weaponBaseAtkEquipBonus(equipped.grade, equipped.tier, equippedEntry.level)
+
+  let specialtyOwnTotal = 0
+  let specialtyEquipBonus = 0
   for (const [id, entry] of Object.entries(ownedWeapons)) {
     if (entry.count <= 0) continue
     const { type, grade, tier } = parseWeaponId(id)
     if (type !== equipped.type) continue
-    total += weaponOwnBonus(type, grade, tier, entry.level, entry.count)
+    specialtyOwnTotal += weaponOwnBonus(type, grade, tier, entry.level, entry.count)
     if (id === equippedWeaponId) {
-      total += weaponEquipBonus(type, grade, tier, entry.level)
+      specialtyEquipBonus = weaponEquipBonus(type, grade, tier, entry.level)
     }
   }
-  return total
+  return { baseAtkTotal, specialtyOwnTotal, specialtyEquipBonus }
 }
 
 // ---------------------------------------------------------------------------

@@ -15,7 +15,9 @@ const CURRENCY_ICON: Record<CurrencyKey, string> = {
   diamond: '💎',
 }
 
-const CURRENCY_ORDER: CurrencyKey[] = ['exist', 'growthEnergy', 'timeEnergy', 'gold', 'essence']
+// HUD 재화 칩 4개(확정): 다이아 / 존재력 / 성장에너지 / 골드.
+// 시간에너지는 유물 탭·타임 하이스트 모달에서만, 숙련의 정수는 성장 탭에서만 표시한다.
+const CURRENCY_ORDER: CurrencyKey[] = ['diamond', 'exist', 'growthEnergy', 'gold']
 
 interface BattleAreaProps {
   onStageInfoClick: () => void

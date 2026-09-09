@@ -1,5 +1,6 @@
+import { MASTERY_WEAPONS, masteryMultiplier, masteryPrimaryStat, masteryUpgradeCost } from '../../data/equipment'
 import { statUpgradeCost } from '../../data/stats'
-import { getButtonLabel, getStatName, getTabName } from '../../data/uiStrings'
+import { getButtonLabel, getCurrencyName, getStatName, getTabName } from '../../data/uiStrings'
 import { useGameStore } from '../../store/gameStore'
 import type { StatKey } from '../../types/game'
 import { formatNumber } from '../../utils/format'
@@ -72,6 +73,72 @@ export function GrowthPanel() {
                 }`}
               >
                 {getButtonLabel('upgrade')}
+                <div className="text-[10px] opacity-80">{formatNumber(cost)}</div>
+              </button>
+            </div>
+          )
+        })}
+      </div>
+
+      <MasterySection />
+    </div>
+  )
+}
+
+// 무기 종류별(검/창/활) 숙련. docs/WEAPON_SYSTEM.md 1.5 — 장비(무기고) 탭이 아니라
+// 성장 탭에 두고, 숙련의 정수 보유량도 여기서만 보여준다.
+function MasterySection() {
+  const masteryLevels = useGameStore((state) => state.masteryLevels)
+  const essence = useGameStore((state) => state.currencies.essence)
+  const upgradeMastery = useGameStore((state) => state.upgradeMastery)
+  const maxUpgradeMastery = useGameStore((state) => state.maxUpgradeMastery)
+
+  return (
+    <div className="mt-1 border-t border-white/10 pt-3">
+      <div className="mb-1.5 flex items-center justify-between">
+        <span className="text-[11px] text-cyan-100/50">
+          {getCurrencyName('essence')} {formatNumber(essence)}
+        </span>
+        <button
+          type="button"
+          onClick={maxUpgradeMastery}
+          className="rounded-lg bg-cyan-600 px-3 py-1 text-xs font-medium text-white"
+        >
+          {getButtonLabel('maxAll')}
+        </button>
+      </div>
+
+      <div className="flex flex-col gap-1.5">
+        {MASTERY_WEAPONS.map((weapon) => {
+          const level = masteryLevels[weapon.id] ?? 0
+          const cost = masteryUpgradeCost(weapon.id, level)
+          const canAfford = essence >= cost
+          const multiplier = masteryMultiplier(weapon.id, level)
+
+          return (
+            <div
+              key={weapon.id}
+              className="flex items-center justify-between gap-2 rounded-lg bg-black/20 px-2.5 py-1.5"
+            >
+              <div className="min-w-0 flex-1">
+                <div className="flex items-baseline gap-1.5">
+                  <span className="text-xs font-medium text-cyan-100">{weapon.name}</span>
+                  <span className="text-[10px] text-cyan-100/50">Lv.{level}</span>
+                </div>
+                <div className="text-[11px] text-cyan-100/70">
+                  {getStatName(masteryPrimaryStat(weapon.id))} ×{multiplier.toFixed(2)}
+                </div>
+              </div>
+
+              <button
+                type="button"
+                disabled={!canAfford}
+                onClick={() => upgradeMastery(weapon.id)}
+                className={`shrink-0 rounded-lg px-2.5 py-1.5 text-[11px] font-medium ${
+                  canAfford ? 'bg-cyan-600 text-white' : 'cursor-not-allowed bg-white/10 text-white/30'
+                }`}
+              >
+                {getButtonLabel('train')}
                 <div className="text-[10px] opacity-80">{formatNumber(cost)}</div>
               </button>
             </div>
