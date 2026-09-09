@@ -11,6 +11,8 @@ import type {
   ExistTreeNode,
   StatKey,
 } from '../../types/game'
+import { Button, PanelHeader } from '../../components/ui'
+import { STATE_ICON } from '../../components/icons'
 
 interface ExistTreePanelProps {
   onBack: () => void
@@ -37,9 +39,9 @@ function oppositeLane(lane: ExistTreeLane): ExistTreeLane {
 }
 
 const CIRCLE_STYLE: Record<ExistNodeStatus, string> = {
-  unlocked: 'border-2 border-amber-300 bg-amber-400 text-amber-950',
-  unlockable: 'border-2 border-amber-300 bg-amber-950 text-amber-200 ring-4 ring-amber-300/50 animate-pulse scale-110',
-  locked: 'border border-amber-100/10 bg-amber-950/40 text-amber-100/30',
+  unlocked: 'border-2 border-teal-strong bg-teal-base text-white',
+  unlockable: 'border-2 border-teal-strong bg-surface-elevated text-teal-strong ring-4 ring-teal-strong/50 animate-pulse scale-110',
+  locked: 'border border-surface-border bg-surface-card text-text-disabled',
 }
 
 export function ExistTreePanel({ onBack }: ExistTreePanelProps) {
@@ -74,15 +76,16 @@ export function ExistTreePanel({ onBack }: ExistTreePanelProps) {
   const selectedStatus = selectedNode ? existNodeStatus(selectedNode.order, unlockedCount) : null
 
   return (
-    <div className="relative flex min-h-0 flex-1 flex-col bg-amber-950 text-amber-100">
-      <div className="relative flex shrink-0 items-center justify-center border-b border-amber-300/10 py-3">
-        <button type="button" onClick={onBack} className="absolute left-4 text-sm text-amber-300">
-          ← {getButtonLabel('back')}
-        </button>
-        <div className="text-sm font-semibold text-amber-200">
-          보유 {getCurrencyName('exist')} <span className="text-amber-300">{formatNumber(exist)}</span>
-        </div>
-      </div>
+    <div className="relative flex min-h-0 flex-1 flex-col bg-surface-base text-text-primary">
+      <PanelHeader
+        title={
+          <>
+            보유 {getCurrencyName('exist')} <span className="text-teal-strong">{formatNumber(exist)}</span>
+          </>
+        }
+        onBack={onBack}
+        toneClassName="text-text-primary"
+      />
 
       {selectedNode && selectedStatus && (
         <NodeInfoBar
@@ -118,11 +121,11 @@ export function ExistTreePanel({ onBack }: ExistTreePanelProps) {
                 onSpecialClick={special ? () => unlockSpecial(special.id) : undefined}
               />
               {showTierDividerBelow && (
-                <div className="flex items-center gap-2 px-6 py-2 text-[10px] text-amber-300/50">
-                  <div className="h-px flex-1 bg-amber-300/20" />
+                <div className="flex items-center gap-2 px-6 py-2 text-[10px] text-text-secondary">
+                  <div className="h-px flex-1 bg-surface-border" />
                   {node.tier}
                   {getStateLabel('tier')}
-                  <div className="h-px flex-1 bg-amber-300/20" />
+                  <div className="h-px flex-1 bg-surface-border" />
                 </div>
               )}
             </div>
@@ -163,7 +166,7 @@ function NodeRow({ node, status, isSelected, onSelect, special, specialUnlocked,
         )}
       </div>
 
-      <div className="w-px shrink-0 bg-amber-300/20" />
+      <div className="w-px shrink-0 bg-surface-border" />
 
       <div className="flex w-1/2 items-center justify-start">
         {node.lane === 'right' && (
@@ -186,7 +189,7 @@ function NodeRow({ node, status, isSelected, onSelect, special, specialUnlocked,
 function Connector() {
   return (
     <svg width="24" height="4" className="shrink-0">
-      <line x1="0" y1="2" x2="24" y2="2" stroke="currentColor" strokeWidth="2" className="text-amber-300/30" />
+      <line x1="0" y1="2" x2="24" y2="2" stroke="currentColor" strokeWidth="2" className="text-surface-border" />
     </svg>
   )
 }
@@ -214,14 +217,16 @@ function NodeCircle({
         {node.order}
       </div>
       <div className="text-center text-[9px] leading-tight">
-        {status === 'unlocked' && <span className="text-amber-200/80">{effectSummary(node.effect)}</span>}
-        {status === 'unlockable' && <span className="text-amber-300">{formatNumber(node.cost)}</span>}
-        {status === 'locked' && <span className="text-amber-100/20">{getStateLabel('locked')}</span>}
+        {status === 'unlocked' && <span className="text-text-secondary">{effectSummary(node.effect)}</span>}
+        {status === 'unlockable' && <span className="text-teal-strong">{formatNumber(node.cost)}</span>}
+        {status === 'locked' && <span className="text-text-disabled">{getStateLabel('locked')}</span>}
       </div>
     </button>
   )
 }
 
+// 리버스/타임 하이스트 같은 특별 해금 — 일반 노드(청록)와 다른 계열(등급색 중 보라)을 써서
+// 트리 스크롤 중에도 눈에 띄게 한다.
 function SpecialCircle({
   unlock,
   unlocked,
@@ -232,21 +237,17 @@ function SpecialCircle({
   onClick?: () => void
 }) {
   return (
-    <button
-      type="button"
-      onClick={onClick}
-      className="flex w-24 flex-col items-center gap-1"
-    >
+    <button type="button" onClick={onClick} className="flex w-24 flex-col items-center gap-1">
       <div
         className={`flex h-16 w-16 shrink-0 items-center justify-center rounded-full border-4 text-[10px] font-bold ${
           unlocked
-            ? 'border-fuchsia-300 bg-fuchsia-500 text-white'
-            : 'border-fuchsia-400 bg-fuchsia-950 text-fuchsia-200 ring-4 ring-fuchsia-400/40'
+            ? 'border-grade-epic bg-grade-epic text-white'
+            : 'border-grade-epic bg-surface-elevated text-grade-epic ring-4 ring-grade-epic/40'
         }`}
       >
         {unlock.label}
       </div>
-      <div className="text-center text-[9px] leading-tight text-fuchsia-200">
+      <div className="text-center text-[9px] leading-tight text-grade-epic">
         {unlocked ? getStateLabel('unlocked') : formatNumber(unlock.cost)}
       </div>
     </button>
@@ -269,17 +270,17 @@ function NodeInfoBar({
   const canUnlock = status === 'unlockable' && exist >= node.cost
 
   return (
-    <div className="shrink-0 border-b border-amber-300/20 bg-amber-900/95 px-4 py-3">
+    <div className="shrink-0 border-b border-surface-border bg-surface-elevated px-4 py-3">
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
-          <div className="text-xs font-semibold text-amber-200">
+          <div className="text-xs font-semibold text-text-primary">
             {node.order}번 노드 · {node.tier}
             {getStateLabel('tier')}
           </div>
-          <div className="mt-0.5 text-[11px] text-amber-100/70">
+          <div className="mt-0.5 text-[11px] text-text-secondary">
             {getStateLabel('effect')} {effectSummary(node.effect)}
           </div>
-          <div className="text-[11px] text-amber-100/70">
+          <div className="text-[11px] text-text-secondary">
             {status === 'unlocked'
               ? getStateLabel('unlocked')
               : `${getStateLabel('cost')} ${formatNumber(node.cost)} ${getCurrencyName('exist')}`}
@@ -288,21 +289,15 @@ function NodeInfoBar({
 
         <div className="flex shrink-0 items-center gap-2">
           {status === 'unlockable' && (
-            <button
-              type="button"
-              disabled={!canUnlock}
-              onClick={onUnlock}
-              className={`rounded-lg px-3 py-1.5 text-xs font-medium ${
-                canUnlock ? 'bg-amber-400 text-amber-950' : 'cursor-not-allowed bg-white/10 text-white/30'
-              }`}
-            >
+            <Button variant="teal" disabled={!canUnlock} onClick={onUnlock} className="gap-1 px-3 py-1.5 text-xs">
+              <STATE_ICON.unlocked size={14} strokeWidth={2} />
               {getButtonLabel('unlock')}
-            </button>
+            </Button>
           )}
           <button
             type="button"
             onClick={onClose}
-            className="rounded-lg bg-white/10 px-3 py-1.5 text-xs font-medium text-amber-100"
+            className="rounded-lg bg-surface-card px-3 py-1.5 text-xs font-medium text-text-primary transition-colors hover:bg-surface-border"
           >
             {getButtonLabel('close')}
           </button>

@@ -1,3 +1,5 @@
+export { BackButton } from './BackButton'
+export { PanelHeader } from './PanelHeader'
 export { Button, type ButtonVariant } from './Button'
 export { Card } from './Card'
 export { Modal } from './Modal'

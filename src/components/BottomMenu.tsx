@@ -1,18 +1,8 @@
+import { TAB_ICON } from './icons'
 import { getTabName } from '../data/uiStrings'
 import type { TabKey } from '../types/game'
 
-interface MenuItem {
-  key: TabKey
-  icon: string
-}
-
-const MENU_ITEMS: MenuItem[] = [
-  { key: 'growth', icon: '📈' },
-  { key: 'equipment', icon: '🗡️' },
-  { key: 'gacha', icon: '🎰' },
-  { key: 'exist', icon: '🌌' },
-  { key: 'dogam', icon: '📖' },
-]
+const MENU_KEYS: TabKey[] = ['growth', 'equipment', 'gacha', 'exist', 'dogam']
 
 interface BottomMenuProps {
   activeTab: TabKey
@@ -21,20 +11,21 @@ interface BottomMenuProps {
 
 export function BottomMenu({ activeTab, onSelect }: BottomMenuProps) {
   return (
-    <nav className="flex shrink-0 border-t border-white/10 bg-slate-900">
-      {MENU_ITEMS.map((item) => {
-        const isActive = item.key === activeTab
+    <nav className="flex shrink-0 border-t border-surface-border bg-surface-card">
+      {MENU_KEYS.map((key) => {
+        const isActive = key === activeTab
+        const Icon = TAB_ICON[key]
         return (
           <button
-            key={item.key}
+            key={key}
             type="button"
-            onClick={() => onSelect(item.key)}
-            className={`flex flex-1 flex-col items-center gap-0.5 py-2 text-xs ${
-              isActive ? 'text-cyan-300' : 'text-white/50'
+            onClick={() => onSelect(key)}
+            className={`flex flex-1 flex-col items-center gap-0.5 py-2 text-xs transition-colors ${
+              isActive ? 'text-teal-strong' : 'text-text-secondary hover:text-text-primary'
             }`}
           >
-            <span className="text-lg leading-none">{item.icon}</span>
-            <span>{getTabName(item.key)}</span>
+            <Icon size={20} strokeWidth={2} />
+            <span>{getTabName(key)}</span>
           </button>
         )
       })}

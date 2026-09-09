@@ -5,6 +5,7 @@ import { getButtonLabel, getCurrencyName, getRebirthBonusLabel, getSystemName } 
 import { useGameStore } from '../../store/gameStore'
 import { computeRebirthBonusPoints, computeRefundMultiplier } from './rebirthBonus'
 import { formatNumber } from '../../utils/format'
+import { Button } from '../../components/ui'
 
 interface RebirthModalProps {
   isOpen: boolean
@@ -42,21 +43,18 @@ export function RebirthModal({ isOpen, onCancel, onConfirm }: RebirthModalProps)
     .find((row) => row.StageFrom > currentStage)
 
   return (
-    <div
-      className="absolute inset-0 z-30 flex items-center justify-center bg-black/70 p-6"
-      onClick={onCancel}
-    >
+    <div className="absolute inset-0 z-30 flex items-center justify-center bg-black/70 p-6" onClick={onCancel}>
       <div
-        className="w-full max-w-xs rounded-xl border border-purple-400/30 bg-slate-900 p-4 text-white"
+        className="w-full max-w-xs rounded-xl border border-grade-epic/30 bg-surface-card p-4 text-text-primary"
         onClick={(event) => event.stopPropagation()}
       >
-        <h2 className="text-sm font-semibold text-purple-300">{getSystemName('reverse')}</h2>
-        <p className="mt-1 text-[11px] leading-relaxed text-white/60">
-          스테이지·스탯·장비·숙련을 초기화하는 대신, 그동안 소비한 재화를 전액 돌려받습니다. 존재력 트리는
-          그대로 유지됩니다.
+        <h2 className="text-sm font-semibold text-grade-epic">{getSystemName('reverse')}</h2>
+        <p className="mt-1 text-[11px] leading-relaxed text-text-secondary">
+          스테이지·스탯·숙련을 초기화하고 무기·유물을 소멸/초기화하는 대신, 그동안 소비한 재화를 전액 돌려받고
+          도달 스테이지에 비례한 다이아를 새로 받습니다. 존재력 트리는 그대로 유지됩니다.
         </p>
 
-        <RebirthSection title={getRebirthBonusLabel('title')} tone="text-amber-300">
+        <RebirthSection title={getRebirthBonusLabel('title')} tone="text-gold-strong">
           <li>
             {getRebirthBonusLabel('currentCycle')} {rebirthCount + 1}회차
           </li>
@@ -72,14 +70,18 @@ export function RebirthModal({ isOpen, onCancel, onConfirm }: RebirthModalProps)
           </li>
         </RebirthSection>
 
-        <RebirthSection title="초기화" tone="text-red-300">
+        <RebirthSection title="초기화 / 소멸" tone="text-danger-strong">
           <li>스테이지 → 1-1</li>
           <li>6스탯 레벨 전부 0</li>
-          <li>장비 5부위 강화 레벨 전부 0</li>
+          <li>무기 전부 소멸</li>
+          <li>유물 전부 초기화</li>
           <li>무기 숙련 레벨 0</li>
         </RebirthSection>
 
-        <RebirthSection title={`환급 (${getRebirthBonusLabel('refundMultiplier')} ${formatMultiplier(currentMultiplier)})`} tone="text-emerald-300">
+        <RebirthSection
+          title={`환급 (${getRebirthBonusLabel('refundMultiplier')} ${formatMultiplier(currentMultiplier)})`}
+          tone="text-success-strong"
+        >
           <li>
             {getCurrencyName('growthEnergy')} {formatNumber(spent.growthEnergy)} → +
             {formatNumber(Math.floor(spent.growthEnergy * currentMultiplier))}
@@ -93,19 +95,19 @@ export function RebirthModal({ isOpen, onCancel, onConfirm }: RebirthModalProps)
           </li>
         </RebirthSection>
 
-        <RebirthSection title="지급" tone="text-amber-200">
+        <RebirthSection title="지급" tone="text-gold-strong">
           <li>
             {getCurrencyName('diamond')} +{formatNumber(diamondReward)}
           </li>
           {nextRewardTier && (
-            <li className="text-white/40">
+            <li className="text-text-disabled">
               → 스테이지 {nextRewardTier.StageFrom} 도달 시 {formatNumber(nextRewardTier.DiamondReward)}{' '}
               {getCurrencyName('diamond')}
             </li>
           )}
         </RebirthSection>
 
-        <RebirthSection title="유지" tone="text-sky-300">
+        <RebirthSection title="유지" tone="text-blue-strong">
           <li>
             존재력 트리 ({unlockedCount}/{EXIST_TREE_TOTAL_NODES} 해금)
           </li>
@@ -114,17 +116,13 @@ export function RebirthModal({ isOpen, onCancel, onConfirm }: RebirthModalProps)
         </RebirthSection>
 
         <div className="mt-4 flex justify-end gap-2">
-          <button
-            type="button"
-            onClick={onCancel}
-            className="rounded-lg bg-white/10 px-3 py-1.5 text-xs font-medium text-white"
-          >
+          <Button variant="secondary" onClick={onCancel} className="px-3 py-1.5 text-xs">
             {getButtonLabel('cancel')}
-          </button>
+          </Button>
           <button
             type="button"
             onClick={onConfirm}
-            className="rounded-lg bg-purple-600 px-3 py-1.5 text-xs font-medium text-white"
+            className="rounded-lg bg-grade-epic px-3 py-1.5 text-xs font-medium text-white transition-colors hover:brightness-110 active:scale-95"
           >
             {getButtonLabel('execute')}
           </button>
@@ -134,19 +132,11 @@ export function RebirthModal({ isOpen, onCancel, onConfirm }: RebirthModalProps)
   )
 }
 
-function RebirthSection({
-  title,
-  tone,
-  children,
-}: {
-  title: string
-  tone: string
-  children: ReactNode
-}) {
+function RebirthSection({ title, tone, children }: { title: string; tone: string; children: ReactNode }) {
   return (
-    <div className="mt-3 border-t border-white/10 pt-2">
+    <div className="mt-3 border-t border-surface-border pt-2">
       <p className={`mb-1 text-[10px] font-semibold ${tone}`}>{title}</p>
-      <ul className="space-y-0.5 text-[11px] text-white/70">{children}</ul>
+      <ul className="space-y-0.5 text-[11px] text-text-secondary">{children}</ul>
     </div>
   )
 }

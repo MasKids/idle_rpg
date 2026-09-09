@@ -1,12 +1,14 @@
 import { useState } from 'react'
 import { BALANCE_TABLES, getCommon, getRelicConfig, getString } from '../../data/balance'
-import { getCommonUiLabel, getCurrencyName, getRelicUiLabel, getStateLabel } from '../../data/uiStrings'
+import { getCommonUiLabel, getCurrencyName, getRelicUiLabel } from '../../data/uiStrings'
 import { useGameStore } from '../../store/gameStore'
 import type { RelicGachaPullResult } from '../../types/game'
 import { formatNumber } from '../../utils/format'
 import { GRADE_BG_COLOR, GRADE_BORDER_COLOR, GRADE_TEXT_COLOR } from '../weapon/weaponUi'
 import { RelicDetailModal } from './RelicDetailModal'
 import { computeRelicSlotCount, relicEffectLabel, relicGradeName, sortedRelicRows, RELIC_SLOT_MAX } from './relic'
+import { Button, GradeBadge } from '../../components/ui'
+import { STATE_ICON } from '../../components/icons'
 
 export function RelicTab() {
   const [selectedRelicId, setSelectedRelicId] = useState<number | null>(null)
@@ -44,13 +46,13 @@ function SlotSection({
     .find((row) => row.SlotIndex > slotCount)
 
   return (
-    <div className="shrink-0 border-b border-white/10 p-3">
+    <div className="shrink-0 border-b border-surface-border p-3">
       <div className="mb-2 flex items-center justify-between text-xs">
-        <span className="font-semibold text-amber-300">
+        <span className="font-semibold text-teal-strong">
           {getRelicUiLabel('activeSlots')} {slotCount}/{RELIC_SLOT_MAX}
         </span>
         {nextSlotRow && (
-          <span className="text-[10px] text-white/50">
+          <span className="text-[10px] text-text-secondary">
             {getRelicUiLabel('nextSlot')}: {getCurrencyName('exist')} {nextSlotRow.RequireUnlockedCount}
             {getCommonUiLabel('nodeSuffix')} ({unlockedCount}/
             {nextSlotRow.RequireUnlockedCount})
@@ -70,16 +72,16 @@ function SlotSection({
               type="button"
               disabled={locked || !relic}
               onClick={() => setRelicSlot(index, null)}
-              className={`flex h-14 flex-1 flex-col items-center justify-center rounded-lg border text-[9px] ${
+              className={`flex h-14 flex-1 flex-col items-center justify-center rounded-lg border text-[9px] transition-colors ${
                 locked
-                  ? 'border-white/5 bg-black/30 text-white/20'
+                  ? 'border-surface-border bg-surface-card text-text-disabled'
                   : relic
-                    ? `${GRADE_BORDER_COLOR[relic.RelicGrade]} ${GRADE_BG_COLOR[relic.RelicGrade]} ${GRADE_TEXT_COLOR[relic.RelicGrade]}`
-                    : 'border-dashed border-white/20 bg-black/20 text-white/30'
+                    ? `${GRADE_BORDER_COLOR[relic.RelicGrade]} ${GRADE_BG_COLOR[relic.RelicGrade]} ${GRADE_TEXT_COLOR[relic.RelicGrade]} hover:brightness-125`
+                    : 'border-dashed border-surface-border bg-surface-card text-text-disabled'
               }`}
             >
               {locked ? (
-                getStateLabel('locked')
+                <STATE_ICON.locked size={14} strokeWidth={2} />
               ) : relic ? (
                 <span className="px-1 text-center leading-tight">{getString(relic.Name, 'KOR')}</span>
               ) : (
@@ -108,10 +110,10 @@ function RelicGachaSection({ ownedRelics }: { ownedRelics: number[] }) {
   const resultRelic = lastResult ? getRelicConfig(lastResult.relicId) : undefined
 
   return (
-    <div className="shrink-0 border-b border-white/10 p-3">
-      <p className="mb-2 text-xs font-semibold text-amber-300">{getRelicUiLabel('pullRelic')}</p>
+    <div className="shrink-0 border-b border-surface-border p-3">
+      <p className="mb-2 text-xs font-semibold text-teal-strong">{getRelicUiLabel('pullRelic')}</p>
 
-      <div className="mb-2 flex items-center justify-between text-[11px] text-white/70">
+      <div className="mb-2 flex items-center justify-between text-[11px] text-text-secondary">
         <span>
           {getCommonUiLabel('owned')} {getCurrencyName('timeEnergy')} {formatNumber(timeEnergy)}
         </span>
@@ -120,16 +122,9 @@ function RelicGachaSection({ ownedRelics }: { ownedRelics: number[] }) {
         </span>
       </div>
 
-      <button
-        type="button"
-        disabled={!canPull}
-        onClick={handlePull}
-        className={`w-full rounded-lg px-3 py-2 text-sm font-medium ${
-          canPull ? 'bg-amber-500 text-amber-950' : 'cursor-not-allowed bg-white/10 text-white/30'
-        }`}
-      >
+      <Button variant="teal" disabled={!canPull} onClick={handlePull} className="w-full">
         {getRelicUiLabel('pullRelic')}
-      </button>
+      </Button>
 
       {lastResult && resultRelic && (
         <div
@@ -138,16 +133,16 @@ function RelicGachaSection({ ownedRelics }: { ownedRelics: number[] }) {
           <div className={`font-semibold ${GRADE_TEXT_COLOR[resultRelic.RelicGrade]}`}>
             {getString(resultRelic.Name, 'KOR')} ({relicGradeName(resultRelic.RelicGrade)})
           </div>
-          <div className="mt-0.5 text-white/70">{relicEffectLabel(resultRelic)}</div>
+          <div className="mt-0.5 text-text-secondary">{relicEffectLabel(resultRelic)}</div>
           {lastResult.isDuplicate && (
-            <div className="mt-0.5 text-amber-300">
+            <div className="mt-0.5 text-gold-strong">
               {getRelicUiLabel('duplicateRefund')} +{formatNumber(getCommon('RelicDuplicateRefundTimeEnergy'))}{' '}
               {getCurrencyName('timeEnergy')}
             </div>
           )}
         </div>
       )}
-      <p className="mt-1 text-center text-[10px] text-white/30">
+      <p className="mt-1 text-center text-[10px] text-text-disabled">
         {getCommonUiLabel('owned')} {ownedRelics.length}
         {getCommonUiLabel('kindSuffix')}
       </p>
@@ -168,7 +163,7 @@ function RelicGrid({
 }) {
   return (
     <div className="min-h-0 flex-1 p-3">
-      <p className="mb-2 text-xs font-semibold text-amber-300">
+      <p className="mb-2 text-xs font-semibold text-teal-strong">
         {getRelicUiLabel('ownedRelics')} {ownedRelics.length}/{BALANCE_TABLES.RelicTable.length}
       </p>
 
@@ -182,21 +177,25 @@ function RelicGrid({
               key={relic.Id}
               type="button"
               onClick={() => onSelect(relic.Id)}
-              className={`relative flex aspect-square flex-col items-center justify-center gap-0.5 rounded-lg border p-1 text-center text-[9px] ${
+              className={`relative flex aspect-square flex-col items-center justify-center gap-0.5 rounded-lg border p-1 text-center text-[9px] transition-colors ${
                 owned
-                  ? `${GRADE_BORDER_COLOR[relic.RelicGrade]} ${GRADE_BG_COLOR[relic.RelicGrade]}`
-                  : 'border-white/10 bg-black/20 opacity-40'
+                  ? `${GRADE_BORDER_COLOR[relic.RelicGrade]} ${GRADE_BG_COLOR[relic.RelicGrade]} hover:brightness-125`
+                  : 'border-surface-border bg-surface-card opacity-40 hover:opacity-60'
               }`}
             >
               {isActive && (
-                <span className="absolute -top-1 -right-1 rounded-full bg-emerald-500 px-1 text-[8px] text-white">
-                  A
+                <span className="absolute -top-1.5 -right-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-success-base text-white">
+                  <STATE_ICON.equipped size={11} strokeWidth={2.5} />
                 </span>
               )}
-              <span className={owned ? GRADE_TEXT_COLOR[relic.RelicGrade] : 'text-white/30'}>
+              <span className={owned ? GRADE_TEXT_COLOR[relic.RelicGrade] : 'text-text-disabled'}>
                 {getString(relic.Name, 'KOR')}
               </span>
-              <span className="text-white/40">{relicGradeName(relic.RelicGrade)}</span>
+              {owned ? (
+                <GradeBadge grade={relic.RelicGrade} className="text-[8px]" />
+              ) : (
+                <span className="text-text-disabled">{relicGradeName(relic.RelicGrade)}</span>
+              )}
             </button>
           )
         })}

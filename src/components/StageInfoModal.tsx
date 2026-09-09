@@ -3,6 +3,7 @@ import { getButtonLabel, getCommonUiLabel, getCurrencyName, getRebirthBonusLabel
 import { useGameStore } from '../store/gameStore'
 import { computeRefundMultiplier } from '../systems/rebirth/rebirthBonus'
 import { formatNumber } from '../utils/format'
+import { Button } from './ui'
 
 interface StageInfoModalProps {
   isOpen: boolean
@@ -26,39 +27,36 @@ export function StageInfoModal({ isOpen, onClose, onRebirthClick }: StageInfoMod
   const refundMultiplier = computeRefundMultiplier(rebirthBonusPoint)
 
   return (
-    <div
-      className="absolute inset-0 z-20 flex items-center justify-center bg-black/60 p-6"
-      onClick={onClose}
-    >
+    <div className="absolute inset-0 z-20 flex items-center justify-center bg-black/60 p-6" onClick={onClose}>
       <div
-        className="w-full max-w-xs rounded-xl border border-white/10 bg-slate-900 p-4 text-white"
+        className="w-full max-w-xs rounded-xl border border-surface-border bg-surface-card p-4 text-text-primary"
         onClick={(event) => event.stopPropagation()}
       >
-        <h2 className="text-sm font-semibold text-blue-300">
+        <h2 className="text-sm font-semibold text-blue-strong">
           STAGE {stageLabel(stage)}
-          {isBossStage && <span className="ml-1 text-amber-400">BOSS</span>}
+          {isBossStage && <span className="ml-1 text-gold-strong">BOSS</span>}
         </h2>
 
-        <dl className="mt-3 space-y-1.5 text-xs text-white/70">
+        <dl className="mt-3 space-y-1.5 text-xs text-text-secondary">
           <div className="flex justify-between">
             <dt>{getCommonUiLabel('enemyHp')}</dt>
-            <dd className="text-white">{formatNumber(data.enemyHp)}</dd>
+            <dd className="text-text-primary">{formatNumber(data.enemyHp)}</dd>
           </div>
           <div className="flex justify-between">
             <dt>{getCommonUiLabel('enemyAtk')}</dt>
-            <dd className="text-white">{formatNumber(data.enemyAtk)}</dd>
+            <dd className="text-text-primary">{formatNumber(data.enemyAtk)}</dd>
           </div>
           <div className="flex justify-between">
             <dt>{getCommonUiLabel('killProgress')}</dt>
-            <dd className="text-white">
+            <dd className="text-text-primary">
               {kills} / {killsRequired}
             </dd>
           </div>
         </dl>
 
-        <div className="mt-3 border-t border-white/10 pt-3">
-          <p className="mb-1 text-[11px] text-white/50">{getCommonUiLabel('rewardPerKill')}</p>
-          <div className="flex flex-wrap gap-x-3 gap-y-1 text-xs text-white/70">
+        <div className="mt-3 border-t border-surface-border pt-3">
+          <p className="mb-1 text-[11px] text-text-secondary">{getCommonUiLabel('rewardPerKill')}</p>
+          <div className="flex flex-wrap gap-x-3 gap-y-1 text-xs text-text-secondary">
             <span>{getCurrencyName('gold')} {formatNumber(data.rewards.gold)}</span>
             <span>{getCurrencyName('growthEnergy')} {formatNumber(data.rewards.growthEnergy)}</span>
             <span>{getCurrencyName('exist')} {formatNumber(data.rewards.exist)}</span>
@@ -66,23 +64,23 @@ export function StageInfoModal({ isOpen, onClose, onRebirthClick }: StageInfoMod
         </div>
 
         {reverseUnlocked && (
-          <div className="mt-3 border-t border-white/10 pt-3">
-            <p className="mb-1 text-[11px] text-white/50">{getRebirthBonusLabel('title')}</p>
-            <dl className="space-y-1 text-xs text-white/70">
+          <div className="mt-3 border-t border-surface-border pt-3">
+            <p className="mb-1 text-[11px] text-text-secondary">{getRebirthBonusLabel('title')}</p>
+            <dl className="space-y-1 text-xs text-text-secondary">
               <div className="flex justify-between">
                 <dt>{getRebirthBonusLabel('currentCycle')}</dt>
-                <dd className="text-white">
+                <dd className="text-text-primary">
                   {rebirthCount + 1}
                   {getCommonUiLabel('cycleSuffix')}
                 </dd>
               </div>
               <div className="flex justify-between">
                 <dt>{getRebirthBonusLabel('refundMultiplier')}</dt>
-                <dd className="text-white">×{refundMultiplier.toFixed(2)}</dd>
+                <dd className="text-text-primary">×{refundMultiplier.toFixed(2)}</dd>
               </div>
               <div className="flex justify-between">
                 <dt>{getRebirthBonusLabel('maxStageReached')}</dt>
-                <dd className="text-white">{stageLabel(rebirthMaxStage)}</dd>
+                <dd className="text-text-primary">{stageLabel(rebirthMaxStage)}</dd>
               </div>
             </dl>
           </div>
@@ -94,19 +92,15 @@ export function StageInfoModal({ isOpen, onClose, onRebirthClick }: StageInfoMod
               <button
                 type="button"
                 onClick={onRebirthClick}
-                className="rounded-lg bg-purple-600 px-3 py-1.5 text-xs font-medium text-white"
+                className="rounded-lg bg-grade-epic px-3 py-1.5 text-xs font-medium text-white transition-colors hover:brightness-110 active:scale-95"
               >
                 {getSystemName('reverse')}
               </button>
             )}
           </div>
-          <button
-            type="button"
-            onClick={onClose}
-            className="rounded-lg bg-white/10 px-3 py-1.5 text-xs font-medium text-white"
-          >
+          <Button variant="secondary" onClick={onClose} className="px-3 py-1.5 text-xs">
             {getButtonLabel('close')}
-          </button>
+          </Button>
         </div>
       </div>
     </div>

@@ -2,7 +2,9 @@ import { getRelicConfig, getString } from '../../data/balance'
 import { getButtonLabel, getCommonUiLabel, getRelicUiLabel, getStateLabel, getWeaponUiLabel } from '../../data/uiStrings'
 import { useGameStore } from '../../store/gameStore'
 import { GRADE_TEXT_COLOR } from '../weapon/weaponUi'
-import { computeRelicSlotCount, relicEffectLabel, relicGradeName } from './relic'
+import { computeRelicSlotCount, relicEffectLabel } from './relic'
+import { Button, GradeBadge } from '../../components/ui'
+import { STATE_ICON } from '../../components/icons'
 
 interface RelicDetailModalProps {
   relicId: number
@@ -38,7 +40,7 @@ export function RelicDetailModal({ relicId, onClose }: RelicDetailModalProps) {
   return (
     <div className="absolute inset-0 z-40 flex items-center justify-center bg-black/70 p-6" onClick={onClose}>
       <div
-        className="w-full max-w-xs rounded-xl border border-white/10 bg-slate-900 p-4 text-white"
+        className="w-full max-w-xs rounded-xl border border-surface-border bg-surface-card p-4 text-text-primary"
         onClick={(event) => event.stopPropagation()}
       >
         <div className="flex items-start justify-between gap-2">
@@ -46,50 +48,48 @@ export function RelicDetailModal({ relicId, onClose }: RelicDetailModalProps) {
             <h2 className={`text-sm font-semibold ${GRADE_TEXT_COLOR[relic.RelicGrade]}`}>
               {getString(relic.Name, 'KOR')}
             </h2>
-            {isActive && <span className="text-[10px] text-emerald-300">{getStateLabel('unlocked')}</span>}
+            {isActive && <span className="text-[10px] text-success-strong">{getStateLabel('unlocked')}</span>}
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="shrink-0 rounded-lg bg-white/10 px-2 py-1 text-[11px] text-white"
+            className="shrink-0 rounded-lg bg-surface-elevated px-2 py-1 text-[11px] text-text-secondary transition-colors hover:bg-surface-border hover:text-text-primary"
           >
             {getButtonLabel('close')}
           </button>
         </div>
 
-        <dl className="mt-3 space-y-1 text-xs text-white/70">
-          <div className="flex justify-between">
+        <dl className="mt-3 space-y-1 text-xs text-text-secondary">
+          <div className="flex items-center justify-between">
             <dt>{getWeaponUiLabel('grade')}</dt>
-            <dd className={GRADE_TEXT_COLOR[relic.RelicGrade]}>{relicGradeName(relic.RelicGrade)}</dd>
+            <dd>
+              <GradeBadge grade={relic.RelicGrade} />
+            </dd>
           </div>
           <div className="flex justify-between">
             <dt>{getStateLabel('effect')}</dt>
-            <dd className="text-white">{relicEffectLabel(relic)}</dd>
+            <dd className="text-text-primary">{relicEffectLabel(relic)}</dd>
           </div>
-          <div className="flex justify-between">
+          <div className="flex items-center justify-between">
             <dt>{getCommonUiLabel('owned')}</dt>
-            <dd className="text-white">{owned ? getStateLabel('unlocked') : getStateLabel('locked')}</dd>
+            <dd className={owned ? 'text-success-strong' : 'text-text-disabled'}>
+              {owned ? <STATE_ICON.equipped size={14} strokeWidth={2} /> : <STATE_ICON.locked size={14} strokeWidth={2} />}
+            </dd>
           </div>
         </dl>
 
-        <button
-          type="button"
+        <Button
+          variant={isActive ? 'secondary' : 'teal'}
           disabled={!canToggle}
           onClick={handleToggle}
-          className={`mt-3 w-full rounded-lg px-3 py-2 text-sm font-medium ${
-            canToggle
-              ? isActive
-                ? 'bg-white/10 text-white'
-                : 'bg-cyan-600 text-white'
-              : 'cursor-not-allowed bg-white/10 text-white/30'
-          }`}
+          className="mt-3 w-full"
         >
           {isActive ? getButtonLabel('deactivate') : getButtonLabel('activate')}
-        </button>
+        </Button>
 
-        {!owned && <p className="mt-2 text-center text-[10px] text-white/40">보유하지 않은 유물입니다</p>}
+        {!owned && <p className="mt-2 text-center text-[10px] text-text-disabled">보유하지 않은 유물입니다</p>}
         {owned && !isActive && !hasEmptySlot && (
-          <p className="mt-2 text-center text-[10px] text-red-400">{getRelicUiLabel('slotsFull')}</p>
+          <p className="mt-2 text-center text-[10px] text-danger-strong">{getRelicUiLabel('slotsFull')}</p>
         )}
       </div>
     </div>

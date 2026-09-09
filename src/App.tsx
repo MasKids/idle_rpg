@@ -105,7 +105,7 @@ function App() {
         {timeHeistFlashKey > 0 && (
           <div
             key={`timeheist-${timeHeistFlashKey}`}
-            className="pointer-events-none absolute inset-0 z-40 animate-[rebirth-flash_0.8s_ease-out_forwards] bg-amber-300"
+            className="pointer-events-none absolute inset-0 z-40 animate-[rebirth-flash_0.8s_ease-out_forwards] bg-gold-strong"
           />
         )}
 

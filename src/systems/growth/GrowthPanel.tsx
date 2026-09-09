@@ -6,6 +6,7 @@ import { useGameStore } from '../../store/gameStore'
 import type { StatKey } from '../../types/game'
 import { formatNumber } from '../../utils/format'
 import { parseWeaponId } from '../weapon/weapon'
+import { Button, CostLabel } from '../../components/ui'
 
 const STAT_ORDER: StatKey[] = ['atk', 'def', 'aspd', 'crit', 'critDmg', 'existGain']
 
@@ -34,14 +35,14 @@ export function GrowthPanel() {
 
   return (
     <div className="flex h-full flex-col gap-2">
-      <h2 className="text-sm font-semibold text-cyan-300">{getTabName('growth')}</h2>
+      <h2 className="text-sm font-semibold text-text-primary">{getTabName('growth')}</h2>
 
-      <div className="flex shrink-0 gap-1 rounded-lg bg-black/20 p-1">
+      <div className="flex shrink-0 gap-1 rounded-lg bg-surface-card p-1">
         <button
           type="button"
           onClick={() => setSubTab('stat')}
-          className={`flex-1 rounded-md px-3 py-1.5 text-xs font-medium ${
-            subTab === 'stat' ? 'bg-cyan-600 text-white' : 'text-cyan-100/60'
+          className={`flex-1 rounded-md px-3 py-1.5 text-xs font-medium transition-colors ${
+            subTab === 'stat' ? 'bg-blue-base text-white' : 'text-text-secondary hover:text-text-primary'
           }`}
         >
           {getGrowthUiLabel('statSubTab')}
@@ -49,8 +50,8 @@ export function GrowthPanel() {
         <button
           type="button"
           onClick={() => setSubTab('mastery')}
-          className={`flex-1 rounded-md px-3 py-1.5 text-xs font-medium ${
-            subTab === 'mastery' ? 'bg-cyan-600 text-white' : 'text-cyan-100/60'
+          className={`flex-1 rounded-md px-3 py-1.5 text-xs font-medium transition-colors ${
+            subTab === 'mastery' ? 'bg-blue-base text-white' : 'text-text-secondary hover:text-text-primary'
           }`}
         >
           {getGrowthUiLabel('masterySubTab')}
@@ -72,13 +73,9 @@ function StatSubTab() {
   return (
     <div className="flex min-h-0 flex-1 flex-col gap-1.5 overflow-y-auto">
       <div className="flex justify-end">
-        <button
-          type="button"
-          onClick={maxUpgradeAll}
-          className="rounded-lg bg-cyan-600 px-3 py-1 text-xs font-medium text-white"
-        >
+        <Button variant="secondary" onClick={maxUpgradeAll}>
           {getButtonLabel('maxAll')}
-        </button>
+        </Button>
       </div>
 
       {STAT_ORDER.map((key) => {
@@ -87,26 +84,21 @@ function StatSubTab() {
         const canAfford = growthEnergy >= cost
 
         return (
-          <div key={key} className="flex items-center justify-between gap-2 rounded-lg bg-black/20 px-2.5 py-1.5">
+          <div key={key} className="flex items-center justify-between gap-2 rounded-lg bg-surface-card px-2.5 py-1.5">
             <div className="min-w-0 flex-1">
               <div className="flex items-baseline gap-1.5">
-                <span className="text-xs font-medium text-cyan-100">{getStatName(key)}</span>
-                <span className="text-[10px] text-cyan-100/50">Lv.{level}</span>
+                <span className="text-xs font-medium text-text-primary">{getStatName(key)}</span>
+                <span className="text-[10px] text-text-secondary">Lv.{level}</span>
               </div>
-              <div className="text-[11px] text-cyan-100/70">{formatStatValue(key, stats[key])}</div>
+              <div className="text-[11px] text-text-secondary">{formatStatValue(key, stats[key])}</div>
             </div>
 
-            <button
-              type="button"
-              disabled={!canAfford}
-              onClick={() => upgradeStat(key)}
-              className={`shrink-0 rounded-lg px-2.5 py-1.5 text-[11px] font-medium ${
-                canAfford ? 'bg-cyan-600 text-white' : 'cursor-not-allowed bg-white/10 text-white/30'
-              }`}
-            >
-              {getButtonLabel('upgrade')}
-              <div className="text-[10px] opacity-80">{formatNumber(cost)}</div>
-            </button>
+            <Button variant="primary" disabled={!canAfford} onClick={() => upgradeStat(key)} className="shrink-0">
+              <span className="flex flex-col items-center leading-tight">
+                <span className="text-[11px]">{getButtonLabel('upgrade')}</span>
+                <CostLabel currency="growthEnergy" amount={cost} affordable={canAfford} />
+              </span>
+            </Button>
           </div>
         )
       })}
@@ -129,12 +121,12 @@ function MasterySubTab() {
 
   return (
     <div className="flex min-h-0 flex-1 flex-col gap-1.5 overflow-y-auto">
-      <div className="text-[11px] text-cyan-100/50">
+      <div className="text-[11px] text-text-secondary">
         {getCurrencyName('essence')} {formatNumber(essence)}
       </div>
 
       {!equippedType && (
-        <p className="rounded-lg bg-black/20 px-2.5 py-2 text-center text-[11px] text-white/40">
+        <p className="rounded-lg bg-surface-card px-2.5 py-2 text-center text-[11px] text-text-disabled">
           {getWeaponUiLabel('noWeaponEquipped')}
         </p>
       )}
@@ -150,42 +142,30 @@ function MasterySubTab() {
           <div
             key={weapon.id}
             className={`flex items-center justify-between gap-2 rounded-lg px-2.5 py-1.5 ${
-              isEquippedType ? 'border border-cyan-400/40 bg-cyan-900/30' : 'border border-transparent bg-black/20'
+              isEquippedType ? 'border border-blue-strong/40 bg-blue-soft' : 'border border-transparent bg-surface-card'
             }`}
           >
             <div className="min-w-0 flex-1">
               <div className="flex items-baseline gap-1.5">
-                <span className="text-xs font-medium text-cyan-100">{weapon.name}</span>
-                <span className="text-[10px] text-cyan-100/50">Lv.{level}</span>
-                {isEquippedType && <span className="text-[10px] text-emerald-300">{getWeaponUiLabel('equipped')}</span>}
+                <span className="text-xs font-medium text-text-primary">{weapon.name}</span>
+                <span className="text-[10px] text-text-secondary">Lv.{level}</span>
+                {isEquippedType && <span className="text-[10px] text-success-strong">{getWeaponUiLabel('equipped')}</span>}
               </div>
-              <div className="text-[11px] text-cyan-100/70">
+              <div className="text-[11px] text-text-secondary">
                 {getStatName(masteryPrimaryStat(weapon.id))} ×{multiplier.toFixed(2)}
               </div>
             </div>
 
             <div className="flex shrink-0 gap-1">
-              <button
-                type="button"
-                disabled={!canAfford}
-                onClick={() => upgradeMastery(weapon.id)}
-                className={`rounded-lg px-2.5 py-1.5 text-[11px] font-medium ${
-                  canAfford ? 'bg-cyan-600 text-white' : 'cursor-not-allowed bg-white/10 text-white/30'
-                }`}
-              >
-                {getButtonLabel('train')}
-                <div className="text-[10px] opacity-80">{formatNumber(cost)}</div>
-              </button>
-              <button
-                type="button"
-                disabled={!canAfford}
-                onClick={() => maxUpgradeMastery(weapon.id)}
-                className={`rounded-lg px-2 py-1.5 text-[10px] font-medium ${
-                  canAfford ? 'bg-cyan-700 text-white' : 'cursor-not-allowed bg-white/10 text-white/30'
-                }`}
-              >
+              <Button variant="primary" disabled={!canAfford} onClick={() => upgradeMastery(weapon.id)}>
+                <span className="flex flex-col items-center leading-tight">
+                  <span className="text-[11px]">{getButtonLabel('train')}</span>
+                  <CostLabel currency="essence" amount={cost} affordable={canAfford} />
+                </span>
+              </Button>
+              <Button variant="secondary" disabled={!canAfford} onClick={() => maxUpgradeMastery(weapon.id)}>
                 {getButtonLabel('maxAll')}
-              </button>
+              </Button>
             </div>
           </div>
         )

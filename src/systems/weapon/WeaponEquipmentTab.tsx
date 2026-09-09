@@ -17,6 +17,8 @@ import {
   WEAPON_TYPES,
 } from './weapon'
 import { GRADE_BG_COLOR, GRADE_BORDER_COLOR, GRADE_TEXT_COLOR } from './weaponUi'
+import { STATE_ICON } from '../../components/icons'
+import { ProgressBar } from '../../components/ui'
 
 export function WeaponEquipmentTab() {
   const [selectedType, setSelectedType] = useState<WeaponTypeEnum>('Sword')
@@ -44,23 +46,25 @@ export function WeaponEquipmentTab() {
                   key={weaponId}
                   type="button"
                   onClick={() => setSelectedWeaponId(weaponId)}
-                  className={`relative flex aspect-square flex-col items-center justify-center rounded-lg border text-[9px] ${
-                    owned ? `${GRADE_BORDER_COLOR[grade]} ${GRADE_BG_COLOR[grade]}` : 'border-white/10 bg-black/20 opacity-40'
+                  className={`relative flex aspect-square flex-col items-center justify-center rounded-lg border text-[9px] transition-colors ${
+                    owned
+                      ? `${GRADE_BORDER_COLOR[grade]} ${GRADE_BG_COLOR[grade]} hover:brightness-125`
+                      : 'border-surface-border bg-surface-card opacity-40 hover:opacity-60'
                   }`}
                 >
                   {isEquipped && (
-                    <span className="absolute -top-1 -right-1 rounded-full bg-emerald-500 px-1 text-[8px] text-white">
-                      E
+                    <span className="absolute -top-1.5 -right-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-success-base text-white">
+                      <STATE_ICON.equipped size={11} strokeWidth={2.5} />
                     </span>
                   )}
-                  <span className={owned ? GRADE_TEXT_COLOR[grade] : 'text-white/30'}>T{tier}</span>
+                  <span className={owned ? GRADE_TEXT_COLOR[grade] : 'text-text-disabled'}>T{tier}</span>
                   {owned ? (
                     <>
-                      <span className="text-white">Lv.{entry.level}</span>
+                      <span className="text-text-primary">Lv.{entry.level}</span>
                       <CountReadinessBar weaponId={weaponId} entry={entry} isEquipped={isEquipped} />
                     </>
                   ) : (
-                    <span className="text-white/20">0</span>
+                    <span className="text-text-disabled">0</span>
                   )}
                 </button>
               )
@@ -91,23 +95,17 @@ function CountReadinessBar({
   const readiness = computeWeaponReadiness(weaponId, entry, isEquipped)
 
   if (!readiness) {
-    return <span className="text-white/50">×{entry.count}</span>
+    return <span className="text-text-secondary">×{entry.count}</span>
   }
 
   const { count, required, ready } = readiness
-  const fillPercent = Math.min(100, (count / required) * 100)
 
   return (
     <div className="mt-0.5 flex w-full flex-col items-center gap-0.5 px-1.5">
-      <span className={ready ? 'font-semibold text-emerald-400' : 'text-white/50'}>
+      <span className={ready ? 'font-semibold text-success-strong' : 'text-text-secondary'}>
         {count}/{required}
       </span>
-      <div className="h-1 w-full overflow-hidden rounded-full bg-black/40">
-        <div
-          className={`h-full rounded-full ${ready ? 'bg-emerald-400' : 'bg-cyan-500/70'}`}
-          style={{ width: `${fillPercent}%` }}
-        />
-      </div>
+      <ProgressBar value={count} max={required} colorClassName={ready ? 'bg-success-strong' : 'bg-teal-base'} />
     </div>
   )
 }
@@ -122,7 +120,7 @@ function TypeSwitcher({
   ownedWeapons: ReturnType<typeof useGameStore.getState>['ownedWeapons']
 }) {
   return (
-    <div className="flex shrink-0 gap-1.5 border-b border-white/10 p-3">
+    <div className="flex shrink-0 gap-1.5 border-b border-surface-border p-3">
       {WEAPON_TYPES.map((type) => {
         const config = getWeaponTypeConfig(type)
         const ownedTypeCount = WEAPON_GRADES.reduce(
@@ -137,8 +135,8 @@ function TypeSwitcher({
             key={type}
             type="button"
             onClick={() => onSelect(type)}
-            className={`flex-1 rounded-lg px-2 py-2 text-center text-xs font-medium ${
-              isSelected ? 'bg-cyan-600 text-white' : 'bg-white/10 text-cyan-100/60'
+            className={`flex-1 rounded-lg px-2 py-2 text-center text-xs font-medium transition-colors ${
+              isSelected ? 'bg-teal-base text-white' : 'bg-surface-card text-text-secondary hover:text-text-primary'
             }`}
           >
             <div>{getString(config.Name, 'KOR', type)}</div>
@@ -159,7 +157,7 @@ function EquippedSummary({
 }) {
   if (!equippedWeaponId) {
     return (
-      <div className="shrink-0 border-b border-white/10 p-3 text-center text-xs text-white/40">
+      <div className="shrink-0 border-b border-surface-border p-3 text-center text-xs text-text-disabled">
         {getWeaponUiLabel('noWeaponEquipped')}
       </div>
     )
@@ -176,14 +174,14 @@ function EquippedSummary({
   )
 
   return (
-    <div className="shrink-0 border-b border-white/10 p-3">
+    <div className="shrink-0 border-b border-surface-border p-3">
       <div className="flex items-baseline justify-between">
         <span className={`text-xs font-semibold ${GRADE_TEXT_COLOR[grade]}`}>{weaponDisplayName(equippedWeaponId)}</span>
-        <span className="text-[10px] text-white/50">
+        <span className="text-[10px] text-text-secondary">
           Lv.{entry?.level ?? 0} · 돌파 {entry?.breakthroughCount ?? 0}/{WEAPON_MAX_BREAKTHROUGH}
         </span>
       </div>
-      <div className="mt-1 flex flex-wrap justify-end gap-x-3 gap-y-0.5 text-[11px] text-white/70">
+      <div className="mt-1 flex flex-wrap justify-end gap-x-3 gap-y-0.5 text-[11px] text-text-secondary">
         <span>
           {getStatName('atk')} +{formatNumber(baseAtkTotal + (isAtkSpecialty ? specialtyOwnTotal + specialtyEquipBonus : 0))}
         </span>

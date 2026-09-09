@@ -5,6 +5,7 @@ import { useGameStore } from '../../store/gameStore'
 import { formatCountdown, formatNumber } from '../../utils/format'
 import { useNow } from '../../utils/useNow'
 import { computeTimeHeistPreview, timeHeistCooldownEndsAt } from './timeHeist'
+import { Button } from '../../components/ui'
 
 interface TimeHeistModalProps {
   isOpen: boolean
@@ -38,82 +39,68 @@ export function TimeHeistModal({ isOpen, onCancel, onConfirm }: TimeHeistModalPr
   const canExecute = canAfford && !isOnCooldown
 
   return (
-    <div
-      className="absolute inset-0 z-30 flex items-center justify-center bg-black/70 p-6"
-      onClick={onCancel}
-    >
+    <div className="absolute inset-0 z-30 flex items-center justify-center bg-black/70 p-6" onClick={onCancel}>
       <div
-        className="w-full max-w-xs rounded-xl border border-amber-400/30 bg-slate-900 p-4 text-white"
+        className="w-full max-w-xs rounded-xl border border-gold-strong/30 bg-surface-card p-4 text-text-primary"
         onClick={(event) => event.stopPropagation()}
       >
-        <h2 className="text-sm font-semibold text-amber-300">{getSystemName('timeHeist')}</h2>
-        <p className="mt-1 text-[11px] leading-relaxed text-white/60">
+        <h2 className="text-sm font-semibold text-gold-strong">{getSystemName('timeHeist')}</h2>
+        <p className="mt-1 text-[11px] leading-relaxed text-text-secondary">
           미래 스테이지의 보상을 시간에너지로 미리 훔쳐옵니다. 스테이지 진행에는 영향을 주지 않습니다.
         </p>
 
-        <div className="mt-3 border-t border-white/10 pt-2">
-          <p className="mb-1 text-[10px] font-semibold text-amber-300">{getCommonUiLabel('targetStage')}</p>
-          <p className="text-[11px] text-white/70">
+        <div className="mt-3 border-t border-surface-border pt-2">
+          <p className="mb-1 text-[10px] font-semibold text-gold-strong">{getCommonUiLabel('targetStage')}</p>
+          <p className="text-[11px] text-text-secondary">
             {stageLabel(preview.currentStage)} → {stageLabel(preview.targetStage)} ({preview.clearCount}
             {getCommonUiLabel('clearConversion')})
           </p>
         </div>
 
-        <div className="mt-3 border-t border-white/10 pt-2">
-          <p className="mb-1 text-[10px] font-semibold text-emerald-300">{getCommonUiLabel('expectedGain')}</p>
-          <ul className="space-y-0.5 text-[11px] text-white/70">
+        <div className="mt-3 border-t border-surface-border pt-2">
+          <p className="mb-1 text-[10px] font-semibold text-success-strong">{getCommonUiLabel('expectedGain')}</p>
+          <ul className="space-y-0.5 text-[11px] text-text-secondary">
             <li>{getCurrencyName('gold')} +{formatNumber(preview.rewards.gold)}</li>
             <li>{getCurrencyName('growthEnergy')} +{formatNumber(preview.rewards.growthEnergy)}</li>
             <li>{getCurrencyName('exist')} +{formatNumber(preview.rewards.exist)}</li>
           </ul>
         </div>
 
-        <div className="mt-3 border-t border-white/10 pt-2 text-[11px] text-white/70">
+        <div className="mt-3 border-t border-surface-border pt-2 text-[11px] text-text-secondary">
           <div className="flex justify-between">
             <span>
               {getCommonUiLabel('consume')} {getCurrencyName('timeEnergy')}
             </span>
-            <span className={canAfford ? 'text-white' : 'text-red-400'}>{formatNumber(preview.cost)}</span>
+            <span className={canAfford ? 'text-text-primary' : 'text-danger-strong'}>{formatNumber(preview.cost)}</span>
           </div>
           <div className="flex justify-between">
             <span>
               {getCommonUiLabel('owned')} {getCurrencyName('timeEnergy')}
             </span>
-            <span>{formatNumber(timeEnergy)}</span>
+            <span className="text-text-primary">{formatNumber(timeEnergy)}</span>
           </div>
           <div className="flex justify-between">
             <span>{getCommonUiLabel('useCount')}</span>
-            <span>
+            <span className="text-text-primary">
               {usedCount}
               {getCommonUiLabel('timesSuffix')}
             </span>
           </div>
           <div className="flex justify-between">
             <span>{getCommonUiLabel('cooldown')}</span>
-            <span className={isOnCooldown ? 'text-red-400' : 'text-emerald-300'}>
+            <span className={isOnCooldown ? 'text-danger-strong' : 'text-success-strong'}>
               {isOnCooldown ? formatCountdown(cooldownRemainingMs) : getStateLabel('available')}
             </span>
           </div>
         </div>
 
         <div className="mt-4 flex justify-end gap-2">
-          <button
-            type="button"
-            onClick={onCancel}
-            className="rounded-lg bg-white/10 px-3 py-1.5 text-xs font-medium text-white"
-          >
+          <Button variant="secondary" onClick={onCancel} className="px-3 py-1.5 text-xs">
             {getButtonLabel('cancel')}
-          </button>
-          <button
-            type="button"
-            disabled={!canExecute}
-            onClick={onConfirm}
-            className={`rounded-lg px-3 py-1.5 text-xs font-medium ${
-              canExecute ? 'bg-amber-500 text-amber-950' : 'cursor-not-allowed bg-white/10 text-white/30'
-            }`}
-          >
+          </Button>
+          <Button variant="gold" disabled={!canExecute} onClick={onConfirm} className="px-3 py-1.5 text-xs">
             {getButtonLabel('steal')}
-          </button>
+          </Button>
         </div>
       </div>
     </div>

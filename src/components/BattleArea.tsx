@@ -6,15 +6,8 @@ import { timeHeistCooldownEndsAt, timeHeistCost } from '../systems/timeheist/tim
 import type { CurrencyKey } from '../types/game'
 import { formatCountdown, formatNumber } from '../utils/format'
 import { useNow } from '../utils/useNow'
-
-const CURRENCY_ICON: Record<CurrencyKey, string> = {
-  exist: '🌌',
-  growthEnergy: '📈',
-  timeEnergy: '⏳',
-  gold: '🪙',
-  essence: '💠',
-  diamond: '💎',
-}
+import { CURRENCY_ICON, SYSTEM_ICON } from './icons'
+import { CURRENCY_TEXT_COLOR } from './ui/currencyColor'
 
 // HUD 재화 칩 4개(확정): 다이아 / 존재력 / 성장에너지 / 골드.
 // 시간에너지는 유물 탭·타임 하이스트 모달에서만, 숙련의 정수는 성장 탭에서만 표시한다.
@@ -42,26 +35,25 @@ export function BattleArea({ onStageInfoClick, onTimeHeistClick }: BattleAreaPro
   const isOnCooldown = cooldownRemainingMs > 0
   const canAffordTimeHeist = currencies.timeEnergy >= timeHeistCost(timeHeistUsedCount)
   const canTimeHeist = canAffordTimeHeist && !isOnCooldown
+  const TimeHeistIcon = SYSTEM_ICON.timeHeist
 
   return (
-    <div className="relative min-h-0 flex-1 bg-gradient-to-b from-blue-950 to-slate-900">
+    <div className="relative min-h-0 flex-1 bg-gradient-to-b from-blue-soft to-surface-base">
       <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
         <button
           type="button"
           onClick={onStageInfoClick}
-          className="rounded-full bg-black/30 px-3 py-1 text-xs text-blue-300 backdrop-blur-sm"
+          className="rounded-full bg-black/30 px-3 py-1 text-xs text-blue-strong backdrop-blur-sm transition-colors hover:bg-black/50"
         >
           STAGE {stageLabel(stage)}
-          {isBossStage && <span className="ml-1 text-amber-400">BOSS</span>}
+          {isBossStage && <span className="ml-1 text-gold-strong">BOSS</span>}
         </button>
 
-        <div
-          className={`h-20 w-20 rounded-lg ${isBossStage ? 'bg-amber-600/70' : 'bg-red-500/60'}`}
-        />
+        <div className={`h-20 w-20 rounded-lg ${isBossStage ? 'bg-gold-base/70' : 'bg-danger-base/60'}`} />
 
         <div className="h-2 w-40 overflow-hidden rounded-full bg-black/40">
           <div
-            className={`h-full rounded-full transition-[width] duration-150 ${isBossStage ? 'bg-amber-400' : 'bg-red-400'}`}
+            className={`h-full rounded-full transition-[width] duration-150 ${isBossStage ? 'bg-gold-strong' : 'bg-danger-strong'}`}
             style={{ width: `${hpRatio * 100}%` }}
           />
         </div>
@@ -70,7 +62,7 @@ export function BattleArea({ onStageInfoClick, onTimeHeistClick }: BattleAreaPro
           <span
             key={popup.id}
             className={`pointer-events-none absolute top-1/2 animate-[float-up_0.6s_ease-out_forwards] text-sm font-bold ${
-              popup.isCrit ? 'text-amber-300' : 'text-white'
+              popup.isCrit ? 'text-gold-strong' : 'text-text-primary'
             }`}
             style={{ left: `${50 + ((popup.id * 37) % 40) - 20}%` }}
           >
@@ -81,20 +73,25 @@ export function BattleArea({ onStageInfoClick, onTimeHeistClick }: BattleAreaPro
 
       <div className="absolute inset-x-0 top-0 flex items-center justify-between gap-1.5 bg-gradient-to-b from-black/50 to-transparent p-2">
         <div className="flex shrink-0 items-center gap-1.5 rounded-full bg-black/30 py-1 pl-1 pr-2 backdrop-blur-sm">
-          <div className="h-6 w-6 shrink-0 rounded-full bg-blue-500/50" />
-          <span className="whitespace-nowrap text-[10px] text-white/80">플레이어</span>
+          <div className="h-6 w-6 shrink-0 rounded-full bg-blue-base/50" />
+          <span className="whitespace-nowrap text-[10px] text-text-primary/80">플레이어</span>
         </div>
 
         <div className="flex flex-1 justify-end gap-1">
-          {CURRENCY_ORDER.map((key) => (
-            <div
-              key={key}
-              className="flex min-w-[42px] shrink-0 items-center justify-center gap-0.5 whitespace-nowrap rounded-full bg-black/30 px-1.5 py-1 backdrop-blur-sm"
-            >
-              <span className="text-[10px] leading-none">{CURRENCY_ICON[key]}</span>
-              <span className="text-[10px] font-medium leading-none text-white">{formatNumber(currencies[key])}</span>
-            </div>
-          ))}
+          {CURRENCY_ORDER.map((key) => {
+            const Icon = CURRENCY_ICON[key]
+            return (
+              <div
+                key={key}
+                className="flex min-w-[42px] shrink-0 items-center justify-center gap-0.5 whitespace-nowrap rounded-full bg-black/30 px-1.5 py-1 backdrop-blur-sm"
+              >
+                <Icon size={11} strokeWidth={2} className={CURRENCY_TEXT_COLOR[key]} />
+                <span className="text-[10px] font-medium leading-none tabular-nums text-text-primary">
+                  {formatNumber(currencies[key])}
+                </span>
+              </div>
+            )
+          })}
         </div>
       </div>
 
@@ -103,8 +100,8 @@ export function BattleArea({ onStageInfoClick, onTimeHeistClick }: BattleAreaPro
           type="button"
           onClick={onTimeHeistClick}
           aria-disabled={!canTimeHeist}
-          className={`absolute bottom-3 right-3 flex h-14 w-14 flex-col items-center justify-center rounded-full border-2 shadow-lg ${
-            canTimeHeist ? 'border-amber-300 bg-amber-500' : 'border-amber-300/30 bg-amber-900/50 text-white/30'
+          className={`absolute bottom-3 right-3 flex h-14 w-14 flex-col items-center justify-center rounded-full border-2 shadow-lg transition-transform active:scale-95 ${
+            canTimeHeist ? 'border-gold-strong bg-gold-base' : 'border-gold-strong/30 bg-gold-soft text-text-disabled'
           }`}
         >
           {isOnCooldown ? (
@@ -112,7 +109,7 @@ export function BattleArea({ onStageInfoClick, onTimeHeistClick }: BattleAreaPro
               {formatCountdown(cooldownRemainingMs)}
             </span>
           ) : (
-            <span className="text-lg leading-none">⏳</span>
+            <TimeHeistIcon size={22} strokeWidth={2} />
           )}
         </button>
       )}

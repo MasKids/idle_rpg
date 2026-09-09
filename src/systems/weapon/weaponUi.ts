@@ -1,27 +1,27 @@
-// 무기고 화면 전용 표시 상수 — 등급별 색상. 밸런스 데이터가 아니라 순수 UI 톤이라
-// balance.xlsx가 아닌 여기 코드에 둔다.
+// 무기고 화면 전용 표시 상수 — 등급별 색상. docs/DESIGN_SYSTEM.md의 grade-* 토큰을
+// 그대로 참조한다(밸런스 데이터가 아니라 순수 UI 톤이라 balance.xlsx가 아닌 여기 둔다).
 import type { WeaponGradeEnum } from '../../data/balance'
 
 export const GRADE_BORDER_COLOR: Record<WeaponGradeEnum, string> = {
-  Normal: 'border-slate-400',
-  Rare: 'border-blue-400',
-  Epic: 'border-purple-400',
-  Unique: 'border-orange-400',
-  Legendary: 'border-amber-300',
+  Normal: 'border-grade-normal',
+  Rare: 'border-grade-rare',
+  Epic: 'border-grade-epic',
+  Unique: 'border-grade-unique',
+  Legendary: 'border-grade-legendary',
 }
 
 export const GRADE_BG_COLOR: Record<WeaponGradeEnum, string> = {
-  Normal: 'bg-slate-700/60',
-  Rare: 'bg-blue-900/60',
-  Epic: 'bg-purple-900/60',
-  Unique: 'bg-orange-900/60',
-  Legendary: 'bg-amber-900/60',
+  Normal: 'bg-grade-normal/15',
+  Rare: 'bg-grade-rare/15',
+  Epic: 'bg-grade-epic/15',
+  Unique: 'bg-grade-unique/15',
+  Legendary: 'bg-grade-legendary/15',
 }
 
 export const GRADE_TEXT_COLOR: Record<WeaponGradeEnum, string> = {
-  Normal: 'text-slate-300',
-  Rare: 'text-blue-300',
-  Epic: 'text-purple-300',
-  Unique: 'text-orange-300',
-  Legendary: 'text-amber-300',
+  Normal: 'text-grade-normal',
+  Rare: 'text-grade-rare',
+  Epic: 'text-grade-epic',
+  Unique: 'text-grade-unique',
+  Legendary: 'text-grade-legendary',
 }
