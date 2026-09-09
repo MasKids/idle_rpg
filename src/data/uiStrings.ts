@@ -215,3 +215,14 @@ const RELIC_UI_LABEL_ID: Record<RelicUiLabelKey, number> = {
 export function getRelicUiLabel(key: RelicUiLabelKey): string {
   return getString(RELIC_UI_LABEL_ID[key], 'KOR', key)
 }
+
+export type GrowthUiLabelKey = 'statSubTab' | 'masterySubTab'
+
+const GROWTH_UI_LABEL_ID: Record<GrowthUiLabelKey, number> = {
+  statSubTab: 40104,
+  masterySubTab: 40105,
+}
+
+export function getGrowthUiLabel(key: GrowthUiLabelKey): string {
+  return getString(GROWTH_UI_LABEL_ID[key], 'KOR', key)
+}

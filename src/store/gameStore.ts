@@ -160,7 +160,7 @@ interface GameState {
   upgradeStat: (key: StatKey) => boolean
   maxUpgradeAll: () => void
   upgradeMastery: (weaponType: string) => boolean
-  maxUpgradeMastery: () => void
+  maxUpgradeMastery: (weaponType?: string) => void
   setStage: (stage: number) => void
   setBattle: (battle: BattleState) => void
   unlockNextExistNode: () => boolean
@@ -379,12 +379,13 @@ export const useGameStore = create<GameState>((set, get) => ({
     return true
   },
 
-  maxUpgradeMastery: () => {
+  maxUpgradeMastery: (weaponType) => {
     const masteryLevels = { ...get().masteryLevels }
     let essence = get().currencies.essence
     const startingEssence = essence
+    const targets = weaponType ? MASTERY_WEAPONS.filter((weapon) => weapon.id === weaponType) : MASTERY_WEAPONS
 
-    for (const weapon of MASTERY_WEAPONS) {
+    for (const weapon of targets) {
       let level = masteryLevels[weapon.id] ?? 0
       while (essence >= masteryUpgradeCost(weapon.id, level)) {
         essence -= masteryUpgradeCost(weapon.id, level)

@@ -1329,6 +1329,9 @@ def build_string_rows() -> list[list]:
         (40101, "타임 하이스트 쿨타임", "Time Heist Cooldown", "RelicUi"),
         (40102, "활성화", "Activate", "Button"),
         (40103, "비활성화", "Deactivate", "Button"),
+        # 성장 화면
+        (40104, "스탯", "Stat", "GrowthUi"),
+        (40105, "숙련", "Mastery", "GrowthUi"),
     ]
     rows = []
     for i, (string_id, kor, eng, category) in enumerate(specs, start=1):

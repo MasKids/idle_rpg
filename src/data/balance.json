@@ -1520,6 +1520,18 @@
       "Id": 40103,
       "KOR": "비활성화",
       "ENG": "Deactivate"
+    },
+    {
+      "Index": 100,
+      "Id": 40104,
+      "KOR": "스탯",
+      "ENG": "Stat"
+    },
+    {
+      "Index": 101,
+      "Id": 40105,
+      "KOR": "숙련",
+      "ENG": "Mastery"
     }
   ]
 }
