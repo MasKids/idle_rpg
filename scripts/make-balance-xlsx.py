@@ -1104,20 +1104,6 @@ REBIRTH_TABLE_COLUMNS = register(
             "desc": "회차 보너스 포인트 공식에서 도달 스테이지에 적용하는 지수",
         },
         {
-            "eng": "DiamondBase",
-            "kor": "다이아 지급 계수",
-            "type": "float",
-            "ref": "",
-            "desc": "리버스 시 신규 지급되는 다이아 공식의 기준 계수. 지급량 = floor(DiamondBase × 도달스테이지^DiamondExponent). 환급이 아니라 신규 지급이라 rebirthSpent/환급 배율과 무관",
-        },
-        {
-            "eng": "DiamondExponent",
-            "kor": "다이아 지급 지수",
-            "type": "float",
-            "ref": "",
-            "desc": "다이아 지급 공식에서 도달 스테이지에 적용하는 지수",
-        },
-        {
             "eng": "RefundBonusPerPoint",
             "kor": "포인트당 환급 증폭률",
             "type": "float",
@@ -1155,15 +1141,61 @@ def build_rebirth_rows() -> list[list]:
             True,
             True,
             True,
-            "스테이지/스탯/숙련 초기화 + 소비 재화 전액 환급 + 다이아 신규 지급. 존재력 트리는 유지",
+            "스테이지/스탯/숙련 초기화 + 소비 재화 전액 환급 + 다이아 신규 지급(RebirthRewardTable). 존재력 트리는 유지",
             1.0,
             0.5,
-            20.0,
-            0.6,
             1.0,
             5.0,
-            "포인트 = 1.0 × 도달스테이지^0.5 (소수점 유지, 최소 스테이지 제한 없음). 다이아 지급량 = floor(20.0 × 도달스테이지^0.6, 환급과 무관한 신규 지급). 환급 배율 = 1 + (누적 포인트 × 1.0 / 100), 최대 5.0배. 전투 중 재화 획득량/스탯에는 영향 없음",
+            "포인트 = 1.0 × 도달스테이지^0.5 (소수점 유지, 최소 스테이지 제한 없음). 환급 배율 = 1 + (누적 포인트 × 1.0 / 100), 최대 5.0배. 전투 중 재화 획득량/스탯에는 영향 없음. 다이아 신규 지급량은 RebirthRewardTable(구간별 고정값)에서 조회한다",
         ]
+    ]
+
+
+# ---------------------------------------------------------------------------
+# RebirthRewardTable — 리버스 시 신규 지급되는 다이아. 지수 공식 대신 구간별
+# 고정값 테이블로 관리한다(깊은 스테이지일수록 보상이 커지되, 기획자가 구간
+# 경계와 값을 엑셀에서 직접 통제할 수 있도록).
+# ---------------------------------------------------------------------------
+
+REBIRTH_REWARD_TABLE_COLUMNS = register(
+    "RebirthRewardTable",
+    [
+        {"eng": "Index", "kor": "순번", "type": "int", "ref": "", "desc": "행 순번(표시용)"},
+        {"eng": "Id", "kor": "ID", "type": "int", "ref": "", "desc": "리버스 다이아 보상 구간 고유 ID (35100번대)"},
+        {"eng": "//Name", "kor": "이름", "type": "string", "ref": "", "desc": "구간 설명 (파싱 제외)"},
+        {
+            "eng": "StageFrom",
+            "kor": "구간 시작 스테이지",
+            "type": "int",
+            "ref": "",
+            "desc": "이 구간의 시작 스테이지(포함)",
+        },
+        {
+            "eng": "StageTo",
+            "kor": "구간 끝 스테이지",
+            "type": "int",
+            "ref": "",
+            "desc": "이 구간의 끝 스테이지(포함). 마지막 구간은 999999로 열어둔다",
+        },
+        {
+            "eng": "DiamondReward",
+            "kor": "다이아 지급량",
+            "type": "int",
+            "ref": "",
+            "desc": "리버스 시점의 도달 스테이지가 이 구간에 속하면 지급되는 다이아 수량(고정값)",
+        },
+        {"eng": "//Description", "kor": "설명", "type": "string", "ref": "", "desc": "행에 대한 참고 설명 (파싱 제외)"},
+    ],
+)
+
+
+def build_rebirth_reward_rows() -> list[list]:
+    return [
+        [1, 35101, "1구간", 1, 24, 100, ""],
+        [2, 35102, "2구간", 25, 49, 300, ""],
+        [3, 35103, "3구간", 50, 99, 700, ""],
+        [4, 35104, "4구간", 100, 199, 1500, ""],
+        [5, 35105, "5구간(최종)", 200, 999999, 3000, ""],
     ]
 
 
@@ -1480,6 +1512,7 @@ def main() -> None:
         ("RelicSlotTable", RELIC_SLOT_TABLE_COLUMNS, build_relic_slot_rows()),
         ("TimeHeistTable", TIME_HEIST_TABLE_COLUMNS, build_time_heist_rows()),
         ("RebirthTable", REBIRTH_TABLE_COLUMNS, build_rebirth_rows()),
+        ("RebirthRewardTable", REBIRTH_REWARD_TABLE_COLUMNS, build_rebirth_reward_rows()),
         ("CommonTable", COMMON_TABLE_COLUMNS, build_common_rows()),
         ("StringTable", STRING_TABLE_COLUMNS, build_string_rows()),
     ]

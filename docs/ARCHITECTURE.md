@@ -331,8 +331,8 @@ CostGrowthRate^현재레벨`만큼 소비해 올립니다.
 ## 10. 리버스 실행 시 초기화/유지/환급/지급이 각각 어디서 처리되는지
 
 관련 파일: `src/store/gameStore.ts`(`executeRebirth`), `src/data/balance.ts`
-(`getRebirthConfig`), `src/systems/rebirth/rebirthBonus.ts`,
-`balance/balance.xlsx`의 `RebirthTable` 시트
+(`getRebirthConfig`, `getRebirthDiamondReward`), `src/systems/rebirth/rebirthBonus.ts`,
+`balance/balance.xlsx`의 `RebirthTable`/`RebirthRewardTable` 시트
 
 리버스를 눌렀을 때 스탯/숙련/존재력 트리를 각각 초기화할지 유지할지는
 `RebirthTable`의 참/거짓(bool) 값 7개로 결정됩니다. 코드에 "리버스=이런 것"이라고
@@ -360,11 +360,14 @@ CostGrowthRate^현재레벨`만큼 소비해 올립니다.
 리셋됩니다.
 
 **다이아 지급 — 환급이 아니라 신규 지급**: 다이아는 `rebirthSpent`가 추적하지 않으므로
-"돌려받을" 대상이 없습니다. 대신 `RebirthTable.DiamondBase`/`DiamondExponent`로
-`floor(DiamondBase × 도달스테이지^DiamondExponent)`만큼 리버스마다 새로 지급됩니다
-(`rebirthBonus.ts`의 `computeRebirthDiamondReward`) — 다이아가 유일하게 요구하는
-재화인 무기 가챠를, 리버스 없이는 아예 시도조차 할 수 없는 문제를 이걸로 해소합니다.
-리버스 모달에서도 이 지급은 "환급" 섹션과 분리된 별도 "지급" 섹션에 표시됩니다
+"돌려받을" 대상이 없습니다. 대신 별도 테이블 `RebirthRewardTable`이 도달 스테이지
+구간별로 고정된 지급량을 정의해두고(예: 50~99스테이지 구간은 700), 리버스 시점의
+도달 스테이지가 속한 구간의 값을 그대로 지급합니다(`balance.ts`의
+`getRebirthDiamondReward`) — 다이아가 유일하게 요구하는 재화인 무기 가챠를, 리버스
+없이는 아예 시도조차 할 수 없는 문제를 이걸로 해소합니다. 지수 공식이 아니라 구간별
+고정값 테이블을 쓰는 이유는 기획자가 구간 경계와 값을 엑셀에서 직접, 예측 가능하게
+조정할 수 있게 하기 위함입니다. 리버스 모달에서도 이 지급은 "환급" 섹션과 분리된
+별도 "지급" 섹션에 표시되고, 다음 구간에 도달하면 얼마를 받는지도 함께 미리 보여줍니다
 (환급 배율이 적용되는 대상이 아니라는 걸 시각적으로 구분하기 위함).
 
 회차 보너스(`rebirthBonusPoint`, `rebirthBonus.ts`)는 이 환급 배율 자체를 키우는

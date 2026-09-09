@@ -1,8 +1,9 @@
 import type { ReactNode } from 'react'
+import { BALANCE_TABLES, getRebirthDiamondReward } from '../../data/balance'
 import { EXIST_TREE_TOTAL_NODES } from '../../data/existTree'
 import { getButtonLabel, getCurrencyName, getRebirthBonusLabel, getSystemName } from '../../data/uiStrings'
 import { useGameStore } from '../../store/gameStore'
-import { computeRebirthBonusPoints, computeRebirthDiamondReward, computeRefundMultiplier } from './rebirthBonus'
+import { computeRebirthBonusPoints, computeRefundMultiplier } from './rebirthBonus'
 import { formatNumber } from '../../utils/format'
 
 interface RebirthModalProps {
@@ -33,7 +34,12 @@ export function RebirthModal({ isOpen, onCancel, onConfirm }: RebirthModalProps)
   const pendingPoints = computeRebirthBonusPoints(currentStage)
   const currentMultiplier = computeRefundMultiplier(rebirthBonusPoint)
   const nextMultiplier = computeRefundMultiplier(rebirthBonusPoint + pendingPoints)
-  const diamondReward = computeRebirthDiamondReward(currentStage)
+  const diamondReward = getRebirthDiamondReward(currentStage)
+  // 다음 구간 미리보기 — 지금 스테이지보다 뒤에서 시작하는 구간 중 가장 가까운 것.
+  // 이미 마지막 구간(StageTo가 사실상 무한대)에 들어와 있으면 다음 구간이 없다.
+  const nextRewardTier = [...BALANCE_TABLES.RebirthRewardTable]
+    .sort((a, b) => a.StageFrom - b.StageFrom)
+    .find((row) => row.StageFrom > currentStage)
 
   return (
     <div
@@ -91,6 +97,12 @@ export function RebirthModal({ isOpen, onCancel, onConfirm }: RebirthModalProps)
           <li>
             {getCurrencyName('diamond')} +{formatNumber(diamondReward)}
           </li>
+          {nextRewardTier && (
+            <li className="text-white/40">
+              → 스테이지 {nextRewardTier.StageFrom} 도달 시 {formatNumber(nextRewardTier.DiamondReward)}{' '}
+              {getCurrencyName('diamond')}
+            </li>
+          )}
         </RebirthSection>
 
         <RebirthSection title="유지" tone="text-sky-300">

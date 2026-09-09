@@ -1,12 +1,12 @@
 import { create } from 'zustand'
 import { MASTERY_WEAPONS, masteryMultiplier, masteryPrimaryStat, masteryUpgradeCost } from '../data/mastery'
-import { BALANCE_TABLES, getCommon, getRebirthConfig, getWeaponFusionConfig } from '../data/balance'
+import { BALANCE_TABLES, getCommon, getRebirthConfig, getRebirthDiamondReward, getWeaponFusionConfig } from '../data/balance'
 import { EXIST_SPECIAL_UNLOCKS, generateExistTree } from '../data/existTree'
 import { generateStage, killsRequiredForStage } from '../data/stages'
 import { computeStatValue, statUpgradeCost } from '../data/stats'
 import { computeOfflineReward, type OfflineRewardResult } from '../systems/battle/offlineReward'
 import { computeActiveRelicEffects, computeRelicSlotCount, RELIC_SLOT_MAX, rollRelicGacha } from '../systems/relic/relic'
-import { computeRebirthBonusPoints, computeRebirthDiamondReward, computeRefundMultiplier } from '../systems/rebirth/rebirthBonus'
+import { computeRebirthBonusPoints, computeRefundMultiplier } from '../systems/rebirth/rebirthBonus'
 import { computeTimeHeistPreview, timeHeistCooldownEndsAt } from '../systems/timeheist/timeHeist'
 import {
   canBreakthrough,
@@ -473,7 +473,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       // 순서 중요: 이번에 얻는 포인트는 이번 환급 배율에 반영되지 않고 다음 리버스부터 적용된다.
       const earnedBonusPoints = computeRebirthBonusPoints(state.currentStage)
       const refundMultiplier = computeRefundMultiplier(state.rebirthBonusPoint)
-      const diamondReward = computeRebirthDiamondReward(state.currentStage)
+      const diamondReward = getRebirthDiamondReward(state.currentStage)
       const nextRebirthBonusPoint = state.rebirthBonusPoint + earnedBonusPoints
       const nextRebirthCount = state.rebirthCount + 1
       const nextRebirthMaxStage = Math.max(state.rebirthMaxStage, state.currentStage)

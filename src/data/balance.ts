@@ -199,12 +199,18 @@ export interface RebirthTableRow {
   KeepExistTree: boolean
   BonusBase: number
   BonusExponent: number
-  // 리버스 시 신규 지급되는 다이아 공식 계수 — 환급이 아니므로 rebirthSpent/환급
-  // 배율과 무관하다. 지급량 = floor(DiamondBase × 도달스테이지^DiamondExponent)
-  DiamondBase: number
-  DiamondExponent: number
   RefundBonusPerPoint: number
   MaxRefundMultiplier: number
+}
+
+// 리버스 시 신규 지급되는 다이아 — 환급이 아니라 도달 스테이지 구간별 고정값
+// 지급이라 rebirthSpent/환급 배율과 무관하다. 구간은 [StageFrom, StageTo] 양끝 포함.
+export interface RebirthRewardTableRow {
+  Index: number
+  Id: number
+  StageFrom: number
+  StageTo: number
+  DiamondReward: number
 }
 
 export interface CommonTableRow {
@@ -238,6 +244,7 @@ interface BalanceTables {
   RelicSlotTable: RelicSlotTableRow[]
   TimeHeistTable: TimeHeistTableRow[]
   RebirthTable: RebirthTableRow[]
+  RebirthRewardTable: RebirthRewardTableRow[]
   CommonTable: CommonTableRow[]
   StringTable: StringTableRow[]
 }
@@ -418,8 +425,6 @@ const DEFAULT_REBIRTH: RebirthTableRow = {
   KeepExistTree: true,
   BonusBase: 1.0,
   BonusExponent: 0.5,
-  DiamondBase: 20.0,
-  DiamondExponent: 0.6,
   RefundBonusPerPoint: 1.0,
   MaxRefundMultiplier: 5.0,
 }
@@ -580,6 +585,18 @@ export function getRebirthConfig(): RebirthTableRow {
     return DEFAULT_REBIRTH
   }
   return row
+}
+
+// 리버스 시점의 도달 스테이지가 속한 구간의 다이아 지급량을 조회한다.
+// 어느 구간에도 안 맞으면(데이터 구멍) 0을 반환하고 경고 — 지급이 아예 없는
+// 쪽이 잘못된 수량을 지급하는 것보다 안전하다.
+export function getRebirthDiamondReward(stage: number): number {
+  const row = TABLES.RebirthRewardTable.find((r) => stage >= r.StageFrom && stage <= r.StageTo)
+  if (!row) {
+    warnMissing('RebirthRewardTable', `stage=${stage}`)
+    return 0
+  }
+  return row.DiamondReward
 }
 
 export function getCommon(key: string): number {

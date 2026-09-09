@@ -15,12 +15,3 @@ export function computeRefundMultiplier(bonusPoint: number): number {
   const multiplier = 1 + (bonusPoint * config.RefundBonusPerPoint) / 100
   return Math.min(config.MaxRefundMultiplier, multiplier)
 }
-
-// 리버스 시점의 도달 스테이지로부터 신규 지급되는 다이아 수량을 계산한다.
-// 그동안 소비한 다이아를 "돌려받는" 환급이 아니라 매 리버스마다 새로 얻는 지급이라
-// rebirthSpent/환급 배율과는 무관하다 — 다이아가 유일한 무기 가챠 재화라
-// 리버스 없이는 획득 경로가 없는 문제를 이걸로 해소한다.
-export function computeRebirthDiamondReward(currentStage: number): number {
-  const config = getRebirthConfig()
-  return Math.floor(config.DiamondBase * currentStage ** config.DiamondExponent)
-}

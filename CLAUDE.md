@@ -63,7 +63,7 @@ ExistTreeTable에 50개 노드를 전부 나열하지 않고 **5티어(10노드�
 
 ## 재화 (6종 — 획득처 → 소비처)
 - DIAMOND (다이아): 초기 지급 + 리버스 시 도달 스테이지 기준 신규 지급(환급이 아님,
-  `floor(DiamondBase × 도달스테이지^DiamondExponent)`) → 무기 가챠
+  `RebirthRewardTable`의 구간별 고정값 — 예: 50스테이지 이상 도달 후 리버스하면 700) → 무기 가챠
 - EXIST (존재력): 전투 처치 보상(EXIST_GAIN 배율 적용) → 존재력 트리 해금, 리버스/
   타임 하이스트 특별 해금
 - GROWTH_ENERGY (성장에너지): 전투 처치 보상 → 6스탯 업그레이드

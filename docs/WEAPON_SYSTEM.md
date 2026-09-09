@@ -370,9 +370,9 @@ CommonTable에 실제로 남아 있는 행(전부 밸런싱 영역, 엑셀에서
 | RelicDuplicateRefundTimeEnergy | int | 20 | 유물 중복 획득 시 자동 환급되는 시간에너지 |
 
 다이아의 또 다른 획득 경로(리버스 시 신규 지급)는 무기/유물 시스템이 아니라 리버스
-시스템 소관이라 `RebirthTable`(§6.1 밖, 35000번대)에 `DiamondBase`/`DiamondExponent`
-컬럼으로 추가했다 — 자세한 내용은 `CLAUDE.md`의 재화 절과
-[docs/ARCHITECTURE.md](ARCHITECTURE.md) 6장 참고.
+시스템 소관이라, 별도 테이블 `RebirthRewardTable`(§6.1 밖, 35100번대)에 도달 스테이지
+구간별 고정 지급량으로 정의했다(지수 공식이 아니라 구간 테이블 방식) — 자세한 내용은
+`CLAUDE.md`의 재화 절과 [docs/ARCHITECTURE.md](ARCHITECTURE.md) 10장 참고.
 
 ### 6.7 StringTable 추가
 
