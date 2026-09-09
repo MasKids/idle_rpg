@@ -1,15 +1,15 @@
 import { useState } from 'react'
-import { BALANCE_TABLES, getCommon, getRelicConfig, getString } from '../../data/balance'
+import { BALANCE_TABLES, getRelicConfig, getString } from '../../data/balance'
 import { getCommonUiLabel, getCurrencyName, getRelicUiLabel } from '../../data/uiStrings'
 import { useGameStore } from '../../store/gameStore'
-import type { RelicGachaPullResult } from '../../types/game'
-import { formatNumber } from '../../utils/format'
 import { GRADE_BG_COLOR, GRADE_BORDER_COLOR, GRADE_TEXT_COLOR } from '../weapon/weaponUi'
 import { RelicDetailModal } from './RelicDetailModal'
-import { computeRelicSlotCount, relicEffectLabel, relicGradeName, sortedRelicRows, RELIC_SLOT_MAX } from './relic'
-import { Button, GradeBadge } from '../../components/ui'
+import { computeRelicSlotCount, relicGradeName, sortedRelicRows, RELIC_SLOT_MAX } from './relic'
+import { GradeBadge } from '../../components/ui'
 import { STATE_ICON } from '../../components/icons'
 
+// 유물 뽑기(소환)는 systems/gacha/RelicGachaTab.tsx로 옮겨졌다 — 여기는 슬롯
+// 활성화/비활성화와 보유 유물 열람(무기고=보관·관리, 소환=뽑기 역할 분리)만 담당한다.
 export function RelicTab() {
   const [selectedRelicId, setSelectedRelicId] = useState<number | null>(null)
   const ownedRelics = useGameStore((state) => state.ownedRelics)
@@ -20,7 +20,6 @@ export function RelicTab() {
   return (
     <div className="flex min-h-0 flex-1 flex-col overflow-y-auto">
       <SlotSection activeRelics={activeRelics} slotCount={slotCount} unlockedCount={unlockedCount} />
-      <RelicGachaSection ownedRelics={ownedRelics} />
       <RelicGrid ownedRelics={ownedRelics} activeRelics={activeRelics} onSelect={setSelectedRelicId} />
 
       {selectedRelicId !== null && (
@@ -91,61 +90,6 @@ function SlotSection({
           )
         })}
       </div>
-    </div>
-  )
-}
-
-function RelicGachaSection({ ownedRelics }: { ownedRelics: number[] }) {
-  const [lastResult, setLastResult] = useState<RelicGachaPullResult | null>(null)
-  const timeEnergy = useGameStore((state) => state.currencies.timeEnergy)
-  const pullRelicGacha = useGameStore((state) => state.pullRelicGacha)
-
-  const cost = getCommon('RelicGachaCostTimeEnergy')
-  const canPull = timeEnergy >= cost
-
-  const handlePull = () => {
-    setLastResult(pullRelicGacha())
-  }
-
-  const resultRelic = lastResult ? getRelicConfig(lastResult.relicId) : undefined
-
-  return (
-    <div className="shrink-0 border-b border-surface-border p-3">
-      <p className="mb-2 text-xs font-semibold text-teal-strong">{getRelicUiLabel('pullRelic')}</p>
-
-      <div className="mb-2 flex items-center justify-between text-[11px] text-text-secondary">
-        <span>
-          {getCommonUiLabel('owned')} {getCurrencyName('timeEnergy')} {formatNumber(timeEnergy)}
-        </span>
-        <span>
-          {getCommonUiLabel('costPerPull')} {formatNumber(cost)} {getCurrencyName('timeEnergy')}
-        </span>
-      </div>
-
-      <Button variant="teal" disabled={!canPull} onClick={handlePull} className="w-full">
-        {getRelicUiLabel('pullRelic')}
-      </Button>
-
-      {lastResult && resultRelic && (
-        <div
-          className={`mt-2 rounded-lg border p-2 text-center text-xs ${GRADE_BORDER_COLOR[resultRelic.RelicGrade]} ${GRADE_BG_COLOR[resultRelic.RelicGrade]}`}
-        >
-          <div className={`font-semibold ${GRADE_TEXT_COLOR[resultRelic.RelicGrade]}`}>
-            {getString(resultRelic.Name, 'KOR')} ({relicGradeName(resultRelic.RelicGrade)})
-          </div>
-          <div className="mt-0.5 text-text-secondary">{relicEffectLabel(resultRelic)}</div>
-          {lastResult.isDuplicate && (
-            <div className="mt-0.5 text-gold-strong">
-              {getRelicUiLabel('duplicateRefund')} +{formatNumber(getCommon('RelicDuplicateRefundTimeEnergy'))}{' '}
-              {getCurrencyName('timeEnergy')}
-            </div>
-          )}
-        </div>
-      )}
-      <p className="mt-1 text-center text-[10px] text-text-disabled">
-        {getCommonUiLabel('owned')} {ownedRelics.length}
-        {getCommonUiLabel('kindSuffix')}
-      </p>
     </div>
   )
 }

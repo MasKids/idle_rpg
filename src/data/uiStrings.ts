@@ -171,7 +171,15 @@ export function getWeaponUiLabel(key: WeaponUiLabelKey): string {
   return getString(WEAPON_UI_LABEL_ID[key], 'KOR', key)
 }
 
-export type GachaUiLabelKey = 'gachaLevel' | 'toNextLevel' | 'pullOnce' | 'pullTen' | 'newItem' | 'duplicate'
+export type GachaUiLabelKey =
+  | 'gachaLevel'
+  | 'toNextLevel'
+  | 'pullOnce'
+  | 'pullTen'
+  | 'newItem'
+  | 'duplicate'
+  | 'weaponSubTab'
+  | 'relicSubTab'
 
 const GACHA_UI_LABEL_ID: Record<GachaUiLabelKey, number> = {
   gachaLevel: 40088,
@@ -180,6 +188,9 @@ const GACHA_UI_LABEL_ID: Record<GachaUiLabelKey, number> = {
   pullTen: 40091,
   newItem: 40092,
   duplicate: 40093,
+  // 소환 화면 하위 탭 — [무기]는 새 Id(40128), [유물]은 무기고 쪽과 같은 단어라 그 Id(40081)를 재사용
+  weaponSubTab: 40128,
+  relicSubTab: 40081,
 }
 
 export function getGachaUiLabel(key: GachaUiLabelKey): string {

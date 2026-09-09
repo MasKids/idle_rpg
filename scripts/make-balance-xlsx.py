@@ -1287,7 +1287,7 @@ def build_string_rows() -> list[list]:
         # 하단 메뉴 탭 이름
         (40026, "성장", "Growth", "Tab"),
         (40027, "무기고", "Armory", "Tab"),
-        (40028, "가챠", "Gacha", "Tab"),
+        (40028, "소환", "Summon", "Tab"),
         (40029, "존재력", "ExistTree", "Tab"),
         (40030, "도감", "Dogam", "Tab"),
         # 공용 버튼 라벨
@@ -1357,8 +1357,8 @@ def build_string_rows() -> list[list]:
         (40085, "장착된 무기 없음", "No Weapon Equipped", "WeaponUi"),
         (40086, "보유 개수", "Owned Count", "WeaponUi"),
         (40087, "등급", "Grade", "WeaponUi"),
-        # 가챠 화면
-        (40088, "가챠 레벨", "Gacha Level", "GachaUi"),
+        # 소환 화면
+        (40088, "소환 레벨", "Summon Level", "GachaUi"),
         (40089, "다음 레벨까지", "To Next Level", "GachaUi"),
         (40090, "1회 뽑기", "Pull x1", "GachaUi"),
         (40091, "10회 뽑기", "Pull x10", "GachaUi"),
@@ -1402,6 +1402,9 @@ def build_string_rows() -> list[list]:
         (40125, "회", "Times", "CommonUi"),
         (40126, "등급 확률", "Grade Probability", "CommonUi"),
         (40127, "보유", "Owned", "CommonUi"),
+        # 소환 화면 하위 탭 — 무기고의 [장비]/[유물]과 같은 방식으로 소환도 [무기]/[유물]로 나눈다.
+        # "유물"은 무기고 쪽(40081)과 동일한 단어라 새 Id를 만들지 않고 그대로 재사용한다.
+        (40128, "무기", "Weapon", "GachaUi"),
     ]
     rows = []
     for i, (string_id, kor, eng, category) in enumerate(specs, start=1):

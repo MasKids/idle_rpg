@@ -1092,8 +1092,8 @@
     {
       "Index": 22,
       "Id": 40028,
-      "KOR": "가챠",
-      "ENG": "Gacha"
+      "KOR": "소환",
+      "ENG": "Summon"
     },
     {
       "Index": 23,
@@ -1452,8 +1452,8 @@
     {
       "Index": 82,
       "Id": 40088,
-      "KOR": "가챠 레벨",
-      "ENG": "Gacha Level"
+      "KOR": "소환 레벨",
+      "ENG": "Summon Level"
     },
     {
       "Index": 83,
@@ -1688,6 +1688,12 @@
       "Id": 40127,
       "KOR": "보유",
       "ENG": "Owned"
+    },
+    {
+      "Index": 122,
+      "Id": 40128,
+      "KOR": "무기",
+      "ENG": "Weapon"
     }
   ]
 }

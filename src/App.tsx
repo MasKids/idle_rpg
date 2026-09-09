@@ -12,7 +12,7 @@ import { getTabName } from './data/uiStrings'
 import { ExistTreePanel } from './systems/exist/ExistTreePanel'
 import { RebirthModal } from './systems/rebirth/RebirthModal'
 import { TimeHeistModal } from './systems/timeheist/TimeHeistModal'
-import { WeaponGachaPanel } from './systems/weapon/WeaponGachaPanel'
+import { SummonPanel } from './systems/gacha/SummonPanel'
 import { WeaponStoragePanel } from './systems/weapon/WeaponStoragePanel'
 import { useGameStore } from './store/gameStore'
 import type { TabKey } from './types/game'
@@ -59,7 +59,7 @@ function App() {
         {isFullscreen ? (
           <>
             {activeTab === 'equipment' && <WeaponStoragePanel onBack={goBack} />}
-            {activeTab === 'gacha' && <WeaponGachaPanel onBack={goBack} />}
+            {activeTab === 'gacha' && <SummonPanel onBack={goBack} />}
             {activeTab === 'dogam' && <StubPanel title={getTabName('dogam')} onBack={goBack} />}
             {activeTab === 'exist' && <ExistTreePanel onBack={goBack} />}
           </>
