@@ -2,8 +2,12 @@ import { useState } from 'react'
 import { useGameStore } from '../store/gameStore'
 import { clearGameState, debugOverrideLastActiveAt, disableAutosave } from '../store/gameStateStorage'
 
+interface DevPanelProps {
+  onOpenDesignSystem: () => void
+}
+
 // 개발 모드 전용 테스트 도구. App.tsx에서 import.meta.env.DEV일 때만 렌더링된다.
-export function DevPanel() {
+export function DevPanel({ onOpenDesignSystem }: DevPanelProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [unlockCount, setUnlockCount] = useState(33)
   const [offlineHours, setOfflineHours] = useState(9)
@@ -117,9 +121,17 @@ export function DevPanel() {
           <button
             type="button"
             onClick={handleFullReset}
-            className="w-full rounded bg-red-500/20 px-2 py-1 text-left text-[11px] text-red-300 hover:bg-red-500/30"
+            className="mb-1 w-full rounded bg-red-500/20 px-2 py-1 text-left text-[11px] text-red-300 hover:bg-red-500/30"
           >
             전체 상태 초기화
+          </button>
+
+          <button
+            type="button"
+            onClick={onOpenDesignSystem}
+            className="w-full rounded bg-teal-base/20 px-2 py-1 text-left text-[11px] text-teal-strong hover:bg-teal-base/30"
+          >
+            디자인 시스템 보기
           </button>
         </div>
       )}

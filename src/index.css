@@ -1,5 +1,63 @@
 @import 'tailwindcss';
 
+/* ---------------------------------------------------------------------
+ * 디자인 토큰 — 다크 미니멀 팔레트. 각 토큰의 용도는 docs/DESIGN_SYSTEM.md
+ * 참고. Tailwind v4의 @theme 블록이라 --color-surface-card 는 자동으로
+ * bg-surface-card / text-surface-card / border-surface-card 유틸리티가 된다.
+ * 화면 레이아웃(각 systems/*.tsx)은 아직 이 토큰을 쓰도록 바꾸지 않았다 —
+ * 이번 단계는 토큰/컴포넌트 정의까지만.
+ * ------------------------------------------------------------------- */
+@theme {
+  --font-sans: 'Pretendard Variable', 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  /* 배경 계층 4단계: 최하단 → 카드 → 강조카드 → 테두리 */
+  --color-surface-base: #0a0a0f;
+  --color-surface-card: #131318;
+  --color-surface-elevated: #1c1c24;
+  --color-surface-border: #2a2a35;
+
+  /* 텍스트 계층 3단계: 주요 → 보조 → 비활성 */
+  --color-text-primary: #f5f5f7;
+  --color-text-secondary: #9a9aa5;
+  --color-text-disabled: #55555f;
+
+  /* 기능 색상 — 화면 톤 재정의
+     전체화면 드릴다운(무기고/존재력)=청록, 가챠·타임하이스트=금색,
+     일반 UI=중립 회색(surface/text 토큰) + 파랑 포인트 */
+  --color-teal-soft: #0f2e2c;
+  --color-teal-base: #14b8a6;
+  --color-teal-strong: #5eead4;
+
+  --color-gold-soft: #2e2008;
+  --color-gold-base: #d97706;
+  --color-gold-strong: #fbbf24;
+
+  --color-blue-soft: #12203d;
+  --color-blue-base: #2563eb;
+  --color-blue-strong: #60a5fa;
+
+  /* 경고 / 성공(비활성은 text-disabled + surface-elevated 조합을 쓴다) */
+  --color-danger-base: #dc2626;
+  --color-danger-strong: #f87171;
+  --color-success-base: #16a34a;
+  --color-success-strong: #4ade80;
+
+  /* 무기 등급 5색 — 유물(Normal/Rare/Epic)은 앞 3개를 그대로 재사용한다 */
+  --color-grade-normal: #9ca3af;
+  --color-grade-rare: #38bdf8;
+  --color-grade-epic: #a78bfa;
+  --color-grade-unique: #fb923c;
+  --color-grade-legendary: #fbbf24;
+
+  /* 재화 6종 */
+  --color-currency-diamond: #67e8f9;
+  --color-currency-exist: #c084fc;
+  --color-currency-growth: #4ade80;
+  --color-currency-essence: #818cf8;
+  --color-currency-time: #fb923c;
+  --color-currency-gold: #facc15;
+}
+
 html,
 body,
 #root {
@@ -8,7 +66,14 @@ body,
 }
 
 body {
-  background: #0a0a0f;
+  background: var(--color-surface-base);
+  font-family: var(--font-sans);
+}
+
+/* 재화·스탯 등 숫자가 자주 바뀌는 자리에서 자릿수가 흔들리지 않도록 전역 적용.
+   숫자 글리프에만 적용되는 속성이라 한글/영문 텍스트에는 영향이 없다. */
+body {
+  font-variant-numeric: tabular-nums;
 }
 
 @keyframes float-up {

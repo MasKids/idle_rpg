@@ -3,6 +3,7 @@ import { BattleArea } from './components/BattleArea'
 import { BottomMenu } from './components/BottomMenu'
 import { ControlArea } from './components/ControlArea'
 import { DevPanel } from './components/DevPanel'
+import { DesignSystemPreview } from './dev/DesignSystemPreview'
 import { StageInfoModal } from './components/StageInfoModal'
 import { StubPanel } from './components/StubPanel'
 import { startBattleLoop } from './systems/battle/battleLoop'
@@ -25,6 +26,7 @@ function App() {
   const [rebirthFlashKey, setRebirthFlashKey] = useState(0)
   const [isTimeHeistModalOpen, setTimeHeistModalOpen] = useState(false)
   const [timeHeistFlashKey, setTimeHeistFlashKey] = useState(0)
+  const [isDesignSystemOpen, setDesignSystemOpen] = useState(false)
   const executeRebirth = useGameStore((state) => state.executeRebirth)
   const executeTimeHeist = useGameStore((state) => state.executeTimeHeist)
   const claimOfflineReward = useGameStore((state) => state.claimOfflineReward)
@@ -107,7 +109,10 @@ function App() {
           />
         )}
 
-        {import.meta.env.DEV && <DevPanel />}
+        {import.meta.env.DEV && <DevPanel onOpenDesignSystem={() => setDesignSystemOpen(true)} />}
+        {import.meta.env.DEV && isDesignSystemOpen && (
+          <DesignSystemPreview onClose={() => setDesignSystemOpen(false)} />
+        )}
       </div>
     </div>
   )
