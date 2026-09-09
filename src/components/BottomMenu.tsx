@@ -20,7 +20,7 @@ export function BottomMenu({ activeTab, onSelect }: BottomMenuProps) {
             key={key}
             type="button"
             onClick={() => onSelect(key)}
-            className={`flex flex-1 flex-col items-center gap-0.5 py-2 text-xs transition-colors ${
+            className={`flex min-h-11 flex-1 flex-col items-center justify-center gap-0.5 py-2.5 text-xs transition-colors duration-150 active:bg-surface-elevated active:scale-95 ${
               isActive ? 'text-teal-strong' : 'text-text-secondary hover:text-text-primary'
             }`}
           >

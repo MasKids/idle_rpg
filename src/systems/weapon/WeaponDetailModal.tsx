@@ -19,7 +19,7 @@ import {
 } from './weapon'
 import { GRADE_TEXT_COLOR } from './weaponUi'
 import { masteryPrimaryStat } from '../../data/mastery'
-import { Button, CostLabel, GradeBadge } from '../../components/ui'
+import { Button, CostLabel, GradeBadge, ProgressBar } from '../../components/ui'
 
 interface WeaponDetailModalProps {
   weaponId: string
@@ -110,6 +110,10 @@ export function WeaponDetailModal({ weaponId, onClose }: WeaponDetailModalProps)
             <dd className="text-text-primary">{count}</dd>
           </div>
         </dl>
+
+        <div className="mt-1.5">
+          <ProgressBar value={level} max={maxLevel} colorClassName="bg-teal-base" />
+        </div>
 
         <div className="mt-3 space-y-1 border-t border-surface-border pt-2 text-xs">
           <div className="flex justify-between">
