@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { EXIST_SPECIAL_UNLOCKS, existNodeStatus, generateExistTree } from '../../data/existTree'
-import { getButtonLabel, getCurrencyAbbr, getCurrencyName, getStateLabel } from '../../data/uiStrings'
+import { getButtonLabel, getCommonUiLabel, getCurrencyAbbr, getCurrencyName, getStateLabel } from '../../data/uiStrings'
 import { useGameStore } from '../../store/gameStore'
 import { formatNumber } from '../../utils/format'
 import type {
@@ -105,8 +105,10 @@ export function ExistTreePanel({ onBack }: ExistTreePanelProps) {
           const nextNode = nodesTopToBottom[index + 1]
           const showTierDividerBelow = nextNode !== undefined && nextNode.tier !== node.tier
 
+          // 조건을 채우기 전에도 위치는 계속 보여준다(해금 가능 여부만 다르게 표시) —
+          // 그래야 트리를 스크롤하면서 "몇 번 노드에 리버스/타임 하이스트가 있는지" 미리 알 수 있다.
           const special = specialByAnchor.get(node.order)
-          const specialVisible = special !== undefined && unlockedCount >= special.requiredUnlockedCount
+          const specialReachable = special !== undefined && unlockedCount >= special.requiredUnlockedCount
           const specialUnlocked = special !== undefined && specialUnlocks[special.id]
 
           return (
@@ -116,9 +118,10 @@ export function ExistTreePanel({ onBack }: ExistTreePanelProps) {
                 status={status}
                 isSelected={node.order === selectedOrder}
                 onSelect={() => setSelectedOrder(node.order)}
-                special={specialVisible ? special : undefined}
+                special={special}
+                specialReachable={specialReachable}
                 specialUnlocked={specialUnlocked}
-                onSpecialClick={special ? () => unlockSpecial(special.id) : undefined}
+                onSpecialClick={specialReachable ? () => unlockSpecial(special!.id) : undefined}
               />
               {showTierDividerBelow && (
                 <div className="flex items-center gap-2 px-6 py-2 text-[10px] text-text-secondary">
@@ -142,11 +145,12 @@ interface NodeRowProps {
   isSelected: boolean
   onSelect: () => void
   special?: ExistSpecialUnlock
+  specialReachable: boolean
   specialUnlocked: boolean
   onSpecialClick?: () => void
 }
 
-function NodeRow({ node, status, isSelected, onSelect, special, specialUnlocked, onSpecialClick }: NodeRowProps) {
+function NodeRow({ node, status, isSelected, onSelect, special, specialReachable, specialUnlocked, onSpecialClick }: NodeRowProps) {
   const specialLane = special ? oppositeLane(node.lane) : null
 
   return (
@@ -160,7 +164,7 @@ function NodeRow({ node, status, isSelected, onSelect, special, specialUnlocked,
         )}
         {specialLane === 'left' && special && (
           <>
-            <SpecialCircle unlock={special} unlocked={specialUnlocked} onClick={onSpecialClick} />
+            <SpecialCircle unlock={special} reachable={specialReachable} unlocked={specialUnlocked} onClick={onSpecialClick} />
             <Connector />
           </>
         )}
@@ -178,7 +182,7 @@ function NodeRow({ node, status, isSelected, onSelect, special, specialUnlocked,
         {specialLane === 'right' && special && (
           <>
             <Connector />
-            <SpecialCircle unlock={special} unlocked={specialUnlocked} onClick={onSpecialClick} />
+            <SpecialCircle unlock={special} reachable={specialReachable} unlocked={specialUnlocked} onClick={onSpecialClick} />
           </>
         )}
       </div>
@@ -226,29 +230,43 @@ function NodeCircle({
 }
 
 // 리버스/타임 하이스트 같은 특별 해금 — 일반 노드(청록)와 다른 계열(등급색 중 보라)을 써서
-// 트리 스크롤 중에도 눈에 띄게 한다.
+// 트리 스크롤 중에도 눈에 띄게 한다. 조건(requiredUnlockedCount)을 채우기 전에도 자리는
+// 계속 보여준다 — 대신 흐리게 표시해 "아직 멀었다"는 걸 알 수 있게 한다.
 function SpecialCircle({
   unlock,
+  reachable,
   unlocked,
   onClick,
 }: {
   unlock: ExistSpecialUnlock
+  reachable: boolean
   unlocked: boolean
   onClick?: () => void
 }) {
   return (
-    <button type="button" onClick={onClick} className="flex w-24 flex-col items-center gap-1">
+    <button
+      type="button"
+      onClick={onClick}
+      disabled={!onClick}
+      className={`flex w-24 flex-col items-center gap-1 ${!reachable ? 'cursor-default' : ''}`}
+    >
       <div
         className={`flex h-16 w-16 shrink-0 items-center justify-center rounded-full border-4 text-[10px] font-bold ${
           unlocked
             ? 'border-grade-epic bg-grade-epic text-white'
-            : 'border-grade-epic bg-surface-elevated text-grade-epic ring-4 ring-grade-epic/40'
+            : reachable
+              ? 'border-grade-epic bg-surface-elevated text-grade-epic ring-4 ring-grade-epic/40'
+              : 'border-surface-border bg-surface-card text-text-disabled'
         }`}
       >
-        {unlock.label}
+        {reachable ? unlock.label : <STATE_ICON.locked size={18} strokeWidth={2} />}
       </div>
-      <div className="text-center text-[9px] leading-tight text-grade-epic">
-        {unlocked ? getStateLabel('unlocked') : formatNumber(unlock.cost)}
+      <div className={`text-center text-[9px] leading-tight ${reachable ? 'text-grade-epic' : 'text-text-disabled'}`}>
+        {unlocked
+          ? getStateLabel('unlocked')
+          : reachable
+            ? formatNumber(unlock.cost)
+            : `${unlock.label} · ${unlock.requiredUnlockedCount}${getCommonUiLabel('nodeSuffix')}`}
       </div>
     </button>
   )
