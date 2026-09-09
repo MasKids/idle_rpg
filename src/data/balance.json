@@ -462,10 +462,30 @@
   "MasteryTable": [
     {
       "Index": 1,
-      "Id": 33001,
-      "WeaponId": 1,
-      "Name": 40014,
-      "AtkMultiplierPerLevel": 0.05,
+      "Id": 33002,
+      "WeaponType": "Sword",
+      "Name": 40072,
+      "MultiplierPerLevel": 0.05,
+      "CostBase": 10,
+      "CostGrowthRate": 1.25,
+      "MaxLevel": 9999
+    },
+    {
+      "Index": 2,
+      "Id": 33003,
+      "WeaponType": "Spear",
+      "Name": 40073,
+      "MultiplierPerLevel": 0.05,
+      "CostBase": 10,
+      "CostGrowthRate": 1.25,
+      "MaxLevel": 9999
+    },
+    {
+      "Index": 3,
+      "Id": 33004,
+      "WeaponType": "Bow",
+      "Name": 40074,
+      "MultiplierPerLevel": 0.05,
       "CostBase": 10,
       "CostGrowthRate": 1.25,
       "MaxLevel": 9999
@@ -1306,6 +1326,36 @@
       "Id": 40071,
       "KOR": "전능의 유물",
       "ENG": "Relic of Omnipotence"
+    },
+    {
+      "Index": 68,
+      "Id": 40072,
+      "KOR": "검 숙련",
+      "ENG": "Sword Mastery"
+    },
+    {
+      "Index": 69,
+      "Id": 40073,
+      "KOR": "창 숙련",
+      "ENG": "Spear Mastery"
+    },
+    {
+      "Index": 70,
+      "Id": 40074,
+      "KOR": "활 숙련",
+      "ENG": "Bow Mastery"
+    },
+    {
+      "Index": 71,
+      "Id": 40075,
+      "KOR": "다이아",
+      "ENG": "DIAMOND"
+    },
+    {
+      "Index": 72,
+      "Id": 40076,
+      "KOR": "다이아",
+      "ENG": "DIAMOND_ABBR"
     }
   ]
 }

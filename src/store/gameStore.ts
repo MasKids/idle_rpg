@@ -1,18 +1,42 @@
 import { create } from 'zustand'
-import { MASTERY_WEAPONS, masteryAtkMultiplier, masteryUpgradeCost } from '../data/equipment'
-import { getCommon, getRebirthConfig } from '../data/balance'
+import { MASTERY_WEAPONS, masteryMultiplier, masteryPrimaryStat, masteryUpgradeCost } from '../data/equipment'
+import { BALANCE_TABLES, getCommon, getRebirthConfig, getWeaponFusionConfig } from '../data/balance'
 import { EXIST_SPECIAL_UNLOCKS, generateExistTree } from '../data/existTree'
 import { generateStage, killsRequiredForStage } from '../data/stages'
 import { computeStatValue, statUpgradeCost } from '../data/stats'
 import { computeOfflineReward, type OfflineRewardResult } from '../systems/battle/offlineReward'
+import { computeActiveRelicEffects, computeRelicSlotCount, RELIC_SLOT_MAX, rollRelicGacha } from '../systems/relic/relic'
 import { computeRebirthBonusPoints, computeRefundMultiplier } from '../systems/rebirth/rebirthBonus'
 import { computeTimeHeistPreview, timeHeistCooldownEndsAt } from '../systems/timeheist/timeHeist'
+import {
+  canBreakthrough,
+  canMerge,
+  computeWeaponStatBonus,
+  currentGachaLevelConfig,
+  nextBreakthroughStep,
+  nextWeaponIdForMerge,
+  parseWeaponId,
+  rollWeaponGacha,
+  weaponLevelUpCost,
+  weaponMaxLevel,
+} from '../systems/weapon/weapon'
 import { debugOverrideLastActiveAt, disableAutosave, flushSave, loadGameState, scheduleSave } from './gameStateStorage'
-import type { BattleHit, BattleState, CurrencyKey, RebirthSpentTotals, SpecialUnlockId, StatKey } from '../types/game'
+import type {
+  ActiveRelicSlots,
+  BattleHit,
+  BattleState,
+  CurrencyKey,
+  OwnedWeapons,
+  RebirthSpentTotals,
+  SpecialUnlockId,
+  StatKey,
+  WeaponInstance,
+} from '../types/game'
 
 const INITIAL_STAGE = 1
 const EXIST_TREE_NODES = generateExistTree()
 const persistedGame = loadGameState()
+const STAT_KEYS: StatKey[] = ['atk', 'def', 'aspd', 'crit', 'critDmg', 'existGain']
 
 // 오프라인 보상 계산용 "이전 세션이 저장된 시각".
 // persistedGame은 로드 직후 스토어가 즉시 새 시각으로 덮어쓰므로 별도로 남겨둔다.
@@ -29,20 +53,36 @@ function baseStatsFromLevels(levels: Record<StatKey, number>): Record<StatKey, n
   }
 }
 
-// 성장 스탯 + 존재력 트리 영구 보너스(가산) + 무기 숙련 배율(곱연산, ATK만)을 합친 최종 전투 스탯.
+// 새로 얻는(또는 처음 보는) 무기 타입은 레벨1/돌파0으로 시작한다. 합성 결과물의
+// 초기 레벨/돌파(WeaponFusionTable.ResultLevel/ResultBreakthroughCount)만 예외적으로
+// freshLevel/freshBreakthroughCount로 넘겨 받는다 — 그 외(가챠, 콘솔 지급)는 기본값(1/0) 사용.
+function grantWeaponEntry(
+  owned: OwnedWeapons,
+  weaponId: string,
+  amount: number,
+  freshLevel = 1,
+  freshBreakthroughCount = 0,
+): OwnedWeapons {
+  const existing = owned[weaponId]
+  const nextEntry: WeaponInstance = existing
+    ? { ...existing, count: existing.count + amount }
+    : { count: amount, level: freshLevel, breakthroughCount: freshBreakthroughCount }
+  return { ...owned, [weaponId]: nextEntry }
+}
+
+// 성장 스탯 + 존재력 트리 영구 보너스(가산) + 활성 유물 스탯형 효과(가산)를 먼저 합치고,
+// 장착 중인 무기가 있으면 그 종류의 주 스탯(ATK/ASPD/CRIT)에 무기 보유·장착 효과를
+// 가산한 뒤, 그 종류의 숙련 배율을 곱연산으로 적용한다.
 // 리버스 회차 보너스는 리버스 환급량에만 영향을 주고 이 계산에는 관여하지 않는다.
-// 장비 보너스는 5부위 강화 시스템 폐기와 함께 제거됨 — 이후 무기 시스템으로 대체 예정.
 function computeEffectiveStats(
   statLevels: Record<StatKey, number>,
   masteryLevels: Record<string, number>,
   existTreeBonus: Record<StatKey, number>,
+  ownedWeapons: OwnedWeapons,
+  equippedWeaponId: string | null,
+  activeRelics: ActiveRelicSlots,
 ): Record<StatKey, number> {
   const base = baseStatsFromLevels(statLevels)
-
-  const primaryWeapon = MASTERY_WEAPONS[0]
-  const masteryMultiplier = primaryWeapon
-    ? masteryAtkMultiplier(primaryWeapon.id, masteryLevels[primaryWeapon.id] ?? 0)
-    : 1
 
   const combined: Record<StatKey, number> = {
     atk: base.atk + existTreeBonus.atk,
@@ -52,7 +92,16 @@ function computeEffectiveStats(
     critDmg: base.critDmg + existTreeBonus.critDmg,
     existGain: base.existGain + existTreeBonus.existGain,
   }
-  combined.atk *= masteryMultiplier
+
+  const relicEffects = computeActiveRelicEffects(activeRelics)
+  for (const key of STAT_KEYS) combined[key] += relicEffects.statBonus[key]
+
+  if (equippedWeaponId) {
+    const { type } = parseWeaponId(equippedWeaponId)
+    const primaryStat = masteryPrimaryStat(type)
+    combined[primaryStat] += computeWeaponStatBonus(ownedWeapons, equippedWeaponId)
+    combined[primaryStat] *= masteryMultiplier(type, masteryLevels[type] ?? 0)
+  }
 
   return combined
 }
@@ -88,11 +137,21 @@ interface GameState {
   timeHeistLastUsedAt: number | null
   offlineReward: OfflineRewardResult | null
 
+  // 무기
+  ownedWeapons: OwnedWeapons
+  equippedWeaponId: string | null
+  gachaCount: number
+  gachaLevel: number
+
+  // 유물
+  ownedRelics: number[]
+  activeRelics: ActiveRelicSlots
+
   addCurrency: (key: CurrencyKey, amount: number) => void
   spendCurrency: (key: CurrencyKey, amount: number) => boolean
   upgradeStat: (key: StatKey) => boolean
   maxUpgradeAll: () => void
-  upgradeMastery: (weaponId: string) => boolean
+  upgradeMastery: (weaponType: string) => boolean
   maxUpgradeMastery: () => void
   setStage: (stage: number) => void
   setBattle: (battle: BattleState) => void
@@ -105,6 +164,18 @@ interface GameState {
   claimOfflineReward: () => void
   setRebirthBonusPoint: (point: number) => void
   resetRebirthBonus: () => void
+
+  // 무기
+  grantWeapon: (weaponId: string, count: number) => void
+  pullWeaponGacha: () => boolean
+  equipWeapon: (weaponId: string) => boolean
+  levelUpWeapon: (weaponId: string) => boolean
+  breakthroughWeapon: (weaponId: string) => boolean
+  mergeWeapon: (weaponId: string) => boolean
+
+  // 유물
+  pullRelicGacha: () => boolean
+  setRelicSlot: (slotIndex: number, relicId: number | null) => boolean
 }
 
 const initialStatLevels: Record<StatKey, number> = {
@@ -119,6 +190,9 @@ const initialStatLevels: Record<StatKey, number> = {
 const initialMasteryLevels: Record<string, number> = Object.fromEntries(
   MASTERY_WEAPONS.map((weapon) => [weapon.id, 0]),
 )
+
+const initialOwnedWeapons: OwnedWeapons = {}
+const initialActiveRelics: ActiveRelicSlots = Array(RELIC_SLOT_MAX).fill(null)
 
 const initialRebirthSpent: RebirthSpentTotals = {
   growthEnergy: 0,
@@ -142,7 +216,20 @@ const startStage = persistedGame?.currentStage ?? INITIAL_STAGE
 const startRebirthCount = persistedGame?.rebirthCount ?? 0
 const startRebirthBonusPoint = persistedGame?.rebirthBonusPoint ?? 0
 const startRebirthMaxStage = Math.max(persistedGame?.rebirthMaxStage ?? startStage, startStage)
-const startStats = computeEffectiveStats(startStatLevels, startMasteryLevels, startExistTreeStatBonus)
+const startOwnedWeapons = persistedGame?.ownedWeapons ?? initialOwnedWeapons
+const startEquippedWeaponId = persistedGame?.equippedWeaponId ?? null
+const startGachaCount = persistedGame?.gachaCount ?? 0
+const startGachaLevel = persistedGame?.gachaLevel ?? currentGachaLevelConfig(startGachaCount).GachaLevel
+const startOwnedRelics = persistedGame?.ownedRelics ?? []
+const startActiveRelics = persistedGame?.activeRelics ?? initialActiveRelics
+const startStats = computeEffectiveStats(
+  startStatLevels,
+  startMasteryLevels,
+  startExistTreeStatBonus,
+  startOwnedWeapons,
+  startEquippedWeaponId,
+  startActiveRelics,
+)
 
 // 오프라인 보상은 앱 시작 시 단 한 번, 이전 세션이 끝난 시각과 지금의 차이로 계산한다.
 // (스테이지는 그대로 두고 재화만 지급 — 실제 battle 진행에는 영향 없음)
@@ -155,6 +242,7 @@ const initialCurrencies: Record<CurrencyKey, number> = {
   timeEnergy: getCommon('InitialTimeEnergy'),
   gold: getCommon('InitialGold'),
   essence: getCommon('InitialMasteryEssence'),
+  diamond: getCommon('InitialDiamond'),
 }
 
 export const useGameStore = create<GameState>((set, get) => ({
@@ -179,6 +267,14 @@ export const useGameStore = create<GameState>((set, get) => ({
   timeHeistLastUsedAt: persistedGame?.timeHeistLastUsedAt ?? null,
   offlineReward: startOfflineReward,
 
+  ownedWeapons: startOwnedWeapons,
+  equippedWeaponId: startEquippedWeaponId,
+  gachaCount: startGachaCount,
+  gachaLevel: startGachaLevel,
+
+  ownedRelics: startOwnedRelics,
+  activeRelics: startActiveRelics,
+
   addCurrency: (key, amount) =>
     set((state) => ({
       currencies: { ...state.currencies, [key]: state.currencies[key] + amount },
@@ -201,7 +297,14 @@ export const useGameStore = create<GameState>((set, get) => ({
       const statLevels = { ...state.statLevels, [key]: level + 1 }
       return {
         statLevels,
-        stats: computeEffectiveStats(statLevels, state.masteryLevels, state.existTreeStatBonus),
+        stats: computeEffectiveStats(
+          statLevels,
+          state.masteryLevels,
+          state.existTreeStatBonus,
+          state.ownedWeapons,
+          state.equippedWeaponId,
+          state.activeRelics,
+        ),
         rebirthSpent: { ...state.rebirthSpent, growthEnergy: state.rebirthSpent.growthEnergy + cost },
       }
     })
@@ -227,22 +330,36 @@ export const useGameStore = create<GameState>((set, get) => ({
 
     set((state) => ({
       statLevels,
-      stats: computeEffectiveStats(statLevels, state.masteryLevels, state.existTreeStatBonus),
+      stats: computeEffectiveStats(
+        statLevels,
+        state.masteryLevels,
+        state.existTreeStatBonus,
+        state.ownedWeapons,
+        state.equippedWeaponId,
+        state.activeRelics,
+      ),
       currencies: { ...state.currencies, growthEnergy },
       rebirthSpent: { ...state.rebirthSpent, growthEnergy: state.rebirthSpent.growthEnergy + spent },
     }))
   },
 
-  upgradeMastery: (weaponId) => {
-    const level = get().masteryLevels[weaponId] ?? 0
-    const cost = masteryUpgradeCost(weaponId, level)
+  upgradeMastery: (weaponType) => {
+    const level = get().masteryLevels[weaponType] ?? 0
+    const cost = masteryUpgradeCost(weaponType, level)
     if (!get().spendCurrency('essence', cost)) return false
 
     set((state) => {
-      const masteryLevels = { ...state.masteryLevels, [weaponId]: level + 1 }
+      const masteryLevels = { ...state.masteryLevels, [weaponType]: level + 1 }
       return {
         masteryLevels,
-        stats: computeEffectiveStats(state.statLevels, masteryLevels, state.existTreeStatBonus),
+        stats: computeEffectiveStats(
+          state.statLevels,
+          masteryLevels,
+          state.existTreeStatBonus,
+          state.ownedWeapons,
+          state.equippedWeaponId,
+          state.activeRelics,
+        ),
         rebirthSpent: { ...state.rebirthSpent, essence: state.rebirthSpent.essence + cost },
       }
     })
@@ -267,7 +384,14 @@ export const useGameStore = create<GameState>((set, get) => ({
 
     set((state) => ({
       masteryLevels,
-      stats: computeEffectiveStats(state.statLevels, masteryLevels, state.existTreeStatBonus),
+      stats: computeEffectiveStats(
+        state.statLevels,
+        masteryLevels,
+        state.existTreeStatBonus,
+        state.ownedWeapons,
+        state.equippedWeaponId,
+        state.activeRelics,
+      ),
       currencies: { ...state.currencies, essence },
       rebirthSpent: { ...state.rebirthSpent, essence: state.rebirthSpent.essence + spent },
     }))
@@ -300,7 +424,14 @@ export const useGameStore = create<GameState>((set, get) => ({
         return {
           unlockedCount: state.unlockedCount + 1,
           existTreeStatBonus,
-          stats: computeEffectiveStats(state.statLevels, state.masteryLevels, existTreeStatBonus),
+          stats: computeEffectiveStats(
+            state.statLevels,
+            state.masteryLevels,
+            existTreeStatBonus,
+            state.ownedWeapons,
+            state.equippedWeaponId,
+            state.activeRelics,
+          ),
         }
       })
     }
@@ -341,6 +472,12 @@ export const useGameStore = create<GameState>((set, get) => ({
         ? state.specialUnlocks
         : { reverse: false, timeHeist: false }
 
+      // 무기는 전부 소멸, 유물은 전부 초기화. 가챠 레벨/누적 뽑기 횟수와 다이아는 유지.
+      const nextOwnedWeapons = initialOwnedWeapons
+      const nextEquippedWeaponId = null
+      const nextOwnedRelics: number[] = []
+      const nextActiveRelics = initialActiveRelics
+
       return {
         currentStage: nextStage,
         battle: config.ResetStage ? battleStateForStage(nextStage) : state.battle,
@@ -352,7 +489,18 @@ export const useGameStore = create<GameState>((set, get) => ({
         rebirthCount: nextRebirthCount,
         rebirthBonusPoint: nextRebirthBonusPoint,
         rebirthMaxStage: nextRebirthMaxStage,
-        stats: computeEffectiveStats(nextStatLevels, nextMasteryLevels, nextExistTreeStatBonus),
+        ownedWeapons: nextOwnedWeapons,
+        equippedWeaponId: nextEquippedWeaponId,
+        ownedRelics: nextOwnedRelics,
+        activeRelics: nextActiveRelics,
+        stats: computeEffectiveStats(
+          nextStatLevels,
+          nextMasteryLevels,
+          nextExistTreeStatBonus,
+          nextOwnedWeapons,
+          nextEquippedWeaponId,
+          nextActiveRelics,
+        ),
         currencies: {
           ...state.currencies,
           growthEnergy:
@@ -410,6 +558,200 @@ export const useGameStore = create<GameState>((set, get) => ({
 
   // 개발자 콘솔 테스트용: 리버스 횟수·누적 보너스 포인트·최고 도달 스테이지 초기화
   resetRebirthBonus: () => set({ rebirthCount: 0, rebirthBonusPoint: 0, rebirthMaxStage: 0 }),
+
+  // 무기 타입을 count만큼 지급(없으면 신규 생성, 있으면 count만 증가). 가챠/합성/개발자
+  // 콘솔 지급이 전부 이 액션을 공유한다.
+  grantWeapon: (weaponId, count) =>
+    set((state) => {
+      const ownedWeapons = grantWeaponEntry(state.ownedWeapons, weaponId, count)
+      return {
+        ownedWeapons,
+        stats: computeEffectiveStats(
+          state.statLevels,
+          state.masteryLevels,
+          state.existTreeStatBonus,
+          ownedWeapons,
+          state.equippedWeaponId,
+          state.activeRelics,
+        ),
+      }
+    }),
+
+  pullWeaponGacha: () => {
+    const cost = currentGachaLevelConfig(get().gachaCount).PullCostDiamond
+    if (!get().spendCurrency('diamond', cost)) return false
+
+    const weaponId = rollWeaponGacha(get().gachaCount)
+
+    set((state) => {
+      const nextGachaCount = state.gachaCount + 1
+      const ownedWeapons = grantWeaponEntry(state.ownedWeapons, weaponId, 1)
+      return {
+        ownedWeapons,
+        gachaCount: nextGachaCount,
+        gachaLevel: currentGachaLevelConfig(nextGachaCount).GachaLevel,
+        stats: computeEffectiveStats(
+          state.statLevels,
+          state.masteryLevels,
+          state.existTreeStatBonus,
+          ownedWeapons,
+          state.equippedWeaponId,
+          state.activeRelics,
+        ),
+      }
+    })
+    return true
+  },
+
+  equipWeapon: (weaponId) => {
+    const entry = get().ownedWeapons[weaponId]
+    if (!entry || entry.count <= 0) return false
+
+    set((state) => ({
+      equippedWeaponId: weaponId,
+      stats: computeEffectiveStats(
+        state.statLevels,
+        state.masteryLevels,
+        state.existTreeStatBonus,
+        state.ownedWeapons,
+        weaponId,
+        state.activeRelics,
+      ),
+    }))
+    return true
+  },
+
+  levelUpWeapon: (weaponId) => {
+    const entry = get().ownedWeapons[weaponId]
+    if (!entry) return false
+    if (entry.level >= weaponMaxLevel(entry.breakthroughCount)) return false
+
+    const { grade } = parseWeaponId(weaponId)
+    const cost = weaponLevelUpCost(grade, entry.level)
+    if (!get().spendCurrency('gold', cost)) return false
+
+    set((state) => {
+      const current = state.ownedWeapons[weaponId]
+      if (!current) return {}
+      const ownedWeapons = { ...state.ownedWeapons, [weaponId]: { ...current, level: current.level + 1 } }
+      return {
+        ownedWeapons,
+        stats: computeEffectiveStats(
+          state.statLevels,
+          state.masteryLevels,
+          state.existTreeStatBonus,
+          ownedWeapons,
+          state.equippedWeaponId,
+          state.activeRelics,
+        ),
+        rebirthSpent: { ...state.rebirthSpent, gold: state.rebirthSpent.gold + cost },
+      }
+    })
+    return true
+  },
+
+  breakthroughWeapon: (weaponId) => {
+    const entry = get().ownedWeapons[weaponId]
+    if (!entry || !canBreakthrough(entry)) return false
+    const step = nextBreakthroughStep(entry)
+    if (!step) return false
+
+    set((state) => {
+      const current = state.ownedWeapons[weaponId]
+      if (!current) return {}
+      const ownedWeapons = {
+        ...state.ownedWeapons,
+        [weaponId]: {
+          ...current,
+          count: current.count - step.RequiredDuplicateCount,
+          breakthroughCount: current.breakthroughCount + 1,
+        },
+      }
+      return {
+        ownedWeapons,
+        stats: computeEffectiveStats(
+          state.statLevels,
+          state.masteryLevels,
+          state.existTreeStatBonus,
+          ownedWeapons,
+          state.equippedWeaponId,
+          state.activeRelics,
+        ),
+      }
+    })
+    return true
+  },
+
+  mergeWeapon: (weaponId) => {
+    const entry = get().ownedWeapons[weaponId]
+    if (!entry) return false
+    const isEquipped = get().equippedWeaponId === weaponId
+    if (!canMerge(weaponId, entry, isEquipped)) return false
+    const targetId = nextWeaponIdForMerge(weaponId)
+    if (!targetId) return false
+    const fusion = getWeaponFusionConfig()
+
+    set((state) => {
+      const current = state.ownedWeapons[weaponId]
+      if (!current) return {}
+      const afterConsume: OwnedWeapons = {
+        ...state.ownedWeapons,
+        [weaponId]: { ...current, count: current.count - fusion.RequiredCount },
+      }
+      const ownedWeapons = grantWeaponEntry(afterConsume, targetId, 1, fusion.ResultLevel, fusion.ResultBreakthroughCount)
+      return {
+        ownedWeapons,
+        stats: computeEffectiveStats(
+          state.statLevels,
+          state.masteryLevels,
+          state.existTreeStatBonus,
+          ownedWeapons,
+          state.equippedWeaponId,
+          state.activeRelics,
+        ),
+      }
+    })
+    return true
+  },
+
+  pullRelicGacha: () => {
+    const cost = getCommon('RelicGachaCostTimeEnergy')
+    if (!get().spendCurrency('timeEnergy', cost)) return false
+
+    const relicId = rollRelicGacha()
+    if (get().ownedRelics.includes(relicId)) {
+      get().addCurrency('timeEnergy', getCommon('RelicDuplicateRefundTimeEnergy'))
+    } else {
+      set((state) => ({ ownedRelics: [...state.ownedRelics, relicId] }))
+    }
+    return true
+  },
+
+  setRelicSlot: (slotIndex, relicId) => {
+    const slotCount = computeRelicSlotCount(get().unlockedCount)
+    if (slotIndex < 0 || slotIndex >= slotCount) return false
+    if (relicId !== null) {
+      if (!get().ownedRelics.includes(relicId)) return false
+      if (get().activeRelics.includes(relicId)) return false
+    }
+
+    set((state) => {
+      const activeRelics = [...state.activeRelics]
+      activeRelics[slotIndex] = relicId
+      return {
+        activeRelics,
+        stats: computeEffectiveStats(
+          state.statLevels,
+          state.masteryLevels,
+          state.existTreeStatBonus,
+          state.ownedWeapons,
+          state.equippedWeaponId,
+          activeRelics,
+        ),
+      }
+    })
+    return true
+  },
 }))
 
 // 상태가 바뀔 때마다(전투 틱 포함) 전체 진행 상태를 debounce 저장 큐에 올린다.
@@ -430,6 +772,12 @@ useGameStore.subscribe((state) => {
     rebirthMaxStage: state.rebirthMaxStage,
     timeHeistUsedCount: state.timeHeistUsedCount,
     timeHeistLastUsedAt: state.timeHeistLastUsedAt,
+    ownedWeapons: state.ownedWeapons,
+    equippedWeaponId: state.equippedWeaponId,
+    gachaCount: state.gachaCount,
+    gachaLevel: state.gachaLevel,
+    ownedRelics: state.ownedRelics,
+    activeRelics: state.activeRelics,
     lastActiveAt: Date.now(),
   })
 })
@@ -452,4 +800,43 @@ if (import.meta.env.DEV) {
     debugOverrideLastActiveAt(Date.now() - hours * 60 * 60 * 1000)
     window.location.reload()
   }
+
+  // 무기 시스템 테스트용: 다이아/뽑기 없이 랜덤 무기 N개를 바로 지급한다(가챠 카운트 무관).
+  ;(globalThis as typeof globalThis & { __grantRandomWeapons?: (n: number) => void }).__grantRandomWeapons = (n) => {
+    const state = useGameStore.getState()
+    for (let i = 0; i < n; i++) {
+      state.grantWeapon(rollWeaponGacha(state.gachaCount), 1)
+    }
+  }
+
+  // 가챠 레벨을 임의로 맞춘다 — 해당 레벨의 RequirePullCount로 gachaCount/gachaLevel을 직접 지정.
+  ;(globalThis as typeof globalThis & { __setGachaLevel?: (level: number) => void }).__setGachaLevel = (level) => {
+    const config = BALANCE_TABLES.GachaTable.find((r) => r.GachaLevel === level)
+    if (!config) {
+      console.warn(`[dev] GachaTable에 GachaLevel=${level} 행이 없습니다.`)
+      return
+    }
+    useGameStore.setState({ gachaCount: config.RequirePullCount, gachaLevel: level })
+  }
+
+  // 유물 전부 지급(활성화는 아님 — setRelicSlot으로 별도 활성화 필요)
+  ;(globalThis as typeof globalThis & { __grantAllRelics?: () => void }).__grantAllRelics = () => {
+    useGameStore.setState((state) => ({
+      ownedRelics: [...new Set([...state.ownedRelics, ...BALANCE_TABLES.RelicTable.map((r) => r.Id)])],
+    }))
+  }
+
+  console.log(
+    [
+      '[dev console commands]',
+      '- __gameStore.getState().addCurrency(key, amount) — 재화 지급 (exist/growthEnergy/timeEnergy/gold/essence/diamond)',
+      '- __gameStore.getState().grantWeapon(weaponId, count) — 특정 무기 지급 (예: grantWeapon("Sword_Rare_3", 5))',
+      '- __grantRandomWeapons(n) — 랜덤 무기 n개 지급 (다이아/가챠 카운트 무관)',
+      '- __setGachaLevel(level) — 가챠 레벨 임의 설정',
+      '- __grantAllRelics() — 보유 유물 전부 지급(활성화는 별도)',
+      '- __gameStore.getState().setRebirthBonusPoint(point) — 리버스 회차 보너스 포인트 임의 설정',
+      '- __gameStore.getState().resetRebirthBonus() — 리버스 횟수/보너스 포인트/최고 스테이지 초기화',
+      '- __setLastActiveHoursAgo(hours) — 마지막 접속 시각을 n시간 전으로(오프라인 보상 테스트, 새로고침 필요)',
+    ].join('\n'),
+  )
 }

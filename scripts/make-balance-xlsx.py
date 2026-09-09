@@ -583,27 +583,26 @@ MASTERY_TABLE_COLUMNS = register(
     [
         {"eng": "Index", "kor": "순번", "type": "int", "ref": "", "desc": "행 순번(표시용)"},
         {"eng": "Id", "kor": "ID", "type": "int", "ref": "", "desc": "무기 숙련 고유 ID (33000번대)"},
-        {"eng": "//Name", "kor": "이름", "type": "string", "ref": "", "desc": "행 구분용 참고 이름 (파싱 제외)"},
         {
-            "eng": "WeaponId",
-            "kor": "무기ID",
-            "type": "int",
-            "ref": "",
-            "desc": "내부 무기 식별자. 지금은 1종(기본 검)뿐이지만 추가 확장 대비",
+            "eng": "WeaponType",
+            "kor": "무기 종류",
+            "type": "enum",
+            "ref": "EnumDefine/WeaponType",
+            "desc": "검/창/활 중 이 숙련이 적용되는 종류",
         },
         {
             "eng": "Name",
             "kor": "이름ID",
             "type": "int",
             "ref": "StringTable/Id",
-            "desc": "화면에 표시할 무기 이름의 StringTable ID",
+            "desc": "화면에 표시할 숙련 이름의 StringTable ID",
         },
         {
-            "eng": "AtkMultiplierPerLevel",
-            "kor": "레벨당 ATK 배율",
+            "eng": "MultiplierPerLevel",
+            "kor": "레벨당 배율",
             "type": "float",
             "ref": "",
-            "desc": "숙련 1레벨당 증가하는 ATK 배율 (0.05 = +5%)",
+            "desc": "숙련 1레벨당 증가하는 배율 (0.05 = +5%). 장착한 무기 종류의 주 스탯 전체에 곱해진다",
         },
         {"eng": "CostBase", "kor": "기준 비용", "type": "int", "ref": "", "desc": "레벨 0→1 숙련 비용(숙련의 정수)"},
         {
@@ -625,7 +624,13 @@ MASTERY_TABLE_COLUMNS = register(
 
 
 def build_mastery_rows() -> list[list]:
-    return [[1, 33001, "기본 검", 1, 40014, 0.05, 10, 1.25, 9999]]
+    # 기존 33001("기본 검", 무기 1종 구조)은 폐기하고 번호를 재사용하지 않는다.
+    # (종류별 3행 구조로 재설계 — docs/WEAPON_SYSTEM.md 1.5)
+    return [
+        [1, 33002, "Sword", 40072, 0.05, 10, 1.25, 9999],
+        [2, 33003, "Spear", 40073, 0.05, 10, 1.25, 9999],
+        [3, 33004, "Bow", 40074, 0.05, 10, 1.25, 9999],
+    ]
 
 
 # ---------------------------------------------------------------------------
@@ -1257,6 +1262,13 @@ def build_string_rows() -> list[list]:
         (40069, "균열의 유물", "Relic of Rift", "RelicName"),
         (40070, "시간의 유물", "Relic of Time", "RelicName"),
         (40071, "전능의 유물", "Relic of Omnipotence", "RelicName"),
+        # 무기 종류별 숙련 라벨 (MasteryTable.Name)
+        (40072, "검 숙련", "Sword Mastery", "Mastery"),
+        (40073, "창 숙련", "Spear Mastery", "Mastery"),
+        (40074, "활 숙련", "Bow Mastery", "Mastery"),
+        # 신규 재화 — 다이아
+        (40075, "다이아", "DIAMOND", "Currency"),
+        (40076, "다이아", "DIAMOND_ABBR", "CurrencyAbbr"),
     ]
     rows = []
     for i, (string_id, kor, eng, category) in enumerate(specs, start=1):

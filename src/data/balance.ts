@@ -85,9 +85,9 @@ export interface FeatureUnlockTableRow {
 export interface MasteryTableRow {
   Index: number
   Id: number
-  WeaponId: number
+  WeaponType: WeaponTypeEnum
   Name: number
-  AtkMultiplierPerLevel: number
+  MultiplierPerLevel: number
   CostBase: number
   CostGrowthRate: number
   MaxLevel: number
@@ -299,9 +299,9 @@ const DEFAULT_FEATURE_UNLOCK: FeatureUnlockTableRow = {
 const DEFAULT_MASTERY: MasteryTableRow = {
   Index: 0,
   Id: 0,
-  WeaponId: 1,
+  WeaponType: 'Sword',
   Name: 0,
-  AtkMultiplierPerLevel: 0.05,
+  MultiplierPerLevel: 0.05,
   CostBase: 10,
   CostGrowthRate: 1.25,
   MaxLevel: 9999,
@@ -455,11 +455,11 @@ export function getFeatureUnlock(featureType: FeatureTypeEnum): FeatureUnlockTab
   return row
 }
 
-export function getMasteryConfig(weaponId: number): MasteryTableRow {
-  const row = TABLES.MasteryTable.find((r) => r.WeaponId === weaponId)
+export function getMasteryConfig(weaponType: WeaponTypeEnum): MasteryTableRow {
+  const row = TABLES.MasteryTable.find((r) => r.WeaponType === weaponType)
   if (!row) {
-    warnMissing('MasteryTable', `WeaponId=${weaponId}`)
-    return { ...DEFAULT_MASTERY, WeaponId: weaponId }
+    warnMissing('MasteryTable', `WeaponType=${weaponType}`)
+    return { ...DEFAULT_MASTERY, WeaponType: weaponType }
   }
   return row
 }

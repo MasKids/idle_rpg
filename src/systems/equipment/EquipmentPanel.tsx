@@ -1,5 +1,5 @@
 import { getButtonLabel, getStatName } from '../../data/uiStrings'
-import { MASTERY_WEAPONS, masteryAtkMultiplier, masteryUpgradeCost } from '../../data/equipment'
+import { MASTERY_WEAPONS, masteryMultiplier, masteryPrimaryStat, masteryUpgradeCost } from '../../data/equipment'
 import { useGameStore } from '../../store/gameStore'
 import { formatNumber } from '../../utils/format'
 
@@ -35,7 +35,7 @@ function MasteryList() {
         const level = masteryLevels[weapon.id] ?? 0
         const cost = masteryUpgradeCost(weapon.id, level)
         const canAfford = essence >= cost
-        const multiplier = masteryAtkMultiplier(weapon.id, level)
+        const multiplier = masteryMultiplier(weapon.id, level)
 
         return (
           <div
@@ -47,7 +47,9 @@ function MasteryList() {
                 <span className="text-xs font-medium text-cyan-100">{weapon.name}</span>
                 <span className="text-[10px] text-cyan-100/50">Lv.{level}</span>
               </div>
-              <div className="text-[11px] text-cyan-100/70">{getStatName('atk')} ×{multiplier.toFixed(2)}</div>
+              <div className="text-[11px] text-cyan-100/70">
+                {getStatName(masteryPrimaryStat(weapon.id))} ×{multiplier.toFixed(2)}
+              </div>
             </div>
 
             <button

@@ -3,7 +3,15 @@
 // 전투 틱마다 상태가 바뀌므로 매번 쓰지 않고 일정 주기로 묶어서(debounce) 저장한다.
 
 import { getCommon } from '../data/balance'
-import type { BattleState, CurrencyKey, RebirthSpentTotals, SpecialUnlockId, StatKey } from '../types/game'
+import type {
+  ActiveRelicSlots,
+  BattleState,
+  CurrencyKey,
+  OwnedWeapons,
+  RebirthSpentTotals,
+  SpecialUnlockId,
+  StatKey,
+} from '../types/game'
 
 const STORAGE_KEY = 'idle-rpg:game'
 const SAVE_DEBOUNCE_MS = getCommon('AutoSaveIntervalSec') * 1000
@@ -30,6 +38,15 @@ export interface GameSaveState {
   rebirthCount: number
   rebirthBonusPoint: number
   rebirthMaxStage: number
+  // 무기 — 리버스 시 전부 소멸(초기화)
+  ownedWeapons: OwnedWeapons
+  equippedWeaponId: string | null
+  // 가챠 레벨/누적 뽑기 횟수는 리버스해도 유지된다.
+  gachaCount: number
+  gachaLevel: number
+  // 유물 — 리버스 시 전부 초기화
+  ownedRelics: number[]
+  activeRelics: ActiveRelicSlots
 }
 
 interface SaveEnvelope {

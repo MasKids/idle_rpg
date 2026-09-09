@@ -12,6 +12,7 @@ const CURRENCY_ICON: Record<CurrencyKey, string> = {
   timeEnergy: '⏳',
   gold: '🪙',
   essence: '💠',
+  diamond: '💎',
 }
 
 const CURRENCY_ORDER: CurrencyKey[] = ['exist', 'growthEnergy', 'timeEnergy', 'gold', 'essence']

@@ -22,6 +22,7 @@ const CURRENCY_NAME_ID: Record<CurrencyKey, number> = {
   essence: 40017,
   timeEnergy: 40018,
   gold: 40019,
+  diamond: 40075,
 }
 
 const CURRENCY_ABBR_ID: Record<CurrencyKey, number> = {
@@ -30,6 +31,7 @@ const CURRENCY_ABBR_ID: Record<CurrencyKey, number> = {
   timeEnergy: 40023,
   gold: 40024,
   essence: 40025,
+  diamond: 40076,
 }
 
 const TAB_NAME_ID: Record<TabKey, number> = {
