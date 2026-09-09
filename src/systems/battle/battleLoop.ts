@@ -1,4 +1,5 @@
 import { generateStage, killsRequiredForStage } from '../../data/stages'
+import { applyGoldGainBonus, computeActiveRelicEffects } from '../relic/relic'
 import { useGameStore } from '../../store/gameStore'
 import { calculateDamage } from './calculateDamage'
 
@@ -27,7 +28,8 @@ function tick() {
 
     if (remainingHp <= 0) {
       const clearedStage = generateStage(state.currentStage)
-      state.addCurrency('gold', clearedStage.rewards.gold)
+      const goldGainBonusPercent = computeActiveRelicEffects(state.activeRelics).goldGainBonusPercent
+      state.addCurrency('gold', applyGoldGainBonus(clearedStage.rewards.gold, goldGainBonusPercent))
       state.addCurrency('growthEnergy', clearedStage.rewards.growthEnergy)
       state.addCurrency('exist', Math.floor(clearedStage.rewards.exist * state.stats.existGain))
       if (clearedStage.rewards.timeEnergy > 0) {

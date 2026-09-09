@@ -1460,6 +1460,66 @@
       "Id": 40093,
       "KOR": "중복",
       "ENG": "Duplicate"
+    },
+    {
+      "Index": 90,
+      "Id": 40094,
+      "KOR": "유물 뽑기",
+      "ENG": "Pull Relic"
+    },
+    {
+      "Index": 91,
+      "Id": 40095,
+      "KOR": "중복 환급",
+      "ENG": "Duplicate Refund"
+    },
+    {
+      "Index": 92,
+      "Id": 40096,
+      "KOR": "다음 슬롯",
+      "ENG": "Next Slot"
+    },
+    {
+      "Index": 93,
+      "Id": 40097,
+      "KOR": "활성 슬롯",
+      "ENG": "Active Slots"
+    },
+    {
+      "Index": 94,
+      "Id": 40098,
+      "KOR": "보유 유물",
+      "ENG": "Owned Relics"
+    },
+    {
+      "Index": 95,
+      "Id": 40099,
+      "KOR": "슬롯이 가득 참",
+      "ENG": "Slots Full"
+    },
+    {
+      "Index": 96,
+      "Id": 40100,
+      "KOR": "골드 획득량",
+      "ENG": "Gold Gain"
+    },
+    {
+      "Index": 97,
+      "Id": 40101,
+      "KOR": "타임 하이스트 쿨타임",
+      "ENG": "Time Heist Cooldown"
+    },
+    {
+      "Index": 98,
+      "Id": 40102,
+      "KOR": "활성화",
+      "ENG": "Activate"
+    },
+    {
+      "Index": 99,
+      "Id": 40103,
+      "KOR": "비활성화",
+      "ENG": "Deactivate"
     }
   ]
 }

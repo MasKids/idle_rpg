@@ -1,9 +1,30 @@
 // 유물 시스템 — 뽑기(순수 랜덤, 중복 자동 환급), 존재력 트리 연동 슬롯 수,
 // 활성화된 유물의 효과 집계. docs/WEAPON_SYSTEM.md 3장 참고.
-import { BALANCE_TABLES, getRelicSlotConfig, type RelicEffectTypeEnum } from '../../data/balance'
+import {
+  BALANCE_TABLES,
+  getRelicSlotConfig,
+  getString,
+  getWeaponGradeConfig,
+  type RelicEffectTypeEnum,
+  type RelicGradeEnum,
+  type RelicTableRow,
+} from '../../data/balance'
+import { getRelicUiLabel, getStatName } from '../../data/uiStrings'
 import type { ActiveRelicSlots, StatKey } from '../../types/game'
 
 export const RELIC_SLOT_MAX = BALANCE_TABLES.RelicSlotTable.length
+
+// 무기 등급 이름 StringTable을 그대로 재사용 (등급 명칭은 무기/유물 공통 어휘)
+export function relicGradeName(grade: RelicGradeEnum): string {
+  return getString(getWeaponGradeConfig(grade).Name, 'KOR', grade)
+}
+
+export const RELIC_GRADES: RelicGradeEnum[] = ['Normal', 'Rare', 'Epic']
+
+// 무기 그리드와 동일하게 등급순으로 정렬된 유물 전체 목록 (보유 여부 무관)
+export function sortedRelicRows(): RelicTableRow[] {
+  return RELIC_GRADES.flatMap((grade) => BALANCE_TABLES.RelicTable.filter((row) => row.RelicGrade === grade))
+}
 
 // 존재력 트리 해금 노드 수 → 사용 가능한 유물 슬롯 수 (RelicSlotTable 기준, 최대 5)
 export function computeRelicSlotCount(unlockedCount: number): number {
@@ -37,9 +58,18 @@ const STAT_EFFECT_TO_KEY: Partial<Record<RelicEffectTypeEnum, StatKey>> = {
   STAT_EXIST_GAIN: 'existGain',
 }
 
+// 유물 목록/뽑기 결과에 보여줄 효과 한 줄 설명 (예: "공격력 +5", "골드 획득량 +10%")
+export function relicEffectLabel(relic: RelicTableRow): string {
+  const statKey = STAT_EFFECT_TO_KEY[relic.EffectType]
+  if (statKey) return `${getStatName(statKey)} +${relic.EffectValue}`
+  if (relic.EffectType === 'GOLD_GAIN') return `${getRelicUiLabel('goldGain')} +${relic.EffectValue}%`
+  if (relic.EffectType === 'TIMEHEIST_COOLDOWN') return `${getRelicUiLabel('timeHeistCooldown')} -${relic.EffectValue}%`
+  return ''
+}
+
 export interface ActiveRelicEffects {
   statBonus: Record<StatKey, number>
-  // 스탯 밖 특수 효과 — 아직 전투 루프/타임 하이스트에는 연결되지 않았다(계산만 준비됨).
+  // 스탯 밖 특수 효과 — applyGoldGainBonus/applyTimeHeistCooldownReduction으로 적용한다.
   goldGainBonusPercent: number
   timeHeistCooldownReductionPercent: number
 }
@@ -51,6 +81,18 @@ const EMPTY_STAT_BONUS: Record<StatKey, number> = {
   crit: 0,
   critDmg: 0,
   existGain: 0,
+}
+
+// 골드 획득량 특수 효과 적용 — 스테이지 처치 보상/오프라인 보상/타임 하이스트 보상 등
+// "골드를 지급하는 모든 지점"에서 공통으로 쓴다.
+export function applyGoldGainBonus(amount: number, bonusPercent: number): number {
+  return Math.floor(amount * (1 + bonusPercent / 100))
+}
+
+// 타임 하이스트 쿨타임 감소 특수 효과 적용 — 0% 밑으로는 안 내려가게 클램프.
+export function applyTimeHeistCooldownReduction(cooldownMs: number, reductionPercent: number): number {
+  const clamped = Math.min(100, Math.max(0, reductionPercent))
+  return Math.floor(cooldownMs * (1 - clamped / 100))
 }
 
 // 활성화된(슬롯에 꽂힌) 유물들의 효과를 합산한다. 보유만 하고 비활성화된 유물은 반영 안 됨.

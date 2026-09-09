@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { getButtonLabel, getTabName, getWeaponUiLabel } from '../../data/uiStrings'
+import { RelicTab } from '../relic/RelicTab'
 import { WeaponEquipmentTab } from './WeaponEquipmentTab'
 
 type StorageSubTab = 'equipment' | 'relic'
@@ -41,17 +42,7 @@ export function WeaponStoragePanel({ onBack }: WeaponStoragePanelProps) {
         </button>
       </div>
 
-      {subTab === 'equipment' ? <WeaponEquipmentTab /> : <RelicSubTabPlaceholder />}
-    </div>
-  )
-}
-
-// 유물 하위 탭은 4단계에서 구현 — 지금은 자리만 잡아둔다.
-function RelicSubTabPlaceholder() {
-  return (
-    <div className="flex min-h-0 flex-1 flex-col items-center justify-center gap-2 text-amber-100/70">
-      <p className="text-sm font-semibold">{getWeaponUiLabel('relicSubTab')}</p>
-      <p className="text-xs">설계 완료 · 프로토타입 미구현</p>
+      {subTab === 'equipment' ? <WeaponEquipmentTab /> : <RelicTab />}
     </div>
   )
 }

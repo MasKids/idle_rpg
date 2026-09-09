@@ -1,5 +1,6 @@
 import { stageLabel } from '../../data/stages'
 import { getButtonLabel, getCurrencyName, getStateLabel, getSystemName } from '../../data/uiStrings'
+import { computeActiveRelicEffects } from '../relic/relic'
 import { useGameStore } from '../../store/gameStore'
 import { formatCountdown, formatNumber } from '../../utils/format'
 import { useNow } from '../../utils/useNow'
@@ -17,12 +18,20 @@ export function TimeHeistModal({ isOpen, onCancel, onConfirm }: TimeHeistModalPr
   const timeEnergy = useGameStore((state) => state.currencies.timeEnergy)
   const usedCount = useGameStore((state) => state.timeHeistUsedCount)
   const lastUsedAt = useGameStore((state) => state.timeHeistLastUsedAt)
+  const activeRelics = useGameStore((state) => state.activeRelics)
   const now = useNow()
 
   if (!isOpen) return null
 
-  const preview = computeTimeHeistPreview(currentStage, existGain, usedCount)
-  const cooldownEndsAt = timeHeistCooldownEndsAt(usedCount, lastUsedAt)
+  const relicEffects = computeActiveRelicEffects(activeRelics)
+  const preview = computeTimeHeistPreview(
+    currentStage,
+    existGain,
+    usedCount,
+    relicEffects.goldGainBonusPercent,
+    relicEffects.timeHeistCooldownReductionPercent,
+  )
+  const cooldownEndsAt = timeHeistCooldownEndsAt(usedCount, lastUsedAt, relicEffects.timeHeistCooldownReductionPercent)
   const cooldownRemainingMs = cooldownEndsAt !== null ? Math.max(0, cooldownEndsAt - now) : 0
   const isOnCooldown = cooldownRemainingMs > 0
   const canAfford = timeEnergy >= preview.cost

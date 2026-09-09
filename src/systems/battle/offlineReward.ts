@@ -1,5 +1,6 @@
 import { getCommon } from '../../data/balance'
 import { generateStage } from '../../data/stages'
+import { applyGoldGainBonus } from '../relic/relic'
 import type { StatKey } from '../../types/game'
 
 // 오프라인 동안 실제로 스테이지를 진행시키지 않고, "현재 스테이지의 적을 계속 처치했다면"의
@@ -32,6 +33,7 @@ export function computeOfflineReward(
   elapsedMs: number,
   currentStage: number,
   stats: Record<StatKey, number>,
+  goldGainBonusPercent = 0,
 ): OfflineRewardResult | null {
   if (elapsedMs < OFFLINE_REWARD_MIN_MS) return null
 
@@ -46,7 +48,7 @@ export function computeOfflineReward(
     cappedMs,
     kills,
     rewards: {
-      gold: Math.floor(stageData.rewards.gold * kills * rewardMultiplier),
+      gold: applyGoldGainBonus(Math.floor(stageData.rewards.gold * kills * rewardMultiplier), goldGainBonusPercent),
       growthEnergy: Math.floor(stageData.rewards.growthEnergy * kills * rewardMultiplier),
       exist: Math.floor(stageData.rewards.exist * stats.existGain * kills * rewardMultiplier),
     },

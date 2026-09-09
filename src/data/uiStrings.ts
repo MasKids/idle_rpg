@@ -66,6 +66,8 @@ export type ButtonLabelKey =
   | 'equip'
   | 'breakthrough'
   | 'fuse'
+  | 'activate'
+  | 'deactivate'
 
 const BUTTON_LABEL_ID: Record<ButtonLabelKey, number> = {
   close: 40031,
@@ -83,6 +85,8 @@ const BUTTON_LABEL_ID: Record<ButtonLabelKey, number> = {
   equip: 40077,
   breakthrough: 40078,
   fuse: 40079,
+  activate: 40102,
+  deactivate: 40103,
 }
 
 export type StateLabelKey = 'locked' | 'unlocked' | 'available' | 'tier' | 'effect' | 'cost'
@@ -185,4 +189,29 @@ const GACHA_UI_LABEL_ID: Record<GachaUiLabelKey, number> = {
 
 export function getGachaUiLabel(key: GachaUiLabelKey): string {
   return getString(GACHA_UI_LABEL_ID[key], 'KOR', key)
+}
+
+export type RelicUiLabelKey =
+  | 'pullRelic'
+  | 'duplicateRefund'
+  | 'nextSlot'
+  | 'activeSlots'
+  | 'ownedRelics'
+  | 'slotsFull'
+  | 'goldGain'
+  | 'timeHeistCooldown'
+
+const RELIC_UI_LABEL_ID: Record<RelicUiLabelKey, number> = {
+  pullRelic: 40094,
+  duplicateRefund: 40095,
+  nextSlot: 40096,
+  activeSlots: 40097,
+  ownedRelics: 40098,
+  slotsFull: 40099,
+  goldGain: 40100,
+  timeHeistCooldown: 40101,
+}
+
+export function getRelicUiLabel(key: RelicUiLabelKey): string {
+  return getString(RELIC_UI_LABEL_ID[key], 'KOR', key)
 }

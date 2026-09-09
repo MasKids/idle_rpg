@@ -1318,6 +1318,17 @@ def build_string_rows() -> list[list]:
         (40091, "10회 뽑기", "Pull x10", "GachaUi"),
         (40092, "신규", "New", "GachaUi"),
         (40093, "중복", "Duplicate", "GachaUi"),
+        # 유물 화면
+        (40094, "유물 뽑기", "Pull Relic", "RelicUi"),
+        (40095, "중복 환급", "Duplicate Refund", "RelicUi"),
+        (40096, "다음 슬롯", "Next Slot", "RelicUi"),
+        (40097, "활성 슬롯", "Active Slots", "RelicUi"),
+        (40098, "보유 유물", "Owned Relics", "RelicUi"),
+        (40099, "슬롯이 가득 참", "Slots Full", "RelicUi"),
+        (40100, "골드 획득량", "Gold Gain", "RelicUi"),
+        (40101, "타임 하이스트 쿨타임", "Time Heist Cooldown", "RelicUi"),
+        (40102, "활성화", "Activate", "Button"),
+        (40103, "비활성화", "Deactivate", "Button"),
     ]
     rows = []
     for i, (string_id, kor, eng, category) in enumerate(specs, start=1):

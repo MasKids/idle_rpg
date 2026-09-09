@@ -1,4 +1,5 @@
 import { stageLabel } from '../data/stages'
+import { computeActiveRelicEffects } from '../systems/relic/relic'
 import { useGameStore } from '../store/gameStore'
 import { useBattleLoop } from '../systems/battle/useBattleLoop'
 import { timeHeistCooldownEndsAt, timeHeistCost } from '../systems/timeheist/timeHeist'
@@ -29,12 +30,14 @@ export function BattleArea({ onStageInfoClick, onTimeHeistClick }: BattleAreaPro
   const timeHeistUnlocked = useGameStore((state) => state.specialUnlocks.timeHeist)
   const timeHeistUsedCount = useGameStore((state) => state.timeHeistUsedCount)
   const timeHeistLastUsedAt = useGameStore((state) => state.timeHeistLastUsedAt)
+  const activeRelics = useGameStore((state) => state.activeRelics)
   const { popups, enemyHp, enemyMaxHp, isBossStage, stage } = useBattleLoop()
   const hpRatio = enemyMaxHp > 0 ? Math.max(0, enemyHp / enemyMaxHp) : 0
 
   // 카운트다운 표시 갱신용. 남은 시간 자체는 항상 now와 절대시각의 차로 계산한다.
   const now = useNow()
-  const cooldownEndsAt = timeHeistCooldownEndsAt(timeHeistUsedCount, timeHeistLastUsedAt)
+  const cooldownReductionPercent = computeActiveRelicEffects(activeRelics).timeHeistCooldownReductionPercent
+  const cooldownEndsAt = timeHeistCooldownEndsAt(timeHeistUsedCount, timeHeistLastUsedAt, cooldownReductionPercent)
   const cooldownRemainingMs = cooldownEndsAt !== null ? Math.max(0, cooldownEndsAt - now) : 0
   const isOnCooldown = cooldownRemainingMs > 0
   const canAffordTimeHeist = currencies.timeEnergy >= timeHeistCost(timeHeistUsedCount)

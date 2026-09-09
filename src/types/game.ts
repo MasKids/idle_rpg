@@ -93,6 +93,12 @@ export interface WeaponGachaPullResult {
 // 유물 슬롯 — 인덱스 위치에 유물 Id(RelicTable.Id)를 꽂거나 비워둔다(null).
 export type ActiveRelicSlots = (number | null)[]
 
+// 유물 뽑기 1회 결과 — 중복이면 보유 목록에 추가되지 않고 시간에너지로 환급된다.
+export interface RelicGachaPullResult {
+  relicId: number
+  isDuplicate: boolean
+}
+
 // 리버스 환급 추적
 
 export interface RebirthSpentTotals {

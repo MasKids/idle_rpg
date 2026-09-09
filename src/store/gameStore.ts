@@ -28,6 +28,7 @@ import type {
   CurrencyKey,
   OwnedWeapons,
   RebirthSpentTotals,
+  RelicGachaPullResult,
   SpecialUnlockId,
   StatKey,
   WeaponGachaPullResult,
@@ -183,7 +184,7 @@ interface GameState {
   mergeWeapon: (weaponId: string) => boolean
 
   // 유물
-  pullRelicGacha: () => boolean
+  pullRelicGacha: () => RelicGachaPullResult | null
   setRelicSlot: (slotIndex: number, relicId: number | null) => boolean
 }
 
@@ -242,8 +243,11 @@ const startStats = computeEffectiveStats(
 
 // 오프라인 보상은 앱 시작 시 단 한 번, 이전 세션이 끝난 시각과 지금의 차이로 계산한다.
 // (스테이지는 그대로 두고 재화만 지급 — 실제 battle 진행에는 영향 없음)
+const startGoldGainBonusPercent = computeActiveRelicEffects(startActiveRelics).goldGainBonusPercent
 const startOfflineReward =
-  lastSessionEndedAt !== null ? computeOfflineReward(Date.now() - lastSessionEndedAt, startStage, startStats) : null
+  lastSessionEndedAt !== null
+    ? computeOfflineReward(Date.now() - lastSessionEndedAt, startStage, startStats, startGoldGainBonusPercent)
+    : null
 
 const initialCurrencies: Record<CurrencyKey, number> = {
   exist: getCommon('InitialExist'),
@@ -531,12 +535,19 @@ export const useGameStore = create<GameState>((set, get) => ({
   executeTimeHeist: () => {
     if (!get().specialUnlocks.timeHeist) return false
 
+    const relicEffects = computeActiveRelicEffects(get().activeRelics)
     const usedCount = get().timeHeistUsedCount
     const lastUsedAt = get().timeHeistLastUsedAt
-    const cooldownEndsAt = timeHeistCooldownEndsAt(usedCount, lastUsedAt)
+    const cooldownEndsAt = timeHeistCooldownEndsAt(usedCount, lastUsedAt, relicEffects.timeHeistCooldownReductionPercent)
     if (cooldownEndsAt !== null && Date.now() < cooldownEndsAt) return false
 
-    const preview = computeTimeHeistPreview(get().currentStage, get().stats.existGain, usedCount)
+    const preview = computeTimeHeistPreview(
+      get().currentStage,
+      get().stats.existGain,
+      usedCount,
+      relicEffects.goldGainBonusPercent,
+      relicEffects.timeHeistCooldownReductionPercent,
+    )
     if (!get().spendCurrency('timeEnergy', preview.cost)) return false
 
     get().addCurrency('gold', preview.rewards.gold)
@@ -775,15 +786,16 @@ export const useGameStore = create<GameState>((set, get) => ({
 
   pullRelicGacha: () => {
     const cost = getCommon('RelicGachaCostTimeEnergy')
-    if (!get().spendCurrency('timeEnergy', cost)) return false
+    if (!get().spendCurrency('timeEnergy', cost)) return null
 
     const relicId = rollRelicGacha()
-    if (get().ownedRelics.includes(relicId)) {
+    const isDuplicate = get().ownedRelics.includes(relicId)
+    if (isDuplicate) {
       get().addCurrency('timeEnergy', getCommon('RelicDuplicateRefundTimeEnergy'))
     } else {
       set((state) => ({ ownedRelics: [...state.ownedRelics, relicId] }))
     }
-    return true
+    return { relicId, isDuplicate }
   },
 
   setRelicSlot: (slotIndex, relicId) => {
