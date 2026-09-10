@@ -130,7 +130,7 @@ export function BattleArea({ onStageInfoClick, onTimeHeistClick }: BattleAreaPro
 
       {/* 배경 레이어 3: 적 뒤 스포트라이트 (surface-elevated 명도차만 이용) */}
       <div
-        className="pointer-events-none absolute left-1/2 top-[42%] h-56 w-56 -translate-x-1/2 -translate-y-1/2 rounded-full"
+        className="pointer-events-none absolute left-1/2 top-[42%] h-72 w-72 -translate-x-1/2 -translate-y-1/2 rounded-full"
         style={{ background: 'radial-gradient(circle, var(--color-surface-elevated) 0%, transparent 72%)' }}
       />
 
@@ -153,22 +153,22 @@ export function BattleArea({ onStageInfoClick, onTimeHeistClick }: BattleAreaPro
         style={{ background: 'radial-gradient(ellipse at 50% 45%, transparent 45%, rgba(0,0,0,0.55) 100%)' }}
       />
 
-      <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
+      <div className="absolute inset-0 flex flex-col items-center justify-center gap-4">
         <button
           type="button"
           onClick={onStageInfoClick}
-          className="rounded-full border border-white/10 bg-black/30 px-3 py-1 text-xs font-medium text-blue-strong backdrop-blur-sm transition-colors duration-150 hover:bg-black/50 active:bg-black/60"
+          className="rounded-full border border-white/10 bg-black/30 px-4 py-1.5 text-sm font-medium text-blue-strong backdrop-blur-sm transition-colors duration-150 hover:bg-black/50 active:bg-black/60"
         >
           STAGE {stageLabel(stage)}
           {isBossStage && <span className="ml-1 text-gold-strong">BOSS</span>}
         </button>
 
-        <div className="relative flex h-28 w-28 items-center justify-center">
+        <div className="relative flex h-36 w-36 items-center justify-center">
           {ghosts.map((ghost) => (
             <div
               key={ghost.key}
               className={`pointer-events-none absolute rounded-lg animate-[enemy-defeat_300ms_ease-in_forwards] ${
-                ghost.isBoss ? 'h-28 w-28 bg-gold-base/70' : 'h-20 w-20 bg-danger-base/60'
+                ghost.isBoss ? 'h-36 w-36 bg-gold-base/70' : 'h-28 w-28 bg-danger-base/60'
               }`}
             />
           ))}
@@ -177,8 +177,8 @@ export function BattleArea({ onStageInfoClick, onTimeHeistClick }: BattleAreaPro
             key={genKey}
             className={
               isBossStage
-                ? 'h-28 w-28 rounded-lg animate-[boss-appear_450ms_ease-out]'
-                : 'h-20 w-20 rounded-lg animate-[enemy-appear_250ms_ease-out]'
+                ? 'h-36 w-36 rounded-lg animate-[boss-appear_450ms_ease-out]'
+                : 'h-28 w-28 rounded-lg animate-[enemy-appear_250ms_ease-out]'
             }
           >
             <div
@@ -189,7 +189,7 @@ export function BattleArea({ onStageInfoClick, onTimeHeistClick }: BattleAreaPro
           </div>
         </div>
 
-        <div className="flex w-28 flex-col items-center gap-1">
+        <div className="flex w-36 flex-col items-center gap-1">
           <ProgressBar
             value={enemyHp}
             max={enemyMaxHp}
@@ -199,7 +199,7 @@ export function BattleArea({ onStageInfoClick, onTimeHeistClick }: BattleAreaPro
             segments={isBossStage ? 5 : undefined}
             className="bg-black/40"
           />
-          <span className="text-[10px] font-medium tabular-nums text-text-secondary">{hpPercent}%</span>
+          <span className="text-xs font-medium tabular-nums text-text-secondary">{hpPercent}%</span>
         </div>
 
         {popups.map((popup) => {

@@ -7,7 +7,7 @@ interface ControlAreaProps {
 
 export function ControlArea({ activeTab }: ControlAreaProps) {
   return (
-    <div className="h-[44dvh] shrink-0 overflow-y-auto bg-blue-soft/50 p-4">
+    <div className="min-h-0 flex-1 overflow-y-auto bg-blue-soft/50 p-4">
       {activeTab === 'growth' && <GrowthPanel />}
     </div>
   )
