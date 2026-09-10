@@ -1,9 +1,8 @@
 # 밸런싱 테이블 구조 개편안
 
-**이 문서는 조사 + 제안으로 시작했고, 1·2단계와 `WeaponTypeTable`/`MasteryTable`
-정리가 이제 구현 완료됐다.** 남은 단계(1행 테이블 4개 실제 제거 —
-WeaponUpgradeTable/WeaponFusionTable/TimeHeistTable/RebirthTable,
-`WeaponGradeTable`→`GradeTable` 코드 참조 전환, StringTable 확장)는 아직 진행 전이다.
+**이 문서는 조사 + 제안으로 시작했고, 1·2단계, `WeaponTypeTable`/`MasteryTable` 정리,
+1행 테이블 4개 실제 제거(3단계 일부)가 이제 구현 완료됐다.** 남은 단계
+(`WeaponGradeTable`→`GradeTable` 코드 참조 전환, StringTable 확장)는 아직 진행 전이다.
 
 > **진행 상황**:
 > - 버그 수정(전투 틱/체력바, 무기 돌파·합성, 리버스 재화 초기화)을 먼저 완료.
@@ -55,6 +54,27 @@ WeaponUpgradeTable/WeaponFusionTable/TimeHeistTable/RebirthTable,
 >     문서화됨).
 >   - 결과: 테이블 22개 → 20개, 총 528행. 브라우저에서 무기 종류 전환·가챠·장착·
 >     숙련 업그레이드까지 실제 플레이로 확인(검=ATK/창=ASPD/활=CRIT 특성 유지 확인).
+> - **1행 테이블 4개 실제 제거 완료**(3단계 1절, 2026-09-11) — 각 단계마다 별도 커밋:
+>   - `WeaponUpgradeTable` 삭제. 유일하게 읽히던 `BaseMaxLevel`만 `CommonTable`로,
+>     2단계 때 이미 죽은 나머지 칼럼은 버림.
+>   - `WeaponFusionTable` 삭제. 3칼럼 모두 `CommonTable`로 흡수하되
+>     `getWeaponFusionConfig()`는 객체 반환 형태를 유지해 호출부 무변경.
+>   - `TimeHeistTable`을 1행(공식 계수) → 10행(`UsedCount` 0~9별 리터럴)으로 확장.
+>     `Cost`/`CooldownSec`은 옛 지수 공식과 완전히 같은 값을 갖도록 미리 계산해
+>     채웠고, 9를 넘는 사용 횟수는 마지막 행으로 고정(StageTable과 동일한 클램프
+>     패턴). `TargetStageOffset`은 사용 횟수와 무관해 `CommonTable`로.
+>   - `RebirthTable` 삭제 — 가장 컸던 항목. `ResetStage`/`ResetStats`/`ResetMastery`/
+>     `KeepExistTree`는 `CommonTable`(신규 `getCommonBool()` 헬퍼로 읽음)로,
+>     `RefundGrowthEnergy`/`RefundGold`/`RefundMasteryEssence`는 **삭제**하고 대신
+>     `executeRebirth()`가 `CurrencyTable.RefundOnRebirth`를 직접 읽도록 전환했다
+>     (1단계 때부터 스키마+데이터는 있었지만 실제로 연결되지 않았던 값). `BonusBase`/
+>     `BonusExponent`는 `CommonTable`로, `RefundBonusPerPoint`/`MaxRefundMultiplier`는
+>     `RebirthRewardTable`에 칼럼 2개로 흡수(도달 스테이지 구간별 값이 될 수 있게) —
+>     `computeRefundMultiplier()`가 `stage` 인자를 새로 받는다.
+>   - 결과: 1행짜리 테이블 0개. 테이블 20개 → 17개, 총 545행. 브라우저에서 타임
+>     하이스트 연속 3회 사용(20/40/80 시간에너지 소비 확인)과 리버스 실행(환급
+>     배율·다이아 지급·재화 초기화·존재력 트리 유지 전부 기대값과 일치)을 콘솔로
+>     직접 검증.
 
 ---
 

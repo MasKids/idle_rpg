@@ -10,6 +10,15 @@
   자체는 그대로지만, 이제 노드·스테이지·무기 하나하나를 엑셀에서 개별로 손볼 수
   있다(예: 특정 무기만 세게, 특정 스테이지만 난이도 조정). 콘텐츠 확장에 대비해
   스테이지는 기존 10챕터가 아니라 20챕터(200개)까지 미리 채워뒀다.
+- `WeaponTypeTable`/`MasteryTable` 정리 — 무기 종류별 특성 스탯(검=ATK/창=ASPD/
+  활=CRIT)을 `WeaponTable` 각 행으로 옮기고 `WeaponTypeTable`을 없앴다. `MasteryTable`
+  3행이 사실상 전부 같은 값이었던 걸 확인하고 삭제, 값은 `CommonTable`과 코드
+  상수로 흡수했다. 플레이 경험은 동일하다.
+- 1행짜리 테이블 4개(`WeaponUpgradeTable`/`WeaponFusionTable`/`TimeHeistTable`/
+  `RebirthTable`) 정리. `TimeHeistTable`은 사용 횟수별 10행으로 펼쳐 비용/쿨타임/
+  보상 배율을 개별 조정할 수 있게 됐고, 나머지는 값이 성격에 맞게 `CommonTable`·
+  `CurrencyTable`·`RebirthRewardTable`로 흡수됐다(리버스 시 재화 환급 여부가 이제
+  실제로 `CurrencyTable`을 참조한다). 플레이 경험은 동일하다.
 
 ### 수정
 - 리버스·타임 하이스트 해금 비용이 실제 노드(15번·33번) 비용과 1만큼 어긋나 있던
