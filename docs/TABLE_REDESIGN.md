@@ -1,11 +1,19 @@
 # 밸런싱 테이블 구조 개편안
 
-**이 문서는 조사 + 제안이다. 아직 구현하지 않았다.** 구현을 시작하기 전에 2절 설계와
-4절 질문에 대한 결정이 먼저 필요하다.
+**이 문서는 조사 + 제안으로 시작했고, 1단계는 이제 구현 완료됐다.** 남은 단계(테이블
+확장 50/75/200행, 1행 테이블 제거, WeaponGradeTable→GradeTable 코드 참조 전환 등)는
+아직 진행 전이다.
 
-> **진행 상황**: 테이블 개편보다 버그 수정(전투 틱/체력바, 무기 돌파·합성, 리버스
-> 재화 초기화 등)을 먼저 진행하기로 했다. 4절 질문 중 Q1~Q3는 결정됨(아래 각 항목에
-> 표시). Q4~Q7은 아직 미정 — 답변 대기 중이며, 받는 대로 이 문서에 반영한다.
+> **진행 상황**:
+> - 버그 수정(전투 틱/체력바, 무기 돌파·합성, 리버스 재화 초기화)을 먼저 완료.
+> - 4절 질문 Q1~Q4 결정됨(아래 각 항목에 표시), Q5~Q7은 아직 미정.
+> - **개편 1단계 구현 완료**: `make-balance-xlsx.py` 격리(→ `scripts/seed/
+>   seed_balance_xlsx.py` + 존재 시 실행 거부 가드), `scripts/append-row.mjs`(행 추가
+>   전용 도구) 신설, `GrowthCurveTable`/`CurrencyTable`/`GradeTable` 3개 신규 테이블
+>   추가, `StatTable`/`MasteryTable`의 `CostBase`/`CostGrowthRate`를 `CurveKey` 참조로
+>   전환. `WeaponGradeTable`/`RebirthTable` 등 1행 테이블 제거와 코드 쪽 `GradeTable`/
+>   `CurrencyTable` 참조 전환(현재는 스키마+데이터만 있고 아직 아무 코드도 안 읽음)은
+>   다음 단계.
 
 ---
 
@@ -440,17 +448,20 @@ GrowthCurveTable에 넣을 이득이 적다는 판단.
   **← 채택**
 - ~~(B) `CommonTable`에 `Value`(float용)와 별도로 `BoolValue`(bool) 칼럼을 추가~~ (기각)
 
-**Q4. `make-balance-xlsx.py`를 정확히 어떻게 재정의할지.** ⏳ **답변 대기 중** (6절 본문
-참고, 여기선 선택지만 나열)
-- (A) 완전 폐기 — 이후로는 balance.xlsx를 엑셀에서만 직접 편집.
-  StringTable에 새 항목을 추가하는 것도 전부 수기.
-- (B) "시딩 전용" 스크립트로 격리하고, 새 행 추가는 별도의 **append 전용 도구**
-  (기존 워크북을 열어서 마지막 행에 한 줄만 추가하고 저장 — 다른 행은 절대 건드리지
-  않음)를 새로 만든다. **(권장 — 6절 참고)**
-- (C) 테이블마다 "코드 소유"(TableDefine/EnumDefine처럼 절대 기획자가 손대지 않는
-  스키마 시트)와 "기획자 소유"(그 외 전부) 구분 플래그를 두고, 스크립트가 기획자
-  소유 테이블은 아예 건드리지 않고 스킵하게 만든다 — (B)보다 스크립트 안에서
-  자동으로 안전장치가 걸리지만 구현이 더 복잡하다.
+**Q4. `make-balance-xlsx.py`를 정확히 어떻게 재정의할지.** ✅ **결정 및 구현 완료: (B).**
+- ~~(A) 완전 폐기~~ (기각)
+- (B) "시딩 전용" 스크립트로 격리하고, 새 행 추가는 별도의 **append 전용 도구**를
+  새로 만든다. **← 채택, 구현 완료:**
+  - `scripts/make-balance-xlsx.py` → `scripts/seed/seed_balance_xlsx.py`로 이동.
+    `balance.xlsx`가 이미 있으면 실행을 거부하는 가드 추가(`--force`로만 강제).
+  - `scripts/append-row.mjs` 신설 — 기존 워크북을 열어 지정 시트 마지막 행 다음에
+    한 줄만 추가(4행 헤더를 읽어 칼럼 순서 자동 매핑). `node scripts/append-row.mjs
+    string <카테고리> <Id> <KOR> <ENG>` StringTable 전용 단축 명령도 포함.
+  - 시트 자체를 새로 추가하거나(GrowthCurveTable 등) 기존 시트의 칼럼 구조를 바꾸는
+    (StatTable/MasteryTable의 CostBase/CostGrowthRate→CurveKey 전환 등) 더 큰 변경은
+    `scripts/migrations/*.mjs` 1회성 마이그레이션 스크립트로 처리 — append-row.mjs의
+    책임 범위(행 하나 추가) 밖이라 분리했다.
+- ~~(C) 테이블별 코드소유/기획자소유 플래그~~ (기각 — (B)로 충분, 구현 복잡도 대비 이득 적음)
 
 **Q5. `GrowthPanel.tsx`의 `/초` 같은 단위 접미사를 StringTable 대상으로 볼지.** ⏳ **답변
 대기 중.** 순수 숫자 포맷팅에 가까워서 게임 "텍스트"라기보다는 코드 로직으로 보고

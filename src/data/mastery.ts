@@ -1,4 +1,4 @@
-import { getMasteryConfig, getString, getWeaponTypeConfig, WEAPON_TYPES, type WeaponTypeEnum } from './balance'
+import { getGrowthCurveConfig, getMasteryConfig, getString, getWeaponTypeConfig, WEAPON_TYPES, type WeaponTypeEnum } from './balance'
 import type { StatKey, WeaponMasteryData } from '../types/game'
 
 const STAT_TYPE_TO_KEY: Record<string, StatKey> = {
@@ -31,5 +31,6 @@ export function masteryMultiplier(weaponType: string, level: number): number {
 
 export function masteryUpgradeCost(weaponType: string, currentLevel: number): number {
   const config = getMasteryConfig(weaponType as WeaponTypeEnum)
-  return Math.floor(config.CostBase * config.CostGrowthRate ** currentLevel)
+  const curve = getGrowthCurveConfig(config.CurveKey)
+  return Math.floor(curve.CostBase * curve.CostGrowthRate ** currentLevel)
 }

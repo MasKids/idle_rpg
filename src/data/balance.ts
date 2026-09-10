@@ -11,7 +11,11 @@ import balanceJson from './balance.json'
 export type StatTypeEnum = 'ATK' | 'ASPD' | 'CRIT' | 'CRIT_DMG' | 'EXIST_GAIN'
 export type StageTypeEnum = 'Normal' | 'Boss'
 export type NodeEffectTypeEnum = 'STAT' | 'GRANT'
-export type CurrencyTypeEnum = 'EXIST' | 'GROWTH_ENERGY' | 'MASTERY_ESSENCE' | 'TIME_ENERGY' | 'GOLD'
+// DIAMOND는 CurrencyTable 신설 전까지 ExistTreeTable.GrantCurrency(다이아를 지급한 적
+// 없음)에서만 쓰였던 enum이라 빠져 있었다 — CurrencyTable.Type이 6종 재화를 전부
+// 다뤄야 해서 추가했다.
+export type CurrencyTypeEnum = 'EXIST' | 'GROWTH_ENERGY' | 'MASTERY_ESSENCE' | 'TIME_ENERGY' | 'GOLD' | 'DIAMOND'
+export type GradeUsedByEnum = 'Weapon' | 'Relic' | 'Both'
 export type FeatureTypeEnum = 'REBIRTH' | 'TIME_HEIST'
 export type WeaponTypeEnum = 'Sword' | 'Spear' | 'Bow'
 // weapon.ts(무기 로직)와 mastery.ts(숙련 로직) 양쪽이 같은 목록을 쓰므로, 두 시스템
@@ -55,8 +59,8 @@ export interface StatTableRow {
   Name: number
   BaseValue: number
   ValuePerLevel: number
-  CostBase: number
-  CostGrowthRate: number
+  // 업그레이드 비용 곡선은 더 이상 여기 없다 — GrowthCurveTable을 CurveKey로 참조한다.
+  CurveKey: string
   MaxLevel: number
 }
 
@@ -90,8 +94,8 @@ export interface MasteryTableRow {
   WeaponType: WeaponTypeEnum
   Name: number
   MultiplierPerLevel: number
-  CostBase: number
-  CostGrowthRate: number
+  // 업그레이드 비용 곡선은 더 이상 여기 없다 — GrowthCurveTable을 CurveKey로 참조한다.
+  CurveKey: string
   MaxLevel: number
 }
 
@@ -227,6 +231,50 @@ export interface StringTableRow {
   ENG: string
 }
 
+// 공용 성장 곡선(비용 = CostBase × CostGrowthRate^레벨) — StatTable/MasteryTable이
+// CurveKey로 참조한다. ValueBase/ValuePerLevel/MaxLevel은 이번 단계에서는 어느 조회
+// 함수도 읽지 않는 예비 칼럼(스탯마다 값이 달라 지금은 각 테이블이 자체 보유) —
+// docs/TABLE_REDESIGN.md 2.3절 참고.
+export interface GrowthCurveTableRow {
+  Index: number
+  Id: number
+  CurveKey: string
+  CostBase: number
+  CostGrowthRate: number
+  ValueBase: number
+  ValuePerLevel: number
+  MaxLevel: number
+}
+
+// 재화별 리버스 초기화/환급/HUD 노출 속성. ResetOnRebirth/RefundOnRebirth는
+// gameStore.ts의 executeRebirth() 실제 동작과 값이 일치하지만, 아직 executeRebirth()가
+// 이 테이블을 읽어 분기하도록 참조를 전환하지는 않았다(스키마+데이터만 이번 단계 — 다음
+// 단계에서 gameStore.ts 쪽 참조 전환 예정).
+export interface CurrencyTableRow {
+  Index: number
+  Id: number
+  Type: CurrencyTypeEnum
+  NameStringId: number
+  ResetOnRebirth: boolean
+  RefundOnRebirth: boolean
+  ShowInHUD: boolean
+  SortOrder: number
+}
+
+// 무기/유물 공용 등급 테이블. WeaponGradeTable을 대체할 예정이지만 이번 단계에서는
+// WeaponGradeTable을 아직 지우지 않았고(코드도 계속 WeaponGradeTable을 읽음) 나란히
+// 존재한다 — 코드 참조 전환은 WeaponTable(75행) 신설과 함께 다음 단계에서 처리한다.
+export interface GradeTableRow {
+  Index: number
+  Id: number
+  GradeKey: WeaponGradeEnum
+  NameStringId: number
+  ColorToken: string
+  BaseMultiplier: number
+  UsedBy: GradeUsedByEnum
+  SortOrder: number
+}
+
 interface BalanceTables {
   StageTable: StageTableRow[]
   StatTable: StatTableRow[]
@@ -246,6 +294,9 @@ interface BalanceTables {
   RebirthRewardTable: RebirthRewardTableRow[]
   CommonTable: CommonTableRow[]
   StringTable: StringTableRow[]
+  GrowthCurveTable: GrowthCurveTableRow[]
+  CurrencyTable: CurrencyTableRow[]
+  GradeTable: GradeTableRow[]
 }
 
 const TABLES = balanceJson as unknown as BalanceTables
@@ -265,8 +316,7 @@ const DEFAULT_STAT: StatTableRow = {
   Name: 0,
   BaseValue: 1,
   ValuePerLevel: 1,
-  CostBase: 8,
-  CostGrowthRate: 1.18,
+  CurveKey: 'STAT_UPGRADE',
   MaxLevel: 9999,
 }
 
@@ -316,8 +366,7 @@ const DEFAULT_MASTERY: MasteryTableRow = {
   WeaponType: 'Sword',
   Name: 0,
   MultiplierPerLevel: 0.05,
-  CostBase: 10,
-  CostGrowthRate: 1.25,
+  CurveKey: 'MASTERY_UPGRADE',
   MaxLevel: 9999,
 }
 
@@ -426,6 +475,39 @@ const DEFAULT_REBIRTH: RebirthTableRow = {
   BonusExponent: 0.5,
   RefundBonusPerPoint: 1.0,
   MaxRefundMultiplier: 5.0,
+}
+
+const DEFAULT_GROWTH_CURVE: GrowthCurveTableRow = {
+  Index: 0,
+  Id: 0,
+  CurveKey: '',
+  CostBase: 8,
+  CostGrowthRate: 1.18,
+  ValueBase: 0,
+  ValuePerLevel: 0,
+  MaxLevel: 9999,
+}
+
+const DEFAULT_CURRENCY: CurrencyTableRow = {
+  Index: 0,
+  Id: 0,
+  Type: 'GOLD',
+  NameStringId: 0,
+  ResetOnRebirth: false,
+  RefundOnRebirth: false,
+  ShowInHUD: false,
+  SortOrder: 0,
+}
+
+const DEFAULT_GRADE: GradeTableRow = {
+  Index: 0,
+  Id: 0,
+  GradeKey: 'Normal',
+  NameStringId: 0,
+  ColorToken: 'normal',
+  BaseMultiplier: 1,
+  UsedBy: 'Both',
+  SortOrder: 0,
 }
 
 // ---------------------------------------------------------------------------
@@ -615,6 +697,34 @@ export function getString(id: number, lang: 'KOR' | 'ENG', fallback = ''): strin
   }
   const value = lang === 'KOR' ? row.KOR : row.ENG
   return value || fallback
+}
+
+// StatTable/MasteryTable 등이 CurveKey로 가리키는 공용 성장 곡선 조회.
+export function getGrowthCurveConfig(curveKey: string): GrowthCurveTableRow {
+  const row = TABLES.GrowthCurveTable.find((r) => r.CurveKey === curveKey)
+  if (!row) {
+    warnMissing('GrowthCurveTable', `CurveKey=${curveKey}`)
+    return { ...DEFAULT_GROWTH_CURVE, CurveKey: curveKey }
+  }
+  return row
+}
+
+export function getCurrencyConfig(type: CurrencyTypeEnum): CurrencyTableRow {
+  const row = TABLES.CurrencyTable.find((r) => r.Type === type)
+  if (!row) {
+    warnMissing('CurrencyTable', `Type=${type}`)
+    return { ...DEFAULT_CURRENCY, Type: type }
+  }
+  return row
+}
+
+export function getGradeConfig(gradeKey: WeaponGradeEnum): GradeTableRow {
+  const row = TABLES.GradeTable.find((r) => r.GradeKey === gradeKey)
+  if (!row) {
+    warnMissing('GradeTable', `GradeKey=${gradeKey}`)
+    return { ...DEFAULT_GRADE, GradeKey: gradeKey }
+  }
+  return row
 }
 
 // 원본 테이블 배열이 통째로 필요할 때(예: 존재력 트리 50노드 생성)를 위한 export

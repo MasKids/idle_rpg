@@ -301,63 +301,6 @@
       "RewardGrowthRate": 1.1
     }
   ],
-  "StatTable": [
-    {
-      "Index": 1,
-      "Id": 20001,
-      "StatType": "ATK",
-      "Name": 40001,
-      "BaseValue": 1,
-      "ValuePerLevel": 1,
-      "CostBase": 8,
-      "CostGrowthRate": 1.18,
-      "MaxLevel": 9999
-    },
-    {
-      "Index": 2,
-      "Id": 20002,
-      "StatType": "ASPD",
-      "Name": 40003,
-      "BaseValue": 1,
-      "ValuePerLevel": 0.05,
-      "CostBase": 8,
-      "CostGrowthRate": 1.18,
-      "MaxLevel": 9999
-    },
-    {
-      "Index": 3,
-      "Id": 20003,
-      "StatType": "CRIT",
-      "Name": 40004,
-      "BaseValue": 0,
-      "ValuePerLevel": 0.5,
-      "CostBase": 8,
-      "CostGrowthRate": 1.18,
-      "MaxLevel": 9999
-    },
-    {
-      "Index": 4,
-      "Id": 20004,
-      "StatType": "CRIT_DMG",
-      "Name": 40005,
-      "BaseValue": 150,
-      "ValuePerLevel": 2,
-      "CostBase": 8,
-      "CostGrowthRate": 1.18,
-      "MaxLevel": 9999
-    },
-    {
-      "Index": 5,
-      "Id": 20005,
-      "StatType": "EXIST_GAIN",
-      "Name": 40006,
-      "BaseValue": 1,
-      "ValuePerLevel": 0.02,
-      "CostBase": 8,
-      "CostGrowthRate": 1.18,
-      "MaxLevel": 9999
-    }
-  ],
   "ExistTreeTable": [
     {
       "Index": 1,
@@ -516,38 +459,6 @@
       "Name": 40008,
       "RequireNodeCount": 33,
       "UnlockCost": 599
-    }
-  ],
-  "MasteryTable": [
-    {
-      "Index": 1,
-      "Id": 33002,
-      "WeaponType": "Sword",
-      "Name": 40072,
-      "MultiplierPerLevel": 0.05,
-      "CostBase": 10,
-      "CostGrowthRate": 1.25,
-      "MaxLevel": 9999
-    },
-    {
-      "Index": 2,
-      "Id": 33003,
-      "WeaponType": "Spear",
-      "Name": 40073,
-      "MultiplierPerLevel": 0.05,
-      "CostBase": 10,
-      "CostGrowthRate": 1.25,
-      "MaxLevel": 9999
-    },
-    {
-      "Index": 3,
-      "Id": 33004,
-      "WeaponType": "Bow",
-      "Name": 40074,
-      "MultiplierPerLevel": 0.05,
-      "CostBase": 10,
-      "CostGrowthRate": 1.25,
-      "MaxLevel": 9999
     }
   ],
   "WeaponTypeTable": [
@@ -1783,6 +1694,233 @@
       "Id": 40134,
       "KOR": "자동 업그레이드",
       "ENG": "Auto Upgrade"
+    }
+  ],
+  "GrowthCurveTable": [
+    {
+      "Index": 1,
+      "Id": 39001,
+      "CurveKey": "STAT_UPGRADE",
+      "CostBase": 8,
+      "CostGrowthRate": 1.18,
+      "ValueBase": 0,
+      "ValuePerLevel": 0,
+      "MaxLevel": 9999
+    },
+    {
+      "Index": 2,
+      "Id": 39002,
+      "CurveKey": "MASTERY_UPGRADE",
+      "CostBase": 10,
+      "CostGrowthRate": 1.25,
+      "ValueBase": 0,
+      "ValuePerLevel": 0,
+      "MaxLevel": 9999
+    },
+    {
+      "Index": 3,
+      "Id": 39003,
+      "CurveKey": "WEAPON_LEVEL_UP",
+      "CostBase": 15,
+      "CostGrowthRate": 1.2,
+      "ValueBase": 0,
+      "ValuePerLevel": 0,
+      "MaxLevel": 0
+    }
+  ],
+  "CurrencyTable": [
+    {
+      "Index": 1,
+      "Id": 39101,
+      "Type": "DIAMOND",
+      "NameStringId": 40075,
+      "ResetOnRebirth": false,
+      "RefundOnRebirth": false,
+      "ShowInHUD": true,
+      "SortOrder": 1
+    },
+    {
+      "Index": 2,
+      "Id": 39102,
+      "Type": "EXIST",
+      "NameStringId": 40015,
+      "ResetOnRebirth": false,
+      "RefundOnRebirth": false,
+      "ShowInHUD": true,
+      "SortOrder": 2
+    },
+    {
+      "Index": 3,
+      "Id": 39103,
+      "Type": "GROWTH_ENERGY",
+      "NameStringId": 40016,
+      "ResetOnRebirth": false,
+      "RefundOnRebirth": true,
+      "ShowInHUD": true,
+      "SortOrder": 3
+    },
+    {
+      "Index": 4,
+      "Id": 39104,
+      "Type": "GOLD",
+      "NameStringId": 40019,
+      "ResetOnRebirth": false,
+      "RefundOnRebirth": true,
+      "ShowInHUD": true,
+      "SortOrder": 4
+    },
+    {
+      "Index": 5,
+      "Id": 39105,
+      "Type": "MASTERY_ESSENCE",
+      "NameStringId": 40017,
+      "ResetOnRebirth": false,
+      "RefundOnRebirth": true,
+      "ShowInHUD": false,
+      "SortOrder": 5
+    },
+    {
+      "Index": 6,
+      "Id": 39106,
+      "Type": "TIME_ENERGY",
+      "NameStringId": 40018,
+      "ResetOnRebirth": false,
+      "RefundOnRebirth": false,
+      "ShowInHUD": false,
+      "SortOrder": 6
+    }
+  ],
+  "GradeTable": [
+    {
+      "Index": 1,
+      "Id": 39201,
+      "GradeKey": "Normal",
+      "NameStringId": 40058,
+      "ColorToken": "normal",
+      "BaseMultiplier": 1,
+      "UsedBy": "Both",
+      "SortOrder": 1
+    },
+    {
+      "Index": 2,
+      "Id": 39202,
+      "GradeKey": "Rare",
+      "NameStringId": 40059,
+      "ColorToken": "rare",
+      "BaseMultiplier": 2,
+      "UsedBy": "Both",
+      "SortOrder": 2
+    },
+    {
+      "Index": 3,
+      "Id": 39203,
+      "GradeKey": "Epic",
+      "NameStringId": 40060,
+      "ColorToken": "epic",
+      "BaseMultiplier": 4,
+      "UsedBy": "Both",
+      "SortOrder": 3
+    },
+    {
+      "Index": 4,
+      "Id": 39204,
+      "GradeKey": "Unique",
+      "NameStringId": 40061,
+      "ColorToken": "unique",
+      "BaseMultiplier": 8,
+      "UsedBy": "Weapon",
+      "SortOrder": 4
+    },
+    {
+      "Index": 5,
+      "Id": 39205,
+      "GradeKey": "Legendary",
+      "NameStringId": 40062,
+      "ColorToken": "legendary",
+      "BaseMultiplier": 16,
+      "UsedBy": "Weapon",
+      "SortOrder": 5
+    }
+  ],
+  "StatTable": [
+    {
+      "Index": 1,
+      "Id": 20001,
+      "StatType": "ATK",
+      "Name": 40001,
+      "BaseValue": 1,
+      "ValuePerLevel": 1,
+      "CurveKey": "STAT_UPGRADE",
+      "MaxLevel": 9999
+    },
+    {
+      "Index": 2,
+      "Id": 20002,
+      "StatType": "ASPD",
+      "Name": 40003,
+      "BaseValue": 1,
+      "ValuePerLevel": 0.05,
+      "CurveKey": "STAT_UPGRADE",
+      "MaxLevel": 9999
+    },
+    {
+      "Index": 3,
+      "Id": 20003,
+      "StatType": "CRIT",
+      "Name": 40004,
+      "BaseValue": 0,
+      "ValuePerLevel": 0.5,
+      "CurveKey": "STAT_UPGRADE",
+      "MaxLevel": 9999
+    },
+    {
+      "Index": 4,
+      "Id": 20004,
+      "StatType": "CRIT_DMG",
+      "Name": 40005,
+      "BaseValue": 150,
+      "ValuePerLevel": 2,
+      "CurveKey": "STAT_UPGRADE",
+      "MaxLevel": 9999
+    },
+    {
+      "Index": 5,
+      "Id": 20005,
+      "StatType": "EXIST_GAIN",
+      "Name": 40006,
+      "BaseValue": 1,
+      "ValuePerLevel": 0.02,
+      "CurveKey": "STAT_UPGRADE",
+      "MaxLevel": 9999
+    }
+  ],
+  "MasteryTable": [
+    {
+      "Index": 1,
+      "Id": 33002,
+      "WeaponType": "Sword",
+      "Name": 40072,
+      "MultiplierPerLevel": 0.05,
+      "CurveKey": "MASTERY_UPGRADE",
+      "MaxLevel": 9999
+    },
+    {
+      "Index": 2,
+      "Id": 33003,
+      "WeaponType": "Spear",
+      "Name": 40073,
+      "MultiplierPerLevel": 0.05,
+      "CurveKey": "MASTERY_UPGRADE",
+      "MaxLevel": 9999
+    },
+    {
+      "Index": 3,
+      "Id": 33004,
+      "WeaponType": "Bow",
+      "Name": 40074,
+      "MultiplierPerLevel": 0.05,
+      "CurveKey": "MASTERY_UPGRADE",
+      "MaxLevel": 9999
     }
   ]
 }

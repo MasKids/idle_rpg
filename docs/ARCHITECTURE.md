@@ -462,13 +462,16 @@ systems/battle/offlineReward.ts, store/gameStore.ts, store/gameStateStorage.ts �
 실제 게임 화면에 반영
 ```
 
-`scripts/make-balance-xlsx.py`(별도 Python 스크립트)는 `balance.xlsx` 자체를
-처음부터 다시 생성하는 용도입니다 — 새 테이블/컬럼/StringTable 항목을 추가할 때
-이 스크립트를 고치고 실행해 엑셀을 재생성한 뒤, 위 파이프라인(`npm run balance`)을
-한 번 더 돌려 `balance.json`에 반영합니다. 밸런스 수치 자체(기존 컬럼의 값)만
-바꾸고 싶으면 스크립트를 건드릴 필요 없이 엑셀만 고치고 `npm run balance`(또는
-`balance-commit.bat`)를 실행하면 됩니다. 절차와 주의사항은 `balance/README.md`에
-자세히 정리되어 있습니다.
+`scripts/seed/seed_balance_xlsx.py`(별도 Python 스크립트)는 `balance.xlsx`가 아직
+없을 때만 쓰는 1회성 시딩 스크립트입니다 — 이미 있는 `balance.xlsx`에 대고 다시
+실행하면 기획자가 엑셀에서 직접 고친 값이 전부 사라지므로(워크북을 처음부터
+새로 만듦), `balance.xlsx`가 이미 있으면 기본적으로 실행을 거부합니다. 새
+StringTable 항목 하나, 새 데이터 행 하나를 추가하고 싶으면 이 스크립트가 아니라
+`scripts/append-row.mjs`를 씁니다(기존 워크북을 열어 해당 시트 마지막 행 다음에
+한 줄만 추가). 새 테이블 자체를 추가하는 것처럼 더 큰 구조 변경은 별도
+마이그레이션 스크립트로 처리합니다. 밸런스 수치 자체(기존 컬럼의 값)만 바꾸고
+싶으면 엑셀만 고치고 `npm run balance`(또는 `balance-commit.bat`)를 실행하면
+됩니다. 절차와 주의사항은 `balance/README.md`에 자세히 정리되어 있습니다.
 
 ---
 

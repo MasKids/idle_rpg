@@ -1,4 +1,4 @@
-import { getStatConfig, type StatTypeEnum } from './balance'
+import { getGrowthCurveConfig, getStatConfig, type StatTypeEnum } from './balance'
 import type { StatKey } from '../types/game'
 
 const STAT_TYPE_BY_KEY: Record<StatKey, StatTypeEnum> = {
@@ -11,7 +11,8 @@ const STAT_TYPE_BY_KEY: Record<StatKey, StatTypeEnum> = {
 
 export function statUpgradeCost(key: StatKey, currentLevel: number): number {
   const config = getStatConfig(STAT_TYPE_BY_KEY[key])
-  return Math.floor(config.CostBase * config.CostGrowthRate ** currentLevel)
+  const curve = getGrowthCurveConfig(config.CurveKey)
+  return Math.floor(curve.CostBase * curve.CostGrowthRate ** currentLevel)
 }
 
 export function computeStatValue(key: StatKey, level: number): number {

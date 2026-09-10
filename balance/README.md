@@ -114,8 +114,10 @@
   RebirthTable / CommonTable / StringTable, 총 12시트.
 - `scripts/build-balance.mjs` — `balance.xlsx` → `src/data/balance.json` 변환 스크립트
   (`npm run balance`). ExcelJS로 읽고, Id 중복/자료형/enum/참조 무결성을 검증합니다.
-- `scripts/make-balance-xlsx.py` — `balance.xlsx`가 없을 때(또는 완전히 새로 만들고 싶을 때)
-  처음부터 다시 생성하는 스크립트(openpyxl 필요). 평소에는 쓸 일이 없습니다.
+- `scripts/seed/seed_balance_xlsx.py` — `balance.xlsx`가 아직 없을 때만 쓰는 1회성
+  시딩 스크립트(openpyxl 필요). `balance.xlsx`가 이미 있으면 실행을 거부합니다
+  (`--force`로만 강제 가능) — 평소 밸런싱 흐름에는 들어있지 않습니다. 행을 하나
+  추가하고 싶으면 `scripts/append-row.mjs`를 쓰세요.
 - `src/data/balance.json` — 빌드 산출물. 게임이 실제로 읽는 파일.
 - `src/data/balance.ts` — `balance.json`을 테이블별 타입이 붙은 배열로 노출하고,
   `getStatConfig` / `getStageConfig` / `getExistTreeTier` / `getFeatureUnlock` /

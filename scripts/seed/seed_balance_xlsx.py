@@ -1,24 +1,36 @@
-"""balance/balance.xlsx를 생성하는 스크립트.
+"""balance/balance.xlsx를 처음부터 새로 만드는 "시딩" 스크립트.
+
+⚠️ 1회성 스크립트다 — balance.xlsx가 아직 없을 때(새 프로젝트를 시작하거나,
+파일을 완전히 유실해서 재해복구가 필요할 때)만 실행한다. **balance.xlsx가 이미
+있는데 이 스크립트를 다시 돌리면 워크북 전체를 처음부터 새로 만들어서(부분
+갱신이 아니라 통째로 덮어쓰기) 그 사이 기획자가 엑셀에서 직접 고친 값이 전부
+날아간다.** 평소 밸런싱 수치를 바꾸는 흐름은 balance.xlsx를 엑셀에서 직접
+편집하거나(수동 조정) scripts/append-row.mjs로 새 행을 추가한 뒤
+`npm run balance`만 실행하는 것이다 — 이 스크립트는 그 흐름에 들어있지 않다.
+
+그래서 balance.xlsx가 이미 존재하면 기본적으로 실행을 거부한다. 그래도 정말
+처음부터 다시 만들고 싶다면(예: 새 프로젝트 셋업) --force 플래그를 명시적으로
+줘야 한다:
+
+    python scripts/seed/seed_balance_xlsx.py --force
 
 상용 게임 데이터 테이블 형식(#TableDefine / #EnumDefine / 카테고리별 데이터 테이블 /
-StringTable)으로 밸런싱 데이터를 재구성한다.
-
-이번 단계는 "엑셀 파일 생성까지만" — balance.xlsx를 읽어 JSON으로 바꾸는 변환
-스크립트와 게임 코드 리팩터링은 다음 단계에서 진행한다.
-
-실행:
-    python scripts/make-balance-xlsx.py
+StringTable)으로 밸런싱 데이터를 구성한다. 여기 담긴 build_*_rows() 공식들은
+현재 balance.xlsx가 만들어질 당시 값을 그대로 재현하기 위한 스냅샷이다 — 그
+이후 엑셀에서 직접 조정된 값은 여기 반영되지 않는다(반영할 필요도 없다).
 """
 
+import argparse
 import math
 import os
+import sys
 
 from openpyxl import Workbook
 from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
 from openpyxl.utils import get_column_letter
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-OUTPUT_PATH = os.path.join(SCRIPT_DIR, "..", "balance", "balance.xlsx")
+OUTPUT_PATH = os.path.join(SCRIPT_DIR, "..", "..", "balance", "balance.xlsx")
 
 FONT_NAME = "Arial"
 
@@ -1538,6 +1550,28 @@ def build_table_define_rows() -> list[list]:
 
 
 def main() -> None:
+    parser = argparse.ArgumentParser(
+        description="balance.xlsx를 처음부터 새로 만드는 1회성 시딩 스크립트.",
+    )
+    parser.add_argument(
+        "--force",
+        action="store_true",
+        help="balance.xlsx가 이미 있어도 덮어쓴다. 기획자가 엑셀에서 직접 고친 값이 전부 사라지니 신중히.",
+    )
+    args = parser.parse_args()
+
+    if os.path.exists(OUTPUT_PATH) and not args.force:
+        print(
+            f"[seed] 거부: {os.path.abspath(OUTPUT_PATH)} 가 이미 존재합니다.\n"
+            "[seed] 이 스크립트는 balance.xlsx가 없을 때만 쓰는 1회성 시딩 스크립트입니다 — "
+            "다시 실행하면 엑셀에서 직접 고친 값이 전부 사라집니다.\n"
+            "[seed] 값 하나를 고치고 싶다면 엑셀에서 직접 편집하세요. 행을 하나 추가하고 싶다면 "
+            "scripts/append-row.mjs를 쓰세요.\n"
+            "[seed] 그래도 정말 처음부터 다시 만들어야 한다면 --force를 붙여 다시 실행하세요.",
+            file=sys.stderr,
+        )
+        sys.exit(1)
+
     wb = Workbook()
     wb.remove(wb.active)  # 기본 생성되는 빈 시트 제거
 
