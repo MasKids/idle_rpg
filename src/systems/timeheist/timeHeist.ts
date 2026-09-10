@@ -1,15 +1,13 @@
-import { getTimeHeistConfig } from '../../data/balance'
+import { getCommon, getTimeHeistConfig } from '../../data/balance'
 import { generateStage } from '../../data/stages'
 import { applyGoldGainBonus, applyTimeHeistCooldownReduction } from '../relic/relic'
 
 export function timeHeistCost(usedCount: number): number {
-  const config = getTimeHeistConfig()
-  return Math.floor(config.CostBase * config.CostGrowthRate ** usedCount)
+  return getTimeHeistConfig(usedCount).Cost
 }
 
 export function timeHeistCooldownMs(usedCount: number, cooldownReductionPercent = 0): number {
-  const config = getTimeHeistConfig()
-  const base = Math.floor(config.CooldownBase * 1000 * config.CooldownGrowthRate ** usedCount)
+  const base = Math.floor(getTimeHeistConfig(usedCount).CooldownSec * 1000)
   return applyTimeHeistCooldownReduction(base, cooldownReductionPercent)
 }
 
@@ -43,8 +41,8 @@ export function computeTimeHeistPreview(
   goldGainBonusPercent = 0,
   cooldownReductionPercent = 0,
 ): TimeHeistPreview {
-  const config = getTimeHeistConfig()
-  const targetStage = currentStage + config.TargetStageOffset
+  const config = getTimeHeistConfig(usedCount)
+  const targetStage = currentStage + getCommon('TimeHeistTargetStageOffset')
   const perClear = generateStage(targetStage).rewards
 
   return {

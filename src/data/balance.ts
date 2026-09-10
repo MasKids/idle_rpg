@@ -175,14 +175,16 @@ export interface RelicSlotTableRow {
   RequireUnlockedCount: number
 }
 
+// 사용 횟수(UsedCount 0~9)별 리터럴 값(3단계 개편) — 예전엔 CostBase/CostGrowthRate 등
+// 공식 계수 1행이었다. TargetStageOffset은 사용 횟수와 무관한 고정값이라
+// CommonTable(TimeHeistTargetStageOffset)로 옮겼다. 9를 넘는 사용 횟수는 9번 행 값으로
+// 고정된다(StageTable 등과 동일한 클램프 패턴).
 export interface TimeHeistTableRow {
   Index: number
   Id: number
-  CostBase: number
-  CostGrowthRate: number
-  CooldownBase: number
-  CooldownGrowthRate: number
-  TargetStageOffset: number
+  UsedCount: number
+  Cost: number
+  CooldownSec: number
   RewardMultiplier: number
 }
 
@@ -422,11 +424,9 @@ const DEFAULT_RELIC_SLOT: RelicSlotTableRow = {
 const DEFAULT_TIME_HEIST: TimeHeistTableRow = {
   Index: 0,
   Id: 0,
-  CostBase: 20,
-  CostGrowthRate: 2.0,
-  CooldownBase: 7200,
-  CooldownGrowthRate: 1.5,
-  TargetStageOffset: 10,
+  UsedCount: 0,
+  Cost: 20,
+  CooldownSec: 900,
   RewardMultiplier: 5,
 }
 
@@ -619,11 +619,20 @@ export function getRelicSlotConfig(slotIndex: number): RelicSlotTableRow {
   return row
 }
 
-export function getTimeHeistConfig(): TimeHeistTableRow {
-  const row = TABLES.TimeHeistTable[0]
+// usedCount가 테이블 마지막 행(UsedCount 최댓값)을 넘으면 마지막 행 값으로
+// 고정한다(StageTable 등과 동일한 클램프 패턴).
+export function getTimeHeistConfig(usedCount: number): TimeHeistTableRow {
+  const table = TABLES.TimeHeistTable
+  if (table.length === 0) {
+    warnMissing('TimeHeistTable', `UsedCount=${usedCount}`)
+    return { ...DEFAULT_TIME_HEIST, UsedCount: usedCount }
+  }
+  const maxUsedCount = table[table.length - 1].UsedCount
+  const clamped = Math.min(Math.max(usedCount, 0), maxUsedCount)
+  const row = table.find((r) => r.UsedCount === clamped)
   if (!row) {
-    warnMissing('TimeHeistTable', '첫 행')
-    return DEFAULT_TIME_HEIST
+    warnMissing('TimeHeistTable', `UsedCount=${usedCount}`)
+    return { ...DEFAULT_TIME_HEIST, UsedCount: usedCount }
   }
   return row
 }

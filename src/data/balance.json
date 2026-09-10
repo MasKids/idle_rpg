@@ -293,18 +293,6 @@
       "RequireUnlockedCount": 50
     }
   ],
-  "TimeHeistTable": [
-    {
-      "Index": 1,
-      "Id": 34001,
-      "CostBase": 20,
-      "CostGrowthRate": 2,
-      "CooldownBase": 900,
-      "CooldownGrowthRate": 1.5,
-      "TargetStageOffset": 10,
-      "RewardMultiplier": 5
-    }
-  ],
   "RebirthTable": [
     {
       "Index": 1,
@@ -477,6 +465,13 @@
       "Id": 36017,
       "Key": "WeaponFusionResultBreakthroughCount",
       "Value": 0,
+      "ValueType": "int"
+    },
+    {
+      "Index": 18,
+      "Id": 36018,
+      "Key": "TimeHeistTargetStageOffset",
+      "Value": 10,
       "ValueType": "int"
     }
   ],
@@ -6261,6 +6256,88 @@
       "OwnEffectValue": 6.72,
       "EquipEffectValue": 67.2,
       "CurveKey": "WEAPON_LEVEL_UP_LEGENDARY"
+    }
+  ],
+  "TimeHeistTable": [
+    {
+      "Index": 1,
+      "Id": 34001,
+      "UsedCount": 0,
+      "Cost": 20,
+      "CooldownSec": 900,
+      "RewardMultiplier": 5
+    },
+    {
+      "Index": 2,
+      "Id": 34002,
+      "UsedCount": 1,
+      "Cost": 40,
+      "CooldownSec": 1350,
+      "RewardMultiplier": 5
+    },
+    {
+      "Index": 3,
+      "Id": 34003,
+      "UsedCount": 2,
+      "Cost": 80,
+      "CooldownSec": 2025,
+      "RewardMultiplier": 5
+    },
+    {
+      "Index": 4,
+      "Id": 34004,
+      "UsedCount": 3,
+      "Cost": 160,
+      "CooldownSec": 3037.5,
+      "RewardMultiplier": 5
+    },
+    {
+      "Index": 5,
+      "Id": 34005,
+      "UsedCount": 4,
+      "Cost": 320,
+      "CooldownSec": 4556.25,
+      "RewardMultiplier": 5
+    },
+    {
+      "Index": 6,
+      "Id": 34006,
+      "UsedCount": 5,
+      "Cost": 640,
+      "CooldownSec": 6834.375,
+      "RewardMultiplier": 5
+    },
+    {
+      "Index": 7,
+      "Id": 34007,
+      "UsedCount": 6,
+      "Cost": 1280,
+      "CooldownSec": 10251.5625,
+      "RewardMultiplier": 5
+    },
+    {
+      "Index": 8,
+      "Id": 34008,
+      "UsedCount": 7,
+      "Cost": 2560,
+      "CooldownSec": 15377.34375,
+      "RewardMultiplier": 5
+    },
+    {
+      "Index": 9,
+      "Id": 34009,
+      "UsedCount": 8,
+      "Cost": 5120,
+      "CooldownSec": 23066.015625,
+      "RewardMultiplier": 5
+    },
+    {
+      "Index": 10,
+      "Id": 34010,
+      "UsedCount": 9,
+      "Cost": 10240,
+      "CooldownSec": 34599.0234375,
+      "RewardMultiplier": 5
     }
   ]
 }
