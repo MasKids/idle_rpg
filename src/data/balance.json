@@ -54,18 +54,6 @@
       "GradeMultiplier": 16
     }
   ],
-  "WeaponUpgradeTable": [
-    {
-      "Index": 1,
-      "Id": 37021,
-      "BaseMaxLevel": 10,
-      "LevelCostBase": 15,
-      "LevelCostGrowthRate": 1.2,
-      "TierStepBonusPercent": 10,
-      "BaseAtkOwnBonusPerLevel": 0.5,
-      "BaseAtkEquipBonusPerLevel": 5
-    }
-  ],
   "WeaponBreakthroughTable": [
     {
       "Index": 1,
@@ -470,6 +458,13 @@
       "Id": 36013,
       "Key": "MasteryMaxLevel",
       "Value": 9999,
+      "ValueType": "int"
+    },
+    {
+      "Index": 14,
+      "Id": 36014,
+      "Key": "WeaponBaseMaxLevel",
+      "Value": 10,
       "ValueType": "int"
     }
   ],

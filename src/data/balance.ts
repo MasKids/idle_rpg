@@ -109,22 +109,6 @@ export interface WeaponGradeTableRow {
   GradeMultiplier: number
 }
 
-// LevelCostBase/LevelCostGrowthRate/TierStepBonusPercent/BaseAtkOwnBonusPerLevel/
-// BaseAtkEquipBonusPerLevel은 2단계 개편으로 WeaponTable(75행)과 GrowthCurveTable의
-// 등급별 곡선에 이미 곱연산까지 끝난 값으로 흡수되어 더 이상 읽히지 않는다(죽은
-// 칼럼 — WeaponUpgradeTable 자체가 1행짜리 테이블이라 다음 단계에서 정리 예정,
-// docs/TABLE_REDESIGN.md 1.3절). 지금 실제로 쓰는 건 BaseMaxLevel뿐이다.
-export interface WeaponUpgradeTableRow {
-  Index: number
-  Id: number
-  BaseMaxLevel: number
-  LevelCostBase: number
-  LevelCostGrowthRate: number
-  TierStepBonusPercent: number
-  BaseAtkOwnBonusPerLevel: number
-  BaseAtkEquipBonusPerLevel: number
-}
-
 export interface WeaponBreakthroughTableRow {
   Index: number
   Id: number
@@ -301,7 +285,6 @@ interface BalanceTables {
   ExistTreeTable: ExistTreeTableRow[]
   FeatureUnlockTable: FeatureUnlockTableRow[]
   WeaponGradeTable: WeaponGradeTableRow[]
-  WeaponUpgradeTable: WeaponUpgradeTableRow[]
   WeaponBreakthroughTable: WeaponBreakthroughTableRow[]
   WeaponFusionTable: WeaponFusionTableRow[]
   WeaponTable: WeaponTableRow[]
@@ -400,17 +383,6 @@ const DEFAULT_WEAPON_GRADE: WeaponGradeTableRow = {
   WeaponGrade: 'Normal',
   Name: 0,
   GradeMultiplier: 1,
-}
-
-const DEFAULT_WEAPON_UPGRADE: WeaponUpgradeTableRow = {
-  Index: 0,
-  Id: 0,
-  BaseMaxLevel: 10,
-  LevelCostBase: 15,
-  LevelCostGrowthRate: 1.2,
-  TierStepBonusPercent: 10,
-  BaseAtkOwnBonusPerLevel: 0.5,
-  BaseAtkEquipBonusPerLevel: 5,
 }
 
 const DEFAULT_WEAPON_BREAKTHROUGH: WeaponBreakthroughTableRow = {
@@ -587,15 +559,6 @@ export function getWeaponGradeConfig(weaponGrade: WeaponGradeEnum): WeaponGradeT
   if (!row) {
     warnMissing('WeaponGradeTable', `WeaponGrade=${weaponGrade}`)
     return { ...DEFAULT_WEAPON_GRADE, WeaponGrade: weaponGrade }
-  }
-  return row
-}
-
-export function getWeaponUpgradeConfig(): WeaponUpgradeTableRow {
-  const row = TABLES.WeaponUpgradeTable[0]
-  if (!row) {
-    warnMissing('WeaponUpgradeTable', '첫 행')
-    return DEFAULT_WEAPON_UPGRADE
   }
   return row
 }

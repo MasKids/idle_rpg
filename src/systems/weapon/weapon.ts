@@ -2,6 +2,7 @@
 // 보유/장착 효과 계산, 가챠 확률 로직. docs/WEAPON_SYSTEM.md 1~2장 참고.
 import {
   BALANCE_TABLES,
+  getCommon,
   getGachaLevelForPullCount,
   getGrowthCurveConfig,
   getString,
@@ -9,7 +10,6 @@ import {
   getWeaponConfig,
   getWeaponFusionConfig,
   getWeaponGradeConfig,
-  getWeaponUpgradeConfig,
   WEAPON_TYPE_NAME_STRING_ID,
   WEAPON_TYPES,
   type GachaTableRow,
@@ -60,8 +60,7 @@ export function weaponDisplayName(id: string): string {
 // 경우가 실제로 없으므로, "없으면 기본값+경고"로 항상 행을 보장하는 getWeaponBreakthroughStep을
 // 그대로 써도 안전하다 (nextBreakthroughStep과 달리 여기선 "없음"이 의미를 갖지 않는다).
 export function weaponMaxLevel(breakthroughCount: number): number {
-  const upgrade = getWeaponUpgradeConfig()
-  let cap = upgrade.BaseMaxLevel
+  let cap = getCommon('WeaponBaseMaxLevel')
   for (let step = 1; step <= breakthroughCount; step++) {
     cap += getWeaponBreakthroughStep(step).LevelCapBonus
   }
