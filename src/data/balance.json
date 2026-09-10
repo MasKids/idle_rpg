@@ -293,60 +293,6 @@
       "RequireUnlockedCount": 50
     }
   ],
-  "RebirthTable": [
-    {
-      "Index": 1,
-      "Id": 35001,
-      "ResetStage": true,
-      "ResetStats": true,
-      "ResetMastery": true,
-      "RefundGrowthEnergy": true,
-      "RefundGold": true,
-      "RefundMasteryEssence": true,
-      "KeepExistTree": true,
-      "BonusBase": 1,
-      "BonusExponent": 0.5,
-      "RefundBonusPerPoint": 1,
-      "MaxRefundMultiplier": 5
-    }
-  ],
-  "RebirthRewardTable": [
-    {
-      "Index": 1,
-      "Id": 35101,
-      "StageFrom": 1,
-      "StageTo": 24,
-      "DiamondReward": 1200
-    },
-    {
-      "Index": 2,
-      "Id": 35102,
-      "StageFrom": 25,
-      "StageTo": 49,
-      "DiamondReward": 2000
-    },
-    {
-      "Index": 3,
-      "Id": 35103,
-      "StageFrom": 50,
-      "StageTo": 99,
-      "DiamondReward": 3500
-    },
-    {
-      "Index": 4,
-      "Id": 35104,
-      "StageFrom": 100,
-      "StageTo": 199,
-      "DiamondReward": 6000
-    },
-    {
-      "Index": 5,
-      "Id": 35105,
-      "StageFrom": 200,
-      "StageTo": 999999,
-      "DiamondReward": 10000
-    }
-  ],
   "CommonTable": [
     {
       "Index": 1,
@@ -473,6 +419,48 @@
       "Key": "TimeHeistTargetStageOffset",
       "Value": 10,
       "ValueType": "int"
+    },
+    {
+      "Index": 19,
+      "Id": 36019,
+      "Key": "RebirthResetStage",
+      "Value": 1,
+      "ValueType": "int"
+    },
+    {
+      "Index": 20,
+      "Id": 36020,
+      "Key": "RebirthResetStats",
+      "Value": 1,
+      "ValueType": "int"
+    },
+    {
+      "Index": 21,
+      "Id": 36021,
+      "Key": "RebirthResetMastery",
+      "Value": 1,
+      "ValueType": "int"
+    },
+    {
+      "Index": 22,
+      "Id": 36022,
+      "Key": "RebirthKeepExistTree",
+      "Value": 1,
+      "ValueType": "int"
+    },
+    {
+      "Index": 23,
+      "Id": 36023,
+      "Key": "RebirthBonusBase",
+      "Value": 1,
+      "ValueType": "float"
+    },
+    {
+      "Index": 24,
+      "Id": 36024,
+      "Key": "RebirthBonusExponent",
+      "Value": 0.5,
+      "ValueType": "float"
     }
   ],
   "StringTable": [
@@ -6338,6 +6326,53 @@
       "Cost": 10240,
       "CooldownSec": 34599.0234375,
       "RewardMultiplier": 5
+    }
+  ],
+  "RebirthRewardTable": [
+    {
+      "Index": 1,
+      "Id": 35101,
+      "StageFrom": 1,
+      "StageTo": 24,
+      "DiamondReward": 1200,
+      "RefundBonusPerPoint": 1,
+      "MaxRefundMultiplier": 5
+    },
+    {
+      "Index": 2,
+      "Id": 35102,
+      "StageFrom": 25,
+      "StageTo": 49,
+      "DiamondReward": 2000,
+      "RefundBonusPerPoint": 1,
+      "MaxRefundMultiplier": 5
+    },
+    {
+      "Index": 3,
+      "Id": 35103,
+      "StageFrom": 50,
+      "StageTo": 99,
+      "DiamondReward": 3500,
+      "RefundBonusPerPoint": 1,
+      "MaxRefundMultiplier": 5
+    },
+    {
+      "Index": 4,
+      "Id": 35104,
+      "StageFrom": 100,
+      "StageTo": 199,
+      "DiamondReward": 6000,
+      "RefundBonusPerPoint": 1,
+      "MaxRefundMultiplier": 5
+    },
+    {
+      "Index": 5,
+      "Id": 35105,
+      "StageFrom": 200,
+      "StageTo": 999999,
+      "DiamondReward": 10000,
+      "RefundBonusPerPoint": 1,
+      "MaxRefundMultiplier": 5
     }
   ]
 }

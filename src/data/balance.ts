@@ -188,30 +188,20 @@ export interface TimeHeistTableRow {
   RewardMultiplier: number
 }
 
-export interface RebirthTableRow {
-  Index: number
-  Id: number
-  ResetStage: boolean
-  ResetStats: boolean
-  ResetMastery: boolean
-  RefundGrowthEnergy: boolean
-  RefundGold: boolean
-  RefundMasteryEssence: boolean
-  KeepExistTree: boolean
-  BonusBase: number
-  BonusExponent: number
-  RefundBonusPerPoint: number
-  MaxRefundMultiplier: number
-}
 
 // 리버스 시 신규 지급되는 다이아 — 환급이 아니라 도달 스테이지 구간별 고정값
 // 지급이라 rebirthSpent/환급 배율과 무관하다. 구간은 [StageFrom, StageTo] 양끝 포함.
+// RefundBonusPerPoint/MaxRefundMultiplier는 RebirthTable 삭제(3단계)로 흡수된
+// 값 — 지금은 5개 구간 전부 동일값이지만, 구간별로 환급 배율을 다르게 줄 여지를
+// 남겨둔다.
 export interface RebirthRewardTableRow {
   Index: number
   Id: number
   StageFrom: number
   StageTo: number
   DiamondReward: number
+  RefundBonusPerPoint: number
+  MaxRefundMultiplier: number
 }
 
 export interface CommonTableRow {
@@ -285,7 +275,6 @@ interface BalanceTables {
   RelicTable: RelicTableRow[]
   RelicSlotTable: RelicSlotTableRow[]
   TimeHeistTable: TimeHeistTableRow[]
-  RebirthTable: RebirthTableRow[]
   RebirthRewardTable: RebirthRewardTableRow[]
   CommonTable: CommonTableRow[]
   StringTable: StringTableRow[]
@@ -430,21 +419,6 @@ const DEFAULT_TIME_HEIST: TimeHeistTableRow = {
   RewardMultiplier: 5,
 }
 
-const DEFAULT_REBIRTH: RebirthTableRow = {
-  Index: 0,
-  Id: 0,
-  ResetStage: true,
-  ResetStats: true,
-  ResetMastery: true,
-  RefundGrowthEnergy: true,
-  RefundGold: true,
-  RefundMasteryEssence: true,
-  KeepExistTree: true,
-  BonusBase: 1.0,
-  BonusExponent: 0.5,
-  RefundBonusPerPoint: 1.0,
-  MaxRefundMultiplier: 5.0,
-}
 
 const DEFAULT_GROWTH_CURVE: GrowthCurveTableRow = {
   Index: 0,
@@ -637,25 +611,27 @@ export function getTimeHeistConfig(usedCount: number): TimeHeistTableRow {
   return row
 }
 
-export function getRebirthConfig(): RebirthTableRow {
-  const row = TABLES.RebirthTable[0]
+// 리버스 시점의 도달 스테이지가 속한 RebirthRewardTable 구간 행을 조회한다.
+// 어느 구간에도 안 맞으면(데이터 구멍) 경고하고 안전한 기본값(1200다이아,
+// 환급 배율 계수 1/5 — 기존 DEFAULT_REBIRTH와 동일한 값)을 반환한다.
+function findRebirthRewardRow(stage: number): RebirthRewardTableRow {
+  const row = TABLES.RebirthRewardTable.find((r) => stage >= r.StageFrom && stage <= r.StageTo)
   if (!row) {
-    warnMissing('RebirthTable', '첫 행')
-    return DEFAULT_REBIRTH
+    warnMissing('RebirthRewardTable', `stage=${stage}`)
+    return { Index: 0, Id: 0, StageFrom: stage, StageTo: stage, DiamondReward: 1200, RefundBonusPerPoint: 1, MaxRefundMultiplier: 5 }
   }
   return row
 }
 
-// 리버스 시점의 도달 스테이지가 속한 구간의 다이아 지급량을 조회한다.
-// 어느 구간에도 안 맞으면(데이터 구멍) 0을 반환하고 경고 — 지급이 아예 없는
-// 쪽이 잘못된 수량을 지급하는 것보다 안전하다.
 export function getRebirthDiamondReward(stage: number): number {
-  const row = TABLES.RebirthRewardTable.find((r) => stage >= r.StageFrom && stage <= r.StageTo)
-  if (!row) {
-    warnMissing('RebirthRewardTable', `stage=${stage}`)
-    return 0
-  }
-  return row.DiamondReward
+  return findRebirthRewardRow(stage).DiamondReward
+}
+
+// 리버스 회차 보너스의 환급 배율 계수(포인트당 증폭률·상한) — RebirthTable 삭제(3단계)로
+// RebirthRewardTable에 흡수됐다. 도달 스테이지 구간에 따라 달라질 수 있다.
+export function getRebirthRefundConfig(stage: number): { RefundBonusPerPoint: number; MaxRefundMultiplier: number } {
+  const row = findRebirthRewardRow(stage)
+  return { RefundBonusPerPoint: row.RefundBonusPerPoint, MaxRefundMultiplier: row.MaxRefundMultiplier }
 }
 
 export function getCommon(key: string): number {
@@ -665,6 +641,12 @@ export function getCommon(key: string): number {
     return 0
   }
   return row.Value
+}
+
+// CommonTable.Value는 float로 통일돼 있어(Q3 결정) bool은 0/1로 저장한다 — 이 헬퍼가
+// !== 0 판정을 감싼다.
+export function getCommonBool(key: string): boolean {
+  return getCommon(key) !== 0
 }
 
 export function getString(id: number, lang: 'KOR' | 'ENG', fallback = ''): string {

@@ -39,7 +39,7 @@ export function RebirthModal({ isOpen, onCancel, onConfirm }: RebirthModalProps)
   // 이번 리버스에서 도달 스테이지로 얻는 포인트(pendingPoints)는 이번 환급 배율에
   // 바로 반영된다 — 도달 스테이지가 이번 환급에 즉시 체감되게.
   const pendingPoints = computeRebirthBonusPoints(currentStage)
-  const currentMultiplier = computeRefundMultiplier(rebirthBonusPoint + pendingPoints)
+  const currentMultiplier = computeRefundMultiplier(currentStage, rebirthBonusPoint + pendingPoints)
   const diamondReward = getRebirthDiamondReward(currentStage)
   // 다음 구간 미리보기 — 지금 스테이지보다 뒤에서 시작하는 구간 중 가장 가까운 것.
   // 이미 마지막 구간(StageTo가 사실상 무한대)에 들어와 있으면 다음 구간이 없다.

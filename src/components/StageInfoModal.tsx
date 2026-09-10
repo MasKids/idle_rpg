@@ -31,7 +31,7 @@ export function StageInfoModal({ isOpen, onClose, onRebirthClick }: StageInfoMod
   const data = generateStage(stage)
   // 지금 리버스한다면 적용될 배율 미리보기 — 도달 스테이지로 얻는 포인트가 즉시 반영되는
   // RebirthModal과 동일한 기준(rebirthBonusPoint + 이번 스테이지분 pending)으로 맞춘다.
-  const refundMultiplier = computeRefundMultiplier(rebirthBonusPoint + computeRebirthBonusPoints(stage))
+  const refundMultiplier = computeRefundMultiplier(stage, rebirthBonusPoint + computeRebirthBonusPoints(stage))
 
   return (
     <div

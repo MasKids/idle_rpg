@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { MASTERY_WEAPONS, masteryMultiplier, masteryPrimaryStat, masteryUpgradeCost } from '../data/mastery'
-import { BALANCE_TABLES, getCommon, getRebirthConfig, getRebirthDiamondReward, getWeaponFusionConfig } from '../data/balance'
+import { BALANCE_TABLES, getCommon, getCommonBool, getCurrencyConfig, getRebirthDiamondReward, getWeaponFusionConfig } from '../data/balance'
 import { EXIST_SPECIAL_UNLOCKS, generateExistTree } from '../data/existTree'
 import { generateStage, killsRequiredForStage } from '../data/stages'
 import { computeStatValue, statUpgradeCost } from '../data/stats'
@@ -509,7 +509,16 @@ export const useGameStore = create<GameState>((set, get) => ({
   },
 
   executeRebirth: () => {
-    const config = getRebirthConfig()
+    // RebirthTable 삭제(3단계) — ResetStage/ResetStats/ResetMastery/KeepExistTree는
+    // CommonTable로, 재화 환급 여부는 CurrencyTable.RefundOnRebirth로 옮겨갔다(1단계
+    // 때부터 스키마+데이터는 있었지만 실제로 읽지는 않았던 값 — 이번에 연결).
+    const resetStage = getCommonBool('RebirthResetStage')
+    const resetStats = getCommonBool('RebirthResetStats')
+    const resetMastery = getCommonBool('RebirthResetMastery')
+    const keepExistTree = getCommonBool('RebirthKeepExistTree')
+    const refundGrowthEnergy = getCurrencyConfig('GROWTH_ENERGY').RefundOnRebirth
+    const refundGold = getCurrencyConfig('GOLD').RefundOnRebirth
+    const refundMasteryEssence = getCurrencyConfig('MASTERY_ESSENCE').RefundOnRebirth
 
     set((state) => {
       // 이번 리버스에서 도달 스테이지로 얻는 포인트를 먼저 누적한 뒤, 그 누적치를
@@ -518,17 +527,17 @@ export const useGameStore = create<GameState>((set, get) => ({
       // 도달 스테이지와 무관하게 항상 ×1.00이었다).
       const earnedBonusPoints = computeRebirthBonusPoints(state.currentStage)
       const nextRebirthBonusPoint = state.rebirthBonusPoint + earnedBonusPoints
-      const refundMultiplier = computeRefundMultiplier(nextRebirthBonusPoint)
+      const refundMultiplier = computeRefundMultiplier(state.currentStage, nextRebirthBonusPoint)
       const diamondReward = getRebirthDiamondReward(state.currentStage)
       const nextRebirthCount = state.rebirthCount + 1
       const nextRebirthMaxStage = Math.max(state.rebirthMaxStage, state.currentStage)
 
-      const nextStage = config.ResetStage ? INITIAL_STAGE : state.currentStage
-      const nextStatLevels = config.ResetStats ? initialStatLevels : state.statLevels
-      const nextMasteryLevels = config.ResetMastery ? initialMasteryLevels : state.masteryLevels
-      const nextExistTreeStatBonus = config.KeepExistTree ? state.existTreeStatBonus : initialExistTreeStatBonus
-      const nextUnlockedCount = config.KeepExistTree ? state.unlockedCount : 0
-      const nextSpecialUnlocks = config.KeepExistTree
+      const nextStage = resetStage ? INITIAL_STAGE : state.currentStage
+      const nextStatLevels = resetStats ? initialStatLevels : state.statLevels
+      const nextMasteryLevels = resetMastery ? initialMasteryLevels : state.masteryLevels
+      const nextExistTreeStatBonus = keepExistTree ? state.existTreeStatBonus : initialExistTreeStatBonus
+      const nextUnlockedCount = keepExistTree ? state.unlockedCount : 0
+      const nextSpecialUnlocks = keepExistTree
         ? state.specialUnlocks
         : { reverse: false, timeHeist: false }
 
@@ -542,7 +551,7 @@ export const useGameStore = create<GameState>((set, get) => ({
 
       return {
         currentStage: nextStage,
-        battle: config.ResetStage ? battleStateForStage(nextStage) : state.battle,
+        battle: resetStage ? battleStateForStage(nextStage) : state.battle,
         statLevels: nextStatLevels,
         masteryLevels: nextMasteryLevels,
         existTreeStatBonus: nextExistTreeStatBonus,
@@ -571,13 +580,9 @@ export const useGameStore = create<GameState>((set, get) => ({
         // 더한다(diamond, RebirthRewardTable 기준 — 환급과는 다른 메커니즘).
         currencies: {
           ...state.currencies,
-          growthEnergy: config.RefundGrowthEnergy
-            ? Math.floor(state.rebirthSpent.growthEnergy * refundMultiplier)
-            : 0,
-          gold: config.RefundGold ? Math.floor(state.rebirthSpent.gold * refundMultiplier) : 0,
-          essence: config.RefundMasteryEssence
-            ? Math.floor(state.rebirthSpent.essence * refundMultiplier)
-            : 0,
+          growthEnergy: refundGrowthEnergy ? Math.floor(state.rebirthSpent.growthEnergy * refundMultiplier) : 0,
+          gold: refundGold ? Math.floor(state.rebirthSpent.gold * refundMultiplier) : 0,
+          essence: refundMasteryEssence ? Math.floor(state.rebirthSpent.essence * refundMultiplier) : 0,
           diamond: state.currencies.diamond + diamondReward,
         },
         rebirthSpent: initialRebirthSpent,
