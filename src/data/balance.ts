@@ -117,14 +117,6 @@ export interface WeaponBreakthroughTableRow {
   LevelCapBonus: number
 }
 
-export interface WeaponFusionTableRow {
-  Index: number
-  Id: number
-  RequiredCount: number
-  ResultLevel: number
-  ResultBreakthroughCount: number
-}
-
 // 무기 75종(3종류×5등급×5단계) 전부를 리터럴 행으로 나열한다(2단계 개편,
 // docs/TABLE_REDESIGN.md 2.2절) — 예전엔 OwnBonusBase×등급배율×Tier배율을 실시간
 // 곱연산으로 계산해 데이터 행이 0개였다. BaseAtk/OwnEffectValue/EquipEffectValue는
@@ -286,7 +278,6 @@ interface BalanceTables {
   FeatureUnlockTable: FeatureUnlockTableRow[]
   WeaponGradeTable: WeaponGradeTableRow[]
   WeaponBreakthroughTable: WeaponBreakthroughTableRow[]
-  WeaponFusionTable: WeaponFusionTableRow[]
   WeaponTable: WeaponTableRow[]
   GachaTable: GachaTableRow[]
   RelicTable: RelicTableRow[]
@@ -391,14 +382,6 @@ const DEFAULT_WEAPON_BREAKTHROUGH: WeaponBreakthroughTableRow = {
   BreakthroughStep: 1,
   RequiredDuplicateCount: 1,
   LevelCapBonus: 10,
-}
-
-const DEFAULT_WEAPON_FUSION: WeaponFusionTableRow = {
-  Index: 0,
-  Id: 0,
-  RequiredCount: 5,
-  ResultLevel: 1,
-  ResultBreakthroughCount: 0,
 }
 
 const DEFAULT_GACHA_LEVEL: GachaTableRow = {
@@ -572,13 +555,15 @@ export function getWeaponBreakthroughStep(step: number): WeaponBreakthroughTable
   return row
 }
 
-export function getWeaponFusionConfig(): WeaponFusionTableRow {
-  const row = TABLES.WeaponFusionTable[0]
-  if (!row) {
-    warnMissing('WeaponFusionTable', '첫 행')
-    return DEFAULT_WEAPON_FUSION
+// WeaponFusionTable 삭제(3단계, 1행짜리 테이블 정리) — 전 등급 동일한 상수 3개라
+// CommonTable로 흡수했다. 호출부가 객체 하나를 그대로 쓰는 관례를 유지하도록
+// 반환 형태는 그대로 뒀다.
+export function getWeaponFusionConfig(): { RequiredCount: number; ResultLevel: number; ResultBreakthroughCount: number } {
+  return {
+    RequiredCount: getCommon('WeaponFusionRequiredCount'),
+    ResultLevel: getCommon('WeaponFusionResultLevel'),
+    ResultBreakthroughCount: getCommon('WeaponFusionResultBreakthroughCount'),
   }
-  return row
 }
 
 export function getWeaponConfig(type: WeaponTypeEnum, grade: WeaponGradeEnum, tier: number): WeaponTableRow {

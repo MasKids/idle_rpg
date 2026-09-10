@@ -91,15 +91,6 @@
       "LevelCapBonus": 10
     }
   ],
-  "WeaponFusionTable": [
-    {
-      "Index": 1,
-      "Id": 37041,
-      "RequiredCount": 5,
-      "ResultLevel": 1,
-      "ResultBreakthroughCount": 0
-    }
-  ],
   "GachaTable": [
     {
       "Index": 1,
@@ -465,6 +456,27 @@
       "Id": 36014,
       "Key": "WeaponBaseMaxLevel",
       "Value": 10,
+      "ValueType": "int"
+    },
+    {
+      "Index": 15,
+      "Id": 36015,
+      "Key": "WeaponFusionRequiredCount",
+      "Value": 5,
+      "ValueType": "int"
+    },
+    {
+      "Index": 16,
+      "Id": 36016,
+      "Key": "WeaponFusionResultLevel",
+      "Value": 1,
+      "ValueType": "int"
+    },
+    {
+      "Index": 17,
+      "Id": 36017,
+      "Key": "WeaponFusionResultBreakthroughCount",
+      "Value": 0,
       "ValueType": "int"
     }
   ],
