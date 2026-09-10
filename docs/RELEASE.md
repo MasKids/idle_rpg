@@ -1,0 +1,86 @@
+# 릴리스 발행 절차
+
+이 프로젝트는 포트폴리오용 프로토타입이라 릴리스가 "새 버전을 배포한다"는 의미는
+아니다 — 배포 자체는 Vercel이 `main` 브랜치 push마다 자동으로 한다(아래 참고).
+여기서 말하는 릴리스는 **"이 시점까지의 변경사항을 정리해서 기록에 남기는 것"**이
+목적이다.
+
+## 1. 절차
+
+1. **CHANGELOG.md 갱신** — `[Unreleased]` 섹션에 그동안 쌓인 항목들이 잘 정리돼
+   있는지 확인한다(작업할 때마다 추가해왔다면 이 시점엔 다듬기만 하면 된다 —
+   CLAUDE.md "변경 이력 관리" 참고). `[Unreleased]`의 내용을 새 버전 섹션
+   (`## [vX.Y.Z] - YYYY-MM-DD`)으로 옮기고, `[Unreleased]`는 다시 빈 상태로
+   되돌린다.
+2. **버전 번호 결정** — CLAUDE.md "버전 규칙" 참고(큰 기능/개편은 X 올림, 버그
+   수정·밸런싱은 Y 올림, 앞자리는 프로토타입 기간 내내 0 유지).
+3. **커밋 + 태그 생성** — CHANGELOG.md 갱신을 커밋한 뒤, 그 커밋에 `vX.Y.Z` 태그를
+   붙인다.
+   ```bash
+   git add CHANGELOG.md
+   git commit -m "chore: prepare vX.Y.Z release"
+   git tag -a vX.Y.Z -m "vX.Y.Z"
+   git push origin main --tags
+   ```
+4. **GitHub 릴리스 발행** — 아래 2절 참고(gh CLI 또는 웹).
+
+## 2. GitHub 릴리스 발행 — 두 가지 방법
+
+### gh CLI 사용
+
+```bash
+gh release create vX.Y.Z --title "vX.Y.Z - 릴리스 제목" --notes-file -
+```
+(`--notes-file -`는 표준입력으로 노트를 받는다 — CHANGELOG.md의 해당 버전 섹션을
+그대로 붙여넣거나 파이프로 흘려보내면 된다. 파일로 미리 저장해뒀다면
+`--notes-file CHANGELOG_vX.Y.Z.md`처럼 경로를 직접 줘도 된다.)
+
+`gh`가 없다면 설치 후 `gh auth login`으로 GitHub 계정 인증이 먼저 필요하다.
+- Windows: `winget install --id GitHub.cli`
+- macOS: `brew install gh`
+- 기타: https://cli.github.com/ 참고
+
+### 웹에서 발행
+
+1. 태그까지는 위 1절 3단계처럼 로컬에서 만들어 push해둔다(`git push origin
+   main --tags`) — 웹 화면에서도 새 태그를 직접 만들 수 있지만, 로컬에서 만들어
+   둔 태그를 그대로 쓰는 쪽이 실수(다른 커밋에 태그가 붙는 등)가 적다.
+2. GitHub 저장소 페이지 → **Releases** → **Draft a new release**.
+3. **Choose a tag**에서 방금 push한 `vX.Y.Z` 태그를 선택.
+4. **Release title**에 `vX.Y.Z - 릴리스 제목` 입력.
+5. **Describe this release**에 CHANGELOG.md의 해당 버전 섹션 내용을 그대로
+   붙여넣는다.
+6. **Publish release** 클릭.
+
+## 3. 세이브 버전을 올려야 하는 경우
+
+릴리스 버전(`vX.Y.Z`, git 태그)과 **세이브 버전**(`src/store/gameStateStorage.ts`의
+`SAVE_VERSION` 상수)은 서로 다른 숫자이고 완전히 별개로 관리한다. 세이브 버전은
+"기존에 저장된 localStorage 데이터를 계속 믿고 불러올지"를 가르는 스위치다 —
+버전이 다르면 마이그레이션 없이 그냥 저장 안 된 것처럼 취급하고 처음부터
+시작한다(현재 정책, `gameStateStorage.ts` 주석 참고).
+
+**`GameSaveState`(저장되는 필드 구조)가 바뀌었을 때만 `SAVE_VERSION`을 올린다.**
+예를 들면:
+- 필드를 새로 추가했다 — **보통 안 올려도 됨.** 기존 로직이 `persistedGame?.field
+  ?? 기본값` 패턴으로 없는 필드를 기본값 처리하면 이전 세이브도 그대로 잘 불러와진다.
+- 필드 이름을 바꿨거나, 필드를 없앴거나, 같은 이름인데 타입/의미가 달라졌다 —
+  **올려야 함.** 옛 세이브를 그대로 불러오면 `undefined`가 게임 로직에 들어가거나
+  잘못된 값으로 해석될 수 있다.
+- 재화/스탯 키 목록 자체가 바뀌었다(예: 스탯이 하나 없어지거나 이름이 바뀜) —
+  **올려야 함.**
+
+밸런스 수치(balance.xlsx 값)만 바뀐 경우는 세이브 구조와 무관하므로 세이브
+버전과 관계없다.
+
+`SAVE_VERSION`을 올리면 그 배포 이후 접속하는 모든 플레이어의 기존 진행 상황이
+초기화된다는 뜻이므로(프로토타입이라 마이그레이션을 만들지 않음), 릴리스 노트에
+"세이브가 초기화됩니다" 같은 안내를 남기는 걸 권장한다.
+
+## 4. Vercel 자동 배포와의 관계
+
+`main` 브랜치에 push되면 Vercel이 그 즉시 자동으로 새 빌드를 배포한다(별도
+릴리스 액션 없이도 배포는 이미 끝나 있다). 그래서 이 문서의 "릴리스 발행"은
+**배포 트리거가 아니라 기록용 스냅샷**이다 — "이 태그 시점에 사이트가 이런
+상태였다"를 나중에 되짚어볼 수 있게 표시해두는 것. 순서상 실제 배포(Vercel)가
+항상 릴리스 발행보다 먼저(또는 동시에) 일어난다.
