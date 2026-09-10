@@ -49,6 +49,13 @@ export interface GameSaveState {
   activeRelics: ActiveRelicSlots
   // 성장 탭 자동 업그레이드 토글 (존재력 트리는 자동화 대상 아님)
   autoUpgradeStats: boolean
+  // 플레이어 프로필
+  playerName: string
+  // 누적 플레이타임(초) — 앱이 실제로 켜져 있던 시간만 더해진다(오프라인 시간 제외).
+  // 리버스해도 유지된다.
+  totalPlayTimeSec: number
+  // 현재 회차 플레이타임(초) — totalPlayTimeSec과 같은 기준이지만 리버스 시 0으로 초기화된다.
+  currentRunTimeSec: number
 }
 
 interface SaveEnvelope {

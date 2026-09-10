@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import { MASTERY_WEAPONS, masteryMultiplier, masteryPrimaryStat, masteryUpgradeCost } from '../data/mastery'
 import { BALANCE_TABLES, getCommon, getCommonBool, getCurrencyConfig, getRebirthDiamondReward, getWeaponFusionConfig } from '../data/balance'
+import { getBattleUiLabel } from '../data/uiStrings'
 import { EXIST_SPECIAL_UNLOCKS, generateExistTree } from '../data/existTree'
 import { generateStage, killsRequiredForStage } from '../data/stages'
 import { computeStatValue, statUpgradeCost } from '../data/stats'
@@ -43,6 +44,28 @@ const STAT_KEYS: StatKey[] = ['atk', 'aspd', 'crit', 'critDmg', 'existGain']
 // 오프라인 보상 계산용 "이전 세션이 저장된 시각".
 // persistedGame은 로드 직후 스토어가 즉시 새 시각으로 덮어쓰므로 별도로 남겨둔다.
 const lastSessionEndedAt: number | null = persistedGame?.lastActiveAt ?? null
+
+const DEFAULT_PLAYER_NAME = getBattleUiLabel('playerName')
+
+// 플레이타임 — "지금까지 저장된 누적값 + 이번 세션 시작 이후 흐른 시간"으로 항상
+// 다시 계산한다(틱마다 1초씩 더하는 방식이 아니다). setInterval에만 의존하면 탭이
+// 백그라운드로 가서 타이머가 스로틀링될 때 값이 밀릴 수 있는데, 이 방식은 언제
+// 계산하든 시각 차이만으로 정확한 값이 나온다. 오프라인(앱이 꺼져있던) 시간은
+// 다음 세션이 시작될 때 저장된 값을 기준점으로 이어받을 뿐 더해지지 않으므로
+// 자연히 제외된다 — "앱이 켜져 있는 동안만 누적" 요구사항을 만족한다.
+const totalPlayTimeBaseSec = persistedGame?.totalPlayTimeSec ?? 0
+const totalPlayTimeBaseAt = Date.now()
+// 현재 회차 플레이타임은 같은 방식이지만 리버스 시 기준점이 0/지금으로 리셋된다.
+let currentRunTimeBaseSec = persistedGame?.currentRunTimeSec ?? 0
+let currentRunTimeBaseAt = Date.now()
+
+function computeTotalPlayTimeSec(): number {
+  return totalPlayTimeBaseSec + Math.floor((Date.now() - totalPlayTimeBaseAt) / 1000)
+}
+
+function computeCurrentRunTimeSec(): number {
+  return currentRunTimeBaseSec + Math.floor((Date.now() - currentRunTimeBaseAt) / 1000)
+}
 
 function baseStatsFromLevels(levels: Record<StatKey, number>): Record<StatKey, number> {
   return {
@@ -156,6 +179,13 @@ interface GameState {
   // 성장 탭 자동 업그레이드 (존재력 트리는 대상 아님 — 항상 수동)
   autoUpgradeStats: boolean
 
+  // 플레이어 프로필
+  playerName: string
+  // 초 단위. 둘 다 앱이 켜져 있는 동안만 누적되고(타임스탬프 기반 계산), 새로고침해도
+  // 이어진다. totalPlayTime은 리버스해도 유지, currentRunTime은 리버스 시 0으로 리셋.
+  totalPlayTime: number
+  currentRunTime: number
+
   addCurrency: (key: CurrencyKey, amount: number) => void
   spendCurrency: (key: CurrencyKey, amount: number) => boolean
   upgradeStat: (key: StatKey) => boolean
@@ -189,6 +219,8 @@ interface GameState {
   setRelicSlot: (slotIndex: number, relicId: number | null) => boolean
 
   setAutoUpgradeStats: (enabled: boolean) => void
+
+  setPlayerName: (name: string) => void
 }
 
 const initialStatLevels: Record<StatKey, number> = {
@@ -290,6 +322,10 @@ export const useGameStore = create<GameState>((set, get) => ({
   activeRelics: startActiveRelics,
 
   autoUpgradeStats: persistedGame?.autoUpgradeStats ?? false,
+
+  playerName: persistedGame?.playerName ?? DEFAULT_PLAYER_NAME,
+  totalPlayTime: computeTotalPlayTimeSec(),
+  currentRunTime: computeCurrentRunTimeSec(),
 
   addCurrency: (key, amount) => {
     set((state) => {
@@ -588,8 +624,15 @@ export const useGameStore = create<GameState>((set, get) => ({
         rebirthSpent: initialRebirthSpent,
         timeHeistUsedCount: 0,
         timeHeistLastUsedAt: null,
+        currentRunTime: 0,
       }
     })
+
+    // 현재 회차 플레이타임 기준점 리셋 — computeCurrentRunTimeSec()이 다음 계산부터
+    // 0에서 다시 시작하게 한다(위 set()의 currentRunTime: 0은 다음 1초 틱 전까지의
+    // 화면 표시용 즉시 반영일 뿐, 실제 기준이 되는 건 이 두 변수다).
+    currentRunTimeBaseSec = 0
+    currentRunTimeBaseAt = Date.now()
   },
 
   executeTimeHeist: () => {
@@ -921,6 +964,8 @@ export const useGameStore = create<GameState>((set, get) => ({
   },
 
   setAutoUpgradeStats: (enabled) => set({ autoUpgradeStats: enabled }),
+
+  setPlayerName: (name) => set({ playerName: name }),
 }))
 
 // 상태가 바뀔 때마다(전투 틱 포함) 전체 진행 상태를 debounce 저장 큐에 올린다.
@@ -949,12 +994,31 @@ useGameStore.subscribe((state) => {
     activeRelics: state.activeRelics,
     autoUpgradeStats: state.autoUpgradeStats,
     lastActiveAt: Date.now(),
+    playerName: state.playerName,
+    // state.totalPlayTime/currentRunTime은 1초 간격 틱으로만 갱신되므로, 저장
+    // 시점에는 그보다 정확한(지금 이 순간까지의) 값을 다시 계산해서 쓴다.
+    totalPlayTimeSec: computeTotalPlayTimeSec(),
+    currentRunTimeSec: computeCurrentRunTimeSec(),
   })
 })
 
 // 새로고침/탭 종료 직전에 대기 중인 저장을 즉시 반영해 최대 2초 분량 유실을 막는다.
 if (typeof window !== 'undefined') {
   window.addEventListener('beforeunload', flushSave)
+}
+
+// 플레이타임 표시용 라이브 값 갱신 — 배틀 루프의 틱 주기(ASPD에 따라 100ms~1000ms로
+// 변함)와는 무관하게 항상 1초 간격으로 갱신한다. 실제 누적 계산은 위 compute 함수가
+// 타임스탬프 차이로 하므로, 이 인터벌은 그 결과를 스토어에 반영해 화면이 살아있게
+// 만드는 역할만 한다 — 인터벌 자체가 스로틀링돼 몇 초 건너뛰어도 다음 실행에서
+// 정확한 값으로 보정된다.
+if (typeof window !== 'undefined') {
+  setInterval(() => {
+    useGameStore.setState({
+      totalPlayTime: computeTotalPlayTimeSec(),
+      currentRunTime: computeCurrentRunTimeSec(),
+    })
+  }, 1000)
 }
 
 // 개발 중 테스트 편의용: 브라우저 콘솔에서 __gameStore.getState().addCurrency('exist', 100000) 처럼 호출
