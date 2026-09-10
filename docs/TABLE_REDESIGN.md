@@ -1,8 +1,8 @@
 # 밸런싱 테이블 구조 개편안
 
-**이 문서는 조사 + 제안으로 시작했고, 1단계는 이제 구현 완료됐다.** 남은 단계(테이블
-확장 50/75/200행, 1행 테이블 제거, WeaponGradeTable→GradeTable 코드 참조 전환 등)는
-아직 진행 전이다.
+**이 문서는 조사 + 제안으로 시작했고, 1·2단계 모두 이제 구현 완료됐다.** 남은 단계
+(1행 테이블 4개 실제 제거 — WeaponUpgradeTable/WeaponFusionTable/TimeHeistTable/
+RebirthTable, `WeaponGradeTable`→`GradeTable` 코드 참조 전환)는 아직 진행 전이다.
 
 > **진행 상황**:
 > - 버그 수정(전투 틱/체력바, 무기 돌파·합성, 리버스 재화 초기화)을 먼저 완료.
@@ -11,9 +11,30 @@
 >   seed_balance_xlsx.py` + 존재 시 실행 거부 가드), `scripts/append-row.mjs`(행 추가
 >   전용 도구) 신설, `GrowthCurveTable`/`CurrencyTable`/`GradeTable` 3개 신규 테이블
 >   추가, `StatTable`/`MasteryTable`의 `CostBase`/`CostGrowthRate`를 `CurveKey` 참조로
->   전환. `WeaponGradeTable`/`RebirthTable` 등 1행 테이블 제거와 코드 쪽 `GradeTable`/
->   `CurrencyTable` 참조 전환(현재는 스키마+데이터만 있고 아직 아무 코드도 안 읽음)은
->   다음 단계.
+>   전환. `CurrencyTable`/`GradeTable`은 이 시점엔 스키마+데이터만 있고 아직 아무
+>   코드도 읽지 않았음.
+> - **개편 2단계 구현 완료**: 계산식으로 생성하던 데이터를 전부 리터럴 행으로 폈다.
+>   - `ExistTreeTable` 10행(구간 압축) → 50행(노드 1개당 1행). `existTree.ts`는
+>     이제 공식 없이 조회만 한다. 부수 발견: `FeatureUnlockTable.UnlockCost`가
+>     구간 경계의 이중 floor 오차로 실제 노드 비용과 1씩 어긋나 있던 걸 바로잡음
+>     (65/598, 기존 66/599).
+>   - `StageTable` 20행(챕터 템플릿+보간) → 200행(스테이지 1개당 1행, 10→20챕터로
+>     확장 — 4절 Q1 결정). `stages.ts`는 조회만 하고, 200 초과는 마지막 행으로
+>     연장한다.
+>   - `WeaponTable` 신설(75행 = 3종류×5등급×5단계). 무기 보유/장착 효과가 이제
+>     등급 배율을 실시간 참조하지 않고 무기마다 개별 리터럴 값을 가진다(피드백
+>     11번). `WeaponTypeTable`에서 `OwnBonusBase`/`EquipBonusBase` 제거,
+>     `GrowthCurveTable`에 등급별 무기 레벨업 곡선 5개 추가.
+>   - 시딩에 쓰인 공식은 `scripts/seed/seed-exist-tree-nodes.mjs` /
+>     `seed-stage-table.mjs` / `seed-weapon-table.mjs`로 보존(평소 파이프라인
+>     미실행, 재실행 방지 가드 있음).
+>   - **판단 필요**: WeaponTable의 "기본 공격력" 칼럼이 하나(`BaseAtk`)뿐이라,
+>     기존에 보유 시/장착 시 서로 다르게 쓰이던 계수(장착이 보유 대비 10배)를
+>     하나로 합쳤다 — 장착 시의 종류 무관 공격력 기여도가 예전보다 작아짐.
+>     자세한 내용은 `scripts/seed/seed-weapon-table.mjs` 상단 주석 참고.
+>   - `WeaponTypeTable`과 `MasteryTable` 통합 검토: **병합하지 않는 쪽을 권장**
+>     (서로 다른 책임 — 무기 정체성 vs 숙련 진행도 — 이 같은 3행짜리 작은 테이블에
+>     섞이면 오히려 이해하기 어려워지고, 규모가 작아 중복 비용도 미미함).
 
 ---
 

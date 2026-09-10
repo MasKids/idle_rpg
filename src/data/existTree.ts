@@ -1,4 +1,4 @@
-import { BALANCE_TABLES, getExistTreeTier, getFeatureUnlock, getString } from './balance'
+import { BALANCE_TABLES, getExistTreeNode, getFeatureUnlock, getString } from './balance'
 import type {
   CurrencyKey,
   ExistNodeEffect,
@@ -10,45 +10,22 @@ import type {
   StatKey,
 } from '../types/game'
 
-// ExistTreeTable은 50노드를 나열하지 않고, 각 행이 담당하는 order 구간(OrderFrom~OrderTo)
-// 단위의 계수만 담는다. 티어(10노드) 하나가 여러 행(소구간)으로 나뉠 수 있어 같은 티어
-// 안에서도 서로 다른 효과가 섞인다 — getExistTreeTier(order)가 순번이 속한 행을 찾아준다.
-// 총 노드 개수는 테이블에 정의된 마지막 행의 OrderTo로부터 그대로 계산한다.
-export const EXIST_TREE_TOTAL_NODES = Math.max(...BALANCE_TABLES.ExistTreeTable.map((row) => row.OrderTo))
+// ExistTreeTable은 50노드를 전부 개별 행으로 나열한다(2단계 개편 — 구간 압축 방식은
+// 폐기, docs/TABLE_REDESIGN.md 2.2절). 노드 하나하나를 손으로 조정할 수 있어야 하는
+// 데이터라 공식이 아니라 리터럴 값을 그대로 조회만 한다. 총 노드 개수는 테이블 행 수.
+export const EXIST_TREE_TOTAL_NODES = BALANCE_TABLES.ExistTreeTable.length
 
-// 이름 자동생성(T{tier}-{n})용 표시 상수 — ExistTreeTable이 티어당 10노드로 설계된 것과 동일 전제
-const NODES_PER_TIER = 10
-
-// 노드 이름 오버라이드 (index = order - 1). 채워지면 자동 생성 대신 사용.
-// 이름이 확정되면 이 배열만 채우면 된다.
-const NODE_NAME_OVERRIDES: (string | null)[] = new Array(EXIST_TREE_TOTAL_NODES).fill(null)
-
-function tierOf(order: number): number {
-  return Math.floor((order - 1) / NODES_PER_TIER) + 1
+// 이름이 아직 확정되지 않은 노드는 NameStringId가 0이라 "T{tier}-{n}" 자동 생성
+// 이름으로 대체한다(폴백). 이름이 확정되면 엑셀에서 NameStringId만 채우면 된다.
+function defaultName(order: number, tier: number): string {
+  const indexInTier = ((order - 1) % 10) + 1
+  return `T${tier}-${indexInTier}`
 }
 
-// 홀수 order = 왼쪽, 짝수 order = 오른쪽 (지그재그 배치)
+// 홀수 order = 왼쪽, 짝수 order = 오른쪽 (지그재그 배치) — order로부터 결정론적이라
+// 데이터로 내리지 않고 코드에서 계산한다.
 function laneOf(order: number): ExistTreeLane {
   return order % 2 === 1 ? 'left' : 'right'
-}
-
-function defaultName(order: number): string {
-  const indexInTier = ((order - 1) % NODES_PER_TIER) + 1
-  return `T${tierOf(order)}-${indexInTier}`
-}
-
-function nodeName(order: number): string {
-  return NODE_NAME_OVERRIDES[order - 1] ?? defaultName(order)
-}
-
-function nodeCost(order: number): number {
-  const tier = getExistTreeTier(order)
-  return Math.floor(tier.CostBase * tier.CostGrowthRate ** (order - tier.OrderFrom))
-}
-
-function nodeValue(order: number): number {
-  const tier = getExistTreeTier(order)
-  return tier.ValueBase + (order - tier.OrderFrom) * tier.ValuePerNode
 }
 
 const STAT_TYPE_TO_KEY: Record<string, StatKey> = {
@@ -67,32 +44,30 @@ const CURRENCY_TYPE_TO_KEY: Record<string, CurrencyKey> = {
   GOLD: 'gold',
 }
 
-function effectFor(order: number): ExistNodeEffect {
-  const tier = getExistTreeTier(order)
-  const value = nodeValue(order)
-
-  if (tier.EffectType === 'GRANT' && tier.GrantCurrency) {
-    return { kind: 'currency', currency: CURRENCY_TYPE_TO_KEY[tier.GrantCurrency], amount: value }
+function effectFor(node: ReturnType<typeof getExistTreeNode>): ExistNodeEffect {
+  if (node.EffectType === 'GRANT' && node.GrantCurrency) {
+    return { kind: 'currency', currency: CURRENCY_TYPE_TO_KEY[node.GrantCurrency], amount: node.Value }
   }
-  if (tier.StatType) {
-    return { kind: 'stat', stat: STAT_TYPE_TO_KEY[tier.StatType], value }
+  if (node.StatType) {
+    return { kind: 'stat', stat: STAT_TYPE_TO_KEY[node.StatType], value: node.Value }
   }
 
-  console.warn(`[existTree] order ${order} (tier ${tier.Tier})의 효과 설정이 비어있어 기본값(ATK)으로 대체합니다.`)
-  return { kind: 'stat', stat: 'atk', value }
+  console.warn(`[existTree] order ${node.Order}(tier ${node.Tier})의 효과 설정이 비어있어 기본값(ATK)으로 대체합니다.`)
+  return { kind: 'stat', stat: 'atk', value: node.Value }
 }
 
 export function generateExistTree(): ExistTreeNode[] {
   const nodes: ExistTreeNode[] = []
 
   for (let order = 1; order <= EXIST_TREE_TOTAL_NODES; order++) {
+    const node = getExistTreeNode(order)
     nodes.push({
       order,
-      tier: tierOf(order),
+      tier: node.Tier,
       lane: laneOf(order),
-      name: nodeName(order),
-      cost: nodeCost(order),
-      effect: effectFor(order),
+      name: node.NameStringId ? getString(node.NameStringId, 'KOR', defaultName(order, node.Tier)) : defaultName(order, node.Tier),
+      cost: node.Cost,
+      effect: effectFor(node),
     })
   }
 

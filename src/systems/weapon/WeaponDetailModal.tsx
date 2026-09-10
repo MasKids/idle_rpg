@@ -45,7 +45,7 @@ export function WeaponDetailModal({ weaponId, onClose }: WeaponDetailModalProps)
   const isEquipped = equippedWeaponId === weaponId
 
   const maxLevel = weaponMaxLevel(breakthroughCount)
-  const levelCost = weaponLevelUpCost(grade, level)
+  const levelCost = weaponLevelUpCost(type, grade, tier, level)
   const canLevelUp = owned && level < maxLevel && gold >= levelCost
 
   const nextStep = entry ? nextBreakthroughStep(entry) : undefined
@@ -60,8 +60,8 @@ export function WeaponDetailModal({ weaponId, onClose }: WeaponDetailModalProps)
 
   const primaryStat = masteryPrimaryStat(type)
   const isAtkSpecialty = primaryStat === 'atk'
-  const baseAtkOwn = owned ? weaponBaseAtkOwnBonus(grade, tier, level, count) : 0
-  const baseAtkEquip = owned ? weaponBaseAtkEquipBonus(grade, tier, level) : 0
+  const baseAtkOwn = owned ? weaponBaseAtkOwnBonus(type, grade, tier, level, count) : 0
+  const baseAtkEquip = owned ? weaponBaseAtkEquipBonus(type, grade, tier, level) : 0
   const specialtyOwn = owned ? weaponOwnBonus(type, grade, tier, level, count) : 0
   const specialtyEquip = owned ? weaponEquipBonus(type, grade, tier, level) : 0
 

@@ -36,9 +36,13 @@ export type RelicEffectTypeEnum =
 // 테이블별 행 타입 — 엑셀 4행 칼럼명 그대로
 // ---------------------------------------------------------------------------
 
+// 스테이지 1개당 1행(200행 = 20챕터 × 10스테이지)으로 전부 나열한다 — 챕터 템플릿 +
+// 보간 방식은 폐기(2단계 개편, docs/TABLE_REDESIGN.md 2.2절). HpGrowthRate/
+// RewardGrowthRate 칼럼은 보간이 필요 없어지며 함께 사라졌다. Stage로 직접 조회한다.
 export interface StageTableRow {
   Index: number
   Id: number
+  Stage: number
   Chapter: number
   StageType: StageTypeEnum
   EnemyHp: number
@@ -48,8 +52,7 @@ export interface StageTableRow {
   RewardGrowth: number
   RewardExist: number
   RewardTimeEnergy: number
-  HpGrowthRate: number
-  RewardGrowthRate: number
+  NameStringId: number
 }
 
 export interface StatTableRow {
@@ -64,19 +67,21 @@ export interface StatTableRow {
   MaxLevel: number
 }
 
+// 50노드 전부를 리터럴 행으로 나열한다(구간 압축 없음) — 노드 하나하나를 개별
+// 조정할 수 있어야 하는 데이터라 공식/구간이 아니라 행으로 펼쳤다(2단계 개편,
+// docs/TABLE_REDESIGN.md 2.2절). Order로 조회하며, Tier는 표시용(1~10=1티어 등).
 export interface ExistTreeTableRow {
   Index: number
   Id: number
+  Order: number
   Tier: number
-  OrderFrom: number
-  OrderTo: number
+  NameStringId: number
+  DescStringId: number
   EffectType: NodeEffectTypeEnum
   StatType: StatTypeEnum | ''
   GrantCurrency: CurrencyTypeEnum | ''
-  ValueBase: number
-  ValuePerNode: number
-  CostBase: number
-  CostGrowthRate: number
+  Value: number
+  Cost: number
 }
 
 export interface FeatureUnlockTableRow {
@@ -99,14 +104,15 @@ export interface MasteryTableRow {
   MaxLevel: number
 }
 
+// OwnBonusBase/EquipBonusBase는 WeaponTable(2단계 개편으로 신설, 75행)에 무기마다
+// 이미 곱연산까지 끝난 값으로 들어가므로 여기 더 없다 — WeaponTypeTable은 이제
+// "이 종류가 어느 스탯에 매핑되는지"만 담는 순수 정체성 테이블이다.
 export interface WeaponTypeTableRow {
   Index: number
   Id: number
   WeaponType: WeaponTypeEnum
   Name: number
   PrimaryStat: StatTypeEnum
-  OwnBonusBase: number
-  EquipBonusBase: number
 }
 
 export interface WeaponGradeTableRow {
@@ -117,6 +123,11 @@ export interface WeaponGradeTableRow {
   GradeMultiplier: number
 }
 
+// LevelCostBase/LevelCostGrowthRate/TierStepBonusPercent/BaseAtkOwnBonusPerLevel/
+// BaseAtkEquipBonusPerLevel은 2단계 개편으로 WeaponTable(75행)과 GrowthCurveTable의
+// 등급별 곡선에 이미 곱연산까지 끝난 값으로 흡수되어 더 이상 읽히지 않는다(죽은
+// 칼럼 — WeaponUpgradeTable 자체가 1행짜리 테이블이라 다음 단계에서 정리 예정,
+// docs/TABLE_REDESIGN.md 1.3절). 지금 실제로 쓰는 건 BaseMaxLevel뿐이다.
 export interface WeaponUpgradeTableRow {
   Index: number
   Id: number
@@ -142,6 +153,28 @@ export interface WeaponFusionTableRow {
   RequiredCount: number
   ResultLevel: number
   ResultBreakthroughCount: number
+}
+
+// 무기 75종(3종류×5등급×5단계) 전부를 리터럴 행으로 나열한다(2단계 개편,
+// docs/TABLE_REDESIGN.md 2.2절) — 예전엔 OwnBonusBase×등급배율×Tier배율을 실시간
+// 곱연산으로 계산해 데이터 행이 0개였다. BaseAtk/OwnEffectValue/EquipEffectValue는
+// 전부 이미 등급·단계 배율까지 곱해진 최종값이라, 실행 시점엔 여기 값에 레벨(과
+// 보유일 때는 개수)만 곱하면 된다 — 더는 WeaponGradeTable을 실시간 참조하지
+// 않는다. CurveKey는 등급별 레벨업 비용 곡선(GrowthCurveTable의
+// WEAPON_LEVEL_UP_NORMAL~LEGENDARY)을 가리킨다.
+export interface WeaponTableRow {
+  Index: number
+  Id: number
+  WeaponId: string
+  Type: WeaponTypeEnum
+  Grade: WeaponGradeEnum
+  Tier: number
+  NameStringId: number
+  DescStringId: number
+  BaseAtk: number
+  OwnEffectValue: number
+  EquipEffectValue: number
+  CurveKey: string
 }
 
 export interface GachaTableRow {
@@ -286,6 +319,7 @@ interface BalanceTables {
   WeaponUpgradeTable: WeaponUpgradeTableRow[]
   WeaponBreakthroughTable: WeaponBreakthroughTableRow[]
   WeaponFusionTable: WeaponFusionTableRow[]
+  WeaponTable: WeaponTableRow[]
   GachaTable: GachaTableRow[]
   RelicTable: RelicTableRow[]
   RelicSlotTable: RelicSlotTableRow[]
@@ -323,6 +357,7 @@ const DEFAULT_STAT: StatTableRow = {
 const DEFAULT_STAGE: StageTableRow = {
   Index: 0,
   Id: 0,
+  Stage: 1,
   Chapter: 1,
   StageType: 'Normal',
   EnemyHp: 20,
@@ -332,23 +367,21 @@ const DEFAULT_STAGE: StageTableRow = {
   RewardGrowth: 2,
   RewardExist: 1,
   RewardTimeEnergy: 0,
-  HpGrowthRate: 1.15,
-  RewardGrowthRate: 1.1,
+  NameStringId: 0,
 }
 
-const DEFAULT_EXIST_TREE_TIER: ExistTreeTableRow = {
+const DEFAULT_EXIST_TREE_NODE: ExistTreeTableRow = {
   Index: 0,
   Id: 0,
+  Order: 1,
   Tier: 1,
-  OrderFrom: 1,
-  OrderTo: 10,
+  NameStringId: 0,
+  DescStringId: 0,
   EffectType: 'STAT',
   StatType: 'ATK',
   GrantCurrency: '',
-  ValueBase: 5,
-  ValuePerNode: 0.6,
-  CostBase: 10,
-  CostGrowthRate: 1.35,
+  Value: 5,
+  Cost: 12,
 }
 
 const DEFAULT_FEATURE_UNLOCK: FeatureUnlockTableRow = {
@@ -376,8 +409,21 @@ const DEFAULT_WEAPON_TYPE: WeaponTypeTableRow = {
   WeaponType: 'Sword',
   Name: 0,
   PrimaryStat: 'ATK',
-  OwnBonusBase: 0.5,
-  EquipBonusBase: 5,
+}
+
+const DEFAULT_WEAPON: WeaponTableRow = {
+  Index: 0,
+  Id: 0,
+  WeaponId: '',
+  Type: 'Sword',
+  Grade: 'Normal',
+  Tier: 1,
+  NameStringId: 0,
+  DescStringId: 0,
+  BaseAtk: 0.5,
+  OwnEffectValue: 0.5,
+  EquipEffectValue: 5,
+  CurveKey: 'WEAPON_LEVEL_UP_NORMAL',
 }
 
 const DEFAULT_WEAPON_GRADE: WeaponGradeTableRow = {
@@ -523,22 +569,26 @@ export function getStatConfig(statType: StatTypeEnum): StatTableRow {
   return row
 }
 
-// StageType 없이 stage 번호만으로 조회하고 싶을 때를 위해 chapter/stageType 둘 다 받는다.
-// 챕터 폭(10스테이지)은 StageTable의 설계 전제이자 stages.ts에서 stage -> chapter 변환에 쓰는 상수.
-export function getStageConfig(chapter: number, stageType: StageTypeEnum): StageTableRow {
-  const row = TABLES.StageTable.find((r) => r.Chapter === chapter && r.StageType === stageType)
+// stage 번호로 직접 조회한다 — 테이블에 정의된 마지막 스테이지를 넘어서면(콘텐츠가
+// 아직 시딩되지 않은 구간) 마지막 행 값을 그대로 연장해서 쓴다(무한 스케일링 방지 +
+// "언젠가 그 뒤 스테이지도 채워 넣으면 그만" 전제 — docs/TABLE_REDESIGN.md 2.2절).
+const STAGE_TABLE_MAX_STAGE = Math.max(...TABLES.StageTable.map((r) => r.Stage))
+
+export function getStageConfig(stage: number): StageTableRow {
+  const clampedStage = Math.min(stage, STAGE_TABLE_MAX_STAGE)
+  const row = TABLES.StageTable.find((r) => r.Stage === clampedStage)
   if (!row) {
-    warnMissing('StageTable', `Chapter=${chapter}, StageType=${stageType}`)
-    return { ...DEFAULT_STAGE, Chapter: chapter, StageType: stageType }
+    warnMissing('StageTable', `Stage=${stage}`)
+    return { ...DEFAULT_STAGE, Stage: stage }
   }
   return row
 }
 
-export function getExistTreeTier(order: number): ExistTreeTableRow {
-  const row = TABLES.ExistTreeTable.find((r) => order >= r.OrderFrom && order <= r.OrderTo)
+export function getExistTreeNode(order: number): ExistTreeTableRow {
+  const row = TABLES.ExistTreeTable.find((r) => r.Order === order)
   if (!row) {
-    warnMissing('ExistTreeTable', `order=${order}`)
-    return DEFAULT_EXIST_TREE_TIER
+    warnMissing('ExistTreeTable', `Order=${order}`)
+    return { ...DEFAULT_EXIST_TREE_NODE, Order: order }
   }
   return row
 }
@@ -602,6 +652,15 @@ export function getWeaponFusionConfig(): WeaponFusionTableRow {
   if (!row) {
     warnMissing('WeaponFusionTable', '첫 행')
     return DEFAULT_WEAPON_FUSION
+  }
+  return row
+}
+
+export function getWeaponConfig(type: WeaponTypeEnum, grade: WeaponGradeEnum, tier: number): WeaponTableRow {
+  const row = TABLES.WeaponTable.find((r) => r.Type === type && r.Grade === grade && r.Tier === tier)
+  if (!row) {
+    warnMissing('WeaponTable', `Type=${type}, Grade=${grade}, Tier=${tier}`)
+    return { ...DEFAULT_WEAPON, Type: type, Grade: grade, Tier: tier }
   }
   return row
 }

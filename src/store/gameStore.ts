@@ -750,8 +750,8 @@ export const useGameStore = create<GameState>((set, get) => ({
     if (!entry) return false
     if (entry.level >= weaponMaxLevel(entry.breakthroughCount)) return false
 
-    const { grade } = parseWeaponId(weaponId)
-    const cost = weaponLevelUpCost(grade, entry.level)
+    const { type, grade, tier } = parseWeaponId(weaponId)
+    const cost = weaponLevelUpCost(type, grade, tier, entry.level)
     if (!get().spendCurrency('gold', cost)) return false
 
     set((state) => {
@@ -777,14 +777,14 @@ export const useGameStore = create<GameState>((set, get) => ({
   maxLevelUpWeapon: (weaponId) => {
     const entry = get().ownedWeapons[weaponId]
     if (!entry) return
-    const { grade } = parseWeaponId(weaponId)
+    const { type, grade, tier } = parseWeaponId(weaponId)
     const maxLevel = weaponMaxLevel(entry.breakthroughCount)
 
     let level = entry.level
     let gold = get().currencies.gold
     let spent = 0
     while (level < maxLevel) {
-      const cost = weaponLevelUpCost(grade, level)
+      const cost = weaponLevelUpCost(type, grade, tier, level)
       if (gold < cost) break
       gold -= cost
       spent += cost

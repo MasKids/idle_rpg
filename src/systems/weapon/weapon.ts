@@ -3,11 +3,12 @@
 import {
   BALANCE_TABLES,
   getGachaLevelForPullCount,
+  getGrowthCurveConfig,
   getString,
   getWeaponBreakthroughStep,
+  getWeaponConfig,
   getWeaponFusionConfig,
   getWeaponGradeConfig,
-  getWeaponTypeConfig,
   getWeaponUpgradeConfig,
   WEAPON_TYPES,
   type GachaTableRow,
@@ -34,33 +35,31 @@ export function parseWeaponId(id: string): { type: WeaponTypeEnum; grade: Weapon
   return { type: type as WeaponTypeEnum, grade: grade as WeaponGradeEnum, tier: Number(tierStr) }
 }
 
-// 존재력 트리 노드와 동일한 패턴: 이름 배열이 비어있으면 자동 생성 이름 사용.
-// 이름이 확정되면 이 배열에 "타입_등급_단계": "실제이름" 형태로 채우면 된다.
-const WEAPON_NAME_OVERRIDES: Record<string, string> = {}
-
 export function weaponDisplayName(id: string): string {
-  const override = WEAPON_NAME_OVERRIDES[id]
-  if (override) return override
-
   const { type, grade, tier } = parseWeaponId(id)
-  const typeName = getString(getWeaponTypeConfig(type).Name, 'KOR', type)
+  const config = getWeaponConfig(type, grade, tier)
+  // 이름이 아직 확정되지 않은 무기(NameStringId=0)는 "종류-등급-단계" 자동 생성
+  // 이름을 대신 쓴다(존재력 트리 노드와 동일한 폴백 패턴). 이름이 확정되면
+  // WeaponTable에서 NameStringId만 채우면 된다.
+  if (config.NameStringId) return getString(config.NameStringId, 'KOR')
+  const typeName = getString(getWeaponConfigTypeName(type), 'KOR', type)
   const gradeName = getString(getWeaponGradeConfig(grade).Name, 'ENG', grade)
   return `${typeName}-${gradeName}-${tier}`
 }
 
-// ---------------------------------------------------------------------------
-// 성장 공식 — 레벨업 비용/상한, 보유·장착 효과. GradeMultiplier와 Tier 보정은
-// 종류/등급 계수 위에 곱연산으로 얹힌다.
-// ---------------------------------------------------------------------------
-
-export function weaponGradeMultiplier(grade: WeaponGradeEnum): number {
-  return getWeaponGradeConfig(grade).GradeMultiplier
+// weaponDisplayName의 폴백 이름 조립에만 쓰는 내부 헬퍼 — WeaponTypeTable에서
+// 이름 StringId만 가져온다(WeaponTypeTable은 2단계 개편 이후 종류→주스탯
+// 매핑만 남은 순수 정체성 테이블이라 이 조회 하나면 충분하다).
+function getWeaponConfigTypeName(type: WeaponTypeEnum): number {
+  return BALANCE_TABLES.WeaponTypeTable.find((r) => r.WeaponType === type)?.Name ?? 0
 }
 
-export function weaponTierMultiplier(tier: number): number {
-  const upgrade = getWeaponUpgradeConfig()
-  return 1 + (tier - 1) * (upgrade.TierStepBonusPercent / 100)
-}
+// ---------------------------------------------------------------------------
+// 성장 공식 — 레벨업 비용/상한, 보유·장착 효과. 2단계 개편으로 무기 75종
+// (3종류×5등급×5단계) 전부가 WeaponTable에 리터럴 값으로 있어, 실행 시점엔
+// 레벨(과 보유 개수)만 곱하면 된다 — 등급 배율을 실시간으로 참조하지 않는다
+// (docs/TABLE_REDESIGN.md 2.2절).
+// ---------------------------------------------------------------------------
 
 // 돌파 완료 단계 수에 따른 레벨 상한 (기본 상한 + 완료한 각 단계의 LevelCapBonus 합).
 // breakthroughCount는 항상 0~WEAPON_MAX_BREAKTHROUGH 범위라 step이 테이블에 없는
@@ -75,35 +74,33 @@ export function weaponMaxLevel(breakthroughCount: number): number {
   return cap
 }
 
-// 골드 비용 = LevelCostBase × LevelCostGrowthRate^(레벨-1) × 등급배율
-export function weaponLevelUpCost(grade: WeaponGradeEnum, level: number): number {
-  const upgrade = getWeaponUpgradeConfig()
-  return Math.floor(upgrade.LevelCostBase * upgrade.LevelCostGrowthRate ** (level - 1) * weaponGradeMultiplier(grade))
+// 골드 비용 — 이 무기(WeaponTable 행)가 가리키는 CurveKey(등급별 레벨업 곡선,
+// GrowthCurveTable의 WEAPON_LEVEL_UP_NORMAL~LEGENDARY)로 계산한다.
+export function weaponLevelUpCost(type: WeaponTypeEnum, grade: WeaponGradeEnum, tier: number, level: number): number {
+  const config = getWeaponConfig(type, grade, tier)
+  const curve = getGrowthCurveConfig(config.CurveKey)
+  return Math.floor(curve.CostBase * curve.CostGrowthRate ** (level - 1))
 }
 
-// 모든 무기가 종류 불문 공통으로 갖는 "기본 공격력" — 검의 특화 계수와 같은 크기라
-// 무기 종류를 바꿔도 ATK가 0으로 떨어지지 않는다. 장착 여부와 무관하게 보유만
-// 해도(어떤 종류든) 적용된다.
-export function weaponBaseAtkOwnBonus(grade: WeaponGradeEnum, tier: number, level: number, count: number): number {
-  const upgrade = getWeaponUpgradeConfig()
-  return upgrade.BaseAtkOwnBonusPerLevel * weaponGradeMultiplier(grade) * weaponTierMultiplier(tier) * level * count
+// 모든 무기가 종류 불문 공통으로 갖는 "기본 공격력" — 무기 종류를 바꿔도 ATK가
+// 0으로 떨어지지 않는다. 장착 여부와 무관하게 보유만 해도(어떤 종류든) 적용된다.
+export function weaponBaseAtkOwnBonus(type: WeaponTypeEnum, grade: WeaponGradeEnum, tier: number, level: number, count: number): number {
+  return getWeaponConfig(type, grade, tier).BaseAtk * level * count
 }
 
-export function weaponBaseAtkEquipBonus(grade: WeaponGradeEnum, tier: number, level: number): number {
-  const upgrade = getWeaponUpgradeConfig()
-  return upgrade.BaseAtkEquipBonusPerLevel * weaponGradeMultiplier(grade) * weaponTierMultiplier(tier) * level
+export function weaponBaseAtkEquipBonus(type: WeaponTypeEnum, grade: WeaponGradeEnum, tier: number, level: number): number {
+  return getWeaponConfig(type, grade, tier).BaseAtk * level
 }
 
 // 종류별 특화 스탯(검=ATK 추가 특화, 창=ASPD, 활=CRIT) 보유 효과 —
 // 장착 중인 무기와 같은 종류의 보유 무기에만 적용된다(docs/WEAPON_SYSTEM.md 1.4).
-// 타입 하나의 보유 효과 = OwnBonusBase × 등급배율 × Tier배율 × 레벨 × 보유개수
 export function weaponOwnBonus(type: WeaponTypeEnum, grade: WeaponGradeEnum, tier: number, level: number, count: number): number {
-  return getWeaponTypeConfig(type).OwnBonusBase * weaponGradeMultiplier(grade) * weaponTierMultiplier(tier) * level * count
+  return getWeaponConfig(type, grade, tier).OwnEffectValue * level * count
 }
 
-// 장착 효과 = EquipBonusBase × 등급배율 × Tier배율 × 레벨 (개수 무관, 장착 1개 취급)
+// 장착 효과 (개수 무관, 장착 1개 취급)
 export function weaponEquipBonus(type: WeaponTypeEnum, grade: WeaponGradeEnum, tier: number, level: number): number {
-  return getWeaponTypeConfig(type).EquipBonusBase * weaponGradeMultiplier(grade) * weaponTierMultiplier(tier) * level
+  return getWeaponConfig(type, grade, tier).EquipEffectValue * level
 }
 
 export interface WeaponBonusBreakdown {
@@ -123,8 +120,8 @@ export function computeWeaponBonusBreakdown(ownedWeapons: OwnedWeapons, equipped
   let baseAtkTotal = 0
   for (const [id, entry] of Object.entries(ownedWeapons)) {
     if (entry.count <= 0) continue
-    const { grade, tier } = parseWeaponId(id)
-    baseAtkTotal += weaponBaseAtkOwnBonus(grade, tier, entry.level, entry.count)
+    const { type, grade, tier } = parseWeaponId(id)
+    baseAtkTotal += weaponBaseAtkOwnBonus(type, grade, tier, entry.level, entry.count)
   }
 
   if (!equippedWeaponId) return { ...EMPTY_BREAKDOWN, baseAtkTotal }
@@ -132,7 +129,7 @@ export function computeWeaponBonusBreakdown(ownedWeapons: OwnedWeapons, equipped
   if (!equippedEntry || equippedEntry.count <= 0) return { ...EMPTY_BREAKDOWN, baseAtkTotal }
 
   const equipped = parseWeaponId(equippedWeaponId)
-  baseAtkTotal += weaponBaseAtkEquipBonus(equipped.grade, equipped.tier, equippedEntry.level)
+  baseAtkTotal += weaponBaseAtkEquipBonus(equipped.type, equipped.grade, equipped.tier, equippedEntry.level)
 
   let specialtyOwnTotal = 0
   let specialtyEquipBonus = 0
