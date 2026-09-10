@@ -163,6 +163,9 @@ export interface RelicTableRow {
   Id: number
   RelicGrade: RelicGradeEnum
   Name: number
+  // 3단계 StringTable 확장으로 신설(52000번대) — 이름(Name)은 이미 40001~40134에
+  // 확정돼 있어 그대로 두고, 설명만 새로 추가했다.
+  DescStringId: number
   EffectType: RelicEffectTypeEnum
   EffectValue: number
   GachaWeight: number
@@ -398,6 +401,7 @@ const DEFAULT_RELIC: RelicTableRow = {
   Id: 0,
   RelicGrade: 'Normal',
   Name: 0,
+  DescStringId: 0,
   EffectType: 'STAT_ATK',
   EffectValue: 0,
   GachaWeight: 0,
