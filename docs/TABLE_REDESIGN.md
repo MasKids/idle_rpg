@@ -1,8 +1,8 @@
 # 밸런싱 테이블 구조 개편안
 
 **이 문서는 조사 + 제안으로 시작했고, 1·2단계, `WeaponTypeTable`/`MasteryTable` 정리,
-1행 테이블 4개 실제 제거(3단계 일부)가 이제 구현 완료됐다.** 남은 단계
-(`WeaponGradeTable`→`GradeTable` 코드 참조 전환, StringTable 확장)는 아직 진행 전이다.
+1행 테이블 4개 실제 제거, StringTable 확장까지 3단계 전체가 이제 구현 완료됐다.**
+남은 단계는 `WeaponGradeTable`→`GradeTable` 코드 참조 전환뿐이다.
 
 > **진행 상황**:
 > - 버그 수정(전투 틱/체력바, 무기 돌파·합성, 리버스 재화 초기화)을 먼저 완료.
@@ -75,6 +75,26 @@
 >     하이스트 연속 3회 사용(20/40/80 시간에너지 소비 확인)과 리버스 실행(환급
 >     배율·다이아 지급·재화 초기화·존재력 트리 유지 전부 기대값과 일치)을 콘솔로
 >     직접 검증.
+> - **StringTable 확장 완료**(3단계 마지막, 2026-09-11) — 각 단계마다 별도 커밋:
+>   - 새 ID 대역 적용(4절 Q6 결정 그대로): 41000~ UI 문구, 50000~/51000~ 무기
+>     이름/설명, 52000~ 유물 설명, 53000~53049/53050~53099 존재력 노드 이름/설명.
+>     기존 40001~40134는 전혀 건드리지 않음.
+>   - 하드코딩 UI 문구 26개를 41000번대로 이관(`RebirthModal`이 가장 컸다 — 설명
+>     문장, 섹션 제목 3개, 목록 5개, 조합 문장 2개; `StubPanel`/`BattleArea`/
+>     `WeaponDetailModal`/`OfflineRewardModal`/`TimeHeistModal`/`RelicDetailModal`도
+>     포함). 덤으로 `ExistTreePanel`의 문자열 조합 버그 2건도 기존 StringId 재사용으로
+>     고쳤다(`getCurrencyName('exist') + ' 트리'` → `getSystemName('existTree')`,
+>     "보유 " 하드코딩 → `getCommonUiLabel('owned')` 재사용).
+>   - 무기 75개 이름(`WeaponTable.NameStringId`)·설명(`DescStringId`), 존재력 노드
+>     50개 이름·설명, 유물 9개 설명(`RelicTable.DescStringId` 신설 — 이름은 이미
+>     40001~40134에 확정돼 있어 새로 안 만듦)까지 총 259개 행 추가. 이름은 전부
+>     자동 생성 placeholder("검-레어-3", "T1-5" — 기존 런타임 폴백과 동일 형식)라
+>     나중에 엑셀에서 값만 교체하면 된다.
+>   - 행 추가는 `append-row.mjs`와 동일한 원칙(기존 행 보존, 끝에만 추가, Id 중복
+>     검사)을 스크립트 안에서 한 번에 적용했다 — CLI를 259번 따로 호출하는 대신
+>     xlsx 파일을 한 번만 열고 닫아 결과는 동일하되 훨씬 빠르게 처리했다.
+>   - 결과: 테이블 17개, 총 830행(StringTable 127→412행). 0개 누락/중복 StringId,
+>     `[balance]` 콘솔 경고 0건(무기·유물·존재력 트리 전 화면 순회 확인).
 
 ---
 
