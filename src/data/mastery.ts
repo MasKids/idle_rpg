@@ -1,4 +1,4 @@
-import { getGrowthCurveConfig, getMasteryConfig, getString, getWeaponTypeConfig, WEAPON_TYPES, type WeaponTypeEnum } from './balance'
+import { getCommon, getGrowthCurveConfig, getString, getWeaponTypePrimaryStat, WEAPON_TYPES, type WeaponTypeEnum } from './balance'
 import type { StatKey, WeaponMasteryData } from '../types/game'
 
 const STAT_TYPE_TO_KEY: Record<string, StatKey> = {
@@ -11,26 +11,34 @@ const STAT_TYPE_TO_KEY: Record<string, StatKey> = {
 
 // 이 무기 종류의 숙련이 실제로 곱해지는 대상 스탯 (검=ATK, 창=ASPD, 활=CRIT)
 export function masteryPrimaryStat(weaponType: string): StatKey {
-  const config = getWeaponTypeConfig(weaponType as WeaponTypeEnum)
-  return STAT_TYPE_TO_KEY[config.PrimaryStat] ?? 'atk'
+  const primaryStat = getWeaponTypePrimaryStat(weaponType as WeaponTypeEnum)
+  return STAT_TYPE_TO_KEY[primaryStat] ?? 'atk'
 }
 
-// 무기 숙련 — 종류(검/창/활)별로 하나씩. MasteryTable 행 하나당 무기 종류 1개.
-// WeaponMasteryData.id에는 WeaponTypeEnum 값('Sword' 등)이 그대로 들어간다.
-export const MASTERY_WEAPONS: WeaponMasteryData[] = WEAPON_TYPES.map((weaponType) => {
-  const config = getMasteryConfig(weaponType)
-  return { id: weaponType, name: getString(config.Name, 'KOR', weaponType) }
-})
+// MasteryTable 삭제(2026-09-10 개편) — 3행 전부 MultiplierPerLevel/CurveKey/MaxLevel이
+// 동일했던(WeaponType/Name만 다른) 값이라, 숫자 둘은 CommonTable로, 3종류 고정이라
+// 테이블화할 실익이 없는 CurveKey와 이름 StringId는 코드 상수로 옮겼다.
+const MASTERY_CURVE_KEY = 'MASTERY_UPGRADE'
+const MASTERY_NAME_STRING_ID: Record<WeaponTypeEnum, number> = {
+  Sword: 40072,
+  Spear: 40073,
+  Bow: 40074,
+}
+
+// 무기 숙련 — 종류(검/창/활)별로 하나씩. WeaponMasteryData.id에는 WeaponTypeEnum
+// 값('Sword' 등)이 그대로 들어간다.
+export const MASTERY_WEAPONS: WeaponMasteryData[] = WEAPON_TYPES.map((weaponType) => ({
+  id: weaponType,
+  name: getString(MASTERY_NAME_STRING_ID[weaponType], 'KOR', weaponType),
+}))
 
 // weaponType은 WeaponMasteryData.id(문자열)를 그대로 받아 내부에서 캐스팅한다 —
 // 기존 masteryUpgradeCost(weaponId: string)와 동일한 호출 관례를 유지.
-export function masteryMultiplier(weaponType: string, level: number): number {
-  const config = getMasteryConfig(weaponType as WeaponTypeEnum)
-  return 1 + level * config.MultiplierPerLevel
+export function masteryMultiplier(_weaponType: string, level: number): number {
+  return 1 + level * getCommon('MasteryMultiplierPerLevel')
 }
 
-export function masteryUpgradeCost(weaponType: string, currentLevel: number): number {
-  const config = getMasteryConfig(weaponType as WeaponTypeEnum)
-  const curve = getGrowthCurveConfig(config.CurveKey)
+export function masteryUpgradeCost(_weaponType: string, currentLevel: number): number {
+  const curve = getGrowthCurveConfig(MASTERY_CURVE_KEY)
   return Math.floor(curve.CostBase * curve.CostGrowthRate ** currentLevel)
 }

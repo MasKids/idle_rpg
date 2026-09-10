@@ -1,8 +1,9 @@
 # 밸런싱 테이블 구조 개편안
 
-**이 문서는 조사 + 제안으로 시작했고, 1·2단계 모두 이제 구현 완료됐다.** 남은 단계
-(1행 테이블 4개 실제 제거 — WeaponUpgradeTable/WeaponFusionTable/TimeHeistTable/
-RebirthTable, `WeaponGradeTable`→`GradeTable` 코드 참조 전환)는 아직 진행 전이다.
+**이 문서는 조사 + 제안으로 시작했고, 1·2단계와 `WeaponTypeTable`/`MasteryTable`
+정리가 이제 구현 완료됐다.** 남은 단계(1행 테이블 4개 실제 제거 —
+WeaponUpgradeTable/WeaponFusionTable/TimeHeistTable/RebirthTable,
+`WeaponGradeTable`→`GradeTable` 코드 참조 전환, StringTable 확장)는 아직 진행 전이다.
 
 > **진행 상황**:
 > - 버그 수정(전투 틱/체력바, 무기 돌파·합성, 리버스 재화 초기화)을 먼저 완료.
@@ -35,6 +36,25 @@ RebirthTable, `WeaponGradeTable`→`GradeTable` 코드 참조 전환)는 아직 
 >   - `WeaponTypeTable`과 `MasteryTable` 통합 검토: **병합하지 않는 쪽을 권장**
 >     (서로 다른 책임 — 무기 정체성 vs 숙련 진행도 — 이 같은 3행짜리 작은 테이블에
 >     섞이면 오히려 이해하기 어려워지고, 규모가 작아 중복 비용도 미미함).
+> - **`WeaponTypeTable`/`MasteryTable` 정리 완료**(위 2단계와는 별개 요청, 2026-09-10):
+>   - `WeaponTypeTable` 삭제. `PrimaryStat`(검=ATK/창=ASPD/활=CRIT)을 `WeaponTable`
+>     각 행에 직접 기입(같은 종류 25행이 동일값을 반복 — 무기별 개별 조정 여지를
+>     남기려는 의도적 중복, 2단계의 다른 칼럼들과 같은 패턴). 종류 이름(StringId,
+>     40055~40057)은 테이블화할 실익이 없어(3종류 고정) `balance.ts`의
+>     `WEAPON_TYPE_NAME_STRING_ID` 코드 상수로 이관.
+>   - `MasteryTable` 삭제. 3행(검/창/활)을 다시 보니 `MultiplierPerLevel`/
+>     `CurveKey`/`MaxLevel`이 전부 동일값이었다 — `WeaponType`/`Name`만 다른 순수
+>     정체성 데이터였던 셈. 숫자 둘(`MultiplierPerLevel`=0.05, `MaxLevel`=9999)은
+>     `CommonTable`로, `CurveKey`("MASTERY_UPGRADE")와 이름 StringId(40072~40074)는
+>     3종류 고정이라 `mastery.ts` 코드 상수로 이관.
+>   - `mastery.ts`의 `masteryPrimaryStat()`이 이제 `WeaponTable`을 조회한다(기존엔
+>     `WeaponTypeTable`). `weapon.ts`의 무기 이름 폴백 조립도 동일하게 전환.
+>   - 마이그레이션: `scripts/migrations/006-weapon-type-table-removal.mjs`,
+>     `007-mastery-table-removal.mjs`, `008-table-define-cleanup.mjs`(`#TableDefine`/
+>     `#EnumDefine` 갱신 — `WeaponTable`이 2단계 신설 이후 처음으로 `#TableDefine`에
+>     문서화됨).
+>   - 결과: 테이블 22개 → 20개, 총 528행. 브라우저에서 무기 종류 전환·가챠·장착·
+>     숙련 업그레이드까지 실제 플레이로 확인(검=ATK/창=ASPD/활=CRIT 특성 유지 확인).
 
 ---
 

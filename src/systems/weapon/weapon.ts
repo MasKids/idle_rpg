@@ -10,6 +10,7 @@ import {
   getWeaponFusionConfig,
   getWeaponGradeConfig,
   getWeaponUpgradeConfig,
+  WEAPON_TYPE_NAME_STRING_ID,
   WEAPON_TYPES,
   type GachaTableRow,
   type WeaponGradeEnum,
@@ -42,16 +43,9 @@ export function weaponDisplayName(id: string): string {
   // 이름을 대신 쓴다(존재력 트리 노드와 동일한 폴백 패턴). 이름이 확정되면
   // WeaponTable에서 NameStringId만 채우면 된다.
   if (config.NameStringId) return getString(config.NameStringId, 'KOR')
-  const typeName = getString(getWeaponConfigTypeName(type), 'KOR', type)
+  const typeName = getString(WEAPON_TYPE_NAME_STRING_ID[type], 'KOR', type)
   const gradeName = getString(getWeaponGradeConfig(grade).Name, 'ENG', grade)
   return `${typeName}-${gradeName}-${tier}`
-}
-
-// weaponDisplayName의 폴백 이름 조립에만 쓰는 내부 헬퍼 — WeaponTypeTable에서
-// 이름 StringId만 가져온다(WeaponTypeTable은 2단계 개편 이후 종류→주스탯
-// 매핑만 남은 순수 정체성 테이블이라 이 조회 하나면 충분하다).
-function getWeaponConfigTypeName(type: WeaponTypeEnum): number {
-  return BALANCE_TABLES.WeaponTypeTable.find((r) => r.WeaponType === type)?.Name ?? 0
 }
 
 // ---------------------------------------------------------------------------

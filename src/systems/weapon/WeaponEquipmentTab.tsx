@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { getString, getWeaponTypeConfig, type WeaponGradeEnum, type WeaponTypeEnum } from '../../data/balance'
+import { getString, WEAPON_TYPE_NAME_STRING_ID, type WeaponGradeEnum, type WeaponTypeEnum } from '../../data/balance'
 import { masteryPrimaryStat } from '../../data/mastery'
 import { getStatName, getTabName, getWeaponUiLabel } from '../../data/uiStrings'
 import { useGameStore } from '../../store/gameStore'
@@ -127,7 +127,6 @@ function TypeSwitcher({
   return (
     <div className="flex shrink-0 gap-1.5 border-b border-surface-border p-3">
       {WEAPON_TYPES.map((type) => {
-        const config = getWeaponTypeConfig(type)
         const ownedTypeCount = WEAPON_GRADES.reduce(
           (sum, grade) =>
             sum + WEAPON_TIERS.filter((tier) => (ownedWeapons[buildWeaponId(type, grade, tier)]?.count ?? 0) > 0).length,
@@ -144,7 +143,7 @@ function TypeSwitcher({
               isSelected ? 'bg-teal-base text-white' : 'bg-surface-card text-text-secondary hover:text-text-primary'
             }`}
           >
-            <div>{getString(config.Name, 'KOR', type)}</div>
+            <div>{getString(WEAPON_TYPE_NAME_STRING_ID[type], 'KOR', type)}</div>
             <div className="text-[10px] opacity-80">{ownedTypeCount}/25</div>
           </button>
         )

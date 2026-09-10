@@ -21,6 +21,14 @@ export type WeaponTypeEnum = 'Sword' | 'Spear' | 'Bow'
 // weapon.ts(무기 로직)와 mastery.ts(숙련 로직) 양쪽이 같은 목록을 쓰므로, 두 시스템
 // 사이 의존 방향이 꼬이지 않도록 더 하위 계층인 여기(data/)에 한 곳만 둔다.
 export const WEAPON_TYPES: WeaponTypeEnum[] = ['Sword', 'Spear', 'Bow']
+// 무기 종류 이름 StringId — WeaponTypeTable 삭제(2026-09-10 개편)로 갈 곳을 잃은
+// 값이다. 종류가 3개로 고정돼 있어 테이블화할 실익이 없어 코드 상수로 둔다.
+// StringTable의 기존 40055/40056/40057 항목("검"/"창"/"활")을 그대로 참조한다.
+export const WEAPON_TYPE_NAME_STRING_ID: Record<WeaponTypeEnum, number> = {
+  Sword: 40055,
+  Spear: 40056,
+  Bow: 40057,
+}
 export type WeaponGradeEnum = 'Normal' | 'Rare' | 'Epic' | 'Unique' | 'Legendary'
 export type RelicGradeEnum = 'Normal' | 'Rare' | 'Epic'
 export type RelicEffectTypeEnum =
@@ -93,28 +101,6 @@ export interface FeatureUnlockTableRow {
   UnlockCost: number
 }
 
-export interface MasteryTableRow {
-  Index: number
-  Id: number
-  WeaponType: WeaponTypeEnum
-  Name: number
-  MultiplierPerLevel: number
-  // 업그레이드 비용 곡선은 더 이상 여기 없다 — GrowthCurveTable을 CurveKey로 참조한다.
-  CurveKey: string
-  MaxLevel: number
-}
-
-// OwnBonusBase/EquipBonusBase는 WeaponTable(2단계 개편으로 신설, 75행)에 무기마다
-// 이미 곱연산까지 끝난 값으로 들어가므로 여기 더 없다 — WeaponTypeTable은 이제
-// "이 종류가 어느 스탯에 매핑되는지"만 담는 순수 정체성 테이블이다.
-export interface WeaponTypeTableRow {
-  Index: number
-  Id: number
-  WeaponType: WeaponTypeEnum
-  Name: number
-  PrimaryStat: StatTypeEnum
-}
-
 export interface WeaponGradeTableRow {
   Index: number
   Id: number
@@ -167,6 +153,7 @@ export interface WeaponTableRow {
   Id: number
   WeaponId: string
   Type: WeaponTypeEnum
+  PrimaryStat: StatTypeEnum
   Grade: WeaponGradeEnum
   Tier: number
   NameStringId: number
@@ -313,8 +300,6 @@ interface BalanceTables {
   StatTable: StatTableRow[]
   ExistTreeTable: ExistTreeTableRow[]
   FeatureUnlockTable: FeatureUnlockTableRow[]
-  MasteryTable: MasteryTableRow[]
-  WeaponTypeTable: WeaponTypeTableRow[]
   WeaponGradeTable: WeaponGradeTableRow[]
   WeaponUpgradeTable: WeaponUpgradeTableRow[]
   WeaponBreakthroughTable: WeaponBreakthroughTableRow[]
@@ -393,29 +378,12 @@ const DEFAULT_FEATURE_UNLOCK: FeatureUnlockTableRow = {
   UnlockCost: 667,
 }
 
-const DEFAULT_MASTERY: MasteryTableRow = {
-  Index: 0,
-  Id: 0,
-  WeaponType: 'Sword',
-  Name: 0,
-  MultiplierPerLevel: 0.05,
-  CurveKey: 'MASTERY_UPGRADE',
-  MaxLevel: 9999,
-}
-
-const DEFAULT_WEAPON_TYPE: WeaponTypeTableRow = {
-  Index: 0,
-  Id: 0,
-  WeaponType: 'Sword',
-  Name: 0,
-  PrimaryStat: 'ATK',
-}
-
 const DEFAULT_WEAPON: WeaponTableRow = {
   Index: 0,
   Id: 0,
   WeaponId: '',
   Type: 'Sword',
+  PrimaryStat: 'ATK',
   Grade: 'Normal',
   Tier: 1,
   NameStringId: 0,
@@ -602,22 +570,16 @@ export function getFeatureUnlock(featureType: FeatureTypeEnum): FeatureUnlockTab
   return row
 }
 
-export function getMasteryConfig(weaponType: WeaponTypeEnum): MasteryTableRow {
-  const row = TABLES.MasteryTable.find((r) => r.WeaponType === weaponType)
+// 무기 종류(검/창/활)의 특성 스탯 — WeaponTable은 종류당 25행(등급×단계)이 모두
+// 같은 PrimaryStat을 가지므로 아무 행이나 하나 찾아 반환하면 된다. WeaponTypeTable은
+// 삭제됐다(2026-09-10 개편) — 이 특성 스탯 칼럼이 WeaponTable 각 행으로 이관됐다.
+export function getWeaponTypePrimaryStat(weaponType: WeaponTypeEnum): StatTypeEnum {
+  const row = TABLES.WeaponTable.find((r) => r.Type === weaponType)
   if (!row) {
-    warnMissing('MasteryTable', `WeaponType=${weaponType}`)
-    return { ...DEFAULT_MASTERY, WeaponType: weaponType }
+    warnMissing('WeaponTable', `Type=${weaponType}(PrimaryStat 조회)`)
+    return 'ATK'
   }
-  return row
-}
-
-export function getWeaponTypeConfig(weaponType: WeaponTypeEnum): WeaponTypeTableRow {
-  const row = TABLES.WeaponTypeTable.find((r) => r.WeaponType === weaponType)
-  if (!row) {
-    warnMissing('WeaponTypeTable', `WeaponType=${weaponType}`)
-    return { ...DEFAULT_WEAPON_TYPE, WeaponType: weaponType }
-  }
-  return row
+  return row.PrimaryStat
 }
 
 export function getWeaponGradeConfig(weaponGrade: WeaponGradeEnum): WeaponGradeTableRow {
@@ -758,7 +720,8 @@ export function getString(id: number, lang: 'KOR' | 'ENG', fallback = ''): strin
   return value || fallback
 }
 
-// StatTable/MasteryTable 등이 CurveKey로 가리키는 공용 성장 곡선 조회.
+// StatTable 등이 CurveKey로 가리키는 공용 성장 곡선 조회(mastery.ts는 코드 상수
+// MASTERY_CURVE_KEY로 직접 가리킨다 — MasteryTable 삭제, 2026-09-10 개편).
 export function getGrowthCurveConfig(curveKey: string): GrowthCurveTableRow {
   const row = TABLES.GrowthCurveTable.find((r) => r.CurveKey === curveKey)
   if (!row) {
