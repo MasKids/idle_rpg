@@ -7,6 +7,7 @@ import {
   getCurrencyName,
   getExistUiLabel,
   getStateLabel,
+  getSystemName,
 } from '../../data/uiStrings'
 import { useGameStore } from '../../store/gameStore'
 import { formatNumber } from '../../utils/format'
@@ -112,7 +113,7 @@ export function ExistTreePanel({ onBack }: ExistTreePanelProps) {
       <PanelHeader
         title={
           <>
-            보유 {getCurrencyName('exist')} <span className="text-teal-strong">{formatNumber(exist)}</span>
+            {getCommonUiLabel('owned')} {getCurrencyName('exist')} <span className="text-teal-strong">{formatNumber(exist)}</span>
           </>
         }
         onBack={onBack}
@@ -122,7 +123,7 @@ export function ExistTreePanel({ onBack }: ExistTreePanelProps) {
 
       <IntroBanner
         storageKey="intro-exist-tree"
-        title={getCurrencyName('exist') + ' 트리'}
+        title={getSystemName('existTree')}
         lines={SYSTEM_INTRO_LINES.existTree}
         accentColorVar="var(--color-teal-strong)"
         className="m-3"
@@ -378,7 +379,7 @@ function NodeInfoBar({
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
           <div className="text-xs font-semibold text-text-primary">
-            {node.order}번 노드 · {node.tier}
+            {node.order}번 {getCommonUiLabel('nodeSuffix')} · {node.tier}
             {getStateLabel('tier')}
           </div>
           <div className="mt-0.5 text-[11px] text-text-secondary">

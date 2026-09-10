@@ -1,5 +1,5 @@
 import { stageLabel } from '../../data/stages'
-import { getButtonLabel, getCommonUiLabel, getCurrencyName, getStateLabel, getSystemName } from '../../data/uiStrings'
+import { getButtonLabel, getCommonUiLabel, getCurrencyName, getStateLabel, getSystemName, getTimeHeistUiLabel } from '../../data/uiStrings'
 import { computeActiveRelicEffects } from '../relic/relic'
 import { useGameStore } from '../../store/gameStore'
 import { formatCountdown, formatNumber } from '../../utils/format'
@@ -60,9 +60,7 @@ export function TimeHeistModal({ isOpen, onCancel, onConfirm }: TimeHeistModalPr
         onClick={(event) => event.stopPropagation()}
       >
         <h2 className="text-sm font-semibold text-gold-strong">{getSystemName('timeHeist')}</h2>
-        <p className="mt-1 text-[11px] leading-relaxed text-text-secondary">
-          미래 스테이지의 보상을 시간에너지로 미리 훔쳐옵니다. 스테이지 진행에는 영향을 주지 않습니다.
-        </p>
+        <p className="mt-1 text-[11px] leading-relaxed text-text-secondary">{getTimeHeistUiLabel('description')}</p>
 
         <IntroBanner
           storageKey="intro-timeheist"

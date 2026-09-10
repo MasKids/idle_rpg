@@ -1,6 +1,6 @@
 import type { CSSProperties } from 'react'
 import { getWeaponFusionConfig } from '../../data/balance'
-import { getButtonLabel, getStatName, getWeaponUiLabel } from '../../data/uiStrings'
+import { getButtonLabel, getStatName, getWeaponDetailUiLabel, getWeaponUiLabel } from '../../data/uiStrings'
 import { useGameStore } from '../../store/gameStore'
 import { formatNumber } from '../../utils/format'
 import {
@@ -101,13 +101,13 @@ export function WeaponDetailModal({ weaponId, onClose }: WeaponDetailModalProps)
             <dd className="text-text-primary">{tier}</dd>
           </div>
           <div className="flex justify-between">
-            <dt>레벨</dt>
+            <dt>{getWeaponDetailUiLabel('level')}</dt>
             <dd className="text-text-primary">
               {level} / {maxLevel}
             </dd>
           </div>
           <div className="flex justify-between">
-            <dt>돌파</dt>
+            <dt>{getButtonLabel('breakthrough')}</dt>
             <dd className="text-text-primary">
               {breakthroughCount} / {WEAPON_MAX_BREAKTHROUGH}
             </dd>
@@ -184,7 +184,9 @@ export function WeaponDetailModal({ weaponId, onClose }: WeaponDetailModalProps)
             <span className="flex flex-col items-center leading-tight">
               <span>{getButtonLabel('breakthrough')}</span>
               <span className="text-[10px] opacity-80">
-                {nextStep ? `${breakthroughAvailable}/${nextStep.RequiredDuplicateCount}개` : '최대'}
+                {nextStep
+                  ? `${breakthroughAvailable}/${nextStep.RequiredDuplicateCount}${getWeaponDetailUiLabel('unitCount')}`
+                  : getWeaponDetailUiLabel('maxReached')}
               </span>
             </span>
           </Button>
@@ -193,14 +195,17 @@ export function WeaponDetailModal({ weaponId, onClose }: WeaponDetailModalProps)
             <span className="flex flex-col items-center leading-tight">
               <span>{getButtonLabel('fuse')}</span>
               <span className="text-[10px] opacity-80">
-                {mergeTargetId ? `${mergeAvailable}/${fusion.RequiredCount}개` : '합성 불가'}
+                {mergeTargetId
+                  ? `${mergeAvailable}/${fusion.RequiredCount}${getWeaponDetailUiLabel('unitCount')}`
+                  : getWeaponDetailUiLabel('fusionUnavailable')}
               </span>
             </span>
           </Button>
         </div>
 
         <p className="mt-2 text-center text-[10px] text-text-disabled">
-          돌파·합성 모두 항상 1개 보존 · 합성 재료 {fusion.RequiredCount}개 필요
+          {getWeaponDetailUiLabel('fusionNotePrefix')} {fusion.RequiredCount}
+          {getWeaponDetailUiLabel('fusionNoteSuffix')}
         </p>
       </div>
     </div>

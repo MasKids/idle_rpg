@@ -1,3 +1,4 @@
+import { getStubUiLabel } from '../data/uiStrings'
 import { PanelHeader } from './ui'
 
 interface StubPanelProps {
@@ -10,7 +11,7 @@ export function StubPanel({ title, onBack }: StubPanelProps) {
     <div className="relative flex min-h-0 flex-1 flex-col bg-surface-base text-text-primary">
       <PanelHeader title={title} onBack={onBack} toneClassName="text-teal-strong" accentColorVar="var(--color-teal-strong)" />
       <div className="flex min-h-0 flex-1 flex-col items-center justify-center gap-2">
-        <p className="text-sm text-text-secondary">설계 완료 · 프로토타입 미구현</p>
+        <p className="text-sm text-text-secondary">{getStubUiLabel('notImplemented')}</p>
       </div>
     </div>
   )

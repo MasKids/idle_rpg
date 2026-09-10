@@ -1,6 +1,6 @@
 import type { CSSProperties } from 'react'
 import { getRelicConfig, getString } from '../../data/balance'
-import { getButtonLabel, getCommonUiLabel, getRelicUiLabel, getStateLabel, getWeaponUiLabel } from '../../data/uiStrings'
+import { getButtonLabel, getCommonUiLabel, getRelicDetailUiLabel, getRelicUiLabel, getStateLabel, getWeaponUiLabel } from '../../data/uiStrings'
 import { useGameStore } from '../../store/gameStore'
 import { GRADE_TEXT_COLOR } from '../weapon/weaponUi'
 import { computeRelicSlotCount, relicEffectLabel } from './relic'
@@ -92,7 +92,7 @@ export function RelicDetailModal({ relicId, onClose }: RelicDetailModalProps) {
           {isActive ? getButtonLabel('deactivate') : getButtonLabel('activate')}
         </Button>
 
-        {!owned && <p className="mt-2 text-center text-[10px] text-text-disabled">보유하지 않은 유물입니다</p>}
+        {!owned && <p className="mt-2 text-center text-[10px] text-text-disabled">{getRelicDetailUiLabel('notOwned')}</p>}
         {owned && !isActive && !hasEmptySlot && (
           <p className="mt-2 text-center text-[10px] text-danger-strong">{getRelicUiLabel('slotsFull')}</p>
         )}

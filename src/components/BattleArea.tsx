@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { stageLabel } from '../data/stages'
+import { getBattleUiLabel } from '../data/uiStrings'
 import { computeActiveRelicEffects } from '../systems/relic/relic'
 import { useGameStore } from '../store/gameStore'
 import { useBattleLoop } from '../systems/battle/useBattleLoop'
@@ -229,7 +230,7 @@ export function BattleArea({ onStageInfoClick, onTimeHeistClick }: BattleAreaPro
       <div className="absolute inset-x-0 top-0 flex items-center justify-between gap-1.5 bg-gradient-to-b from-black/50 to-transparent p-2">
         <div className="flex shrink-0 items-center gap-1.5 rounded-full bg-black/30 py-1 pl-1 pr-2 backdrop-blur-sm">
           <div className="h-6 w-6 shrink-0 rounded-full bg-blue-base/50" />
-          <span className="whitespace-nowrap text-[10px] text-text-primary/80">플레이어</span>
+          <span className="whitespace-nowrap text-[10px] text-text-primary/80">{getBattleUiLabel('playerName')}</span>
         </div>
 
         <div className="flex flex-1 justify-end gap-1">

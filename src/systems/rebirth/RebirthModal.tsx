@@ -1,7 +1,7 @@
 import type { CSSProperties, ReactNode } from 'react'
 import { BALANCE_TABLES, getRebirthDiamondReward } from '../../data/balance'
 import { EXIST_TREE_TOTAL_NODES } from '../../data/existTree'
-import { getButtonLabel, getCurrencyName, getRebirthBonusLabel, getSystemName } from '../../data/uiStrings'
+import { getButtonLabel, getCurrencyName, getRebirthBonusLabel, getRebirthUiLabel, getSystemName } from '../../data/uiStrings'
 import { useGameStore } from '../../store/gameStore'
 import { computeRebirthBonusPoints, computeRefundMultiplier } from './rebirthBonus'
 import { formatNumber } from '../../utils/format'
@@ -62,10 +62,7 @@ export function RebirthModal({ isOpen, onCancel, onConfirm }: RebirthModalProps)
         onClick={(event) => event.stopPropagation()}
       >
         <h2 className="text-sm font-semibold text-grade-epic">{getSystemName('reverse')}</h2>
-        <p className="mt-1 text-[11px] leading-relaxed text-text-secondary">
-          스테이지·스탯·숙련을 초기화하고 무기·유물을 소멸/초기화하는 대신, 그동안 소비한 재화를 전액 돌려받고
-          도달 스테이지에 비례한 다이아를 새로 받습니다. 존재력 트리는 그대로 유지됩니다.
-        </p>
+        <p className="mt-1 text-[11px] leading-relaxed text-text-secondary">{getRebirthUiLabel('description')}</p>
 
         <IntroBanner
           storageKey="intro-reverse"
@@ -83,19 +80,19 @@ export function RebirthModal({ isOpen, onCancel, onConfirm }: RebirthModalProps)
             {getRebirthBonusLabel('totalPoints')} {formatPoints(rebirthBonusPoint)}
           </li>
           <li>
-            {getRebirthBonusLabel('pendingPoints')} +{formatPoints(pendingPoints)} (도달 스테이지 기준, 이번 환급에 바로 반영)
+            {getRebirthBonusLabel('pendingPoints')} +{formatPoints(pendingPoints)} {getRebirthUiLabel('pendingNote')}
           </li>
           <li>
             {getRebirthBonusLabel('refundMultiplier')} {formatMultiplier(currentMultiplier)}
           </li>
         </RebirthSection>
 
-        <RebirthSection title="초기화 / 소멸" tone="text-danger-strong">
-          <li>스테이지 → 1-1</li>
-          <li>5스탯 레벨 전부 0</li>
-          <li>무기 전부 소멸</li>
-          <li>유물 전부 초기화</li>
-          <li>무기 숙련 레벨 0</li>
+        <RebirthSection title={getRebirthUiLabel('resetSectionTitle')} tone="text-danger-strong">
+          <li>{getRebirthUiLabel('resetStage')}</li>
+          <li>{getRebirthUiLabel('resetStats')}</li>
+          <li>{getRebirthUiLabel('resetWeapons')}</li>
+          <li>{getRebirthUiLabel('resetRelics')}</li>
+          <li>{getRebirthUiLabel('resetMastery')}</li>
         </RebirthSection>
 
         <RebirthSection
@@ -115,24 +112,24 @@ export function RebirthModal({ isOpen, onCancel, onConfirm }: RebirthModalProps)
           </li>
         </RebirthSection>
 
-        <RebirthSection title="지급" tone="text-gold-strong">
+        <RebirthSection title={getRebirthUiLabel('grantSectionTitle')} tone="text-gold-strong">
           <li>
             {getCurrencyName('diamond')} +{formatNumber(diamondReward)}
           </li>
           {nextRewardTier && (
             <li className="font-medium text-gold-strong">
-              → 스테이지 {nextRewardTier.StageFrom} 도달 시 {formatNumber(nextRewardTier.DiamondReward)}{' '}
-              {getCurrencyName('diamond')}
+              {getRebirthUiLabel('nextTierReachPrefix')} {nextRewardTier.StageFrom} {getRebirthUiLabel('nextTierReachSuffix')}{' '}
+              {formatNumber(nextRewardTier.DiamondReward)} {getCurrencyName('diamond')}
             </li>
           )}
         </RebirthSection>
 
-        <RebirthSection title="유지" tone="text-blue-strong">
+        <RebirthSection title={getRebirthUiLabel('keepSectionTitle')} tone="text-blue-strong">
           <li>
-            존재력 트리 ({unlockedCount}/{EXIST_TREE_TOTAL_NODES} 해금)
+            {getSystemName('existTree')} ({unlockedCount}/{EXIST_TREE_TOTAL_NODES} {getRebirthUiLabel('keepUnlockedSuffix')})
           </li>
-          <li>리버스 · 타임 하이스트 해금 상태</li>
-          <li>존재력(EXIST), 시간에너지 보유량</li>
+          <li>{getRebirthUiLabel('keepUnlockState')}</li>
+          <li>{getRebirthUiLabel('keepCurrency')}</li>
         </RebirthSection>
 
         <div className="mt-4 flex justify-end gap-2">

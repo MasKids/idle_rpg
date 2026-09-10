@@ -316,3 +316,109 @@ const BADGE_LABEL_ID: Record<BadgeLabelKey, number> = {
 export function getBadgeLabel(key: BadgeLabelKey): string {
   return getString(BADGE_LABEL_ID[key], 'KOR', key)
 }
+
+// 화면 하나에서만 쓰이는, 지금까지 컴포넌트에 직접 하드코딩돼 있던 문구들
+// (3단계 StringTable 확장, StringTable 41000번대 — docs/TABLE_REDESIGN.md 4절 Q6).
+export type RebirthUiLabelKey =
+  | 'description'
+  | 'pendingNote'
+  | 'resetSectionTitle'
+  | 'resetStage'
+  | 'resetStats'
+  | 'resetWeapons'
+  | 'resetRelics'
+  | 'resetMastery'
+  | 'grantSectionTitle'
+  | 'nextTierReachPrefix'
+  | 'nextTierReachSuffix'
+  | 'keepSectionTitle'
+  | 'keepUnlockedSuffix'
+  | 'keepUnlockState'
+  | 'keepCurrency'
+
+const REBIRTH_UI_LABEL_ID: Record<RebirthUiLabelKey, number> = {
+  description: 41000,
+  pendingNote: 41001,
+  resetSectionTitle: 41002,
+  resetStage: 41003,
+  resetStats: 41004,
+  resetWeapons: 41005,
+  resetRelics: 41006,
+  resetMastery: 41007,
+  grantSectionTitle: 41008,
+  nextTierReachPrefix: 41009,
+  nextTierReachSuffix: 41010,
+  keepSectionTitle: 41011,
+  keepUnlockedSuffix: 41012,
+  keepUnlockState: 41013,
+  keepCurrency: 41014,
+}
+
+export function getRebirthUiLabel(key: RebirthUiLabelKey): string {
+  return getString(REBIRTH_UI_LABEL_ID[key], 'KOR', key)
+}
+
+export type StubUiLabelKey = 'notImplemented'
+
+const STUB_UI_LABEL_ID: Record<StubUiLabelKey, number> = {
+  notImplemented: 41015,
+}
+
+export function getStubUiLabel(key: StubUiLabelKey): string {
+  return getString(STUB_UI_LABEL_ID[key], 'KOR', key)
+}
+
+export type BattleUiLabelKey = 'playerName'
+
+const BATTLE_UI_LABEL_ID: Record<BattleUiLabelKey, number> = {
+  playerName: 41016,
+}
+
+export function getBattleUiLabel(key: BattleUiLabelKey): string {
+  return getString(BATTLE_UI_LABEL_ID[key], 'KOR', key)
+}
+
+export type WeaponDetailUiLabelKey = 'level' | 'maxReached' | 'unitCount' | 'fusionUnavailable' | 'fusionNotePrefix' | 'fusionNoteSuffix'
+
+const WEAPON_DETAIL_UI_LABEL_ID: Record<WeaponDetailUiLabelKey, number> = {
+  level: 41017,
+  maxReached: 41018,
+  unitCount: 41019,
+  fusionUnavailable: 41020,
+  fusionNotePrefix: 41021,
+  fusionNoteSuffix: 41022,
+}
+
+export function getWeaponDetailUiLabel(key: WeaponDetailUiLabelKey): string {
+  return getString(WEAPON_DETAIL_UI_LABEL_ID[key], 'KOR', key)
+}
+
+export type OfflineRewardUiLabelKey = 'description'
+
+const OFFLINE_REWARD_UI_LABEL_ID: Record<OfflineRewardUiLabelKey, number> = {
+  description: 41023,
+}
+
+export function getOfflineRewardUiLabel(key: OfflineRewardUiLabelKey): string {
+  return getString(OFFLINE_REWARD_UI_LABEL_ID[key], 'KOR', key)
+}
+
+export type TimeHeistUiLabelKey = 'description'
+
+const TIME_HEIST_UI_LABEL_ID: Record<TimeHeistUiLabelKey, number> = {
+  description: 41024,
+}
+
+export function getTimeHeistUiLabel(key: TimeHeistUiLabelKey): string {
+  return getString(TIME_HEIST_UI_LABEL_ID[key], 'KOR', key)
+}
+
+export type RelicDetailUiLabelKey = 'notOwned'
+
+const RELIC_DETAIL_UI_LABEL_ID: Record<RelicDetailUiLabelKey, number> = {
+  notOwned: 41025,
+}
+
+export function getRelicDetailUiLabel(key: RelicDetailUiLabelKey): string {
+  return getString(RELIC_DETAIL_UI_LABEL_ID[key], 'KOR', key)
+}
