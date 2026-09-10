@@ -5,7 +5,7 @@ import { useGameStore } from '../../store/gameStore'
 import type { WeaponGachaPullResult } from '../../types/game'
 import { formatNumber } from '../../utils/format'
 import { currentGachaLevelConfig, weaponDisplayName } from '../weapon/weapon'
-import { GRADE_BG_COLOR, GRADE_BORDER_COLOR, GRADE_TEXT_COLOR } from '../weapon/weaponUi'
+import { GRADE_BG_COLOR, GRADE_BORDER_COLOR, GRADE_GLOW_SHADOW, GRADE_TEXT_COLOR } from '../weapon/weaponUi'
 import { Button, CostLabel, GradeBadge } from '../../components/ui'
 
 const GRADE_WEIGHT_KEYS = ['NormalWeight', 'RareWeight', 'EpicWeight', 'UniqueWeight', 'LegendaryWeight'] as const
@@ -13,6 +13,9 @@ const GRADES: WeaponGradeEnum[] = ['Normal', 'Rare', 'Epic', 'Unique', 'Legendar
 
 export function WeaponGachaTab() {
   const [lastResults, setLastResults] = useState<WeaponGachaPullResult[]>([])
+  // 같은 등급/무기 조합이 다음 뽑기에서 같은 자리에 또 나와도 등장 애니메이션이
+  // 재생되도록, 뽑을 때마다 증가하는 카운터를 key 접두사로 쓴다.
+  const [pullToken, setPullToken] = useState(0)
   const diamond = useGameStore((state) => state.currencies.diamond)
   const gachaCount = useGameStore((state) => state.gachaCount)
   const gachaLevel = useGameStore((state) => state.gachaLevel)
@@ -33,10 +36,12 @@ export function WeaponGachaTab() {
   const handlePullOnce = () => {
     const result = pullWeaponGacha()
     setLastResults(result ? [result] : [])
+    setPullToken((token) => token + 1)
   }
 
   const handlePullTen = () => {
     setLastResults(pullWeaponGachaTimes(10))
+    setPullToken((token) => token + 1)
   }
 
   return (
@@ -94,8 +99,9 @@ export function WeaponGachaTab() {
             const grade = result.weaponId.split('_')[1] as WeaponGradeEnum
             return (
               <div
-                key={`${result.weaponId}-${index}`}
-                className={`flex flex-col items-center gap-0.5 rounded-lg border p-1.5 text-center text-[9px] ${GRADE_BORDER_COLOR[grade]} ${GRADE_BG_COLOR[grade]}`}
+                key={`${pullToken}-${result.weaponId}-${index}`}
+                className={`flex flex-col items-center gap-0.5 rounded-lg border p-1.5 text-center text-[9px] animate-[reveal-pop_360ms_ease-out_backwards] ${GRADE_BORDER_COLOR[grade]} ${GRADE_BG_COLOR[grade]} ${GRADE_GLOW_SHADOW[grade]}`}
+                style={{ animationDelay: `${index * 40}ms` }}
               >
                 <span className={GRADE_TEXT_COLOR[grade]}>{weaponDisplayName(result.weaponId)}</span>
                 <span className={result.isDuplicate ? 'text-text-disabled' : 'text-success-strong'}>

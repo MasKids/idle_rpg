@@ -7,7 +7,9 @@ export interface DamagePopup {
   isCrit: boolean
 }
 
-const POPUP_LIFETIME_MS = 600
+const POPUP_LIFETIME_MS = 700
+// ASPD가 아주 높아져도 동시에 떠 있는 데미지 숫자 DOM을 이 개수로 제한한다.
+const MAX_VISIBLE_POPUPS = 12
 
 // 전투 시뮬레이션 자체는 systems/battle/battleLoop.ts가 store 레벨에서
 // 항상 돌린다. 이 훅은 화면이 떠 있는 동안 최신 상태를 구독하고,
@@ -29,11 +31,11 @@ export function useBattleLoop() {
     lastHitId.current = lastHit.id
 
     const id = lastHit.id
-    setPopups((prev) => [...prev, { id, amount: lastHit.amount, isCrit: lastHit.isCrit }])
+    setPopups((prev) => [...prev.slice(-(MAX_VISIBLE_POPUPS - 1)), { id, amount: lastHit.amount, isCrit: lastHit.isCrit }])
     setTimeout(() => {
       setPopups((prev) => prev.filter((popup) => popup.id !== id))
     }, POPUP_LIFETIME_MS)
   }, [lastHit])
 
-  return { popups, enemyHp, enemyMaxHp, isBossStage, kills, killsRequired, stage }
+  return { popups, enemyHp, enemyMaxHp, isBossStage, kills, killsRequired, stage, lastHitId: lastHit?.id ?? null }
 }

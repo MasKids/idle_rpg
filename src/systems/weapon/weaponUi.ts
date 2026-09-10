@@ -25,3 +25,13 @@ export const GRADE_TEXT_COLOR: Record<WeaponGradeEnum, string> = {
   Unique: 'text-grade-unique',
   Legendary: 'text-grade-legendary',
 }
+
+// 등급 표시에 얹는 은은한 발광 — box-shadow만 쓰고 색은 등급 토큰 그대로 재사용한다.
+// 등급이 높을수록 반경/불투명도를 키워 강도 차이를 준다. Normal은 발광 없음.
+export const GRADE_GLOW_SHADOW: Record<WeaponGradeEnum, string> = {
+  Normal: '',
+  Rare: 'shadow-[0_0_6px_var(--color-grade-rare)]',
+  Epic: 'shadow-[0_0_9px_var(--color-grade-epic)]',
+  Unique: 'shadow-[0_0_9px_var(--color-grade-unique),0_0_18px_var(--color-grade-unique)]',
+  Legendary: 'shadow-[0_0_10px_var(--color-grade-legendary),0_0_22px_var(--color-grade-legendary)]',
+}

@@ -1,11 +1,14 @@
-import type { ReactNode } from 'react'
+import type { CSSProperties, ReactNode } from 'react'
 import { BALANCE_TABLES, getRebirthDiamondReward } from '../../data/balance'
 import { EXIST_TREE_TOTAL_NODES } from '../../data/existTree'
 import { getButtonLabel, getCurrencyName, getRebirthBonusLabel, getSystemName } from '../../data/uiStrings'
 import { useGameStore } from '../../store/gameStore'
 import { computeRebirthBonusPoints, computeRefundMultiplier } from './rebirthBonus'
 import { formatNumber } from '../../utils/format'
+import { useMountTransition } from '../../utils/useMountTransition'
 import { Button } from '../../components/ui'
+
+const TRANSITION_MS = 180
 
 interface RebirthModalProps {
   isOpen: boolean
@@ -27,8 +30,9 @@ export function RebirthModal({ isOpen, onCancel, onConfirm }: RebirthModalProps)
   const currentStage = useGameStore((state) => state.currentStage)
   const rebirthCount = useGameStore((state) => state.rebirthCount)
   const rebirthBonusPoint = useGameStore((state) => state.rebirthBonusPoint)
+  const shouldRender = useMountTransition(isOpen, TRANSITION_MS)
 
-  if (!isOpen) return null
+  if (!shouldRender) return null
 
   // 이번 리버스의 환급에는 "지금까지 누적된" 포인트만 반영된다.
   // 이번에 새로 얻는 포인트(pendingPoints)는 다음 리버스부터 적용된다.
@@ -43,9 +47,17 @@ export function RebirthModal({ isOpen, onCancel, onConfirm }: RebirthModalProps)
     .find((row) => row.StageFrom > currentStage)
 
   return (
-    <div className="absolute inset-0 z-30 flex items-center justify-center bg-black/70 p-6" onClick={onCancel}>
+    <div
+      className={`absolute inset-0 z-30 flex items-center justify-center bg-black/70 p-6 ${
+        isOpen ? 'animate-[backdrop-fade-in_180ms_ease-out]' : 'animate-[backdrop-fade-out_180ms_ease-in_forwards]'
+      }`}
+      onClick={onCancel}
+    >
       <div
-        className="w-full max-w-xs rounded-xl border border-grade-epic/30 bg-surface-card p-4 text-text-primary"
+        className={`panel-frame w-full max-w-xs rounded-xl border border-grade-epic/30 bg-surface-card p-4 text-text-primary ${
+          isOpen ? 'animate-[modal-pop-in_180ms_ease-out]' : 'animate-[modal-pop-out_180ms_ease-in_forwards]'
+        }`}
+        style={{ '--panel-accent-color': 'var(--color-grade-epic)' } as CSSProperties}
         onClick={(event) => event.stopPropagation()}
       >
         <h2 className="text-sm font-semibold text-grade-epic">{getSystemName('reverse')}</h2>

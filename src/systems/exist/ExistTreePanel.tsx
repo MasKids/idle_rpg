@@ -72,6 +72,24 @@ export function ExistTreePanel({ onBack }: ExistTreePanelProps) {
     }
   }, [])
 
+  // 노드 해금 순간 그 노드 자리에서 짧게 발광이 퍼지는 연출. unlockedCount가
+  // 늘어난 순간의 값이 곧 "방금 해금된 노드의 order"다.
+  const [burstOrder, setBurstOrder] = useState<number | null>(null)
+  const prevUnlockedCountRef = useRef(unlockedCount)
+
+  useEffect(() => {
+    if (unlockedCount > prevUnlockedCountRef.current) {
+      const order = unlockedCount
+      setBurstOrder(order)
+      const timer = setTimeout(() => {
+        setBurstOrder((current) => (current === order ? null : current))
+      }, 500)
+      prevUnlockedCountRef.current = unlockedCount
+      return () => clearTimeout(timer)
+    }
+    prevUnlockedCountRef.current = unlockedCount
+  }, [unlockedCount])
+
   const selectedNode = nodesTopToBottom.find((node) => node.order === selectedOrder) ?? null
   const selectedStatus = selectedNode ? existNodeStatus(selectedNode.order, unlockedCount) : null
 
@@ -85,6 +103,7 @@ export function ExistTreePanel({ onBack }: ExistTreePanelProps) {
         }
         onBack={onBack}
         toneClassName="text-text-primary"
+        accentColorVar="var(--color-teal-strong)"
       />
 
       {selectedNode && selectedStatus && (
@@ -117,6 +136,7 @@ export function ExistTreePanel({ onBack }: ExistTreePanelProps) {
                 node={node}
                 status={status}
                 isSelected={node.order === selectedOrder}
+                isBursting={node.order === burstOrder}
                 onSelect={() => setSelectedOrder(node.order)}
                 special={special}
                 specialReachable={specialReachable}
@@ -143,6 +163,7 @@ interface NodeRowProps {
   node: ExistTreeNode
   status: ExistNodeStatus
   isSelected: boolean
+  isBursting: boolean
   onSelect: () => void
   special?: ExistSpecialUnlock
   specialReachable: boolean
@@ -150,7 +171,17 @@ interface NodeRowProps {
   onSpecialClick?: () => void
 }
 
-function NodeRow({ node, status, isSelected, onSelect, special, specialReachable, specialUnlocked, onSpecialClick }: NodeRowProps) {
+function NodeRow({
+  node,
+  status,
+  isSelected,
+  isBursting,
+  onSelect,
+  special,
+  specialReachable,
+  specialUnlocked,
+  onSpecialClick,
+}: NodeRowProps) {
   const specialLane = special ? oppositeLane(node.lane) : null
 
   return (
@@ -158,7 +189,7 @@ function NodeRow({ node, status, isSelected, onSelect, special, specialReachable
       <div className="flex w-1/2 items-center justify-end">
         {node.lane === 'left' && (
           <>
-            <NodeCircle node={node} status={status} isSelected={isSelected} onClick={onSelect} />
+            <NodeCircle node={node} status={status} isSelected={isSelected} isBursting={isBursting} onClick={onSelect} />
             <Connector />
           </>
         )}
@@ -176,7 +207,7 @@ function NodeRow({ node, status, isSelected, onSelect, special, specialReachable
         {node.lane === 'right' && (
           <>
             <Connector />
-            <NodeCircle node={node} status={status} isSelected={isSelected} onClick={onSelect} />
+            <NodeCircle node={node} status={status} isSelected={isSelected} isBursting={isBursting} onClick={onSelect} />
           </>
         )}
         {specialLane === 'right' && special && (
@@ -202,11 +233,13 @@ function NodeCircle({
   node,
   status,
   isSelected,
+  isBursting,
   onClick,
 }: {
   node: ExistTreeNode
   status: ExistNodeStatus
   isSelected: boolean
+  isBursting: boolean
   onClick: () => void
 }) {
   return (
@@ -215,10 +248,15 @@ function NodeCircle({
       onClick={onClick}
       className={`flex w-20 flex-col items-center gap-1 ${isSelected ? 'opacity-100' : ''}`}
     >
-      <div
-        className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-full text-[10px] font-semibold transition ${CIRCLE_STYLE[status]} ${isSelected ? 'scale-110' : ''}`}
-      >
-        {node.order}
+      <div className="relative flex h-12 w-12 shrink-0 items-center justify-center">
+        {isBursting && (
+          <span className="pointer-events-none absolute h-12 w-12 rounded-full border-2 border-teal-strong animate-[node-unlock-burst_500ms_ease-out_forwards]" />
+        )}
+        <div
+          className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-full text-[10px] font-semibold transition ${CIRCLE_STYLE[status]} ${isSelected ? 'scale-110' : ''}`}
+        >
+          {node.order}
+        </div>
       </div>
       <div className="text-center text-[9px] leading-tight">
         {status === 'unlocked' && <span className="text-text-secondary">{effectSummary(node.effect)}</span>}

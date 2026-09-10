@@ -57,20 +57,20 @@ function App() {
     <div className="flex min-h-dvh items-center justify-center bg-black">
       <div className="relative flex h-dvh w-full max-w-[430px] flex-col overflow-hidden bg-slate-950 sm:h-[900px] sm:max-h-[95dvh] sm:rounded-2xl sm:border sm:border-white/10 sm:shadow-2xl">
         {isFullscreen ? (
-          <>
+          <div className="flex min-h-0 flex-1 flex-col animate-[panel-fade-in_200ms_ease-out]">
             {activeTab === 'equipment' && <WeaponStoragePanel onBack={goBack} />}
             {activeTab === 'gacha' && <SummonPanel onBack={goBack} />}
             {activeTab === 'dogam' && <StubPanel title={getTabName('dogam')} onBack={goBack} />}
             {activeTab === 'exist' && <ExistTreePanel onBack={goBack} />}
-          </>
+          </div>
         ) : (
-          <>
+          <div className="flex min-h-0 flex-1 flex-col animate-[panel-fade-in_200ms_ease-out]">
             <BattleArea
               onStageInfoClick={() => setStageInfoOpen(true)}
               onTimeHeistClick={() => setTimeHeistModalOpen(true)}
             />
             <ControlArea activeTab={activeTab} />
-          </>
+          </div>
         )}
 
         <BottomMenu activeTab={activeTab} onSelect={setActiveTab} />
@@ -105,7 +105,7 @@ function App() {
         {timeHeistFlashKey > 0 && (
           <div
             key={`timeheist-${timeHeistFlashKey}`}
-            className="pointer-events-none absolute inset-0 z-40 animate-[rebirth-flash_0.8s_ease-out_forwards] bg-gold-strong"
+            className="pointer-events-none absolute inset-0 z-40 animate-[time-warp_0.7s_ease-out_forwards] bg-gold-strong"
           />
         )}
 

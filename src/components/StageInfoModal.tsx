@@ -1,9 +1,13 @@
+import type { CSSProperties } from 'react'
 import { generateStage, stageLabel } from '../data/stages'
 import { getButtonLabel, getCommonUiLabel, getCurrencyName, getRebirthBonusLabel, getSystemName } from '../data/uiStrings'
 import { useGameStore } from '../store/gameStore'
 import { computeRefundMultiplier } from '../systems/rebirth/rebirthBonus'
 import { formatNumber } from '../utils/format'
+import { useMountTransition } from '../utils/useMountTransition'
 import { Button } from './ui'
+
+const TRANSITION_MS = 180
 
 interface StageInfoModalProps {
   isOpen: boolean
@@ -20,16 +24,25 @@ export function StageInfoModal({ isOpen, onClose, onRebirthClick }: StageInfoMod
   const rebirthCount = useGameStore((state) => state.rebirthCount)
   const rebirthBonusPoint = useGameStore((state) => state.rebirthBonusPoint)
   const rebirthMaxStage = useGameStore((state) => state.rebirthMaxStage)
+  const shouldRender = useMountTransition(isOpen, TRANSITION_MS)
 
-  if (!isOpen) return null
+  if (!shouldRender) return null
 
   const data = generateStage(stage)
   const refundMultiplier = computeRefundMultiplier(rebirthBonusPoint)
 
   return (
-    <div className="absolute inset-0 z-20 flex items-center justify-center bg-black/60 p-6" onClick={onClose}>
+    <div
+      className={`absolute inset-0 z-20 flex items-center justify-center bg-black/60 p-6 ${
+        isOpen ? 'animate-[backdrop-fade-in_180ms_ease-out]' : 'animate-[backdrop-fade-out_180ms_ease-in_forwards]'
+      }`}
+      onClick={onClose}
+    >
       <div
-        className="w-full max-w-xs rounded-xl border border-surface-border bg-surface-card p-4 text-text-primary"
+        className={`panel-frame w-full max-w-xs rounded-xl border border-surface-border bg-surface-card p-4 text-text-primary ${
+          isOpen ? 'animate-[modal-pop-in_180ms_ease-out]' : 'animate-[modal-pop-out_180ms_ease-in_forwards]'
+        }`}
+        style={{ '--panel-accent-color': 'var(--color-blue-strong)' } as CSSProperties}
         onClick={(event) => event.stopPropagation()}
       >
         <h2 className="text-sm font-semibold text-blue-strong">

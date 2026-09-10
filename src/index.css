@@ -107,15 +107,270 @@ body {
   }
   to {
     opacity: 0;
-    transform: translateY(-40px);
+    transform: translateY(-44px);
+  }
+}
+
+/* 치명타 데미지 숫자용 — float-up과 함께(animation은 콤마로 여러 개 지정) 걸어
+   숫자가 위로 뜨면서 동시에 살짝 튀어오르듯 커지게 한다. */
+@keyframes crit-pop {
+  0% {
+    transform: scale(0.5);
+  }
+  55% {
+    transform: scale(1.35);
+  }
+  100% {
+    transform: scale(1);
   }
 }
 
 @keyframes rebirth-flash {
   0% {
-    opacity: 0.85;
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.9;
   }
   100% {
     opacity: 0;
   }
+}
+
+/* 타임 하이스트 전용 — 흰색 플래시 대신 화면이 살짝 확대되며 스쳐가는
+   "시간이 뒤틀리는" 느낌. 색은 호출부에서 gold-strong 배경에 얹어 쓴다. */
+@keyframes time-warp {
+  0% {
+    opacity: 0;
+    transform: scale(1.35);
+  }
+  35% {
+    opacity: 0.75;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+}
+
+@keyframes hit-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-3px);
+  }
+  50% {
+    transform: translateX(3px);
+  }
+  75% {
+    transform: translateX(-2px);
+  }
+}
+
+@keyframes enemy-appear {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes boss-appear {
+  0% {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes enemy-defeat {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+}
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 배경 파티클 — 각 파티클의 속도/거리/지연은 컴포넌트에서 인라인 style로 다르게 준다 */
+@keyframes particle-rise {
+  0% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+  15% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-160px);
+  }
+}
+
+/* 전체화면 패널 진입, 하위 탭 전환 시 내용 페이드 공용 */
+@keyframes panel-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes modal-pop-in {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes modal-pop-out {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+}
+
+@keyframes backdrop-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes backdrop-fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/* 존재력 노드 해금 순간의 짧은 발광 확산 — 노드 자리에서 한 번만 커지며 사라진다 */
+@keyframes node-unlock-burst {
+  0% {
+    opacity: 0.9;
+    transform: scale(0.6);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(2.4);
+  }
+}
+
+/* 가챠 결과 카드 등장 */
+@keyframes reveal-pop {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  70% {
+    opacity: 1;
+    transform: scale(1.06);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* 배경 전용 무한 장식 애니메이션 — 탭이 백그라운드로 가면 JS에서 이 클래스를
+   붙여 즉시 멈춘다(방치형 게임이라 오래 켜둘 때 불필요한 렌더 비용을 줄임).
+   prefers-reduced-motion도 같은 클래스로 함께 처리한다. */
+.decor-paused {
+  animation-play-state: paused !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .decor-motion {
+    animation: none !important;
+  }
+}
+
+/* ---------------------------------------------------------------------
+ * 패널 프레임 — 카드/모달이 "웹 카드"가 아니라 "게임 UI"로 보이게.
+ * 모서리 각진 액센트 + 이중 테두리(바깥 border + 안쪽 hairline). 색은
+ * --panel-accent-color로 화면 톤을 넘기고, 안 넘기면 surface-border로
+ * 떨어진다 — 새 색을 추가하는 게 아니라 기존 토큰을 섞어 쓰는 것뿐이다.
+ * ------------------------------------------------------------------- */
+.panel-frame {
+  position: relative;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--panel-accent-color, var(--color-surface-border)) 35%, transparent);
+}
+
+.panel-frame::before,
+.panel-frame::after {
+  content: '';
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  pointer-events: none;
+  border-color: var(--panel-accent-color, var(--color-surface-border));
+}
+
+.panel-frame::before {
+  top: -1px;
+  left: -1px;
+  border-top: 2px solid;
+  border-left: 2px solid;
+  border-top-left-radius: 4px;
+}
+
+.panel-frame::after {
+  bottom: -1px;
+  right: -1px;
+  border-bottom: 2px solid;
+  border-right: 2px solid;
+  border-bottom-right-radius: 4px;
+}
+
+/* 전체화면 패널 헤더용 — 아주 옅은 사선 해치 패턴을 배경에 깐다 */
+.panel-header-frame {
+  background-image: repeating-linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--panel-accent-color, var(--color-surface-border)) 50%, transparent) 0px,
+    color-mix(in srgb, var(--panel-accent-color, var(--color-surface-border)) 50%, transparent) 1px,
+    transparent 1px,
+    transparent 10px
+  );
+  background-color: color-mix(in srgb, var(--color-surface-base) 40%, transparent);
 }

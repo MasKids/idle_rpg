@@ -4,12 +4,15 @@ import { getCommonUiLabel, getCurrencyName, getRelicUiLabel } from '../../data/u
 import { useGameStore } from '../../store/gameStore'
 import type { RelicGachaPullResult } from '../../types/game'
 import { formatNumber } from '../../utils/format'
-import { GRADE_BG_COLOR, GRADE_BORDER_COLOR, GRADE_TEXT_COLOR } from '../weapon/weaponUi'
+import { GRADE_BG_COLOR, GRADE_BORDER_COLOR, GRADE_GLOW_SHADOW, GRADE_TEXT_COLOR } from '../weapon/weaponUi'
 import { relicEffectLabel, relicGradeName } from '../relic/relic'
 import { Button } from '../../components/ui'
 
 export function RelicGachaTab() {
   const [lastResult, setLastResult] = useState<RelicGachaPullResult | null>(null)
+  // 같은 유물이 연속으로 나와도(relicId 동일) 등장 애니메이션이 다시 재생되도록
+  // 뽑을 때마다 증가하는 별도 카운터를 key로 쓴다.
+  const [pullToken, setPullToken] = useState(0)
   const ownedRelics = useGameStore((state) => state.ownedRelics)
   const timeEnergy = useGameStore((state) => state.currencies.timeEnergy)
   const pullRelicGacha = useGameStore((state) => state.pullRelicGacha)
@@ -19,6 +22,7 @@ export function RelicGachaTab() {
 
   const handlePull = () => {
     setLastResult(pullRelicGacha())
+    setPullToken((token) => token + 1)
   }
 
   const resultRelic = lastResult ? getRelicConfig(lastResult.relicId) : undefined
@@ -40,7 +44,8 @@ export function RelicGachaTab() {
 
       {lastResult && resultRelic && (
         <div
-          className={`mt-3 rounded-lg border p-2 text-center text-xs ${GRADE_BORDER_COLOR[resultRelic.RelicGrade]} ${GRADE_BG_COLOR[resultRelic.RelicGrade]}`}
+          key={pullToken}
+          className={`mt-3 rounded-lg border p-2 text-center text-xs animate-[reveal-pop_360ms_ease-out] ${GRADE_BORDER_COLOR[resultRelic.RelicGrade]} ${GRADE_BG_COLOR[resultRelic.RelicGrade]} ${GRADE_GLOW_SHADOW[resultRelic.RelicGrade]}`}
         >
           <div className={`font-semibold ${GRADE_TEXT_COLOR[resultRelic.RelicGrade]}`}>
             {getString(resultRelic.Name, 'KOR')} ({relicGradeName(resultRelic.RelicGrade)})

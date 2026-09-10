@@ -16,7 +16,7 @@ import {
   WEAPON_TIERS,
   WEAPON_TYPES,
 } from './weapon'
-import { GRADE_BG_COLOR, GRADE_BORDER_COLOR, GRADE_TEXT_COLOR } from './weaponUi'
+import { GRADE_BG_COLOR, GRADE_BORDER_COLOR, GRADE_GLOW_SHADOW, GRADE_TEXT_COLOR } from './weaponUi'
 import { STATE_ICON } from '../../components/icons'
 import { ProgressBar } from '../../components/ui'
 
@@ -32,7 +32,7 @@ export function WeaponEquipmentTab() {
 
       <EquippedSummary equippedWeaponId={equippedWeaponId} ownedWeapons={ownedWeapons} />
 
-      <div className="min-h-0 flex-1 overflow-y-auto p-3">
+      <div key={selectedType} className="min-h-0 flex-1 overflow-y-auto p-3 animate-[panel-fade-in_180ms_ease-out]">
         <div className="grid grid-cols-5 gap-1.5">
           {WEAPON_GRADES.map((grade) =>
             WEAPON_TIERS.map((tier) => {
@@ -48,7 +48,7 @@ export function WeaponEquipmentTab() {
                   onClick={() => setSelectedWeaponId(weaponId)}
                   className={`relative flex aspect-square flex-col items-center justify-center rounded-lg border text-[9px] transition-colors ${
                     owned
-                      ? `${GRADE_BORDER_COLOR[grade]} ${GRADE_BG_COLOR[grade]} hover:brightness-125`
+                      ? `${GRADE_BORDER_COLOR[grade]} ${GRADE_BG_COLOR[grade]} ${GRADE_GLOW_SHADOW[grade]} hover:brightness-125`
                       : 'border-surface-border bg-surface-card opacity-40 hover:opacity-60'
                   }`}
                 >

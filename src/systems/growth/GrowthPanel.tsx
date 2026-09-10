@@ -58,7 +58,9 @@ export function GrowthPanel() {
         </button>
       </div>
 
-      {subTab === 'stat' ? <StatSubTab /> : <MasterySubTab />}
+      <div key={subTab} className="flex min-h-0 flex-1 flex-col animate-[panel-fade-in_180ms_ease-out]">
+        {subTab === 'stat' ? <StatSubTab /> : <MasterySubTab />}
+      </div>
     </div>
   )
 }

@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { BALANCE_TABLES, getRelicConfig, getString } from '../../data/balance'
 import { getCommonUiLabel, getCurrencyName, getRelicUiLabel } from '../../data/uiStrings'
 import { useGameStore } from '../../store/gameStore'
-import { GRADE_BG_COLOR, GRADE_BORDER_COLOR, GRADE_TEXT_COLOR } from '../weapon/weaponUi'
+import { GRADE_BG_COLOR, GRADE_BORDER_COLOR, GRADE_GLOW_SHADOW, GRADE_TEXT_COLOR } from '../weapon/weaponUi'
 import { RelicDetailModal } from './RelicDetailModal'
 import { computeRelicSlotCount, relicGradeName, sortedRelicRows, RELIC_SLOT_MAX } from './relic'
 import { GradeBadge } from '../../components/ui'
@@ -75,7 +75,7 @@ function SlotSection({
                 locked
                   ? 'border-surface-border bg-surface-card text-text-disabled'
                   : relic
-                    ? `${GRADE_BORDER_COLOR[relic.RelicGrade]} ${GRADE_BG_COLOR[relic.RelicGrade]} ${GRADE_TEXT_COLOR[relic.RelicGrade]} hover:brightness-125`
+                    ? `${GRADE_BORDER_COLOR[relic.RelicGrade]} ${GRADE_BG_COLOR[relic.RelicGrade]} ${GRADE_TEXT_COLOR[relic.RelicGrade]} ${GRADE_GLOW_SHADOW[relic.RelicGrade]} hover:brightness-125`
                     : 'border-dashed border-surface-border bg-surface-card text-text-disabled'
               }`}
             >
@@ -123,7 +123,7 @@ function RelicGrid({
               onClick={() => onSelect(relic.Id)}
               className={`relative flex aspect-square flex-col items-center justify-center gap-0.5 rounded-lg border p-1 text-center text-[9px] transition-colors ${
                 owned
-                  ? `${GRADE_BORDER_COLOR[relic.RelicGrade]} ${GRADE_BG_COLOR[relic.RelicGrade]} hover:brightness-125`
+                  ? `${GRADE_BORDER_COLOR[relic.RelicGrade]} ${GRADE_BG_COLOR[relic.RelicGrade]} ${GRADE_GLOW_SHADOW[relic.RelicGrade]} hover:brightness-125`
                   : 'border-surface-border bg-surface-card opacity-40 hover:opacity-60'
               }`}
             >

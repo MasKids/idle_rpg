@@ -18,7 +18,12 @@ export function SummonPanel({ onBack }: SummonPanelProps) {
 
   return (
     <div className="relative flex min-h-0 flex-1 flex-col bg-surface-base text-text-primary">
-      <PanelHeader title={getTabName('gacha')} onBack={onBack} toneClassName="text-gold-strong" />
+      <PanelHeader
+        title={getTabName('gacha')}
+        onBack={onBack}
+        toneClassName="text-gold-strong"
+        accentColorVar="var(--color-gold-strong)"
+      />
 
       <div className="flex shrink-0 gap-1 bg-surface-card p-2">
         <button
@@ -41,7 +46,9 @@ export function SummonPanel({ onBack }: SummonPanelProps) {
         </button>
       </div>
 
-      {subTab === 'weapon' ? <WeaponGachaTab /> : <RelicGachaTab />}
+      <div key={subTab} className="flex min-h-0 flex-1 flex-col animate-[panel-fade-in_180ms_ease-out]">
+        {subTab === 'weapon' ? <WeaponGachaTab /> : <RelicGachaTab />}
+      </div>
     </div>
   )
 }

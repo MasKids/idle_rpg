@@ -5,7 +5,11 @@ import { useGameStore } from '../../store/gameStore'
 import { formatCountdown, formatNumber } from '../../utils/format'
 import { useNow } from '../../utils/useNow'
 import { computeTimeHeistPreview, timeHeistCooldownEndsAt } from './timeHeist'
+import { useMountTransition } from '../../utils/useMountTransition'
 import { Button } from '../../components/ui'
+import type { CSSProperties } from 'react'
+
+const TRANSITION_MS = 180
 
 interface TimeHeistModalProps {
   isOpen: boolean
@@ -21,8 +25,9 @@ export function TimeHeistModal({ isOpen, onCancel, onConfirm }: TimeHeistModalPr
   const lastUsedAt = useGameStore((state) => state.timeHeistLastUsedAt)
   const activeRelics = useGameStore((state) => state.activeRelics)
   const now = useNow()
+  const shouldRender = useMountTransition(isOpen, TRANSITION_MS)
 
-  if (!isOpen) return null
+  if (!shouldRender) return null
 
   const relicEffects = computeActiveRelicEffects(activeRelics)
   const preview = computeTimeHeistPreview(
@@ -39,9 +44,17 @@ export function TimeHeistModal({ isOpen, onCancel, onConfirm }: TimeHeistModalPr
   const canExecute = canAfford && !isOnCooldown
 
   return (
-    <div className="absolute inset-0 z-30 flex items-center justify-center bg-black/70 p-6" onClick={onCancel}>
+    <div
+      className={`absolute inset-0 z-30 flex items-center justify-center bg-black/70 p-6 ${
+        isOpen ? 'animate-[backdrop-fade-in_180ms_ease-out]' : 'animate-[backdrop-fade-out_180ms_ease-in_forwards]'
+      }`}
+      onClick={onCancel}
+    >
       <div
-        className="w-full max-w-xs rounded-xl border border-gold-strong/30 bg-surface-card p-4 text-text-primary"
+        className={`panel-frame w-full max-w-xs rounded-xl border border-gold-strong/30 bg-surface-card p-4 text-text-primary ${
+          isOpen ? 'animate-[modal-pop-in_180ms_ease-out]' : 'animate-[modal-pop-out_180ms_ease-in_forwards]'
+        }`}
+        style={{ '--panel-accent-color': 'var(--color-gold-strong)' } as CSSProperties}
         onClick={(event) => event.stopPropagation()}
       >
         <h2 className="text-sm font-semibold text-gold-strong">{getSystemName('timeHeist')}</h2>

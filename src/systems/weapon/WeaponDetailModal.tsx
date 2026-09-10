@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react'
 import { getWeaponFusionConfig } from '../../data/balance'
 import { getButtonLabel, getStatName, getWeaponUiLabel } from '../../data/uiStrings'
 import { useGameStore } from '../../store/gameStore'
@@ -63,9 +64,13 @@ export function WeaponDetailModal({ weaponId, onClose }: WeaponDetailModalProps)
   const specialtyEquip = owned ? weaponEquipBonus(type, grade, tier, level) : 0
 
   return (
-    <div className="absolute inset-0 z-40 flex items-center justify-center bg-black/70 p-6" onClick={onClose}>
+    <div
+      className="absolute inset-0 z-40 flex items-center justify-center bg-black/70 p-6 animate-[backdrop-fade-in_180ms_ease-out]"
+      onClick={onClose}
+    >
       <div
-        className="w-full max-w-xs rounded-xl border border-surface-border bg-surface-card p-4 text-text-primary"
+        className="panel-frame w-full max-w-xs rounded-xl border border-surface-border bg-surface-card p-4 text-text-primary animate-[modal-pop-in_180ms_ease-out]"
+        style={{ '--panel-accent-color': `var(--color-grade-${grade.toLowerCase()})` } as CSSProperties}
         onClick={(event) => event.stopPropagation()}
       >
         <div className="flex items-start justify-between gap-2">
