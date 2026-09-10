@@ -12,7 +12,7 @@
       "RewardGrowth": 2,
       "RewardExist": 1,
       "RewardTimeEnergy": 0,
-      "HpGrowthRate": 1.15,
+      "HpGrowthRate": 1.07,
       "RewardGrowthRate": 1.1
     },
     {
@@ -20,14 +20,14 @@
       "Id": 10002,
       "Chapter": 1,
       "StageType": "Boss",
-      "EnemyHp": 350,
+      "EnemyHp": 180,
       "EnemyAtk": 16,
       "KillCount": 1,
       "RewardGold": 33,
       "RewardGrowth": 9,
-      "RewardExist": 2,
+      "RewardExist": 10,
       "RewardTimeEnergy": 15,
-      "HpGrowthRate": 1.15,
+      "HpGrowthRate": 1.07,
       "RewardGrowthRate": 1.1
     },
     {
@@ -35,14 +35,14 @@
       "Id": 10003,
       "Chapter": 2,
       "StageType": "Normal",
-      "EnemyHp": 80,
+      "EnemyHp": 39,
       "EnemyAtk": 9,
       "KillCount": 5,
       "RewardGold": 12,
       "RewardGrowth": 4,
-      "RewardExist": 1,
+      "RewardExist": 5,
       "RewardTimeEnergy": 0,
-      "HpGrowthRate": 1.15,
+      "HpGrowthRate": 1.07,
       "RewardGrowthRate": 1.1
     },
     {
@@ -50,14 +50,14 @@
       "Id": 10004,
       "Chapter": 2,
       "StageType": "Boss",
-      "EnemyHp": 1420,
+      "EnemyHp": 360,
       "EnemyAtk": 50,
       "KillCount": 1,
       "RewardGold": 90,
       "RewardGrowth": 24,
-      "RewardExist": 4,
+      "RewardExist": 20,
       "RewardTimeEnergy": 20,
-      "HpGrowthRate": 1.15,
+      "HpGrowthRate": 1.07,
       "RewardGrowthRate": 1.1
     },
     {
@@ -65,14 +65,14 @@
       "Id": 10005,
       "Chapter": 3,
       "StageType": "Normal",
-      "EnemyHp": 327,
+      "EnemyHp": 77,
       "EnemyAtk": 28,
       "KillCount": 5,
       "RewardGold": 33,
       "RewardGrowth": 9,
-      "RewardExist": 2,
+      "RewardExist": 10,
       "RewardTimeEnergy": 0,
-      "HpGrowthRate": 1.15,
+      "HpGrowthRate": 1.07,
       "RewardGrowthRate": 1.1
     },
     {
@@ -80,14 +80,14 @@
       "Id": 10006,
       "Chapter": 3,
       "StageType": "Boss",
-      "EnemyHp": 5755,
+      "EnemyHp": 710,
       "EnemyAtk": 160,
       "KillCount": 1,
       "RewardGold": 237,
       "RewardGrowth": 54,
-      "RewardExist": 6,
+      "RewardExist": 30,
       "RewardTimeEnergy": 25,
-      "HpGrowthRate": 1.15,
+      "HpGrowthRate": 1.07,
       "RewardGrowthRate": 1.1
     },
     {
@@ -95,14 +95,14 @@
       "Id": 10007,
       "Chapter": 4,
       "StageType": "Normal",
-      "EnemyHp": 1324,
+      "EnemyHp": 152,
       "EnemyAtk": 89,
       "KillCount": 5,
       "RewardGold": 87,
       "RewardGrowth": 20,
-      "RewardExist": 3,
+      "RewardExist": 15,
       "RewardTimeEnergy": 0,
-      "HpGrowthRate": 1.15,
+      "HpGrowthRate": 1.07,
       "RewardGrowthRate": 1.1
     },
     {
@@ -110,14 +110,14 @@
       "Id": 10008,
       "Chapter": 4,
       "StageType": "Boss",
-      "EnemyHp": 23290,
+      "EnemyHp": 1395,
       "EnemyAtk": 498,
       "KillCount": 1,
       "RewardGold": 615,
       "RewardGrowth": 120,
-      "RewardExist": 8,
+      "RewardExist": 40,
       "RewardTimeEnergy": 30,
-      "HpGrowthRate": 1.15,
+      "HpGrowthRate": 1.07,
       "RewardGrowthRate": 1.1
     },
     {
@@ -125,14 +125,14 @@
       "Id": 10009,
       "Chapter": 5,
       "StageType": "Normal",
-      "EnemyHp": 5357,
+      "EnemyHp": 299,
       "EnemyAtk": 279,
       "KillCount": 5,
       "RewardGold": 226,
       "RewardGrowth": 43,
-      "RewardExist": 4,
+      "RewardExist": 20,
       "RewardTimeEnergy": 0,
-      "HpGrowthRate": 1.15,
+      "HpGrowthRate": 1.07,
       "RewardGrowthRate": 1.1
     },
     {
@@ -140,14 +140,14 @@
       "Id": 10010,
       "Chapter": 5,
       "StageType": "Boss",
-      "EnemyHp": 94230,
+      "EnemyHp": 2750,
       "EnemyAtk": 1548,
       "KillCount": 1,
       "RewardGold": 1599,
       "RewardGrowth": 258,
-      "RewardExist": 10,
+      "RewardExist": 50,
       "RewardTimeEnergy": 35,
-      "HpGrowthRate": 1.15,
+      "HpGrowthRate": 1.07,
       "RewardGrowthRate": 1.1
     },
     {
@@ -155,14 +155,14 @@
       "Id": 10011,
       "Chapter": 6,
       "StageType": "Normal",
-      "EnemyHp": 21673,
+      "EnemyHp": 589,
       "EnemyAtk": 867,
       "KillCount": 5,
       "RewardGold": 586,
       "RewardGrowth": 93,
-      "RewardExist": 5,
+      "RewardExist": 25,
       "RewardTimeEnergy": 0,
-      "HpGrowthRate": 1.15,
+      "HpGrowthRate": 1.07,
       "RewardGrowthRate": 1.1
     },
     {
@@ -170,14 +170,14 @@
       "Id": 10012,
       "Chapter": 6,
       "StageType": "Boss",
-      "EnemyHp": 381215,
+      "EnemyHp": 5415,
       "EnemyAtk": 4808,
       "KillCount": 1,
       "RewardGold": 4152,
       "RewardGrowth": 561,
-      "RewardExist": 12,
+      "RewardExist": 60,
       "RewardTimeEnergy": 40,
-      "HpGrowthRate": 1.15,
+      "HpGrowthRate": 1.07,
       "RewardGrowthRate": 1.1
     },
     {
@@ -185,14 +185,14 @@
       "Id": 10013,
       "Chapter": 7,
       "StageType": "Normal",
-      "EnemyHp": 87679,
+      "EnemyHp": 1158,
       "EnemyAtk": 2692,
       "KillCount": 5,
       "RewardGold": 1522,
       "RewardGrowth": 202,
-      "RewardExist": 6,
+      "RewardExist": 30,
       "RewardTimeEnergy": 0,
-      "HpGrowthRate": 1.15,
+      "HpGrowthRate": 1.07,
       "RewardGrowthRate": 1.1
     },
     {
@@ -200,14 +200,14 @@
       "Id": 10014,
       "Chapter": 7,
       "StageType": "Boss",
-      "EnemyHp": 1542235,
+      "EnemyHp": 10650,
       "EnemyAtk": 14934,
       "KillCount": 1,
       "RewardGold": 10767,
       "RewardGrowth": 1212,
-      "RewardExist": 14,
+      "RewardExist": 70,
       "RewardTimeEnergy": 45,
-      "HpGrowthRate": 1.15,
+      "HpGrowthRate": 1.07,
       "RewardGrowthRate": 1.1
     },
     {
@@ -215,14 +215,14 @@
       "Id": 10015,
       "Chapter": 8,
       "StageType": "Normal",
-      "EnemyHp": 354714,
+      "EnemyHp": 2279,
       "EnemyAtk": 8363,
       "KillCount": 5,
       "RewardGold": 3948,
       "RewardGrowth": 437,
-      "RewardExist": 7,
+      "RewardExist": 35,
       "RewardTimeEnergy": 0,
-      "HpGrowthRate": 1.15,
+      "HpGrowthRate": 1.07,
       "RewardGrowthRate": 1.1
     },
     {
@@ -230,14 +230,14 @@
       "Id": 10016,
       "Chapter": 8,
       "StageType": "Boss",
-      "EnemyHp": 6239205,
+      "EnemyHp": 20955,
       "EnemyAtk": 46384,
       "KillCount": 1,
       "RewardGold": 27930,
       "RewardGrowth": 2619,
-      "RewardExist": 16,
+      "RewardExist": 80,
       "RewardTimeEnergy": 50,
-      "HpGrowthRate": 1.15,
+      "HpGrowthRate": 1.07,
       "RewardGrowthRate": 1.1
     },
     {
@@ -245,14 +245,14 @@
       "Id": 10017,
       "Chapter": 9,
       "StageType": "Normal",
-      "EnemyHp": 1435017,
+      "EnemyHp": 4484,
       "EnemyAtk": 25975,
       "KillCount": 5,
       "RewardGold": 10242,
       "RewardGrowth": 943,
-      "RewardExist": 8,
+      "RewardExist": 40,
       "RewardTimeEnergy": 0,
-      "HpGrowthRate": 1.15,
+      "HpGrowthRate": 1.07,
       "RewardGrowthRate": 1.1
     },
     {
@@ -260,14 +260,14 @@
       "Id": 10018,
       "Chapter": 9,
       "StageType": "Boss",
-      "EnemyHp": 25241070,
+      "EnemyHp": 41220,
       "EnemyAtk": 144062,
       "KillCount": 1,
       "RewardGold": 72450,
       "RewardGrowth": 5658,
-      "RewardExist": 18,
+      "RewardExist": 90,
       "RewardTimeEnergy": 55,
-      "HpGrowthRate": 1.15,
+      "HpGrowthRate": 1.07,
       "RewardGrowthRate": 1.1
     },
     {
@@ -275,14 +275,14 @@
       "Id": 10019,
       "Chapter": 10,
       "StageType": "Normal",
-      "EnemyHp": 5805446,
+      "EnemyHp": 8822,
       "EnemyAtk": 80675,
       "KillCount": 5,
       "RewardGold": 26565,
       "RewardGrowth": 2037,
-      "RewardExist": 9,
+      "RewardExist": 45,
       "RewardTimeEnergy": 0,
-      "HpGrowthRate": 1.15,
+      "HpGrowthRate": 1.07,
       "RewardGrowthRate": 1.1
     },
     {
@@ -290,14 +290,14 @@
       "Id": 10020,
       "Chapter": 10,
       "StageType": "Boss",
-      "EnemyHp": 102114210,
+      "EnemyHp": 81090,
       "EnemyAtk": 447440,
       "KillCount": 1,
       "RewardGold": 187917,
       "RewardGrowth": 12219,
-      "RewardExist": 20,
+      "RewardExist": 100,
       "RewardTimeEnergy": 60,
-      "HpGrowthRate": 1.15,
+      "HpGrowthRate": 1.07,
       "RewardGrowthRate": 1.1
     }
   ],
@@ -370,8 +370,8 @@
       "GrantCurrency": "",
       "ValueBase": 5,
       "ValuePerNode": 0.6,
-      "CostBase": 10,
-      "CostGrowthRate": 1.35
+      "CostBase": 8,
+      "CostGrowthRate": 1.16
     },
     {
       "Index": 2,
@@ -384,8 +384,8 @@
       "GrantCurrency": "",
       "ValueBase": 2,
       "ValuePerNode": 0.6,
-      "CostBase": 81,
-      "CostGrowthRate": 1.35
+      "CostBase": 22,
+      "CostGrowthRate": 1.16
     },
     {
       "Index": 3,
@@ -398,8 +398,8 @@
       "GrantCurrency": "",
       "ValueBase": 0.8,
       "ValuePerNode": 0.15,
-      "CostBase": 201,
-      "CostGrowthRate": 1.35
+      "CostBase": 35,
+      "CostGrowthRate": 1.16
     },
     {
       "Index": 4,
@@ -412,8 +412,8 @@
       "GrantCurrency": "TIME_ENERGY",
       "ValueBase": 8,
       "ValuePerNode": 2,
-      "CostBase": 1217,
-      "CostGrowthRate": 1.35
+      "CostBase": 85,
+      "CostGrowthRate": 1.16
     },
     {
       "Index": 5,
@@ -426,8 +426,8 @@
       "GrantCurrency": "",
       "ValueBase": 10,
       "ValuePerNode": 1,
-      "CostBase": 4042,
-      "CostGrowthRate": 1.35
+      "CostBase": 155,
+      "CostGrowthRate": 1.16
     },
     {
       "Index": 6,
@@ -440,8 +440,8 @@
       "GrantCurrency": "MASTERY_ESSENCE",
       "ValueBase": 31,
       "ValuePerNode": 1,
-      "CostBase": 24472,
-      "CostGrowthRate": 1.35
+      "CostBase": 379,
+      "CostGrowthRate": 1.16
     },
     {
       "Index": 7,
@@ -454,8 +454,8 @@
       "GrantCurrency": "",
       "ValueBase": 23,
       "ValuePerNode": 0.6,
-      "CostBase": 81285,
-      "CostGrowthRate": 1.35
+      "CostBase": 686,
+      "CostGrowthRate": 1.16
     },
     {
       "Index": 8,
@@ -468,8 +468,8 @@
       "GrantCurrency": "MASTERY_ESSENCE",
       "ValueBase": 42,
       "ValuePerNode": 1,
-      "CostBase": 664277,
-      "CostGrowthRate": 1.35
+      "CostBase": 1941,
+      "CostGrowthRate": 1.16
     },
     {
       "Index": 9,
@@ -482,8 +482,8 @@
       "GrantCurrency": "",
       "ValueBase": 29,
       "ValuePerNode": 0.6,
-      "CostBase": 1634371,
-      "CostGrowthRate": 1.35
+      "CostBase": 3029,
+      "CostGrowthRate": 1.16
     },
     {
       "Index": 10,
@@ -496,8 +496,8 @@
       "GrantCurrency": "",
       "ValueBase": 6.2,
       "ValuePerNode": 0.15,
-      "CostBase": 9893577,
-      "CostGrowthRate": 1.35
+      "CostBase": 7381,
+      "CostGrowthRate": 1.16
     }
   ],
   "FeatureUnlockTable": [
@@ -507,7 +507,7 @@
       "FeatureType": "REBIRTH",
       "Name": 40007,
       "RequireNodeCount": 15,
-      "UnlockCost": 667
+      "UnlockCost": 63
     },
     {
       "Index": 2,
@@ -515,7 +515,7 @@
       "FeatureType": "TIME_HEIST",
       "Name": 40008,
       "RequireNodeCount": 33,
-      "UnlockCost": 148142
+      "UnlockCost": 924
     }
   ],
   "MasteryTable": [
@@ -690,7 +690,7 @@
       "Tier3Weight": 10,
       "Tier4Weight": 4,
       "Tier5Weight": 1,
-      "PullCostDiamond": 100
+      "PullCostDiamond": 40
     },
     {
       "Index": 2,
@@ -707,7 +707,7 @@
       "Tier3Weight": 14,
       "Tier4Weight": 6,
       "Tier5Weight": 3,
-      "PullCostDiamond": 100
+      "PullCostDiamond": 40
     },
     {
       "Index": 3,
@@ -724,7 +724,7 @@
       "Tier3Weight": 17,
       "Tier4Weight": 9,
       "Tier5Weight": 5,
-      "PullCostDiamond": 100
+      "PullCostDiamond": 40
     },
     {
       "Index": 4,
@@ -741,7 +741,7 @@
       "Tier3Weight": 19,
       "Tier4Weight": 12,
       "Tier5Weight": 8,
-      "PullCostDiamond": 100
+      "PullCostDiamond": 40
     },
     {
       "Index": 5,
@@ -758,7 +758,7 @@
       "Tier3Weight": 20,
       "Tier4Weight": 16,
       "Tier5Weight": 12,
-      "PullCostDiamond": 100
+      "PullCostDiamond": 40
     }
   ],
   "RelicTable": [
@@ -882,7 +882,7 @@
       "Id": 34001,
       "CostBase": 20,
       "CostGrowthRate": 2,
-      "CooldownBase": 7200,
+      "CooldownBase": 900,
       "CooldownGrowthRate": 1.5,
       "TargetStageOffset": 10,
       "RewardMultiplier": 5
@@ -911,35 +911,35 @@
       "Id": 35101,
       "StageFrom": 1,
       "StageTo": 24,
-      "DiamondReward": 100
+      "DiamondReward": 1200
     },
     {
       "Index": 2,
       "Id": 35102,
       "StageFrom": 25,
       "StageTo": 49,
-      "DiamondReward": 300
+      "DiamondReward": 2000
     },
     {
       "Index": 3,
       "Id": 35103,
       "StageFrom": 50,
       "StageTo": 99,
-      "DiamondReward": 700
+      "DiamondReward": 3500
     },
     {
       "Index": 4,
       "Id": 35104,
       "StageFrom": 100,
       "StageTo": 199,
-      "DiamondReward": 1500
+      "DiamondReward": 6000
     },
     {
       "Index": 5,
       "Id": 35105,
       "StageFrom": 200,
       "StageTo": 999999,
-      "DiamondReward": 3000
+      "DiamondReward": 10000
     }
   ],
   "CommonTable": [
@@ -1010,7 +1010,7 @@
       "Index": 10,
       "Id": 36010,
       "Key": "RelicGachaCostTimeEnergy",
-      "Value": 50,
+      "Value": 150,
       "ValueType": "int"
     },
     {

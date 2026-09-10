@@ -160,7 +160,10 @@ def write_meta_sheet(wb: Workbook, sheet_name: str, headers: list[str], rows: li
 
 
 def enemy_hp(stage: int) -> int:
-    return math.floor(20 * 1.15 ** (stage - 1))
+    # 20분 시연 목표(2026-xx 밸런싱 패스)에 맞춰 1.15 -> 1.07로 대폭 완화.
+    # 예전 증가율로는 챕터5~10 구간에서 스탯 성장이 못 따라가 스테이지50->100이
+    # 1시간대에서 22일로 폭증했었다 — 시뮬레이션 재측정 근거는 balance/README.md 참고.
+    return math.floor(20 * 1.07 ** (stage - 1))
 
 
 def enemy_atk(stage: int) -> int:
@@ -176,7 +179,8 @@ def growth_reward(stage: int) -> int:
 
 
 def exist_reward(stage: int) -> int:
-    return max(1, math.floor(stage / 10))
+    # 20분 시연 목표에 맞춰 /10 -> /2로 상향(비용만 낮추면 부자연스러워서 획득량도 함께 올림).
+    return max(1, math.floor(stage / 2))
 
 
 # 보스 처치가 시간에너지의 유일한 획득 경로라, 챕터가 올라가도 고정값이면 유물 뽑기
@@ -186,8 +190,19 @@ def boss_time_energy_reward(chapter: int) -> int:
     return 15 + (chapter - 1) * 5
 
 
+# ExistTreeTable 각 행의 CostGrowthRate 칼럼(build_exist_tree_rows)도 반드시 이 값과
+# 같아야 한다 — node_cost()는 "각 소구간의 첫 노드(CostBase)"만 시드하고, 그 소구간
+# 안에서 노드가 늘어날 때의 실제 증가율은 행 자체의 CostGrowthRate 칼럼이 쓰이기
+# 때문에(getExistTreeTier), 둘이 어긋나면 시드값만 싸고 소구간 내부 증가율은 옛날
+# 값으로 남는 버그가 생긴다(실제로 한 번 이렇게 어긋났었다).
+NODE_COST_RATE = 1.16
+
+
 def node_cost(order: int) -> int:
-    return math.floor(10 * 1.35 ** (order - 1))
+    # 20분 시연 목표에 맞춰 대폭 하향(10*1.35^n -> 8*1.16^n) — 예전엔 15번 노드
+    # 도달에만 9일, 비용 지불까지 49일이 걸렸다. FeatureUnlockTable의 리버스/
+    # 타임하이스트 해금 비용도 이 함수로 계산되므로 함께 따라 내려간다.
+    return math.floor(8 * NODE_COST_RATE ** (order - 1))
 
 
 BOSS_HP_MULT = 5
@@ -195,7 +210,7 @@ BOSS_ATK_MULT = 2
 BOSS_REWARD_MULT = 3
 BOSS_EXIST_MULT = 2
 
-HP_GROWTH_RATE = 1.15  # EnemyHp/EnemyAtk 공통 적용
+HP_GROWTH_RATE = 1.07  # EnemyHp/EnemyAtk 공통 적용 — enemy_hp()와 함께 20분 시연 목표로 하향
 REWARD_GROWTH_RATE = 1.1  # 골드/성장에너지/존재력 보상 공통 적용
 
 
@@ -527,7 +542,7 @@ def build_exist_tree_rows() -> list[list]:
                 value_base,
                 value_per_node,
                 node_cost(order_from),
-                1.35,
+                NODE_COST_RATE,
                 f"order {order_from}~{order_to} 구간",
             ]
         )
@@ -913,12 +928,16 @@ GACHA_TABLE_COLUMNS = register(
 
 
 def build_gacha_rows() -> list[list]:
+    # PullCostDiamond 100->40: 20분 시연 목표(합성 1건 필요 다이아 대비 초기/리버스
+    # 지급량 격차가 12배였던 문제) 대응. 37회 안팎 뽑기가 나오는지는 시뮬레이션으로
+    # 이미 확인했고, 그 정도면 10연차 할인 없이도 "20회 이상" 목표를 넉넉히 넘겨서
+    # 할인은 추가하지 않았다.
     return [
-        [1, 37101, 0, 0, 70, 22, 6, 1.8, 0.2, 60, 25, 10, 4, 1, 100, ""],
-        [2, 37102, 1, 50, 60, 27, 9, 3.3, 0.7, 50, 27, 14, 6, 3, 100, ""],
-        [3, 37103, 2, 150, 50, 30, 13, 5.5, 1.5, 42, 27, 17, 9, 5, 100, ""],
-        [4, 37104, 3, 350, 40, 32, 18, 8, 2, 35, 26, 19, 12, 8, 100, ""],
-        [5, 37105, 4, 700, 30, 32, 22, 12, 4, 28, 24, 20, 16, 12, 100, ""],
+        [1, 37101, 0, 0, 70, 22, 6, 1.8, 0.2, 60, 25, 10, 4, 1, 40, ""],
+        [2, 37102, 1, 50, 60, 27, 9, 3.3, 0.7, 50, 27, 14, 6, 3, 40, ""],
+        [3, 37103, 2, 150, 50, 30, 13, 5.5, 1.5, 42, 27, 17, 9, 5, 40, ""],
+        [4, 37104, 3, 350, 40, 32, 18, 8, 2, 35, 26, 19, 12, 8, 40, ""],
+        [5, 37105, 4, 700, 30, 32, 22, 12, 4, 28, 24, 20, 16, 12, 40, ""],
     ]
 
 
@@ -1054,7 +1073,8 @@ TIME_HEIST_TABLE_COLUMNS = register(
 
 
 def build_time_heist_rows() -> list[list]:
-    return [[1, 34001, "타임 하이스트", 20, 2.0, 7200, 1.5, 10, 5, "미래 스테이지 보상을 시간에너지로 미리 수령"]]
+    # CooldownBase 7200(2시간) -> 900(15분): 20분 시연 안에서 체감 가능한 값으로.
+    return [[1, 34001, "타임 하이스트", 20, 2.0, 900, 1.5, 10, 5, "미래 스테이지 보상을 시간에너지로 미리 수령"]]
 
 
 # ---------------------------------------------------------------------------
@@ -1194,12 +1214,15 @@ REBIRTH_REWARD_TABLE_COLUMNS = register(
 
 
 def build_rebirth_reward_rows() -> list[list]:
+    # 20분 시연 목표: 합성 1건(약 3,571다이아)에 비해 첫 리버스 지급이 300이라
+    # 12배 격차였던 문제 대응 + 첫 리버스가 실제로는 스테이지 20대 초반에서
+    # 일어난다는 시뮬레이션 결과를 반영해 1구간부터 넉넉히 올렸다(가챠 20회 이상 확보).
     return [
-        [1, 35101, "1구간", 1, 24, 100, ""],
-        [2, 35102, "2구간", 25, 49, 300, ""],
-        [3, 35103, "3구간", 50, 99, 700, ""],
-        [4, 35104, "4구간", 100, 199, 1500, ""],
-        [5, 35105, "5구간(최종)", 200, 999999, 3000, ""],
+        [1, 35101, "1구간", 1, 24, 1200, ""],
+        [2, 35102, "2구간", 25, 49, 2000, ""],
+        [3, 35103, "3구간", 50, 99, 3500, ""],
+        [4, 35104, "4구간", 100, 199, 6000, ""],
+        [5, 35105, "5구간(최종)", 200, 999999, 10000, ""],
     ]
 
 
@@ -1232,7 +1255,10 @@ def build_common_rows() -> list[list]:
         ("InitialMasteryEssence", "초기 숙련의정수", 0, "int", "게임 시작 시 지급되는 초기 숙련의 정수"),
         ("AutoSaveIntervalSec", "자동저장 간격(초)", 2, "float", "상태 변경 후 실제 저장까지의 최소 대기 간격"),
         ("InitialDiamond", "초기 다이아", 200, "int", "게임 시작 시 지급되는 초기 다이아 — 첫 리버스 전에도 무기 가챠를 1~2회 체험할 수 있는 양"),
-        ("RelicGachaCostTimeEnergy", "유물 뽑기 비용", 50, "int", "유물 뽑기 1회당 소모되는 시간에너지"),
+        # HP 곡선 완화로 보스 처치(=시간에너지 획득)가 훨씬 빨라져서, 50 그대로 두면
+        # 20분 시연 안에 유물을 20회 넘게 뽑아버려 "3~5개" 목표를 크게 벗어난다(시뮬레이션
+        # 재확인 결과 150이 15분 시점 4회 안팎으로 목표 범위에 맞음).
+        ("RelicGachaCostTimeEnergy", "유물 뽑기 비용", 150, "int", "유물 뽑기 1회당 소모되는 시간에너지"),
         (
             "RelicDuplicateRefundTimeEnergy",
             "유물 중복 환급량",
