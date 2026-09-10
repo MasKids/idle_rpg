@@ -16,6 +16,7 @@ import { SummonPanel } from './systems/gacha/SummonPanel'
 import { WeaponStoragePanel } from './systems/weapon/WeaponStoragePanel'
 import { WelcomeOnboarding } from './systems/onboarding/WelcomeOnboarding'
 import { useGameStore } from './store/gameStore'
+import { FRAME_HEIGHT, FRAME_WIDTH, useFrameScale } from './utils/useFrameScale'
 import type { TabKey } from './types/game'
 
 const FULLSCREEN_TABS: TabKey[] = ['equipment', 'gacha', 'exist', 'dogam']
@@ -31,6 +32,7 @@ function App() {
   const executeRebirth = useGameStore((state) => state.executeRebirth)
   const executeTimeHeist = useGameStore((state) => state.executeTimeHeist)
   const claimOfflineReward = useGameStore((state) => state.claimOfflineReward)
+  const { isDesktopFrame, scale } = useFrameScale()
   const goBack = () => setActiveTab('growth')
 
   // 전투 루프는 App이 살아있는 한(탭 전환/화면 이동과 무관하게) 단 한 번만 시작된다.
@@ -55,8 +57,25 @@ function App() {
   }
 
   return (
-    <div className="flex min-h-dvh items-center justify-center bg-black">
-      <div className="relative flex h-dvh w-full max-w-[430px] flex-col overflow-hidden bg-slate-950 sm:h-[900px] sm:max-h-[95dvh] sm:rounded-2xl sm:border sm:border-white/10 sm:shadow-2xl">
+    <div className="fixed inset-0 flex items-center justify-center overflow-hidden frame-backdrop">
+      <div
+        className={
+          isDesktopFrame
+            ? 'relative flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-slate-950 shadow-2xl'
+            : 'relative flex h-dvh w-full flex-col overflow-hidden bg-slate-950'
+        }
+        style={
+          isDesktopFrame
+            ? {
+                width: FRAME_WIDTH,
+                height: FRAME_HEIGHT,
+                transform: `scale(${scale})`,
+                transformOrigin: 'center center',
+                willChange: 'transform',
+              }
+            : undefined
+        }
+      >
         {isFullscreen ? (
           <div className="flex min-h-0 flex-1 flex-col animate-[panel-fade-in_200ms_ease-out]">
             {activeTab === 'equipment' && <WeaponStoragePanel onBack={goBack} />}

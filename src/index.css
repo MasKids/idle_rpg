@@ -363,6 +363,12 @@ body {
   border-bottom-right-radius: 4px;
 }
 
+/* 데스크톱에서 세로 프레임 바깥으로 드러나는 배경 — 프레임에 시선이 모이도록
+   중앙이 살짝 밝고 가장자리는 검정에 가깝게 어두워지는 은은한 비네트. */
+.frame-backdrop {
+  background: radial-gradient(ellipse at center, color-mix(in srgb, var(--color-surface-card) 55%, black) 0%, #000000 78%);
+}
+
 /* 전체화면 패널 헤더용 — 아주 옅은 사선 해치 패턴을 배경에 깐다 */
 .panel-header-frame {
   background-image: repeating-linear-gradient(
