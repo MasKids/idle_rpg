@@ -18,7 +18,12 @@ const SAVE_DEBOUNCE_MS = getCommon('AutoSaveIntervalSec') * 1000
 
 // 저장 구조가 바뀌면 이 값을 올린다. 로드 시 버전이 다르면 깨진 값으로 취급하지 않고
 // 그냥 "저장 없음"과 동일하게 취급해 초기 상태로 시작한다 (마이그레이션은 하지 않음 — 프로토타입 범위 밖).
-const SAVE_VERSION = 1
+// v0.2.0에서 1→2: 데이터 테이블 전면 개편으로 존재력 트리 비용 곡선·스테이지 HP
+// 증가율이 달라져서, 구버전 세이브를 그대로 이어서 로드하면 크래시는 안 나지만
+// (실제로 확인함 — 새 필드는 ??로 기본값 대체, 무기/스탯 등 기존 필드도 그대로
+// 유효) 진행 중이던 난이도가 로드 시점에 갑자기 확 뀌는 어색한 경험이 된다.
+// 포트폴리오 데모라 굳이 구버전 진행을 이어갈 이유가 없어 초기화 쪽을 택했다.
+const SAVE_VERSION = 2
 
 export interface GameSaveState {
   currencies: Record<CurrencyKey, number>
