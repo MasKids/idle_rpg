@@ -1694,6 +1694,36 @@
       "Id": 40128,
       "KOR": "무기",
       "ENG": "Weapon"
+    },
+    {
+      "Index": 123,
+      "Id": 40129,
+      "KOR": "건너뛰기",
+      "ENG": "Skip"
+    },
+    {
+      "Index": 124,
+      "Id": 40130,
+      "KOR": "다음",
+      "ENG": "Next"
+    },
+    {
+      "Index": 125,
+      "Id": 40131,
+      "KOR": "시작하기",
+      "ENG": "Start"
+    },
+    {
+      "Index": 126,
+      "Id": 40132,
+      "KOR": "다음 특별 해금까지",
+      "ENG": "Until Next Special Unlock"
+    },
+    {
+      "Index": 127,
+      "Id": 40133,
+      "KOR": "새 소식",
+      "ENG": "New"
     }
   ]
 }

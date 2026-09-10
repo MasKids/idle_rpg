@@ -7,6 +7,8 @@ import { computeRebirthBonusPoints, computeRefundMultiplier } from './rebirthBon
 import { formatNumber } from '../../utils/format'
 import { useMountTransition } from '../../utils/useMountTransition'
 import { Button } from '../../components/ui'
+import { IntroBanner } from '../onboarding/IntroBanner'
+import { SYSTEM_INTRO_LINES } from '../onboarding/onboardingContent'
 
 const TRANSITION_MS = 180
 
@@ -66,6 +68,14 @@ export function RebirthModal({ isOpen, onCancel, onConfirm }: RebirthModalProps)
           도달 스테이지에 비례한 다이아를 새로 받습니다. 존재력 트리는 그대로 유지됩니다.
         </p>
 
+        <IntroBanner
+          storageKey="intro-reverse"
+          title={getSystemName('reverse')}
+          lines={SYSTEM_INTRO_LINES.reverse}
+          accentColorVar="var(--color-grade-epic)"
+          className="mt-2"
+        />
+
         <RebirthSection title={getRebirthBonusLabel('title')} tone="text-gold-strong">
           <li>
             {getRebirthBonusLabel('currentCycle')} {rebirthCount + 1}회차
@@ -112,7 +122,7 @@ export function RebirthModal({ isOpen, onCancel, onConfirm }: RebirthModalProps)
             {getCurrencyName('diamond')} +{formatNumber(diamondReward)}
           </li>
           {nextRewardTier && (
-            <li className="text-text-disabled">
+            <li className="font-medium text-gold-strong">
               → 스테이지 {nextRewardTier.StageFrom} 도달 시 {formatNumber(nextRewardTier.DiamondReward)}{' '}
               {getCurrencyName('diamond')}
             </li>

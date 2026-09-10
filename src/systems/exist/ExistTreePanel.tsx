@@ -1,6 +1,13 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { EXIST_SPECIAL_UNLOCKS, existNodeStatus, generateExistTree } from '../../data/existTree'
-import { getButtonLabel, getCommonUiLabel, getCurrencyAbbr, getCurrencyName, getStateLabel } from '../../data/uiStrings'
+import { EXIST_SPECIAL_UNLOCKS, EXIST_TREE_TOTAL_NODES, existNodeStatus, generateExistTree } from '../../data/existTree'
+import {
+  getButtonLabel,
+  getCommonUiLabel,
+  getCurrencyAbbr,
+  getCurrencyName,
+  getExistUiLabel,
+  getStateLabel,
+} from '../../data/uiStrings'
 import { useGameStore } from '../../store/gameStore'
 import { formatNumber } from '../../utils/format'
 import type {
@@ -11,8 +18,10 @@ import type {
   ExistTreeNode,
   StatKey,
 } from '../../types/game'
-import { Button, PanelHeader } from '../../components/ui'
+import { Button, PanelHeader, ProgressBar } from '../../components/ui'
 import { STATE_ICON } from '../../components/icons'
+import { IntroBanner } from '../onboarding/IntroBanner'
+import { SYSTEM_INTRO_LINES } from '../onboarding/onboardingContent'
 
 interface ExistTreePanelProps {
   onBack: () => void
@@ -93,6 +102,12 @@ export function ExistTreePanel({ onBack }: ExistTreePanelProps) {
   const selectedNode = nodesTopToBottom.find((node) => node.order === selectedOrder) ?? null
   const selectedStatus = selectedNode ? existNodeStatus(selectedNode.order, unlockedCount) : null
 
+  // 상시 진행도 표시용 — 아직 해금하지 않은 특별 해금 중 가장 가까운 것까지 남은 노드 수.
+  const nextSpecial = [...EXIST_SPECIAL_UNLOCKS]
+    .filter((unlock) => !specialUnlocks[unlock.id])
+    .sort((a, b) => a.requiredUnlockedCount - b.requiredUnlockedCount)[0]
+  const nextSpecialRemain = nextSpecial ? Math.max(0, nextSpecial.requiredUnlockedCount - unlockedCount) : null
+
   return (
     <div className="relative flex min-h-0 flex-1 flex-col bg-surface-base text-text-primary">
       <PanelHeader
@@ -105,6 +120,29 @@ export function ExistTreePanel({ onBack }: ExistTreePanelProps) {
         toneClassName="text-text-primary"
         accentColorVar="var(--color-teal-strong)"
       />
+
+      <IntroBanner
+        storageKey="intro-exist-tree"
+        title={getCurrencyName('exist') + ' 트리'}
+        lines={SYSTEM_INTRO_LINES.existTree}
+        accentColorVar="var(--color-teal-strong)"
+        className="m-3"
+      />
+
+      <div className="shrink-0 border-b border-surface-border px-4 py-2">
+        <div className="flex items-center justify-between text-[11px] text-text-secondary">
+          <span className="tabular-nums">
+            {unlockedCount}/{EXIST_TREE_TOTAL_NODES}
+          </span>
+          {nextSpecial && nextSpecialRemain !== null && nextSpecialRemain > 0 && (
+            <span className="tabular-nums">
+              {getExistUiLabel('untilNextSpecial')} {nextSpecialRemain}
+              {getCommonUiLabel('nodeSuffix')}
+            </span>
+          )}
+        </div>
+        <ProgressBar value={unlockedCount} max={EXIST_TREE_TOTAL_NODES} colorClassName="bg-teal-base" className="mt-1" />
+      </div>
 
       {selectedNode && selectedStatus && (
         <NodeInfoBar
@@ -141,6 +179,7 @@ export function ExistTreePanel({ onBack }: ExistTreePanelProps) {
                 special={special}
                 specialReachable={specialReachable}
                 specialUnlocked={specialUnlocked}
+                exist={exist}
                 onSpecialClick={specialReachable ? () => unlockSpecial(special!.id) : undefined}
               />
               {showTierDividerBelow && (
@@ -168,6 +207,7 @@ interface NodeRowProps {
   special?: ExistSpecialUnlock
   specialReachable: boolean
   specialUnlocked: boolean
+  exist: number
   onSpecialClick?: () => void
 }
 
@@ -180,6 +220,7 @@ function NodeRow({
   special,
   specialReachable,
   specialUnlocked,
+  exist,
   onSpecialClick,
 }: NodeRowProps) {
   const specialLane = special ? oppositeLane(node.lane) : null
@@ -195,7 +236,7 @@ function NodeRow({
         )}
         {specialLane === 'left' && special && (
           <>
-            <SpecialCircle unlock={special} reachable={specialReachable} unlocked={specialUnlocked} onClick={onSpecialClick} />
+            <SpecialCircle unlock={special} reachable={specialReachable} unlocked={specialUnlocked} exist={exist} onClick={onSpecialClick} />
             <Connector />
           </>
         )}
@@ -213,7 +254,7 @@ function NodeRow({
         {specialLane === 'right' && special && (
           <>
             <Connector />
-            <SpecialCircle unlock={special} reachable={specialReachable} unlocked={specialUnlocked} onClick={onSpecialClick} />
+            <SpecialCircle unlock={special} reachable={specialReachable} unlocked={specialUnlocked} exist={exist} onClick={onSpecialClick} />
           </>
         )}
       </div>
@@ -274,13 +315,17 @@ function SpecialCircle({
   unlock,
   reachable,
   unlocked,
+  exist,
   onClick,
 }: {
   unlock: ExistSpecialUnlock
   reachable: boolean
   unlocked: boolean
+  exist: number
   onClick?: () => void
 }) {
+  const canAfford = exist >= unlock.cost
+
   return (
     <button
       type="button"
@@ -299,7 +344,11 @@ function SpecialCircle({
       >
         {reachable ? unlock.label : <STATE_ICON.locked size={18} strokeWidth={2} />}
       </div>
-      <div className={`text-center text-[9px] leading-tight ${reachable ? 'text-grade-epic' : 'text-text-disabled'}`}>
+      <div
+        className={`text-center text-[9px] leading-tight ${
+          !reachable ? 'text-text-disabled' : !unlocked && !canAfford ? 'text-danger-strong' : 'text-grade-epic'
+        }`}
+      >
         {unlocked
           ? getStateLabel('unlocked')
           : reachable
@@ -336,7 +385,7 @@ function NodeInfoBar({
           <div className="mt-0.5 text-[11px] text-text-secondary">
             {getStateLabel('effect')} {effectSummary(node.effect)}
           </div>
-          <div className="text-[11px] text-text-secondary">
+          <div className={`text-[11px] ${status === 'unlockable' && !canUnlock ? 'text-danger-strong' : 'text-text-secondary'}`}>
             {status === 'unlocked'
               ? getStateLabel('unlocked')
               : `${getStateLabel('cost')} ${formatNumber(node.cost)} ${getCurrencyName('exist')}`}

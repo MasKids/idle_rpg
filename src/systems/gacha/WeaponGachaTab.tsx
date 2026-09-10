@@ -7,6 +7,7 @@ import { formatNumber } from '../../utils/format'
 import { currentGachaLevelConfig, weaponDisplayName } from '../weapon/weapon'
 import { GRADE_BG_COLOR, GRADE_BORDER_COLOR, GRADE_GLOW_SHADOW, GRADE_TEXT_COLOR } from '../weapon/weaponUi'
 import { Button, CostLabel, GradeBadge } from '../../components/ui'
+import { useAcknowledgeNumericNotice } from '../onboarding/useNumericNotice'
 
 const GRADE_WEIGHT_KEYS = ['NormalWeight', 'RareWeight', 'EpicWeight', 'UniqueWeight', 'LegendaryWeight'] as const
 const GRADES: WeaponGradeEnum[] = ['Normal', 'Rare', 'Epic', 'Unique', 'Legendary']
@@ -21,6 +22,9 @@ export function WeaponGachaTab() {
   const gachaLevel = useGameStore((state) => state.gachaLevel)
   const pullWeaponGacha = useGameStore((state) => state.pullWeaponGacha)
   const pullWeaponGachaTimes = useGameStore((state) => state.pullWeaponGachaTimes)
+
+  // 이 화면을 실제로 열어봤으니, 하단 메뉴의 "가챠 레벨업" 뱃지를 확인 처리한다.
+  useAcknowledgeNumericNotice('gacha-level', gachaLevel)
 
   const levelConfig = currentGachaLevelConfig(gachaCount)
   const nextLevelRow = [...BALANCE_TABLES.GachaTable]

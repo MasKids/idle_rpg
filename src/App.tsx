@@ -14,6 +14,7 @@ import { RebirthModal } from './systems/rebirth/RebirthModal'
 import { TimeHeistModal } from './systems/timeheist/TimeHeistModal'
 import { SummonPanel } from './systems/gacha/SummonPanel'
 import { WeaponStoragePanel } from './systems/weapon/WeaponStoragePanel'
+import { WelcomeOnboarding } from './systems/onboarding/WelcomeOnboarding'
 import { useGameStore } from './store/gameStore'
 import type { TabKey } from './types/game'
 
@@ -108,6 +109,8 @@ function App() {
             className="pointer-events-none absolute inset-0 z-40 animate-[time-warp_0.7s_ease-out_forwards] bg-gold-strong"
           />
         )}
+
+        <WelcomeOnboarding />
 
         {import.meta.env.DEV && <DevPanel onOpenDesignSystem={() => setDesignSystemOpen(true)} />}
         {import.meta.env.DEV && isDesignSystemOpen && (

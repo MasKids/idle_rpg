@@ -7,6 +7,8 @@ import { useNow } from '../../utils/useNow'
 import { computeTimeHeistPreview, timeHeistCooldownEndsAt } from './timeHeist'
 import { useMountTransition } from '../../utils/useMountTransition'
 import { Button } from '../../components/ui'
+import { IntroBanner } from '../onboarding/IntroBanner'
+import { SYSTEM_INTRO_LINES } from '../onboarding/onboardingContent'
 import type { CSSProperties } from 'react'
 
 const TRANSITION_MS = 180
@@ -61,6 +63,14 @@ export function TimeHeistModal({ isOpen, onCancel, onConfirm }: TimeHeistModalPr
         <p className="mt-1 text-[11px] leading-relaxed text-text-secondary">
           미래 스테이지의 보상을 시간에너지로 미리 훔쳐옵니다. 스테이지 진행에는 영향을 주지 않습니다.
         </p>
+
+        <IntroBanner
+          storageKey="intro-timeheist"
+          title={getSystemName('timeHeist')}
+          lines={SYSTEM_INTRO_LINES.timeHeist}
+          accentColorVar="var(--color-gold-strong)"
+          className="mt-2"
+        />
 
         <div className="mt-3 border-t border-surface-border pt-2">
           <p className="mb-1 text-[10px] font-semibold text-gold-strong">{getCommonUiLabel('targetStage')}</p>

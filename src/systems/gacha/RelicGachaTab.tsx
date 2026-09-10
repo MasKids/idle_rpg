@@ -33,7 +33,7 @@ export function RelicGachaTab() {
         <span>
           {getCommonUiLabel('owned')} {getCurrencyName('timeEnergy')} {formatNumber(timeEnergy)}
         </span>
-        <span>
+        <span className={canPull ? undefined : 'font-medium text-danger-strong'}>
           {getCommonUiLabel('costPerPull')} {formatNumber(cost)} {getCurrencyName('timeEnergy')}
         </span>
       </div>

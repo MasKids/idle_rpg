@@ -1,12 +1,15 @@
 import { useState } from 'react'
 import { BALANCE_TABLES, getRelicConfig, getString } from '../../data/balance'
-import { getCommonUiLabel, getCurrencyName, getRelicUiLabel } from '../../data/uiStrings'
+import { getCommonUiLabel, getCurrencyName, getRelicUiLabel, getWeaponUiLabel } from '../../data/uiStrings'
 import { useGameStore } from '../../store/gameStore'
 import { GRADE_BG_COLOR, GRADE_BORDER_COLOR, GRADE_GLOW_SHADOW, GRADE_TEXT_COLOR } from '../weapon/weaponUi'
 import { RelicDetailModal } from './RelicDetailModal'
 import { computeRelicSlotCount, relicGradeName, sortedRelicRows, RELIC_SLOT_MAX } from './relic'
 import { GradeBadge } from '../../components/ui'
 import { STATE_ICON } from '../../components/icons'
+import { IntroBanner } from '../onboarding/IntroBanner'
+import { SYSTEM_INTRO_LINES } from '../onboarding/onboardingContent'
+import { useAcknowledgeNumericNotice } from '../onboarding/useNumericNotice'
 
 // 유물 뽑기(소환)는 systems/gacha/RelicGachaTab.tsx로 옮겨졌다 — 여기는 슬롯
 // 활성화/비활성화와 보유 유물 열람(무기고=보관·관리, 소환=뽑기 역할 분리)만 담당한다.
@@ -17,8 +20,19 @@ export function RelicTab() {
   const unlockedCount = useGameStore((state) => state.unlockedCount)
   const slotCount = computeRelicSlotCount(unlockedCount)
 
+  // 이 화면을 실제로 열어봤으니, 하단 메뉴의 "유물 슬롯 늘어남" 뱃지를 확인 처리한다.
+  useAcknowledgeNumericNotice('relic-slot-count', slotCount)
+
   return (
     <div className="flex min-h-0 flex-1 flex-col overflow-y-auto">
+      <IntroBanner
+        storageKey="intro-relic"
+        title={getWeaponUiLabel('relicSubTab')}
+        lines={SYSTEM_INTRO_LINES.relic}
+        accentColorVar="var(--color-teal-strong)"
+        className="m-3"
+      />
+
       <SlotSection activeRelics={activeRelics} slotCount={slotCount} unlockedCount={unlockedCount} />
       <RelicGrid ownedRelics={ownedRelics} activeRelics={activeRelics} onSelect={setSelectedRelicId} />
 

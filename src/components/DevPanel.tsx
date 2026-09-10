@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useGameStore } from '../store/gameStore'
 import { clearGameState, debugOverrideLastActiveAt, disableAutosave } from '../store/gameStateStorage'
+import { clearOnboardingState } from '../systems/onboarding/onboardingStorage'
 
 interface DevPanelProps {
   onOpenDesignSystem: () => void
@@ -25,6 +26,12 @@ export function DevPanel({ onOpenDesignSystem }: DevPanelProps) {
   const handleFullReset = () => {
     disableAutosave()
     clearGameState()
+    clearOnboardingState()
+    window.location.reload()
+  }
+
+  const handleOnboardingReset = () => {
+    clearOnboardingState()
     window.location.reload()
   }
 
@@ -124,6 +131,14 @@ export function DevPanel({ onOpenDesignSystem }: DevPanelProps) {
             className="mb-1 w-full rounded bg-red-500/20 px-2 py-1 text-left text-[11px] text-red-300 hover:bg-red-500/30"
           >
             전체 상태 초기화
+          </button>
+
+          <button
+            type="button"
+            onClick={handleOnboardingReset}
+            className="mb-1 w-full rounded bg-white/10 px-2 py-1 text-left text-[11px] text-white hover:bg-white/20"
+          >
+            온보딩 안내 다시 보기
           </button>
 
           <button

@@ -1405,6 +1405,13 @@ def build_string_rows() -> list[list]:
         # 소환 화면 하위 탭 — 무기고의 [장비]/[유물]과 같은 방식으로 소환도 [무기]/[유물]로 나눈다.
         # "유물"은 무기고 쪽(40081)과 동일한 단어라 새 Id를 만들지 않고 그대로 재사용한다.
         (40128, "무기", "Weapon", "GachaUi"),
+        # 온보딩 — 첫 진입 안내/시스템 첫 진입 툴팁의 버튼과 짧은 라벨.
+        # 안내 문구 본문(여러 줄)은 StringTable이 아니라 컴포넌트에 직접 둔다(자주 다듬는 자유 텍스트라).
+        (40129, "건너뛰기", "Skip", "Onboarding"),
+        (40130, "다음", "Next", "Onboarding"),
+        (40131, "시작하기", "Start", "Onboarding"),
+        (40132, "다음 특별 해금까지", "Until Next Special Unlock", "ExistUi"),
+        (40133, "새 소식", "New", "Badge"),
     ]
     rows = []
     for i, (string_id, kor, eng, category) in enumerate(specs, start=1):

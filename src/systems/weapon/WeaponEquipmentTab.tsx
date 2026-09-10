@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { getString, getWeaponTypeConfig, type WeaponGradeEnum, type WeaponTypeEnum } from '../../data/balance'
 import { masteryPrimaryStat } from '../../data/mastery'
-import { getStatName, getWeaponUiLabel } from '../../data/uiStrings'
+import { getStatName, getTabName, getWeaponUiLabel } from '../../data/uiStrings'
 import { useGameStore } from '../../store/gameStore'
 import type { WeaponInstance } from '../../types/game'
 import { formatNumber } from '../../utils/format'
@@ -19,6 +19,8 @@ import {
 import { GRADE_BG_COLOR, GRADE_BORDER_COLOR, GRADE_GLOW_SHADOW, GRADE_TEXT_COLOR } from './weaponUi'
 import { STATE_ICON } from '../../components/icons'
 import { ProgressBar } from '../../components/ui'
+import { IntroBanner } from '../onboarding/IntroBanner'
+import { SYSTEM_INTRO_LINES } from '../onboarding/onboardingContent'
 
 export function WeaponEquipmentTab() {
   const [selectedType, setSelectedType] = useState<WeaponTypeEnum>('Sword')
@@ -28,6 +30,14 @@ export function WeaponEquipmentTab() {
 
   return (
     <div className="flex min-h-0 flex-1 flex-col">
+      <IntroBanner
+        storageKey="intro-equipment"
+        title={getTabName('equipment')}
+        lines={SYSTEM_INTRO_LINES.equipment}
+        accentColorVar="var(--color-teal-strong)"
+        className="m-3"
+      />
+
       <TypeSwitcher selectedType={selectedType} onSelect={setSelectedType} ownedWeapons={ownedWeapons} />
 
       <EquippedSummary equippedWeaponId={equippedWeaponId} ownedWeapons={ownedWeapons} />

@@ -42,16 +42,18 @@ const TAB_NAME_ID: Record<TabKey, number> = {
   dogam: 40030,
 }
 
-export type SystemNameKey = 'reverse' | 'timeHeist'
+export type SystemNameKey = 'reverse' | 'timeHeist' | 'existTree'
 
 const SYSTEM_NAME_ID: Record<SystemNameKey, number> = {
   reverse: 40007,
   timeHeist: 40008,
+  existTree: 40020,
 }
 
 export type ButtonLabelKey =
   | 'close'
   | 'cancel'
+  | 'confirm'
   | 'execute'
   | 'steal'
   | 'claim'
@@ -65,10 +67,14 @@ export type ButtonLabelKey =
   | 'fuse'
   | 'activate'
   | 'deactivate'
+  | 'skip'
+  | 'next'
+  | 'start'
 
 const BUTTON_LABEL_ID: Record<ButtonLabelKey, number> = {
   close: 40031,
   cancel: 40032,
+  confirm: 40033,
   execute: 40034,
   steal: 40035,
   claim: 40036,
@@ -82,6 +88,9 @@ const BUTTON_LABEL_ID: Record<ButtonLabelKey, number> = {
   fuse: 40079,
   activate: 40102,
   deactivate: 40103,
+  skip: 40129,
+  next: 40130,
+  start: 40131,
 }
 
 export type StateLabelKey = 'locked' | 'unlocked' | 'available' | 'tier' | 'effect' | 'cost'
@@ -286,4 +295,24 @@ const COMMON_UI_LABEL_ID: Record<CommonUiLabelKey, number> = {
 
 export function getCommonUiLabel(key: CommonUiLabelKey): string {
   return getString(COMMON_UI_LABEL_ID[key], 'KOR', key)
+}
+
+export type ExistUiLabelKey = 'untilNextSpecial'
+
+const EXIST_UI_LABEL_ID: Record<ExistUiLabelKey, number> = {
+  untilNextSpecial: 40132,
+}
+
+export function getExistUiLabel(key: ExistUiLabelKey): string {
+  return getString(EXIST_UI_LABEL_ID[key], 'KOR', key)
+}
+
+export type BadgeLabelKey = 'new'
+
+const BADGE_LABEL_ID: Record<BadgeLabelKey, number> = {
+  new: 40133,
+}
+
+export function getBadgeLabel(key: BadgeLabelKey): string {
+  return getString(BADGE_LABEL_ID[key], 'KOR', key)
 }
