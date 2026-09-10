@@ -71,7 +71,7 @@ export function WeaponEquipmentTab() {
                   {owned ? (
                     <>
                       <span className="text-text-primary">Lv.{entry.level}</span>
-                      <CountReadinessBar weaponId={weaponId} entry={entry} isEquipped={isEquipped} />
+                      <CountReadinessBar weaponId={weaponId} entry={entry} />
                     </>
                   ) : (
                     <span className="text-text-disabled">0</span>
@@ -90,32 +90,27 @@ export function WeaponEquipmentTab() {
   )
 }
 
-// "보유 개수 / 돌파·합성 중 더 빨리 되는 쪽 필요 개수"를 막대로. 그 조건을 채우면(돌파나
-// 합성 중 하나라도 가능해지면) 초록으로 바뀐다. 더 이상 돌파도 합성도 불가능한 완성
-// 상태면 막대 없이 보유 개수만 보여준다.
-function CountReadinessBar({
-  weaponId,
-  entry,
-  isEquipped,
-}: {
-  weaponId: string
-  entry: WeaponInstance
-  isEquipped: boolean
-}) {
-  const readiness = computeWeaponReadiness(weaponId, entry, isEquipped)
+// "보유 개수 / 돌파·합성 중 더 빨리 되는 쪽 필요 개수"를 막대로. 그 조건을 채우면
+// 초록으로 바뀐다. 돌파 진행도는 청록, 합성 진행도는 금색으로 색을 달리해 지금
+// 보이는 진행도가 둘 중 무엇인지 구분한다(돌파가 5단계까지 끝나면 자동으로 금색
+// 합성 진행도로 넘어가 합성 쪽으로 안내된다). 더 이상 돌파도 합성도 불가능한
+// 완성 상태면 막대 없이 보유 개수만 보여준다.
+function CountReadinessBar({ weaponId, entry }: { weaponId: string; entry: WeaponInstance }) {
+  const readiness = computeWeaponReadiness(weaponId, entry)
 
   if (!readiness) {
     return <span className="text-text-secondary">×{entry.count}</span>
   }
 
-  const { count, required, ready } = readiness
+  const { kind, count, required, ready } = readiness
+  const barColor = ready ? 'bg-success-strong' : kind === 'breakthrough' ? 'bg-teal-base' : 'bg-gold-base'
 
   return (
     <div className="mt-0.5 flex w-full flex-col items-center gap-0.5 px-1.5">
       <span className={ready ? 'font-semibold text-success-strong' : 'text-text-secondary'}>
         {count}/{required}
       </span>
-      <ProgressBar value={count} max={required} colorClassName={ready ? 'bg-success-strong' : 'bg-teal-base'} />
+      <ProgressBar value={count} max={required} colorClassName={barColor} />
     </div>
   )
 }

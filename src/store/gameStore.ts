@@ -563,16 +563,21 @@ export const useGameStore = create<GameState>((set, get) => ({
           nextEquippedWeaponId,
           nextActiveRelics,
         ),
+        // growthEnergy/gold/essence는 "환급"이지 "유지 + 보너스"가 아니다 — 리버스 시
+        // 보유량을 0으로 초기화한 뒤, 그동안 소비한 누적량 × 환급 배율만큼만 다시
+        // 지급한다(예전엔 기존 보유량에 환급분을 더하기만 해서 리버스할수록 재화가
+        // 끝없이 누적되는 버그가 있었다). exist/timeEnergy/diamond는 리버스로 초기화
+        // 되지 않는 재화라 그대로 유지하거나(exist/timeEnergy) 별도 신규 지급만
+        // 더한다(diamond, RebirthRewardTable 기준 — 환급과는 다른 메커니즘).
         currencies: {
           ...state.currencies,
-          growthEnergy:
-            state.currencies.growthEnergy +
-            (config.RefundGrowthEnergy ? Math.floor(state.rebirthSpent.growthEnergy * refundMultiplier) : 0),
-          gold:
-            state.currencies.gold + (config.RefundGold ? Math.floor(state.rebirthSpent.gold * refundMultiplier) : 0),
-          essence:
-            state.currencies.essence +
-            (config.RefundMasteryEssence ? Math.floor(state.rebirthSpent.essence * refundMultiplier) : 0),
+          growthEnergy: config.RefundGrowthEnergy
+            ? Math.floor(state.rebirthSpent.growthEnergy * refundMultiplier)
+            : 0,
+          gold: config.RefundGold ? Math.floor(state.rebirthSpent.gold * refundMultiplier) : 0,
+          essence: config.RefundMasteryEssence
+            ? Math.floor(state.rebirthSpent.essence * refundMultiplier)
+            : 0,
           diamond: state.currencies.diamond + diamondReward,
         },
         rebirthSpent: initialRebirthSpent,
@@ -675,13 +680,50 @@ export const useGameStore = create<GameState>((set, get) => ({
   },
 
   // 1회 뽑기를 n번 반복 — 도중에 다이아가 부족해지면 그 시점에서 멈춘다.
+  // pullWeaponGacha()를 n번 호출하지 않고 한 번의 set()으로 묶어서 처리한다 —
+  // 뽑을 때마다 computeEffectiveStats(보유 무기 전체를 순회하는 계산)를 다시 돌리면
+  // 10연차만 해도 뽑기 결과 자체보다 이 재계산 비용이 훨씬 커져서, 10연차를 연달아
+  // 여러 번 누르면 그동안 전투 틱(setTimeout)이 밀려 체력바가 잠깐 멈춰 보이는
+  // 문제가 있었다. 다이아 소비/뽑기 굴림/중복 판정은 매 회차 그대로 순서대로 하되,
+  // 무거운 스탯 재계산과 상태 반영은 마지막에 한 번만 한다.
   pullWeaponGachaTimes: (times) => {
     const results: WeaponGachaPullResult[] = []
-    for (let i = 0; i < times; i++) {
-      const result = get().pullWeaponGacha()
-      if (!result) break
-      results.push(result)
-    }
+
+    set((state) => {
+      let diamond = state.currencies.diamond
+      let gachaCount = state.gachaCount
+      let ownedWeapons = state.ownedWeapons
+
+      for (let i = 0; i < times; i++) {
+        const cost = currentGachaLevelConfig(gachaCount).PullCostDiamond
+        if (diamond < cost) break
+        diamond -= cost
+
+        const weaponId = rollWeaponGacha(gachaCount)
+        const isDuplicate = (ownedWeapons[weaponId]?.count ?? 0) > 0
+        ownedWeapons = grantWeaponEntry(ownedWeapons, weaponId, 1)
+        gachaCount += 1
+        results.push({ weaponId, isDuplicate })
+      }
+
+      if (results.length === 0) return {}
+
+      return {
+        currencies: { ...state.currencies, diamond },
+        ownedWeapons,
+        gachaCount,
+        gachaLevel: currentGachaLevelConfig(gachaCount).GachaLevel,
+        stats: computeEffectiveStats(
+          state.statLevels,
+          state.masteryLevels,
+          state.existTreeStatBonus,
+          ownedWeapons,
+          state.equippedWeaponId,
+          state.activeRelics,
+        ),
+      }
+    })
+
     return results
   },
 
@@ -805,8 +847,7 @@ export const useGameStore = create<GameState>((set, get) => ({
   mergeWeapon: (weaponId) => {
     const entry = get().ownedWeapons[weaponId]
     if (!entry) return false
-    const isEquipped = get().equippedWeaponId === weaponId
-    if (!canMerge(weaponId, entry, isEquipped)) return false
+    if (!canMerge(weaponId, entry)) return false
     const targetId = nextWeaponIdForMerge(weaponId)
     if (!targetId) return false
     const fusion = getWeaponFusionConfig()
