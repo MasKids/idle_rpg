@@ -1,32 +1,123 @@
-# React + TypeScript + Vite
+# 시간 기반 방치형 RPG (웹 프로토타입)
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+가만히 둬도 자라는 캐릭터 위에, 직접 뚫어나가는 성장 트리를 올린 방치형 RPG.
 
-Currently, two official plugins are available:
+전투는 자동으로 돌아가지만 "무엇을 언제 강화할지"는 플레이어가 직접 결정합니다.
+존재력 트리를 한 노드씩 해금해 스탯을 올리고, 15노드를 뚫으면 리버스(환생)로
+처음부터 다시 달리며 영구 보너스를 쌓고, 33노드를 뚫으면 타임 하이스트로 미래
+스테이지 보상을 미리 당겨옵니다. 취업 포트폴리오용 시연 프로토타입으로, "완성도
+높은 게임"이 아니라 **설계한 시스템이 실제로 동작한다는 것**을 증명하는 데 초점을
+맞췄습니다.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 핵심 시스템 3가지
 
-## React Compiler
+### 존재력 트리
+50개 노드가 순서대로만 해금되는 단일 선형 트리. 각 노드는 5개 티어(ATK/CRIT →
+ASPD/시간에너지 → CRIT_DMG/숙련의 정수 → ATK/숙련의 정수 → EXIST_GAIN/ASPD)로
+나뉘어 서로 다른 보상을 줍니다. 노드 비용과 효과는 전부 계산식으로 생성되며(하드코딩
+없음), 15번째 노드에서 리버스가, 33번째 노드에서 타임 하이스트가 트리 옆 여백에
+등장합니다.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### 리버스 (REBIRTH)
+스테이지와 스탯을 초기화하고 처음부터 다시 시작하는 환생 시스템. 무기와 유물은
+전부 소멸하지만 그동안 소비한 숙련 재료는 전액 환급되고, 존재력 트리는 그대로
+유지됩니다. 도달 스테이지 구간에 따라 다이아를 신규 지급해 다음 회차의 무기 가챠를
+지원합니다.
 
-## Expanding the Oxlint configuration
+### 타임 하이스트
+아직 도달하지 않은 미래 스테이지의 보상을 시간에너지를 써서 미리 수령하는 시스템.
+사용할수록 비용이 지수적으로 오르고 쿨타임이 붙어, "지금 당겨쓸까 vs 더 모아둘까"의
+선택을 만듭니다.
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
+## 기술 스택
 
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+- **Vite + React 19 + TypeScript** — 클라이언트 렌더링 SPA
+- **Tailwind CSS v4** — 유틸리티 클래스 기반 스타일링
+- **Zustand** — 단일 스토어로 게임 전체 상태 관리
+- **localStorage** — 세이브/로드 (서버 없음)
+- **Vercel** — 정적 빌드 배포
+
+## 왜 Unity가 아니라 웹인가
+
+이 프로젝트는 "게임 클라이언트를 만드는 능력"이 아니라 "게임 시스템을 설계하고
+빠르게 검증하는 능력"을 보여주는 데 목적이 있습니다. 웹 스택을 쓰면:
+
+- **설치 없이 링크 하나로 시연** — 채용 담당자가 빌드를 내려받거나 실행할 필요 없이
+  브라우저 탭만 열면 됩니다.
+- **반복 속도** — 코드 변경 → 브라우저 새로고침 주기가 Unity 에디터 재생 모드보다
+  훨씬 짧아, 14일이라는 짧은 기간 안에 밸런스를 여러 번 갈아엎을 수 있었습니다.
+- **상태 관리·데이터 파이프라인 설계가 게임 엔진과 무관** — 존재력 트리 생성 로직,
+  밸런싱 데이터 파이프라인, 저장 구조 같은 핵심 설계는 Unity로 옮겨도 그대로
+  유효한 아키텍처입니다. 웹으로 먼저 검증하고 나중에 엔진으로 이식하는 것이
+  각 엔진 안에서 처음부터 다시 설계하는 것보다 비용이 낮습니다.
+
+## 밸런싱 파이프라인
+
+기획자가 코드를 건드리지 않고 수치만 조정할 수 있도록 엑셀 기반 파이프라인을
+분리했습니다.
+
+```
+balance/balance.xlsx  →  npm run balance  →  src/data/balance.json  →  src/data/balance.ts
+   (기획자가 수정)        (검증 + 변환)          (빌드에 포함되는 데이터)    (타입 있는 접근 함수)
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+- `balance.xlsx`의 `#TableDefine`/`#EnumDefine` 시트에 전체 테이블/칼럼 명세가 있어,
+  칼럼 하나가 뭘 뜻하는지 코드를 안 봐도 엑셀 안에서 확인할 수 있습니다.
+- `npm run balance` 실행 시 Id 중복, 잘못된 자료형, 존재하지 않는 참조 Id 등을
+  검증하고, 이전 값과 달라진 항목을 `테이블#Id.칼럼: 이전값 → 새값` 형태로 콘솔에
+  출력합니다.
+- 노드/스테이지처럼 "구조를 생성하는 로직"은 `src/data/*.ts`에 TypeScript 코드로
+  남아있고, 그 로직이 쓰는 숫자만 `balance.ts`에서 가져옵니다 — 계산식과 수치를
+  분리해 기획자는 수치만, 개발자는 계산식만 건드리면 되게 했습니다.
+- 자세한 수정 절차는 [balance/README.md](balance/README.md) 참고. 변환된
+  `src/data/balance.json`은 저장소에 커밋되어 있어 배포 시 `npm run balance`를
+  다시 실행할 필요가 없습니다.
+
+## 더 읽어보기
+
+- [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) — 폴더 구조, 각 시스템이 어느
+  파일에서 어떻게 구현됐는지
+- [docs/WEAPON_SYSTEM.md](docs/WEAPON_SYSTEM.md) — 무기/유물/가챠/무기 숙련
+  시스템 설계
+- [docs/DESIGN_SYSTEM.md](docs/DESIGN_SYSTEM.md) — 다크 미니멀 디자인 토큰과
+  공용 컴포넌트
+
+## 구현 범위
+
+- **A (완전 구현)**: 존재력 트리, 리버스, 타임 하이스트, 무기 시스템(가챠/레벨업/
+  돌파/합성), 유물, 무기 숙련
+- **B (골격 구현)**: 전투, 스테이지, 보스, 5스탯 성장, 오프라인 보상
+- **C (의도적 스텁)**: 도감 — 탭은 존재하지만 "설계 완료 · 프로토타입 미구현"
+  안내만 표시합니다. 핵심 3시스템에 집중하기 위해 범위에서 의도적으로 제외했습니다.
+
+서버/계정/랭킹/사운드/실제 아트 리소스는 만들지 않았습니다 (포트폴리오 시연
+범위 밖).
+
+## 로컬 실행
+
+```bash
+npm install
+npm run dev
+```
+
+기본적으로 `http://localhost:5173`에서 열립니다. 모바일 세로 화면 기준으로
+디자인되어 있어 데스크톱에서도 세로 프레임 안에서 확인하는 것을 권장합니다.
+
+밸런스 수치를 엑셀에서 바꾼 뒤에는 다음을 실행해 `src/data/balance.json`을
+갱신합니다.
+
+```bash
+npm run balance
+```
+
+프로덕션 빌드:
+
+```bash
+npm run build   # tsc -b && vite build, 결과물은 dist/
+```
+
+## 아이콘 · 폰트 라이선스
+
+- 아이콘: [lucide-react](https://lucide.dev) (ISC License)
+- 폰트: [Pretendard](https://github.com/orioncactus/pretendard) (SIL Open Font
+  License 1.1)
