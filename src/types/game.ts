@@ -1,6 +1,6 @@
 export type CurrencyKey = 'exist' | 'growthEnergy' | 'timeEnergy' | 'gold' | 'essence' | 'diamond'
 
-export type StatKey = 'atk' | 'def' | 'aspd' | 'crit' | 'critDmg' | 'existGain'
+export type StatKey = 'atk' | 'aspd' | 'crit' | 'critDmg' | 'existGain'
 
 export type TabKey = 'growth' | 'equipment' | 'gacha' | 'exist' | 'dogam'
 

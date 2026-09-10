@@ -8,7 +8,7 @@ import balanceJson from './balance.json'
 // enum 값 (#EnumDefine과 동일)
 // ---------------------------------------------------------------------------
 
-export type StatTypeEnum = 'ATK' | 'DEF' | 'ASPD' | 'CRIT' | 'CRIT_DMG' | 'EXIST_GAIN'
+export type StatTypeEnum = 'ATK' | 'ASPD' | 'CRIT' | 'CRIT_DMG' | 'EXIST_GAIN'
 export type StageTypeEnum = 'Normal' | 'Boss'
 export type NodeEffectTypeEnum = 'STAT' | 'GRANT'
 export type CurrencyTypeEnum = 'EXIST' | 'GROWTH_ENERGY' | 'MASTERY_ESSENCE' | 'TIME_ENERGY' | 'GOLD'
@@ -21,7 +21,6 @@ export type WeaponGradeEnum = 'Normal' | 'Rare' | 'Epic' | 'Unique' | 'Legendary
 export type RelicGradeEnum = 'Normal' | 'Rare' | 'Epic'
 export type RelicEffectTypeEnum =
   | 'STAT_ATK'
-  | 'STAT_DEF'
   | 'STAT_ASPD'
   | 'STAT_CRIT'
   | 'STAT_CRIT_DMG'

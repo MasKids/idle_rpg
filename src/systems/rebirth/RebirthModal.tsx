@@ -36,11 +36,10 @@ export function RebirthModal({ isOpen, onCancel, onConfirm }: RebirthModalProps)
 
   if (!shouldRender) return null
 
-  // 이번 리버스의 환급에는 "지금까지 누적된" 포인트만 반영된다.
-  // 이번에 새로 얻는 포인트(pendingPoints)는 다음 리버스부터 적용된다.
+  // 이번 리버스에서 도달 스테이지로 얻는 포인트(pendingPoints)는 이번 환급 배율에
+  // 바로 반영된다 — 도달 스테이지가 이번 환급에 즉시 체감되게.
   const pendingPoints = computeRebirthBonusPoints(currentStage)
-  const currentMultiplier = computeRefundMultiplier(rebirthBonusPoint)
-  const nextMultiplier = computeRefundMultiplier(rebirthBonusPoint + pendingPoints)
+  const currentMultiplier = computeRefundMultiplier(rebirthBonusPoint + pendingPoints)
   const diamondReward = getRebirthDiamondReward(currentStage)
   // 다음 구간 미리보기 — 지금 스테이지보다 뒤에서 시작하는 구간 중 가장 가까운 것.
   // 이미 마지막 구간(StageTo가 사실상 무한대)에 들어와 있으면 다음 구간이 없다.
@@ -81,20 +80,19 @@ export function RebirthModal({ isOpen, onCancel, onConfirm }: RebirthModalProps)
             {getRebirthBonusLabel('currentCycle')} {rebirthCount + 1}회차
           </li>
           <li>
-            {getRebirthBonusLabel('totalPoints')} {formatPoints(rebirthBonusPoint)} ({getRebirthBonusLabel('refundMultiplier')}{' '}
-            {formatMultiplier(currentMultiplier)})
+            {getRebirthBonusLabel('totalPoints')} {formatPoints(rebirthBonusPoint)}
           </li>
           <li>
-            {getRebirthBonusLabel('pendingPoints')} +{formatPoints(pendingPoints)}
+            {getRebirthBonusLabel('pendingPoints')} +{formatPoints(pendingPoints)} (도달 스테이지 기준, 이번 환급에 바로 반영)
           </li>
           <li>
-            다음 회차 {getRebirthBonusLabel('refundMultiplier')} {formatMultiplier(nextMultiplier)}
+            {getRebirthBonusLabel('refundMultiplier')} {formatMultiplier(currentMultiplier)}
           </li>
         </RebirthSection>
 
         <RebirthSection title="초기화 / 소멸" tone="text-danger-strong">
           <li>스테이지 → 1-1</li>
-          <li>6스탯 레벨 전부 0</li>
+          <li>5스탯 레벨 전부 0</li>
           <li>무기 전부 소멸</li>
           <li>유물 전부 초기화</li>
           <li>무기 숙련 레벨 0</li>

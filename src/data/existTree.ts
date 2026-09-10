@@ -10,8 +10,10 @@ import type {
   StatKey,
 } from '../types/game'
 
-// ExistTreeTable은 50노드를 나열하지 않고 티어(10노드) 단위 계수만 담는다.
-// 총 노드 개수는 테이블에 정의된 마지막 티어의 OrderTo로부터 그대로 계산한다.
+// ExistTreeTable은 50노드를 나열하지 않고, 각 행이 담당하는 order 구간(OrderFrom~OrderTo)
+// 단위의 계수만 담는다. 티어(10노드) 하나가 여러 행(소구간)으로 나뉠 수 있어 같은 티어
+// 안에서도 서로 다른 효과가 섞인다 — getExistTreeTier(order)가 순번이 속한 행을 찾아준다.
+// 총 노드 개수는 테이블에 정의된 마지막 행의 OrderTo로부터 그대로 계산한다.
 export const EXIST_TREE_TOTAL_NODES = Math.max(...BALANCE_TABLES.ExistTreeTable.map((row) => row.OrderTo))
 
 // 이름 자동생성(T{tier}-{n})용 표시 상수 — ExistTreeTable이 티어당 10노드로 설계된 것과 동일 전제
@@ -51,7 +53,6 @@ function nodeValue(order: number): number {
 
 const STAT_TYPE_TO_KEY: Record<string, StatKey> = {
   ATK: 'atk',
-  DEF: 'def',
   ASPD: 'aspd',
   CRIT: 'crit',
   CRIT_DMG: 'critDmg',

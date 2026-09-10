@@ -190,14 +190,6 @@ def node_cost(order: int) -> int:
     return math.floor(10 * 1.35 ** (order - 1))
 
 
-def stat_value(order: int) -> int:
-    return 5 + math.floor(order / 5) * 3
-
-
-def currency_amount(order: int) -> int:
-    return 5 + math.floor(order / 5) * 5
-
-
 BOSS_HP_MULT = 5
 BOSS_ATK_MULT = 2
 BOSS_REWARD_MULT = 3
@@ -395,9 +387,10 @@ STAT_TABLE_COLUMNS = register(
 
 def build_stat_rows() -> list[list]:
     # (StatType, 한글명, StringTableId, BaseValue, ValuePerLevel)
+    # DEF(40002)는 플레이어 피격 개념이 없어 전투에 전혀 영향을 주지 않던 죽은 스탯이라
+    # 완전히 제거했다 — 5스탯 체계로 전환. 번호는 재사용하지 않는다.
     specs = [
         ("ATK", "공격력", 40001, 1, 1),
-        ("DEF", "방어력", 40002, 1, 1),
         ("ASPD", "공격속도", 40003, 1, 0.05),
         ("CRIT", "치명타확률", 40004, 0, 0.5),
         ("CRIT_DMG", "치명타피해", 40005, 150, 2),
@@ -491,23 +484,35 @@ EXIST_TREE_TABLE_COLUMNS = register(
 
 
 def build_exist_tree_rows() -> list[list]:
-    # (tier, orderFrom, orderTo, effectType, statType, grantCurrency, 한글명)
+    # 티어(10노드)당 1행이라 10개 노드가 전부 같은 효과였던 문제 + DEF 제거로 죽었던
+    # 2티어를 함께 해결 — 티어마다 2개 소구간(행)으로 쪼개 서로 다른 효과를 섞는다.
+    # order->tier 표시(T1~T5)는 코드에서 order 고정 상수(/10)로 별도 계산하므로 이 분할과 무관하다.
+    #
+    # 비용 연속성: CostBase는 전부 node_cost(orderFrom) — 노드 하나하나의 "존재력 트리 전체를
+    # 관통하는 단일 지수곡선"(10 * 1.35^(order-1))에서 그대로 뽑은 값이라, 소구간 경계에서
+    # 비용이 튀거나 꺾이지 않고 원래 5티어 설계와 완전히 동일한 곡선을 유지한다.
+    #
+    # 효과값 연속성: 같은 스탯이 두 번 나오는 경우(ATK, ASPD) 그 스탯의 "첫 등장 지점" 공식을
+    # 그대로 연장해서 두 번째 구간의 ValueBase를 정했다(value(order) = 첫 ValueBase +
+    # 첫 ValuePerNode * (order - 첫 OrderFrom)) — 두 구간 사이에 통화 지급 구간이 끼어 있어도
+    # 마치 하나로 이어진 곡선처럼 값이 자연스럽게 이어진다. (tier, orderFrom, orderTo,
+    # effectType, statType, grantCurrency, valueBase, valuePerNode, 한글명)
     specs = [
-        (1, 1, 10, "STAT", "ATK", "", "1티어: 공격력"),
-        (2, 11, 20, "STAT", "DEF", "", "2티어: 방어력"),
-        (3, 21, 30, "STAT", "ASPD", "", "3티어: 공격속도"),
-        (4, 31, 40, "GRANT", "", "MASTERY_ESSENCE", "4티어: 숙련의 정수 지급"),
-        (5, 41, 50, "STAT", "EXIST_GAIN", "", "5티어: 존재력획득량"),
+        (1, 1, 7, "STAT", "ATK", "", 5, 0.6, "1티어-A: 공격력"),
+        (1, 8, 10, "STAT", "CRIT", "", 2, 0.6, "1티어-B: 치명타 확률"),
+        (2, 11, 16, "STAT", "ASPD", "", 0.8, 0.15, "2티어-A: 공격속도"),
+        (2, 17, 20, "GRANT", "", "TIME_ENERGY", 8, 2, "2티어-B: 시간에너지 지급"),
+        (3, 21, 26, "STAT", "CRIT_DMG", "", 10, 1, "3티어-A: 치명타피해"),
+        (3, 27, 30, "GRANT", "", "MASTERY_ESSENCE", 31, 1, "3티어-B: 숙련의 정수 지급"),
+        (4, 31, 37, "STAT", "ATK", "", 23, 0.6, "4티어-A: 공격력 (1티어-A 연장)"),
+        (4, 38, 40, "GRANT", "", "MASTERY_ESSENCE", 42, 1, "4티어-B: 숙련의 정수 지급 (3티어-B 연장)"),
+        (5, 41, 46, "STAT", "EXIST_GAIN", "", 29, 0.6, "5티어-A: 존재력획득량"),
+        (5, 47, 50, "STAT", "ASPD", "", 6.2, 0.15, "5티어-B: 공격속도 (2티어-A 연장)"),
     ]
     rows = []
-    for i, (tier, order_from, order_to, effect_type, stat_type, grant_currency, kor_name) in enumerate(specs, start=1):
-        if effect_type == "STAT":
-            value_base = stat_value(order_from)
-            value_per_node = 0.6  # 원본 "10노드마다 +3" 계단 패턴의 선형 근사치
-        else:
-            value_base = currency_amount(order_from)
-            value_per_node = 1.0  # 원본 "10노드마다 +5" 계단 패턴의 선형 근사치
-
+    for i, (tier, order_from, order_to, effect_type, stat_type, grant_currency, value_base, value_per_node, kor_name) in enumerate(
+        specs, start=1
+    ):
         rows.append(
             [
                 i,
@@ -523,10 +528,7 @@ def build_exist_tree_rows() -> list[list]:
                 value_per_node,
                 node_cost(order_from),
                 1.35,
-                (
-                    f"order {order_from}~{order_to} 구간. 원본 노드별 5종 순환 효과를 티어 단위 단일 효과로 단순화함"
-                    " — 다음 단계 리팩터링 시 재검토 필요"
-                ),
+                f"order {order_from}~{order_to} 구간",
             ]
         )
     return rows
@@ -959,9 +961,11 @@ RELIC_TABLE_COLUMNS = register(
 
 
 def build_relic_rows() -> list[list]:
+    # Id38002는 원래 방어력(STAT_DEF) 효과였으나, DEF 스탯 제거와 함께 공격속도로 교체.
+    # 이름도 "방패의 유물"(방어 테마)에서 어울리지 않게 돼 새 이름(40064)으로 바꿨다.
     return [
         [1, 38001, "Normal", 40063, "STAT_ATK", 5, 40, ""],
-        [2, 38002, "Normal", 40064, "STAT_DEF", 5, 40, ""],
+        [2, 38002, "Normal", 40064, "STAT_ASPD", 0.05, 40, ""],
         [3, 38003, "Normal", 40065, "STAT_CRIT", 2, 20, ""],
         [4, 38004, "Rare", 40066, "STAT_ASPD", 0.1, 30, ""],
         [5, 38005, "Rare", 40067, "STAT_CRIT_DMG", 15, 30, ""],
@@ -1262,7 +1266,7 @@ STRING_TABLE_COLUMNS = register(
 def build_string_rows() -> list[list]:
     specs = [
         (40001, "공격력", "ATK", "Stat"),
-        (40002, "방어력", "DEF", "Stat"),
+        # 40002(방어력/DEF)는 DEF 스탯 제거와 함께 삭제됨. 번호는 재사용하지 않는다.
         (40003, "공격속도", "ASPD", "Stat"),
         (40004, "치명타 확률", "CRIT", "Stat"),
         (40005, "치명타피해", "CRIT_DMG", "Stat"),
@@ -1329,7 +1333,7 @@ def build_string_rows() -> list[list]:
         (40062, "레전드리", "Legendary", "WeaponGrade"),
         # 유물 이름 (초기 9종, 밸런싱 영역)
         (40063, "힘의 유물", "Relic of Strength", "RelicName"),
-        (40064, "방패의 유물", "Relic of Shield", "RelicName"),
+        (40064, "신속의 유물", "Relic of Swiftness", "RelicName"),
         (40065, "행운의 유물", "Relic of Luck", "RelicName"),
         (40066, "가속의 유물", "Relic of Haste", "RelicName"),
         (40067, "파괴의 유물", "Relic of Destruction", "RelicName"),
@@ -1441,7 +1445,7 @@ ENUM_USAGE = {
 def build_enum_define_rows() -> list[list]:
     groups = [
         ("CurrencyType", [("존재력", "EXIST"), ("성장에너지", "GROWTH_ENERGY"), ("숙련의정수", "MASTERY_ESSENCE"), ("시간에너지", "TIME_ENERGY"), ("골드", "GOLD")]),
-        ("StatType", [("공격력", "ATK"), ("방어력", "DEF"), ("공격속도", "ASPD"), ("치명타확률", "CRIT"), ("치명타피해", "CRIT_DMG"), ("존재력획득량", "EXIST_GAIN")]),
+        ("StatType", [("공격력", "ATK"), ("공격속도", "ASPD"), ("치명타확률", "CRIT"), ("치명타피해", "CRIT_DMG"), ("존재력획득량", "EXIST_GAIN")]),
         ("NodeEffectType", [("스탯상승", "STAT"), ("재화지급", "GRANT")]),
         ("StageType", [("일반", "Normal"), ("보스", "Boss")]),
         ("FeatureType", [("리버스", "REBIRTH"), ("타임하이스트", "TIME_HEIST")]),
@@ -1455,7 +1459,6 @@ def build_enum_define_rows() -> list[list]:
             "RelicEffectType",
             [
                 ("공격력", "STAT_ATK"),
-                ("방어력", "STAT_DEF"),
                 ("공격속도", "STAT_ASPD"),
                 ("치명타확률", "STAT_CRIT"),
                 ("치명타피해", "STAT_CRIT_DMG"),

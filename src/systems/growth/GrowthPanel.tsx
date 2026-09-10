@@ -8,12 +8,11 @@ import { formatNumber } from '../../utils/format'
 import { parseWeaponId } from '../weapon/weapon'
 import { Button, CostLabel } from '../../components/ui'
 
-const STAT_ORDER: StatKey[] = ['atk', 'def', 'aspd', 'crit', 'critDmg', 'existGain']
+const STAT_ORDER: StatKey[] = ['atk', 'aspd', 'crit', 'critDmg', 'existGain']
 
 function formatStatValue(key: StatKey, value: number): string {
   switch (key) {
     case 'atk':
-    case 'def':
       return formatNumber(Math.round(value))
     case 'aspd':
       return `${value.toFixed(2)}/초`

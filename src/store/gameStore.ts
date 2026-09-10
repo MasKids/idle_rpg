@@ -38,7 +38,7 @@ import type {
 const INITIAL_STAGE = 1
 const EXIST_TREE_NODES = generateExistTree()
 const persistedGame = loadGameState()
-const STAT_KEYS: StatKey[] = ['atk', 'def', 'aspd', 'crit', 'critDmg', 'existGain']
+const STAT_KEYS: StatKey[] = ['atk', 'aspd', 'crit', 'critDmg', 'existGain']
 
 // 오프라인 보상 계산용 "이전 세션이 저장된 시각".
 // persistedGame은 로드 직후 스토어가 즉시 새 시각으로 덮어쓰므로 별도로 남겨둔다.
@@ -47,7 +47,6 @@ const lastSessionEndedAt: number | null = persistedGame?.lastActiveAt ?? null
 function baseStatsFromLevels(levels: Record<StatKey, number>): Record<StatKey, number> {
   return {
     atk: computeStatValue('atk', levels.atk),
-    def: computeStatValue('def', levels.def),
     aspd: computeStatValue('aspd', levels.aspd),
     crit: computeStatValue('crit', levels.crit),
     critDmg: computeStatValue('critDmg', levels.critDmg),
@@ -91,7 +90,6 @@ function computeEffectiveStats(
 
   const combined: Record<StatKey, number> = {
     atk: base.atk + existTreeBonus.atk,
-    def: base.def + existTreeBonus.def,
     aspd: base.aspd + existTreeBonus.aspd,
     crit: base.crit + existTreeBonus.crit,
     critDmg: base.critDmg + existTreeBonus.critDmg,
@@ -190,7 +188,6 @@ interface GameState {
 
 const initialStatLevels: Record<StatKey, number> = {
   atk: 0,
-  def: 0,
   aspd: 0,
   crit: 0,
   critDmg: 0,
@@ -212,7 +209,6 @@ const initialRebirthSpent: RebirthSpentTotals = {
 
 const initialExistTreeStatBonus: Record<StatKey, number> = {
   atk: 0,
-  def: 0,
   aspd: 0,
   crit: 0,
   critDmg: 0,
@@ -325,7 +321,7 @@ export const useGameStore = create<GameState>((set, get) => ({
   },
 
   maxUpgradeAll: () => {
-    const order: StatKey[] = ['atk', 'def', 'aspd', 'crit', 'critDmg', 'existGain']
+    const order: StatKey[] = ['atk', 'aspd', 'crit', 'critDmg', 'existGain']
     const statLevels = { ...get().statLevels }
     let growthEnergy = get().currencies.growthEnergy
     const startingGrowthEnergy = growthEnergy
@@ -470,11 +466,14 @@ export const useGameStore = create<GameState>((set, get) => ({
     const config = getRebirthConfig()
 
     set((state) => {
-      // 순서 중요: 이번에 얻는 포인트는 이번 환급 배율에 반영되지 않고 다음 리버스부터 적용된다.
+      // 이번 리버스에서 도달 스테이지로 얻는 포인트를 먼저 누적한 뒤, 그 누적치를
+      // 바로 이번 환급 배율 계산에도 반영한다 — "깊이 갈수록 이득"이 첫 리버스부터
+      // 즉시 체감되게 하기 위함(이전엔 직전까지의 누적 포인트만 반영돼 첫 리버스는
+      // 도달 스테이지와 무관하게 항상 ×1.00이었다).
       const earnedBonusPoints = computeRebirthBonusPoints(state.currentStage)
-      const refundMultiplier = computeRefundMultiplier(state.rebirthBonusPoint)
-      const diamondReward = getRebirthDiamondReward(state.currentStage)
       const nextRebirthBonusPoint = state.rebirthBonusPoint + earnedBonusPoints
+      const refundMultiplier = computeRefundMultiplier(nextRebirthBonusPoint)
+      const diamondReward = getRebirthDiamondReward(state.currentStage)
       const nextRebirthCount = state.rebirthCount + 1
       const nextRebirthMaxStage = Math.max(state.rebirthMaxStage, state.currentStage)
 

@@ -52,7 +52,6 @@ export function rollRelicGacha(): number {
 
 const STAT_EFFECT_TO_KEY: Partial<Record<RelicEffectTypeEnum, StatKey>> = {
   STAT_ATK: 'atk',
-  STAT_DEF: 'def',
   STAT_ASPD: 'aspd',
   STAT_CRIT: 'crit',
   STAT_CRIT_DMG: 'critDmg',
@@ -77,7 +76,6 @@ export interface ActiveRelicEffects {
 
 const EMPTY_STAT_BONUS: Record<StatKey, number> = {
   atk: 0,
-  def: 0,
   aspd: 0,
   crit: 0,
   critDmg: 0,

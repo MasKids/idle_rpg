@@ -2,7 +2,7 @@ import type { CSSProperties } from 'react'
 import { generateStage, stageLabel } from '../data/stages'
 import { getButtonLabel, getCommonUiLabel, getCurrencyName, getRebirthBonusLabel, getSystemName } from '../data/uiStrings'
 import { useGameStore } from '../store/gameStore'
-import { computeRefundMultiplier } from '../systems/rebirth/rebirthBonus'
+import { computeRebirthBonusPoints, computeRefundMultiplier } from '../systems/rebirth/rebirthBonus'
 import { formatNumber } from '../utils/format'
 import { useMountTransition } from '../utils/useMountTransition'
 import { Button } from './ui'
@@ -29,7 +29,9 @@ export function StageInfoModal({ isOpen, onClose, onRebirthClick }: StageInfoMod
   if (!shouldRender) return null
 
   const data = generateStage(stage)
-  const refundMultiplier = computeRefundMultiplier(rebirthBonusPoint)
+  // 지금 리버스한다면 적용될 배율 미리보기 — 도달 스테이지로 얻는 포인트가 즉시 반영되는
+  // RebirthModal과 동일한 기준(rebirthBonusPoint + 이번 스테이지분 pending)으로 맞춘다.
+  const refundMultiplier = computeRefundMultiplier(rebirthBonusPoint + computeRebirthBonusPoints(stage))
 
   return (
     <div

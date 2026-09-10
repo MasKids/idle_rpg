@@ -3,7 +3,6 @@ import type { StatKey, WeaponMasteryData } from '../types/game'
 
 const STAT_TYPE_TO_KEY: Record<string, StatKey> = {
   ATK: 'atk',
-  DEF: 'def',
   ASPD: 'aspd',
   CRIT: 'crit',
   CRIT_DMG: 'critDmg',

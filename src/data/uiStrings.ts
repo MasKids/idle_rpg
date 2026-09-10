@@ -9,7 +9,6 @@ import type { CurrencyKey, StatKey, TabKey } from '../types/game'
 
 const STAT_NAME_ID: Record<StatKey, number> = {
   atk: 40001,
-  def: 40002,
   aspd: 40003,
   crit: 40004,
   critDmg: 40005,

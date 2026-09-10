@@ -3,7 +3,6 @@ import type { StatKey } from '../types/game'
 
 const STAT_TYPE_BY_KEY: Record<StatKey, StatTypeEnum> = {
   atk: 'ATK',
-  def: 'DEF',
   aspd: 'ASPD',
   crit: 'CRIT',
   critDmg: 'CRIT_DMG',

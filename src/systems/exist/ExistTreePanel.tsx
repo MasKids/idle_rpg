@@ -30,7 +30,6 @@ interface ExistTreePanelProps {
 // 노드 원형 안 작은 영문 태그 — StringTable의 6스탯 정식 명칭과는 별개의 표시 전용 축약형
 const STAT_ABBR: Record<StatKey, string> = {
   atk: 'ATK',
-  def: 'DEF',
   aspd: 'ASPD',
   crit: 'CRIT',
   critDmg: 'CDMG',
