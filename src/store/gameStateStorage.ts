@@ -47,6 +47,8 @@ export interface GameSaveState {
   // 유물 — 리버스 시 전부 초기화
   ownedRelics: number[]
   activeRelics: ActiveRelicSlots
+  // 성장 탭 자동 업그레이드 토글 (존재력 트리는 자동화 대상 아님)
+  autoUpgradeStats: boolean
 }
 
 interface SaveEnvelope {

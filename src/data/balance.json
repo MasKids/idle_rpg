@@ -25,7 +25,7 @@
       "KillCount": 1,
       "RewardGold": 33,
       "RewardGrowth": 9,
-      "RewardExist": 10,
+      "RewardExist": 4,
       "RewardTimeEnergy": 15,
       "HpGrowthRate": 1.07,
       "RewardGrowthRate": 1.1
@@ -40,7 +40,7 @@
       "KillCount": 5,
       "RewardGold": 12,
       "RewardGrowth": 4,
-      "RewardExist": 5,
+      "RewardExist": 2,
       "RewardTimeEnergy": 0,
       "HpGrowthRate": 1.07,
       "RewardGrowthRate": 1.1
@@ -55,7 +55,7 @@
       "KillCount": 1,
       "RewardGold": 90,
       "RewardGrowth": 24,
-      "RewardExist": 20,
+      "RewardExist": 8,
       "RewardTimeEnergy": 20,
       "HpGrowthRate": 1.07,
       "RewardGrowthRate": 1.1
@@ -70,7 +70,7 @@
       "KillCount": 5,
       "RewardGold": 33,
       "RewardGrowth": 9,
-      "RewardExist": 10,
+      "RewardExist": 4,
       "RewardTimeEnergy": 0,
       "HpGrowthRate": 1.07,
       "RewardGrowthRate": 1.1
@@ -85,7 +85,7 @@
       "KillCount": 1,
       "RewardGold": 237,
       "RewardGrowth": 54,
-      "RewardExist": 30,
+      "RewardExist": 12,
       "RewardTimeEnergy": 25,
       "HpGrowthRate": 1.07,
       "RewardGrowthRate": 1.1
@@ -100,7 +100,7 @@
       "KillCount": 5,
       "RewardGold": 87,
       "RewardGrowth": 20,
-      "RewardExist": 15,
+      "RewardExist": 6,
       "RewardTimeEnergy": 0,
       "HpGrowthRate": 1.07,
       "RewardGrowthRate": 1.1
@@ -115,7 +115,7 @@
       "KillCount": 1,
       "RewardGold": 615,
       "RewardGrowth": 120,
-      "RewardExist": 40,
+      "RewardExist": 16,
       "RewardTimeEnergy": 30,
       "HpGrowthRate": 1.07,
       "RewardGrowthRate": 1.1
@@ -130,7 +130,7 @@
       "KillCount": 5,
       "RewardGold": 226,
       "RewardGrowth": 43,
-      "RewardExist": 20,
+      "RewardExist": 9,
       "RewardTimeEnergy": 0,
       "HpGrowthRate": 1.07,
       "RewardGrowthRate": 1.1
@@ -145,7 +145,7 @@
       "KillCount": 1,
       "RewardGold": 1599,
       "RewardGrowth": 258,
-      "RewardExist": 50,
+      "RewardExist": 22,
       "RewardTimeEnergy": 35,
       "HpGrowthRate": 1.07,
       "RewardGrowthRate": 1.1
@@ -160,7 +160,7 @@
       "KillCount": 5,
       "RewardGold": 586,
       "RewardGrowth": 93,
-      "RewardExist": 25,
+      "RewardExist": 11,
       "RewardTimeEnergy": 0,
       "HpGrowthRate": 1.07,
       "RewardGrowthRate": 1.1
@@ -175,7 +175,7 @@
       "KillCount": 1,
       "RewardGold": 4152,
       "RewardGrowth": 561,
-      "RewardExist": 60,
+      "RewardExist": 26,
       "RewardTimeEnergy": 40,
       "HpGrowthRate": 1.07,
       "RewardGrowthRate": 1.1
@@ -190,7 +190,7 @@
       "KillCount": 5,
       "RewardGold": 1522,
       "RewardGrowth": 202,
-      "RewardExist": 30,
+      "RewardExist": 13,
       "RewardTimeEnergy": 0,
       "HpGrowthRate": 1.07,
       "RewardGrowthRate": 1.1
@@ -205,7 +205,7 @@
       "KillCount": 1,
       "RewardGold": 10767,
       "RewardGrowth": 1212,
-      "RewardExist": 70,
+      "RewardExist": 30,
       "RewardTimeEnergy": 45,
       "HpGrowthRate": 1.07,
       "RewardGrowthRate": 1.1
@@ -220,7 +220,7 @@
       "KillCount": 5,
       "RewardGold": 3948,
       "RewardGrowth": 437,
-      "RewardExist": 35,
+      "RewardExist": 15,
       "RewardTimeEnergy": 0,
       "HpGrowthRate": 1.07,
       "RewardGrowthRate": 1.1
@@ -235,7 +235,7 @@
       "KillCount": 1,
       "RewardGold": 27930,
       "RewardGrowth": 2619,
-      "RewardExist": 80,
+      "RewardExist": 34,
       "RewardTimeEnergy": 50,
       "HpGrowthRate": 1.07,
       "RewardGrowthRate": 1.1
@@ -250,7 +250,7 @@
       "KillCount": 5,
       "RewardGold": 10242,
       "RewardGrowth": 943,
-      "RewardExist": 40,
+      "RewardExist": 18,
       "RewardTimeEnergy": 0,
       "HpGrowthRate": 1.07,
       "RewardGrowthRate": 1.1
@@ -265,7 +265,7 @@
       "KillCount": 1,
       "RewardGold": 72450,
       "RewardGrowth": 5658,
-      "RewardExist": 90,
+      "RewardExist": 40,
       "RewardTimeEnergy": 55,
       "HpGrowthRate": 1.07,
       "RewardGrowthRate": 1.1
@@ -280,7 +280,7 @@
       "KillCount": 5,
       "RewardGold": 26565,
       "RewardGrowth": 2037,
-      "RewardExist": 45,
+      "RewardExist": 20,
       "RewardTimeEnergy": 0,
       "HpGrowthRate": 1.07,
       "RewardGrowthRate": 1.1
@@ -295,7 +295,7 @@
       "KillCount": 1,
       "RewardGold": 187917,
       "RewardGrowth": 12219,
-      "RewardExist": 100,
+      "RewardExist": 44,
       "RewardTimeEnergy": 60,
       "HpGrowthRate": 1.07,
       "RewardGrowthRate": 1.1
@@ -370,8 +370,8 @@
       "GrantCurrency": "",
       "ValueBase": 5,
       "ValuePerNode": 0.6,
-      "CostBase": 8,
-      "CostGrowthRate": 1.16
+      "CostBase": 12,
+      "CostGrowthRate": 1.13
     },
     {
       "Index": 2,
@@ -384,8 +384,8 @@
       "GrantCurrency": "",
       "ValueBase": 2,
       "ValuePerNode": 0.6,
-      "CostBase": 22,
-      "CostGrowthRate": 1.16
+      "CostBase": 28,
+      "CostGrowthRate": 1.13
     },
     {
       "Index": 3,
@@ -398,8 +398,8 @@
       "GrantCurrency": "",
       "ValueBase": 0.8,
       "ValuePerNode": 0.15,
-      "CostBase": 35,
-      "CostGrowthRate": 1.16
+      "CostBase": 40,
+      "CostGrowthRate": 1.13
     },
     {
       "Index": 4,
@@ -412,8 +412,8 @@
       "GrantCurrency": "TIME_ENERGY",
       "ValueBase": 8,
       "ValuePerNode": 2,
-      "CostBase": 85,
-      "CostGrowthRate": 1.16
+      "CostBase": 84,
+      "CostGrowthRate": 1.13
     },
     {
       "Index": 5,
@@ -426,8 +426,8 @@
       "GrantCurrency": "",
       "ValueBase": 10,
       "ValuePerNode": 1,
-      "CostBase": 155,
-      "CostGrowthRate": 1.16
+      "CostBase": 138,
+      "CostGrowthRate": 1.13
     },
     {
       "Index": 6,
@@ -440,8 +440,8 @@
       "GrantCurrency": "MASTERY_ESSENCE",
       "ValueBase": 31,
       "ValuePerNode": 1,
-      "CostBase": 379,
-      "CostGrowthRate": 1.16
+      "CostBase": 287,
+      "CostGrowthRate": 1.13
     },
     {
       "Index": 7,
@@ -454,8 +454,8 @@
       "GrantCurrency": "",
       "ValueBase": 23,
       "ValuePerNode": 0.6,
-      "CostBase": 686,
-      "CostGrowthRate": 1.16
+      "CostBase": 469,
+      "CostGrowthRate": 1.13
     },
     {
       "Index": 8,
@@ -468,8 +468,8 @@
       "GrantCurrency": "MASTERY_ESSENCE",
       "ValueBase": 42,
       "ValuePerNode": 1,
-      "CostBase": 1941,
-      "CostGrowthRate": 1.16
+      "CostBase": 1104,
+      "CostGrowthRate": 1.13
     },
     {
       "Index": 9,
@@ -482,8 +482,8 @@
       "GrantCurrency": "",
       "ValueBase": 29,
       "ValuePerNode": 0.6,
-      "CostBase": 3029,
-      "CostGrowthRate": 1.16
+      "CostBase": 1593,
+      "CostGrowthRate": 1.13
     },
     {
       "Index": 10,
@@ -496,8 +496,8 @@
       "GrantCurrency": "",
       "ValueBase": 6.2,
       "ValuePerNode": 0.15,
-      "CostBase": 7381,
-      "CostGrowthRate": 1.16
+      "CostBase": 3317,
+      "CostGrowthRate": 1.13
     }
   ],
   "FeatureUnlockTable": [
@@ -507,7 +507,7 @@
       "FeatureType": "REBIRTH",
       "Name": 40007,
       "RequireNodeCount": 15,
-      "UnlockCost": 63
+      "UnlockCost": 66
     },
     {
       "Index": 2,
@@ -515,7 +515,7 @@
       "FeatureType": "TIME_HEIST",
       "Name": 40008,
       "RequireNodeCount": 33,
-      "UnlockCost": 924
+      "UnlockCost": 599
     }
   ],
   "MasteryTable": [
@@ -1777,6 +1777,12 @@
       "Id": 40133,
       "KOR": "새 소식",
       "ENG": "New"
+    },
+    {
+      "Index": 127,
+      "Id": 40134,
+      "KOR": "자동 업그레이드",
+      "ENG": "Auto Upgrade"
     }
   ]
 }

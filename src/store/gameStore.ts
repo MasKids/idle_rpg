@@ -153,6 +153,9 @@ interface GameState {
   ownedRelics: number[]
   activeRelics: ActiveRelicSlots
 
+  // 성장 탭 자동 업그레이드 (존재력 트리는 대상 아님 — 항상 수동)
+  autoUpgradeStats: boolean
+
   addCurrency: (key: CurrencyKey, amount: number) => void
   spendCurrency: (key: CurrencyKey, amount: number) => boolean
   upgradeStat: (key: StatKey) => boolean
@@ -184,6 +187,8 @@ interface GameState {
   // 유물
   pullRelicGacha: () => RelicGachaPullResult | null
   setRelicSlot: (slotIndex: number, relicId: number | null) => boolean
+
+  setAutoUpgradeStats: (enabled: boolean) => void
 }
 
 const initialStatLevels: Record<StatKey, number> = {
@@ -284,10 +289,51 @@ export const useGameStore = create<GameState>((set, get) => ({
   ownedRelics: startOwnedRelics,
   activeRelics: startActiveRelics,
 
-  addCurrency: (key, amount) =>
-    set((state) => ({
-      currencies: { ...state.currencies, [key]: state.currencies[key] + amount },
-    })),
+  autoUpgradeStats: persistedGame?.autoUpgradeStats ?? false,
+
+  addCurrency: (key, amount) => {
+    set((state) => {
+      const currencies = { ...state.currencies, [key]: state.currencies[key] + amount }
+      if (key !== 'growthEnergy' || !state.autoUpgradeStats) {
+        return { currencies }
+      }
+
+      // 가장 싼 스탯부터 반복 구매(순환 결과와 동일) — 존재력 트리는 여기서 건드리지 않는다.
+      const statLevels = { ...state.statLevels }
+      let growthEnergy = currencies.growthEnergy
+      let spent = 0
+      for (;;) {
+        let cheapestKey: StatKey | null = null
+        let cheapestCost = Infinity
+        for (const key of STAT_KEYS) {
+          const cost = statUpgradeCost(key, statLevels[key])
+          if (cost < cheapestCost) {
+            cheapestCost = cost
+            cheapestKey = key
+          }
+        }
+        if (cheapestKey === null || growthEnergy < cheapestCost) break
+        growthEnergy -= cheapestCost
+        spent += cheapestCost
+        statLevels[cheapestKey] += 1
+      }
+      if (spent === 0) return { currencies }
+
+      return {
+        currencies: { ...currencies, growthEnergy },
+        statLevels,
+        stats: computeEffectiveStats(
+          statLevels,
+          state.masteryLevels,
+          state.existTreeStatBonus,
+          state.ownedWeapons,
+          state.equippedWeaponId,
+          state.activeRelics,
+        ),
+        rebirthSpent: { ...state.rebirthSpent, growthEnergy: state.rebirthSpent.growthEnergy + spent },
+      }
+    })
+  },
 
   spendCurrency: (key, amount) => {
     if (get().currencies[key] < amount) return false
@@ -827,6 +873,8 @@ export const useGameStore = create<GameState>((set, get) => ({
     })
     return true
   },
+
+  setAutoUpgradeStats: (enabled) => set({ autoUpgradeStats: enabled }),
 }))
 
 // 상태가 바뀔 때마다(전투 틱 포함) 전체 진행 상태를 debounce 저장 큐에 올린다.
@@ -853,6 +901,7 @@ useGameStore.subscribe((state) => {
     gachaLevel: state.gachaLevel,
     ownedRelics: state.ownedRelics,
     activeRelics: state.activeRelics,
+    autoUpgradeStats: state.autoUpgradeStats,
     lastActiveAt: Date.now(),
   })
 })

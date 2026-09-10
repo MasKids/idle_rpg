@@ -178,9 +178,13 @@ def growth_reward(stage: int) -> int:
     return math.floor(2 * 1.08 ** (stage - 1))
 
 
+EXIST_REWARD_DIVISOR = 4.5
+
+
 def exist_reward(stage: int) -> int:
-    # 20분 시연 목표에 맞춰 /10 -> /2로 상향(비용만 낮추면 부자연스러워서 획득량도 함께 올림).
-    return max(1, math.floor(stage / 2))
+    # 체크포인트가 너무 일찍 열려(15노드 3분34초/33노드 5분50초) 목표(5~7분/11~15분)보다
+    # 빨랐다. node_cost와 함께 낮춰서 전체 페이스를 늦춘다(/2 -> /4.5).
+    return max(1, math.floor(stage / EXIST_REWARD_DIVISOR))
 
 
 # 보스 처치가 시간에너지의 유일한 획득 경로라, 챕터가 올라가도 고정값이면 유물 뽑기
@@ -195,14 +199,17 @@ def boss_time_energy_reward(chapter: int) -> int:
 # 안에서 노드가 늘어날 때의 실제 증가율은 행 자체의 CostGrowthRate 칼럼이 쓰이기
 # 때문에(getExistTreeTier), 둘이 어긋나면 시드값만 싸고 소구간 내부 증가율은 옛날
 # 값으로 남는 버그가 생긴다(실제로 한 번 이렇게 어긋났었다).
-NODE_COST_RATE = 1.16
+NODE_COST_RATE = 1.13
+NODE_COST_BASE = 12
 
 
 def node_cost(order: int) -> int:
-    # 20분 시연 목표에 맞춰 대폭 하향(10*1.35^n -> 8*1.16^n) — 예전엔 15번 노드
-    # 도달에만 9일, 비용 지불까지 49일이 걸렸다. FeatureUnlockTable의 리버스/
-    # 타임하이스트 해금 비용도 이 함수로 계산되므로 함께 따라 내려간다.
-    return math.floor(8 * NODE_COST_RATE ** (order - 1))
+    # 체크포인트가 목표보다 일찍 열려(15노드 3분34초/33노드 5분50초, 목표는 각각
+    # 5~7분/11~15분) 시작 비용과 증가율을 함께 올렸다(8*1.16^n -> 12*1.13^n).
+    # 증가율을 올리면 뒤쪽 노드(33번)일수록 더 크게 늦춰지는 효과가 있어, 초반(15번)과
+    # 후반(33번) 목표 구간을 동시에 맞추려면 시작 비용과 증가율을 같이 조정해야 했다.
+    # FeatureUnlockTable의 리버스/타임하이스트 해금 비용도 이 함수로 계산되므로 함께 따라온다.
+    return math.floor(NODE_COST_BASE * NODE_COST_RATE ** (order - 1))
 
 
 BOSS_HP_MULT = 5
@@ -1442,6 +1449,7 @@ def build_string_rows() -> list[list]:
         (40131, "시작하기", "Start", "Onboarding"),
         (40132, "다음 특별 해금까지", "Until Next Special Unlock", "ExistUi"),
         (40133, "새 소식", "New", "Badge"),
+        (40134, "자동 업그레이드", "Auto Upgrade", "GrowthUi"),
     ]
     rows = []
     for i, (string_id, kor, eng, category) in enumerate(specs, start=1):

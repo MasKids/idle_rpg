@@ -70,10 +70,31 @@ function StatSubTab() {
   const growthEnergy = useGameStore((state) => state.currencies.growthEnergy)
   const upgradeStat = useGameStore((state) => state.upgradeStat)
   const maxUpgradeAll = useGameStore((state) => state.maxUpgradeAll)
+  const autoUpgradeStats = useGameStore((state) => state.autoUpgradeStats)
+  const setAutoUpgradeStats = useGameStore((state) => state.setAutoUpgradeStats)
 
   return (
     <div className="flex min-h-0 flex-1 flex-col gap-1.5 overflow-y-auto">
-      <div className="flex justify-end">
+      <div className="flex items-center justify-between gap-2">
+        <button
+          type="button"
+          onClick={() => setAutoUpgradeStats(!autoUpgradeStats)}
+          className="flex items-center gap-1.5"
+        >
+          <span
+            className={`relative h-5 w-9 shrink-0 rounded-full transition-colors ${
+              autoUpgradeStats ? 'bg-blue-base' : 'bg-surface-card'
+            }`}
+          >
+            <span
+              className={`absolute top-0.5 h-4 w-4 rounded-full bg-white transition-transform ${
+                autoUpgradeStats ? 'translate-x-[18px]' : 'translate-x-0.5'
+              }`}
+            />
+          </span>
+          <span className="text-[11px] font-medium text-text-secondary">{getGrowthUiLabel('autoUpgrade')}</span>
+        </button>
+
         <Button variant="secondary" onClick={maxUpgradeAll}>
           {getButtonLabel('maxAll')}
         </Button>
