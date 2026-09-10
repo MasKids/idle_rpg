@@ -9,7 +9,6 @@ import {
   getWeaponBreakthroughStep,
   getWeaponConfig,
   getWeaponFusionConfig,
-  getWeaponGradeConfig,
   WEAPON_TYPE_NAME_STRING_ID,
   WEAPON_TYPES,
   type GachaTableRow,
@@ -44,7 +43,7 @@ export function weaponDisplayName(id: string): string {
   // WeaponTable에서 NameStringId만 채우면 된다.
   if (config.NameStringId) return getString(config.NameStringId, 'KOR')
   const typeName = getString(WEAPON_TYPE_NAME_STRING_ID[type], 'KOR', type)
-  const gradeName = getString(getWeaponGradeConfig(grade).Name, 'ENG', grade)
+  const gradeName = getString(config.GradeNameStringId, 'ENG', grade)
   return `${typeName}-${gradeName}-${tier}`
 }
 

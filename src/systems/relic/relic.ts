@@ -3,9 +3,9 @@
 import {
   BALANCE_TABLES,
   getRelicConfig,
+  getRelicGradeInfo,
   getRelicSlotConfig,
   getString,
-  getWeaponGradeConfig,
   type RelicEffectTypeEnum,
   type RelicGradeEnum,
   type RelicTableRow,
@@ -15,9 +15,9 @@ import type { ActiveRelicSlots, StatKey } from '../../types/game'
 
 export const RELIC_SLOT_MAX = BALANCE_TABLES.RelicSlotTable.length
 
-// 무기 등급 이름 StringTable을 그대로 재사용 (등급 명칭은 무기/유물 공통 어휘)
+// RelicTable 자체가 가진 등급 이름을 조회한다(GradeTable 삭제 — 3단계).
 export function relicGradeName(grade: RelicGradeEnum): string {
-  return getString(getWeaponGradeConfig(grade).Name, 'KOR', grade)
+  return getString(getRelicGradeInfo(grade).NameStringId, 'KOR', grade)
 }
 
 export const RELIC_GRADES: RelicGradeEnum[] = ['Normal', 'Rare', 'Epic']

@@ -1,4 +1,4 @@
-import { getString, getWeaponGradeConfig, type WeaponGradeEnum } from '../../data/balance'
+import { getString, getWeaponGradeInfo, type WeaponGradeEnum } from '../../data/balance'
 import { GRADE_GLOW_SHADOW } from '../../systems/weapon/weaponUi'
 
 // 무기 5등급 + 유물 3등급(Normal/Rare/Epic, WeaponGradeEnum의 부분집합)을 함께 표현한다.
@@ -18,7 +18,7 @@ interface GradeBadgeProps {
 // 항상 한글 등급명으로 표시한다(StringTable 경유) — 무기 상세/가챠 화면에 남아있던
 // "Rare"/"Normal" 영문 노출과 같은 문제가 새 화면에서 재발하지 않도록.
 export function GradeBadge({ grade, className = '' }: GradeBadgeProps) {
-  const name = getString(getWeaponGradeConfig(grade).Name, 'KOR', grade)
+  const name = getString(getWeaponGradeInfo(grade).NameStringId, 'KOR', grade)
   return (
     <span
       className={`inline-flex items-center rounded-full border px-2 py-0.5 text-[10px] font-medium ${GRADE_CLASS[grade]} ${GRADE_GLOW_SHADOW[grade]} ${className}`}

@@ -15,7 +15,6 @@ export type NodeEffectTypeEnum = 'STAT' | 'GRANT'
 // 없음)에서만 쓰였던 enum이라 빠져 있었다 — CurrencyTable.Type이 6종 재화를 전부
 // 다뤄야 해서 추가했다.
 export type CurrencyTypeEnum = 'EXIST' | 'GROWTH_ENERGY' | 'MASTERY_ESSENCE' | 'TIME_ENERGY' | 'GOLD' | 'DIAMOND'
-export type GradeUsedByEnum = 'Weapon' | 'Relic' | 'Both'
 export type FeatureTypeEnum = 'REBIRTH' | 'TIME_HEIST'
 export type WeaponTypeEnum = 'Sword' | 'Spear' | 'Bow'
 // weapon.ts(무기 로직)와 mastery.ts(숙련 로직) 양쪽이 같은 목록을 쓰므로, 두 시스템
@@ -101,14 +100,6 @@ export interface FeatureUnlockTableRow {
   UnlockCost: number
 }
 
-export interface WeaponGradeTableRow {
-  Index: number
-  Id: number
-  WeaponGrade: WeaponGradeEnum
-  Name: number
-  GradeMultiplier: number
-}
-
 export interface WeaponBreakthroughTableRow {
   Index: number
   Id: number
@@ -121,8 +112,7 @@ export interface WeaponBreakthroughTableRow {
 // docs/TABLE_REDESIGN.md 2.2절) — 예전엔 OwnBonusBase×등급배율×Tier배율을 실시간
 // 곱연산으로 계산해 데이터 행이 0개였다. BaseAtk/OwnEffectValue/EquipEffectValue는
 // 전부 이미 등급·단계 배율까지 곱해진 최종값이라, 실행 시점엔 여기 값에 레벨(과
-// 보유일 때는 개수)만 곱하면 된다 — 더는 WeaponGradeTable을 실시간 참조하지
-// 않는다. CurveKey는 등급별 레벨업 비용 곡선(GrowthCurveTable의
+// 보유일 때는 개수)만 곱하면 된다. CurveKey는 등급별 레벨업 비용 곡선(GrowthCurveTable의
 // WEAPON_LEVEL_UP_NORMAL~LEGENDARY)을 가리킨다.
 export interface WeaponTableRow {
   Index: number
@@ -131,6 +121,13 @@ export interface WeaponTableRow {
   Type: WeaponTypeEnum
   PrimaryStat: StatTypeEnum
   Grade: WeaponGradeEnum
+  // GradeNameStringId/GradeColorToken은 WeaponGradeTable/GradeTable 삭제로 이관된
+  // 값이다 — 같은 등급 15행이 동일값을 반복한다(무기별 개별 조정 대비 의도적
+  // 중복, PrimaryStat과 동일한 패턴). GradeMultiplier/BaseMultiplier는 옮기지
+  // 않았다 — 이미 2단계 개편 때 BaseAtk 등에 곱연산까지 끝난 값으로 흡수돼
+  // 어디서도 읽지 않는 죽은 칼럼이었다.
+  GradeNameStringId: number
+  GradeColorToken: string
   Tier: number
   NameStringId: number
   DescStringId: number
@@ -166,6 +163,10 @@ export interface RelicTableRow {
   // 3단계 StringTable 확장으로 신설(52000번대) — 이름(Name)은 이미 40001~40134에
   // 확정돼 있어 그대로 두고, 설명만 새로 추가했다.
   DescStringId: number
+  // GradeNameStringId/GradeColorToken은 GradeTable 삭제로 이관된 값이다 — 유물
+  // 등급은 3단계(Normal/Rare/Epic)뿐이라 같은 등급 3행이 동일값을 반복한다.
+  GradeNameStringId: number
+  GradeColorToken: string
   EffectType: RelicEffectTypeEnum
   EffectValue: number
   GachaWeight: number
@@ -238,9 +239,8 @@ export interface GrowthCurveTableRow {
 }
 
 // 재화별 리버스 초기화/환급/HUD 노출 속성. ResetOnRebirth/RefundOnRebirth는
-// gameStore.ts의 executeRebirth() 실제 동작과 값이 일치하지만, 아직 executeRebirth()가
-// 이 테이블을 읽어 분기하도록 참조를 전환하지는 않았다(스키마+데이터만 이번 단계 — 다음
-// 단계에서 gameStore.ts 쪽 참조 전환 예정).
+// gameStore.ts의 executeRebirth()가 실제로 읽어 분기한다(RebirthTable 삭제,
+// 3단계 — 그 전까지는 스키마+데이터만 있고 읽지 않았다).
 export interface CurrencyTableRow {
   Index: number
   Id: number
@@ -252,26 +252,11 @@ export interface CurrencyTableRow {
   SortOrder: number
 }
 
-// 무기/유물 공용 등급 테이블. WeaponGradeTable을 대체할 예정이지만 이번 단계에서는
-// WeaponGradeTable을 아직 지우지 않았고(코드도 계속 WeaponGradeTable을 읽음) 나란히
-// 존재한다 — 코드 참조 전환은 WeaponTable(75행) 신설과 함께 다음 단계에서 처리한다.
-export interface GradeTableRow {
-  Index: number
-  Id: number
-  GradeKey: WeaponGradeEnum
-  NameStringId: number
-  ColorToken: string
-  BaseMultiplier: number
-  UsedBy: GradeUsedByEnum
-  SortOrder: number
-}
-
 interface BalanceTables {
   StageTable: StageTableRow[]
   StatTable: StatTableRow[]
   ExistTreeTable: ExistTreeTableRow[]
   FeatureUnlockTable: FeatureUnlockTableRow[]
-  WeaponGradeTable: WeaponGradeTableRow[]
   WeaponBreakthroughTable: WeaponBreakthroughTableRow[]
   WeaponTable: WeaponTableRow[]
   GachaTable: GachaTableRow[]
@@ -283,7 +268,6 @@ interface BalanceTables {
   StringTable: StringTableRow[]
   GrowthCurveTable: GrowthCurveTableRow[]
   CurrencyTable: CurrencyTableRow[]
-  GradeTable: GradeTableRow[]
 }
 
 const TABLES = balanceJson as unknown as BalanceTables
@@ -353,6 +337,8 @@ const DEFAULT_WEAPON: WeaponTableRow = {
   Type: 'Sword',
   PrimaryStat: 'ATK',
   Grade: 'Normal',
+  GradeNameStringId: 40058,
+  GradeColorToken: 'normal',
   Tier: 1,
   NameStringId: 0,
   DescStringId: 0,
@@ -360,14 +346,6 @@ const DEFAULT_WEAPON: WeaponTableRow = {
   OwnEffectValue: 0.5,
   EquipEffectValue: 5,
   CurveKey: 'WEAPON_LEVEL_UP_NORMAL',
-}
-
-const DEFAULT_WEAPON_GRADE: WeaponGradeTableRow = {
-  Index: 0,
-  Id: 0,
-  WeaponGrade: 'Normal',
-  Name: 0,
-  GradeMultiplier: 1,
 }
 
 const DEFAULT_WEAPON_BREAKTHROUGH: WeaponBreakthroughTableRow = {
@@ -402,6 +380,8 @@ const DEFAULT_RELIC: RelicTableRow = {
   RelicGrade: 'Normal',
   Name: 0,
   DescStringId: 0,
+  GradeNameStringId: 40058,
+  GradeColorToken: 'normal',
   EffectType: 'STAT_ATK',
   EffectValue: 0,
   GachaWeight: 0,
@@ -443,17 +423,6 @@ const DEFAULT_CURRENCY: CurrencyTableRow = {
   ResetOnRebirth: false,
   RefundOnRebirth: false,
   ShowInHUD: false,
-  SortOrder: 0,
-}
-
-const DEFAULT_GRADE: GradeTableRow = {
-  Index: 0,
-  Id: 0,
-  GradeKey: 'Normal',
-  NameStringId: 0,
-  ColorToken: 'normal',
-  BaseMultiplier: 1,
-  UsedBy: 'Both',
   SortOrder: 0,
 }
 
@@ -515,13 +484,16 @@ export function getWeaponTypePrimaryStat(weaponType: WeaponTypeEnum): StatTypeEn
   return row.PrimaryStat
 }
 
-export function getWeaponGradeConfig(weaponGrade: WeaponGradeEnum): WeaponGradeTableRow {
-  const row = TABLES.WeaponGradeTable.find((r) => r.WeaponGrade === weaponGrade)
+// 무기 등급 이름/색상 토큰 — WeaponGradeTable/GradeTable 삭제(3단계)로 WeaponTable에
+// 흡수됐다. WeaponTable은 5등급 전부(Unique/Legendary 포함)를 가진 유일한 테이블이라
+// GradeBadge처럼 무기·유물 공용으로 쓰는 곳도 이 함수 하나로 충분하다.
+export function getWeaponGradeInfo(weaponGrade: WeaponGradeEnum): { NameStringId: number; ColorToken: string } {
+  const row = TABLES.WeaponTable.find((r) => r.Grade === weaponGrade)
   if (!row) {
-    warnMissing('WeaponGradeTable', `WeaponGrade=${weaponGrade}`)
-    return { ...DEFAULT_WEAPON_GRADE, WeaponGrade: weaponGrade }
+    warnMissing('WeaponTable', `Grade=${weaponGrade}(등급 정보 조회)`)
+    return { NameStringId: DEFAULT_WEAPON.GradeNameStringId, ColorToken: DEFAULT_WEAPON.GradeColorToken }
   }
-  return row
+  return { NameStringId: row.GradeNameStringId, ColorToken: row.GradeColorToken }
 }
 
 export function getWeaponBreakthroughStep(step: number): WeaponBreakthroughTableRow {
@@ -586,6 +558,17 @@ export function getRelicConfig(id: number): RelicTableRow {
     return { ...DEFAULT_RELIC, Id: id }
   }
   return row
+}
+
+// 유물 등급 이름/색상 토큰 — GradeTable 삭제(3단계)로 RelicTable에 흡수됐다.
+// 유물 등급은 3단계(Normal/Rare/Epic)뿐이다.
+export function getRelicGradeInfo(relicGrade: RelicGradeEnum): { NameStringId: number; ColorToken: string } {
+  const row = TABLES.RelicTable.find((r) => r.RelicGrade === relicGrade)
+  if (!row) {
+    warnMissing('RelicTable', `RelicGrade=${relicGrade}(등급 정보 조회)`)
+    return { NameStringId: DEFAULT_RELIC.GradeNameStringId, ColorToken: DEFAULT_RELIC.GradeColorToken }
+  }
+  return { NameStringId: row.GradeNameStringId, ColorToken: row.GradeColorToken }
 }
 
 export function getRelicSlotConfig(slotIndex: number): RelicSlotTableRow {
@@ -679,15 +662,6 @@ export function getCurrencyConfig(type: CurrencyTypeEnum): CurrencyTableRow {
   if (!row) {
     warnMissing('CurrencyTable', `Type=${type}`)
     return { ...DEFAULT_CURRENCY, Type: type }
-  }
-  return row
-}
-
-export function getGradeConfig(gradeKey: WeaponGradeEnum): GradeTableRow {
-  const row = TABLES.GradeTable.find((r) => r.GradeKey === gradeKey)
-  if (!row) {
-    warnMissing('GradeTable', `GradeKey=${gradeKey}`)
-    return { ...DEFAULT_GRADE, GradeKey: gradeKey }
   }
   return row
 }

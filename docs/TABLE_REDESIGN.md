@@ -1,8 +1,8 @@
 # 밸런싱 테이블 구조 개편안
 
-**이 문서는 조사 + 제안으로 시작했고, 1·2단계, `WeaponTypeTable`/`MasteryTable` 정리,
-1행 테이블 4개 실제 제거, StringTable 확장까지 3단계 전체가 이제 구현 완료됐다.**
-남은 단계는 `WeaponGradeTable`→`GradeTable` 코드 참조 전환뿐이다.
+**이 문서는 조사 + 제안으로 시작했고, 1~3단계와 `WeaponTypeTable`/`MasteryTable`·
+`WeaponGradeTable`/`GradeTable` 정리까지 이 문서가 다뤘던 개편 항목 전부가 이제
+구현 완료됐다.**
 
 > **진행 상황**:
 > - 버그 수정(전투 틱/체력바, 무기 돌파·합성, 리버스 재화 초기화)을 먼저 완료.
@@ -95,6 +95,28 @@
 >     xlsx 파일을 한 번만 열고 닫아 결과는 동일하되 훨씬 빠르게 처리했다.
 >   - 결과: 테이블 17개, 총 830행(StringTable 127→412행). 0개 누락/중복 StringId,
 >     `[balance]` 콘솔 경고 0건(무기·유물·존재력 트리 전 화면 순회 확인).
+> - **`WeaponGradeTable`/`GradeTable` 정리 완료**(2026-09-11) — 무기 종류를
+>   `WeaponTable`에 흡수했던 것과 같은 논리를 등급에도 적용:
+>   - 등급 이름 StringId·색상 토큰을 `WeaponTable`(75행, 같은 등급 15행이 동일값
+>     반복)과 `RelicTable`(9행, 유물은 3등급뿐이라 같은 등급 3행이 동일값 반복)
+>     각 행에 직접 기입. `GradeMultiplier`/`BaseMultiplier`는 옮기지 않고
+>     버렸다 — 2단계 개편 때 이미 `BaseAtk` 등에 곱연산까지 끝난 값으로 흡수돼
+>     둘 다 어디서도 읽지 않는 죽은 칼럼이었다(확인 후 판단).
+>   - `WeaponGradeTable`/`GradeTable` 시트 삭제. `getWeaponGradeConfig()`/
+>     `getGradeConfig()`를 `getWeaponGradeInfo()`(`WeaponTable` 조회 — 5등급
+>     전부를 가진 유일한 테이블이라 `GradeBadge`처럼 무기·유물 공용으로 쓰는
+>     곳도 이걸로 충분)와 `getRelicGradeInfo()`(`RelicTable` 조회)로 교체.
+>   - `#EnumDefine`의 `WeaponGrade` 그룹 사용처를 `WeaponGradeTable.WeaponGrade`
+>     → `WeaponTable.Grade`로 교체, 아무 데서도 안 읽던 `GradeUsedByType` 그룹
+>     삭제.
+>   - 겸사겸사 `#TableDefine`을 실제 시트 헤더에서 전부 다시 생성하도록
+>     바꿨다 — 이전 마이그레이션 3개(008/012/014)가 텍스트로 삽입 위치를
+>     찾는 방식이라 `WeaponTable` 정의가 부분적으로 3번 겹쳐 있던 걸 발견해
+>     함께 고쳤다(`#TableDefine`은 `balance.json` 빌드에서 제외되는 순수
+>     문서 시트라 게임 동작에는 영향 없었음).
+>   - 결과: 테이블 17개 → **15개**, 총 830행 → **820행**. 브라우저에서
+>     무기고(등급별 배지·글로우)·유물 탭·가챠 10연출까지 색상·이름 표시가
+>     이전과 동일한지 확인.
 
 ---
 
