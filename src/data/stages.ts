@@ -24,6 +24,7 @@ export function generateStage(stage: number): StageData {
       growthEnergy: config.RewardGrowth,
       exist: config.RewardExist,
       timeEnergy: config.RewardTimeEnergy,
+      firstClearDiamond: config.FirstClearDiamond,
     },
   }
 }

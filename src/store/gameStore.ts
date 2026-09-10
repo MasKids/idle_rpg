@@ -156,6 +156,9 @@ interface GameState {
   currentStage: number
   battle: BattleState
   lastHit: BattleHit | null
+  // 스테이지 최초 클리어 다이아 연출용 — battleLoop.ts가 최초 클리어를 감지할
+  // 때만 채우는 일회성 신호(lastHit과 동일한 패턴, 세이브 대상 아님).
+  lastFirstClear: { id: number; stage: number; diamond: number } | null
   unlockedCount: number
   specialUnlocks: Record<SpecialUnlockId, boolean>
   rebirthSpent: RebirthSpentTotals
@@ -300,6 +303,7 @@ export const useGameStore = create<GameState>((set, get) => ({
   currentStage: startStage,
   battle: persistedGame?.battle ?? battleStateForStage(startStage),
   lastHit: null,
+  lastFirstClear: null,
   unlockedCount: persistedGame?.unlockedCount ?? 0,
   specialUnlocks: persistedGame?.specialUnlocks ?? {
     reverse: false,

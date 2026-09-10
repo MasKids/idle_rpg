@@ -12,6 +12,7 @@ const MIN_INTERVAL_MS = 100
 let started = false
 let timeoutId: ReturnType<typeof setTimeout> | null = null
 let hitCounter = 0
+let firstClearCounter = 0
 
 function scheduleNextTick() {
   const aspd = useGameStore.getState().stats.aspd
@@ -83,6 +84,24 @@ function processKill() {
     const kills = state.battle.kills + 1
 
     if (kills >= state.battle.killsRequired) {
+      // 최초 클리어 판정 — rebirthMaxStage는 "지금까지 한 번이라도 있어본 가장
+      // 높은 스테이지 번호"를 리버스해도 유지하며 실시간 갱신하는 기존 값이다.
+      // setStage(currentStage+1)가 이 값을 currentStage+1로 갱신하기 *전*에 비교해야
+      // "이 스테이지가 이미 클리어된 적 있는지"를 정확히 판정할 수 있다(리버스로
+      // currentStage가 1로 되돌아가도 rebirthMaxStage는 그대로라 재클리어는 걸러진다).
+      const isFirstClear = state.currentStage >= state.rebirthMaxStage
+      if (isFirstClear && clearedStage.rewards.firstClearDiamond > 0) {
+        state.addCurrency('diamond', clearedStage.rewards.firstClearDiamond)
+        firstClearCounter += 1
+        useGameStore.setState({
+          lastFirstClear: {
+            id: firstClearCounter,
+            stage: state.currentStage,
+            diamond: clearedStage.rewards.firstClearDiamond,
+          },
+        })
+      }
+
       const nextStageNumber = state.currentStage + 1
       const nextStage = generateStage(nextStageNumber)
       state.setStage(nextStageNumber)

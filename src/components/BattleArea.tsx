@@ -9,7 +9,7 @@ import type { CurrencyKey } from '../types/game'
 import { formatCountdown } from '../utils/format'
 import { useNow } from '../utils/useNow'
 import { usePageVisible } from '../utils/usePageVisible'
-import { SYSTEM_ICON } from './icons'
+import { CURRENCY_ICON, SYSTEM_ICON } from './icons'
 import { CurrencyChip, ProgressBar } from './ui'
 
 // HUD 재화 칩 4개(확정): 다이아 / 존재력 / 성장에너지 / 골드.
@@ -48,7 +48,8 @@ export function BattleArea({ onStageInfoClick, onTimeHeistClick }: BattleAreaPro
   const timeHeistUsedCount = useGameStore((state) => state.timeHeistUsedCount)
   const timeHeistLastUsedAt = useGameStore((state) => state.timeHeistLastUsedAt)
   const activeRelics = useGameStore((state) => state.activeRelics)
-  const { popups, enemyHp, enemyMaxHp, isBossStage, stage, lastHitId } = useBattleLoop()
+  const { popups, firstClearToasts, enemyHp, enemyMaxHp, isBossStage, stage, lastHitId } = useBattleLoop()
+  const DiamondIcon = CURRENCY_ICON.diamond
   const hpPercent = enemyMaxHp > 0 ? Math.max(0, Math.round((enemyHp / enemyMaxHp) * 100)) : 0
   const isPageVisible = usePageVisible()
   const decorClassName = `decor-motion${isPageVisible ? '' : ' decor-paused'}`
@@ -225,6 +226,25 @@ export function BattleArea({ onStageInfoClick, onTimeHeistClick }: BattleAreaPro
             </span>
           )
         })}
+      </div>
+
+      {/* 스테이지 최초 클리어 연출 — 일반 처치 데미지 팝업과 겹치지 않게 화면 위쪽에
+          따로 띄우고, 훨씬 오래(1.8초) 보여주며 다이아 아이콘으로 구분한다. */}
+      <div className="pointer-events-none absolute inset-x-0 top-[14%] flex flex-col items-center gap-1">
+        {firstClearToasts.map((toast, index) => (
+          <div
+            key={toast.id}
+            className="flex items-center gap-1.5 rounded-full border border-gold-strong/60 bg-black/70 px-3 py-1.5 shadow-[0_0_16px_rgba(251,191,36,0.5)] backdrop-blur-sm"
+            style={{
+              marginTop: index * 4,
+              animation: 'reveal-pop 300ms ease-out, backdrop-fade-out 400ms ease-in 1400ms forwards',
+            }}
+          >
+            <span className="text-xs font-semibold text-gold-strong">{getBattleUiLabel('firstClear')}</span>
+            <DiamondIcon size={14} strokeWidth={2.2} className="text-currency-diamond" />
+            <span className="text-sm font-bold tabular-nums text-gold-strong">+{toast.diamond}</span>
+          </div>
+        ))}
       </div>
 
       <div className="absolute inset-x-0 top-0 flex items-center justify-between gap-1.5 bg-gradient-to-b from-black/50 to-transparent p-2">

@@ -45,6 +45,10 @@ export interface StageData {
     growthEnergy: number
     exist: number
     timeEnergy: number
+    // 이 스테이지 최초 클리어 시에만 지급되는 다이아(이미 클리어했다면 0으로 취급 —
+    // generateStage 자체는 항상 테이블 값을 그대로 반환하고, "이미 받았는지" 판정은
+    // 호출부(battleLoop.ts)가 rebirthMaxStage와 비교해서 한다).
+    firstClearDiamond: number
   }
 }
 

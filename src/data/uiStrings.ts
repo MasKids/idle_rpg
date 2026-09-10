@@ -368,10 +368,11 @@ export function getStubUiLabel(key: StubUiLabelKey): string {
   return getString(STUB_UI_LABEL_ID[key], 'KOR', key)
 }
 
-export type BattleUiLabelKey = 'playerName'
+export type BattleUiLabelKey = 'playerName' | 'firstClear'
 
 const BATTLE_UI_LABEL_ID: Record<BattleUiLabelKey, number> = {
   playerName: 41016,
+  firstClear: 41026,
 }
 
 export function getBattleUiLabel(key: BattleUiLabelKey): string {

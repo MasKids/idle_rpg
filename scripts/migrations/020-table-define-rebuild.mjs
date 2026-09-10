@@ -54,6 +54,7 @@ const DESCRIPTIONS = {
   'RelicTable.GradeNameStringId': 'GradeTable 삭제로 이관 — 같은 등급 3행 전부 동일값(의도적 중복)',
   'RelicTable.GradeColorToken': 'GradeTable 삭제로 이관 — 같은 등급 3행 전부 동일값(의도적 중복)',
   'TimeHeistTable.UsedCount': '0부터 시작, 이 값을 넘는 사용 횟수는 마지막 행 값으로 고정',
+  'StageTable.FirstClearDiamond': '이 스테이지를 계정 통틀어 처음 클리어할 때만 지급(3단계 진행 속도 조정에서 신설) — 챕터가 오를수록·보스일수록 커짐',
 }
 
 function readSheetHeader(ws) {

@@ -60,6 +60,11 @@ export interface StageTableRow {
   RewardExist: number
   RewardTimeEnergy: number
   NameStringId: number
+  // 이 스테이지를 계정 통틀어 처음 클리어할 때만 지급되는 다이아(3단계 진행 속도
+  // 하향 작업에서 신설) — 챕터가 오를수록, 보스 스테이지일수록 커진다. 이미
+  // 클리어한 적이 있는지는 rebirthMaxStage로 판정한다(리버스해도 유지되는 값이라
+  // 재활용했다 — 별도 기록 상태를 새로 추가하지 않음).
+  FirstClearDiamond: number
 }
 
 export interface StatTableRow {
@@ -305,6 +310,7 @@ const DEFAULT_STAGE: StageTableRow = {
   RewardExist: 1,
   RewardTimeEnergy: 0,
   NameStringId: 0,
+  FirstClearDiamond: 6,
 }
 
 const DEFAULT_EXIST_TREE_NODE: ExistTreeTableRow = {
