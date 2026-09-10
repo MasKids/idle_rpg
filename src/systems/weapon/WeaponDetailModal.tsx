@@ -53,8 +53,10 @@ export function WeaponDetailModal({ weaponId, onClose }: WeaponDetailModalProps)
 
   const fusion = getWeaponFusionConfig()
   const mergeTargetId = nextWeaponIdForMerge(weaponId)
-  const canDoMerge = owned && entry !== undefined && canMerge(weaponId, entry, isEquipped)
-  const mergeAvailable = Math.max(0, count - (isEquipped ? 1 : 0))
+  const canDoMerge = owned && entry !== undefined && canMerge(weaponId, entry)
+  // 장착 여부와 무관하게 모든 무기는 최소 1개가 남아야 한다 — canMerge/canBreakthrough와 동일 규칙.
+  const mergeAvailable = Math.max(0, count - 1)
+  const breakthroughAvailable = Math.max(0, count - 1)
 
   const primaryStat = masteryPrimaryStat(type)
   const isAtkSpecialty = primaryStat === 'atk'
@@ -181,7 +183,9 @@ export function WeaponDetailModal({ weaponId, onClose }: WeaponDetailModalProps)
           <Button variant="teal" disabled={!canDoBreakthrough} onClick={() => breakthroughWeapon(weaponId)} className="text-xs">
             <span className="flex flex-col items-center leading-tight">
               <span>{getButtonLabel('breakthrough')}</span>
-              <span className="text-[10px] opacity-80">{nextStep ? `${nextStep.RequiredDuplicateCount}개 필요` : '최대'}</span>
+              <span className="text-[10px] opacity-80">
+                {nextStep ? `${breakthroughAvailable}/${nextStep.RequiredDuplicateCount}개` : '최대'}
+              </span>
             </span>
           </Button>
 
@@ -196,7 +200,7 @@ export function WeaponDetailModal({ weaponId, onClose }: WeaponDetailModalProps)
         </div>
 
         <p className="mt-2 text-center text-[10px] text-text-disabled">
-          합성: 장착 중 1개 제외 · 재료 {fusion.RequiredCount}개 필요
+          돌파·합성 모두 항상 1개 보존 · 합성 재료 {fusion.RequiredCount}개 필요
         </p>
       </div>
     </div>

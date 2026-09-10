@@ -157,10 +157,12 @@ export function nextBreakthroughStep(entry: WeaponInstance) {
   return BALANCE_TABLES.WeaponBreakthroughTable.find((r) => r.BreakthroughStep === step)
 }
 
+// 장착 여부와 무관하게 모든 무기는 최소 1개가 남아야 한다 — 그래서 돌파에 실제로
+// 쓸 수 있는 개수는 "보유 개수 - 1"이다(1단계는 1개 필요라 총 2개를 보유해야 가능).
 export function canBreakthrough(entry: WeaponInstance): boolean {
   const step = nextBreakthroughStep(entry)
   if (!step) return false
-  return entry.count >= step.RequiredDuplicateCount
+  return entry.count - 1 >= step.RequiredDuplicateCount
 }
 
 // 사다리(종류별 25단계: 5등급×5단계)에서 다음 칸. 등급 경계도 자연스럽게 이어지고,
@@ -175,39 +177,44 @@ export function nextWeaponIdForMerge(id: string): string | null {
   return null
 }
 
-// 장착 중인 타입은 재료 계산에서 항상 1개 제외 (docs/WEAPON_SYSTEM.md 1.3 확정 사항)
-export function canMerge(id: string, entry: WeaponInstance, isEquipped: boolean): boolean {
+// 모든 무기는 장착 여부와 무관하게 최소 1개가 남아야 한다 (canBreakthrough와 동일한
+// 규칙 — docs/WEAPON_SYSTEM.md 1.3의 "장착 중인 타입은 재료 계산에서 항상 1개
+// 제외"를 "장착 여부와 무관하게 항상 1개 제외"로 일반화했다: 최소-1-보존 규칙을
+// 적용하면 장착 중인 무기도 자동으로 보호되므로 isEquipped를 따로 분기할 필요가 없다).
+export function canMerge(id: string, entry: WeaponInstance): boolean {
   if (nextWeaponIdForMerge(id) === null) return false
   const fusion = getWeaponFusionConfig()
-  const available = entry.count - (isEquipped ? 1 : 0)
-  return available >= fusion.RequiredCount
+  return entry.count - 1 >= fusion.RequiredCount
 }
 
 export interface WeaponReadiness {
+  // 지금 보여주는 진행도가 돌파인지 합성인지 — UI에서 색/안내를 다르게 하기 위함.
+  kind: 'breakthrough' | 'fusion'
   count: number
-  // 합성(등급 승급) 필요 개수 — 합성이 이미 끝(레전드리 5단계)이면 돌파 다음 단계 필요 개수로 대체
   required: number
   // count >= required
   ready: boolean
 }
 
-// 그리드에 보여줄 "보유 개수 / 목표 개수" — 기본은 합성(다음 등급으로의 승급) 기준이다.
-// 합성이 더 불가능한 마지막 칸(레전드리 5단계)에서만 돌파 다음 단계 필요 개수를 대신 보여준다
-// (돌파는 1단계가 항상 1개라 항상 초록이 되어버려 진행도 표시로는 덜 유용하다).
-// 돌파도 합성도 더는 불가능하면(완전히 다 키운 상태) null.
-export function computeWeaponReadiness(id: string, entry: WeaponInstance, isEquipped: boolean): WeaponReadiness | null {
-  if (nextWeaponIdForMerge(id) !== null) {
-    const fusion = getWeaponFusionConfig()
-    const required = fusion.RequiredCount + (isEquipped ? 1 : 0)
-    return { count: entry.count, required, ready: entry.count >= required }
-  }
-
+// 그리드에 보여줄 "보유 개수 / 목표 개수" — 돌파와 합성 둘 다 계산해서 필요 개수가
+// 더 적은(=더 빨리 도달하는) 쪽을 보여준다. 예전엔 합성 쪽만 계산해서(레전드리
+// 5단계로 합성이 막힌 경우에만 돌파로 대체) 돌파가 실제로는 더 가깝거나 이미
+// 가능한 상태여도 화면에는 항상 "느린" 합성 진행도만 보였다. 돌파가 5단계까지
+// 전부 끝나 더 이상 없으면(nextBreakthroughStep이 null) 자동으로 합성 쪽만 남아
+// 안내가 합성으로 넘어간다. 돌파도 합성도 더는 불가능하면(완전히 다 키운 상태) null.
+export function computeWeaponReadiness(id: string, entry: WeaponInstance): WeaponReadiness | null {
   const nextStep = nextBreakthroughStep(entry)
-  if (nextStep) {
-    return { count: entry.count, required: nextStep.RequiredDuplicateCount, ready: entry.count >= nextStep.RequiredDuplicateCount }
-  }
+  const breakthroughRequired = nextStep ? nextStep.RequiredDuplicateCount + 1 : null
 
-  return null
+  const canMergeFurther = nextWeaponIdForMerge(id) !== null
+  const fusionRequired = canMergeFurther ? getWeaponFusionConfig().RequiredCount + 1 : null
+
+  if (breakthroughRequired === null && fusionRequired === null) return null
+
+  if (breakthroughRequired !== null && (fusionRequired === null || breakthroughRequired <= fusionRequired)) {
+    return { kind: 'breakthrough', count: entry.count, required: breakthroughRequired, ready: entry.count >= breakthroughRequired }
+  }
+  return { kind: 'fusion', count: entry.count, required: fusionRequired!, ready: entry.count >= fusionRequired! }
 }
 
 // ---------------------------------------------------------------------------
