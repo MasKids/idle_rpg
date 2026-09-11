@@ -6,15 +6,14 @@ import { getMetaUiLabel } from '../data/uiStrings'
 // dynamic-subset, 실제 쓰는 글자만 네트워크로 받아온다)뿐이다. document.fonts.ready로
 // 그 완료 시점을 감지한다.
 //
-// 최소 표시 시간을 둔 이유: 폰트가 캐시돼 있으면 fonts.ready가 거의 즉시
-// 끝나버려 화면이 한 프레임 깜빡이고 사라지는 것처럼 보일 수 있다(오히려
-// 로딩 화면이 없느니만 못한 인상). 최소 노출 시간을 둬서 매번 최소한의 "정적인
-// 순간"을 보장한다.
-const MIN_DISPLAY_MS = 600
+// 최소 표시 시간 — 실제 로딩(폰트)이 더 빨리 끝나도 항상 이만큼은 강제로
+// 보여준다(요청사항).
+const MIN_DISPLAY_MS = 3000
 const FADE_MS = 400
 // document.fonts.ready가 어떤 이유로든 끝나지 않는 경우(구형 브라우저 등)를 대비한
 // 안전장치 — 이 시간이 지나면 로딩 상태와 무관하게 강제로 다음 단계로 넘어간다.
-const SAFETY_TIMEOUT_MS = 4000
+// MIN_DISPLAY_MS(강제 3초) 위에 느린 폰트 로딩을 위한 여유를 더 둔 값이다.
+const SAFETY_TIMEOUT_MS = 6000
 
 function delay(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms))
@@ -65,7 +64,7 @@ export function LoadingScreen({ onDone }: LoadingScreenProps) {
         <div className="h-[3px] w-full overflow-hidden rounded-full bg-surface-border">
           <div
             className={`h-full rounded-full bg-blue-base ${
-              isFading ? 'w-full transition-[width] duration-200 ease-out' : 'animate-[loading-bar-trickle_1.6s_ease-out_forwards]'
+              isFading ? 'w-full transition-[width] duration-200 ease-out' : 'animate-[loading-bar-trickle_2.8s_ease-out_forwards]'
             }`}
           />
         </div>
