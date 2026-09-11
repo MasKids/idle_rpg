@@ -103,20 +103,12 @@ const STATE_LABEL_ID: Record<StateLabelKey, number> = {
   cost: 40048,
 }
 
-export type RebirthBonusLabelKey =
-  | 'title'
-  | 'currentCycle'
-  | 'totalPoints'
-  | 'pendingPoints'
-  | 'refundMultiplier'
-  | 'maxStageReached'
+export type RebirthBonusLabelKey = 'title' | 'currentCycle' | 'countMultiplier' | 'maxStageReached'
 
 const REBIRTH_BONUS_LABEL_ID: Record<RebirthBonusLabelKey, number> = {
   title: 40049,
   currentCycle: 40050,
-  totalPoints: 40051,
-  pendingPoints: 40052,
-  refundMultiplier: 40053,
+  countMultiplier: 40053,
   maxStageReached: 40054,
 }
 
@@ -321,7 +313,6 @@ export function getBadgeLabel(key: BadgeLabelKey): string {
 // (3단계 StringTable 확장, StringTable 41000번대 — docs/TABLE_REDESIGN.md 4절 Q6).
 export type RebirthUiLabelKey =
   | 'description'
-  | 'pendingNote'
   | 'resetSectionTitle'
   | 'resetStage'
   | 'resetStats'
@@ -335,10 +326,13 @@ export type RebirthUiLabelKey =
   | 'keepUnlockedSuffix'
   | 'keepUnlockState'
   | 'keepCurrency'
+  | 'rewardSectionTitle'
+  | 'currentBracket'
+  | 'baseAmount'
+  | 'nextMultiplier'
 
 const REBIRTH_UI_LABEL_ID: Record<RebirthUiLabelKey, number> = {
   description: 41000,
-  pendingNote: 41001,
   resetSectionTitle: 41002,
   resetStage: 41003,
   resetStats: 41004,
@@ -352,6 +346,10 @@ const REBIRTH_UI_LABEL_ID: Record<RebirthUiLabelKey, number> = {
   keepUnlockedSuffix: 41012,
   keepUnlockState: 41013,
   keepCurrency: 41014,
+  rewardSectionTitle: 41047,
+  currentBracket: 41048,
+  baseAmount: 41049,
+  nextMultiplier: 41050,
 }
 
 export function getRebirthUiLabel(key: RebirthUiLabelKey): string {
@@ -465,6 +463,7 @@ export type ProfileUiLabelKey =
   | 'profileTitle'
   | 'profileTotalPlayTime'
   | 'editName'
+  | 'patchNoteTitle'
 
 const PROFILE_UI_LABEL_ID: Record<ProfileUiLabelKey, number> = {
   resetNoticeTitle: 41038,
@@ -476,6 +475,7 @@ const PROFILE_UI_LABEL_ID: Record<ProfileUiLabelKey, number> = {
   profileTitle: 41044,
   profileTotalPlayTime: 41045,
   editName: 41046,
+  patchNoteTitle: 41051,
 }
 
 export function getProfileUiLabel(key: ProfileUiLabelKey): string {

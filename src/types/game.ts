@@ -103,10 +103,3 @@ export interface RelicGachaPullResult {
   isDuplicate: boolean
 }
 
-// 리버스 환급 추적
-
-export interface RebirthSpentTotals {
-  growthEnergy: number
-  gold: number
-  essence: number
-}

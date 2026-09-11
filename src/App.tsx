@@ -17,6 +17,7 @@ import { SummonPanel } from './systems/gacha/SummonPanel'
 import { WeaponStoragePanel } from './systems/weapon/WeaponStoragePanel'
 import { NameEntryGate } from './systems/profile/NameEntryGate'
 import { ProfileModal } from './systems/profile/ProfileModal'
+import { PatchNoteModal } from './systems/patchnotes/PatchNoteModal'
 import { WelcomeOnboarding } from './systems/onboarding/WelcomeOnboarding'
 import { DEFAULT_PLAYER_NAME, useGameStore } from './store/gameStore'
 import { FRAME_HEIGHT, FRAME_WIDTH, useFrameScale } from './utils/useFrameScale'
@@ -33,6 +34,7 @@ function App() {
   const [timeHeistFlashKey, setTimeHeistFlashKey] = useState(0)
   const [isRankingModalOpen, setRankingModalOpen] = useState(false)
   const [isProfileModalOpen, setProfileModalOpen] = useState(false)
+  const [isPatchNoteModalOpen, setPatchNoteModalOpen] = useState(false)
   const [isDesignSystemOpen, setDesignSystemOpen] = useState(false)
   const executeRebirth = useGameStore((state) => state.executeRebirth)
   const executeTimeHeist = useGameStore((state) => state.executeTimeHeist)
@@ -125,7 +127,13 @@ function App() {
 
         <RankingModal isOpen={isRankingModalOpen} onClose={() => setRankingModalOpen(false)} />
 
-        <ProfileModal isOpen={isProfileModalOpen} onClose={() => setProfileModalOpen(false)} />
+        <ProfileModal
+          isOpen={isProfileModalOpen}
+          onClose={() => setProfileModalOpen(false)}
+          onPatchNoteClick={() => setPatchNoteModalOpen(true)}
+        />
+
+        <PatchNoteModal isOpen={isPatchNoteModalOpen} onClose={() => setPatchNoteModalOpen(false)} />
 
         {rebirthFlashKey > 0 && (
           <div

@@ -1,7 +1,9 @@
-import { Pencil } from 'lucide-react'
+import { ChevronRight, Pencil } from 'lucide-react'
 import { useState } from 'react'
+import { BALANCE_TABLES } from '../../data/balance'
 import { Button, Modal } from '../../components/ui'
 import { getButtonLabel, getCommonUiLabel, getProfileUiLabel, getRankingUiLabel } from '../../data/uiStrings'
+import { useNumericNotice } from '../onboarding/useNumericNotice'
 import { useGameStore } from '../../store/gameStore'
 import { formatDuration } from '../../utils/format'
 import { isValidPlayerName, normalizePlayerName } from './playerName'
@@ -9,15 +11,18 @@ import { isValidPlayerName, normalizePlayerName } from './playerName'
 interface ProfileModalProps {
   isOpen: boolean
   onClose: () => void
+  onPatchNoteClick: () => void
 }
 
 // 전투 화면 좌상단 프로필 칩을 눌러 여는 패널. 이름 표시 + 연필 아이콘으로 수정,
-// 참고용 프로필 정보(총 플레이 시간·리버스 횟수) 몇 가지를 함께 보여준다.
-export function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
+// 참고용 프로필 정보(총 플레이 시간·리버스 횟수), 패치노트 진입을 함께 담는다.
+export function ProfileModal({ isOpen, onClose, onPatchNoteClick }: ProfileModalProps) {
   const playerName = useGameStore((state) => state.playerName)
   const setPlayerName = useGameStore((state) => state.setPlayerName)
   const totalPlayTime = useGameStore((state) => state.totalPlayTime)
   const rebirthCount = useGameStore((state) => state.rebirthCount)
+  // 패치노트 항목 수가 마지막으로 열어본 시점보다 늘었으면(=새 버전이 나왔으면) 점 표시.
+  const patchNoteNotice = useNumericNotice('patch-note-count', BALANCE_TABLES.PatchNoteTable.length)
 
   const [isEditing, setEditing] = useState(false)
   const [draft, setDraft] = useState(playerName)
@@ -105,6 +110,21 @@ export function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
             {getCommonUiLabel('cycleSuffix')}
           </span>
         </div>
+
+        <button
+          type="button"
+          onClick={() => {
+            patchNoteNotice.acknowledge()
+            onPatchNoteClick()
+          }}
+          className="flex w-full items-center justify-between rounded-lg border border-surface-border bg-surface-elevated px-3 py-2 text-xs text-text-primary transition-colors hover:bg-surface-border"
+        >
+          <span className="flex items-center gap-1.5">
+            {getProfileUiLabel('patchNoteTitle')}
+            {patchNoteNotice.hasNotice && <span className="h-1.5 w-1.5 rounded-full bg-danger-strong" />}
+          </span>
+          <ChevronRight size={14} className="text-text-secondary" />
+        </button>
       </div>
     </Modal>
   )

@@ -1,18 +1,12 @@
-import { getCommon, getRebirthRefundConfig } from '../../data/balance'
+import { getCommon } from '../../data/balance'
 
-// 리버스 시점의 도달 스테이지로부터 이번에 획득할 회차 보너스 포인트를 계산한다.
-// 최소 스테이지 제한 없음 — 낮은 스테이지에서는 자연히 값이 작게 나온다.
-// 소수점을 버리지 않고 그대로 누적해, 스테이지 1칸 차이도 보너스에 반영되게 한다.
-export function computeRebirthBonusPoints(currentStage: number): number {
-  return getCommon('RebirthBonusBase') * currentStage ** getCommon('RebirthBonusExponent')
-}
-
-// 누적 회차 보너스 포인트로부터 리버스 환급량에 곱연산으로 붙는 배율을 계산한다.
-// 전투 중 재화 획득량이나 스탯에는 전혀 관여하지 않고, 리버스 실행 시 환급에만 적용된다.
-// RefundBonusPerPoint/MaxRefundMultiplier가 RebirthTable 삭제(3단계)로 RebirthRewardTable로
-// 옮겨가며 도달 스테이지 구간별 값이 됐다 — stage 인자가 그래서 새로 필요하다.
-export function computeRefundMultiplier(stage: number, bonusPoint: number): number {
-  const config = getRebirthRefundConfig(stage)
-  const multiplier = 1 + (bonusPoint * config.RefundBonusPerPoint) / 100
-  return Math.min(config.MaxRefundMultiplier, multiplier)
+// 리버스 보상(도달 스테이지 구간별 고정 지급량, RebirthRewardTable)에 곱해지는
+// 리버스 횟수 기반 배율 — 회차가 쌓일수록 다음 리버스의 보상이 커진다.
+// rebirthCount는 "이번 리버스를 실행하기 전" 값을 넘겨야 한다(첫 리버스는
+// rebirthCount=0이라 배율 ×1.00). 다이아에는 적용하지 않는다(gameStore.ts 참고
+// — 가챠 재화라 인플레이션 우려로 의도적으로 제외).
+export function computeRebirthCountMultiplier(rebirthCount: number): number {
+  const perRun = getCommon('RebirthCountBonusPerRun')
+  const max = getCommon('MaxRebirthCountMultiplier')
+  return Math.min(1 + rebirthCount * perRun, max)
 }

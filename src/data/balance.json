@@ -330,23 +330,23 @@
     },
     {
       "Index": 23,
-      "Id": 36023,
-      "Key": "RebirthBonusBase",
-      "Value": 1,
+      "Id": 36025,
+      "Key": "WeaponBaseAtkEquipMultiplier",
+      "Value": 10,
       "ValueType": "float"
     },
     {
       "Index": 24,
-      "Id": 36024,
-      "Key": "RebirthBonusExponent",
-      "Value": 0.5,
+      "Id": 36026,
+      "Key": "RebirthCountBonusPerRun",
+      "Value": 0.05,
       "ValueType": "float"
     },
     {
       "Index": 25,
-      "Id": 36025,
-      "Key": "WeaponBaseAtkEquipMultiplier",
-      "Value": 10,
+      "Id": 36027,
+      "Key": "MaxRebirthCountMultiplier",
+      "Value": 3,
       "ValueType": "float"
     }
   ],
@@ -624,8 +624,8 @@
     {
       "Index": 46,
       "Id": 40053,
-      "KOR": "환급 배율",
-      "ENG": "RefundMultiplier"
+      "KOR": "회차 배율",
+      "ENG": "Rebirth Multiplier"
     },
     {
       "Index": 47,
@@ -2948,6 +2948,108 @@
       "Id": 41046,
       "KOR": "이름 수정",
       "ENG": "Edit name"
+    },
+    {
+      "Index": 434,
+      "Id": 41047,
+      "KOR": "리버스 보상",
+      "ENG": "Rebirth Reward"
+    },
+    {
+      "Index": 435,
+      "Id": 41048,
+      "KOR": "도달 구간",
+      "ENG": "Stage Range"
+    },
+    {
+      "Index": 436,
+      "Id": 41049,
+      "KOR": "기본",
+      "ENG": "Base"
+    },
+    {
+      "Index": 437,
+      "Id": 41050,
+      "KOR": "다음 리버스 배율",
+      "ENG": "Next Rebirth Multiplier"
+    },
+    {
+      "Index": 438,
+      "Id": 55000,
+      "KOR": "존재력 트리",
+      "ENG": "존재력 트리"
+    },
+    {
+      "Index": 439,
+      "Id": 55001,
+      "KOR": "리버스(환생)",
+      "ENG": "리버스(환생)"
+    },
+    {
+      "Index": 440,
+      "Id": 55002,
+      "KOR": "타임 하이스트",
+      "ENG": "타임 하이스트"
+    },
+    {
+      "Index": 441,
+      "Id": 55003,
+      "KOR": "무기 가챠 · 강화",
+      "ENG": "무기 가챠 · 강화"
+    },
+    {
+      "Index": 442,
+      "Id": 55004,
+      "KOR": "유물 시스템",
+      "ENG": "유물 시스템"
+    },
+    {
+      "Index": 443,
+      "Id": 55005,
+      "KOR": "오프라인 보상",
+      "ENG": "오프라인 보상"
+    },
+    {
+      "Index": 444,
+      "Id": 55006,
+      "KOR": "플레이어 이름 · 프로필",
+      "ENG": "플레이어 이름 · 프로필"
+    },
+    {
+      "Index": 445,
+      "Id": 55007,
+      "KOR": "스테이지 최초 클리어 보상",
+      "ENG": "스테이지 최초 클리어 보상"
+    },
+    {
+      "Index": 446,
+      "Id": 55008,
+      "KOR": "랭킹",
+      "ENG": "랭킹"
+    },
+    {
+      "Index": 447,
+      "Id": 55009,
+      "KOR": "리버스 보상 방식 개편",
+      "ENG": "리버스 보상 방식 개편"
+    },
+    {
+      "Index": 448,
+      "Id": 55010,
+      "KOR": "전체 진행 속도 조정",
+      "ENG": "전체 진행 속도 조정"
+    },
+    {
+      "Index": 449,
+      "Id": 55011,
+      "KOR": "무기 장착 효과 밸런스",
+      "ENG": "무기 장착 효과 밸런스"
+    },
+    {
+      "Index": 450,
+      "Id": 41051,
+      "KOR": "패치노트",
+      "ENG": "Patch Notes"
     }
   ],
   "CurrencyTable": [
@@ -3225,8 +3327,9 @@
       "StageFrom": 1,
       "StageTo": 24,
       "DiamondReward": 600,
-      "RefundBonusPerPoint": 1,
-      "MaxRefundMultiplier": 5
+      "GrowthEnergyReward": 1500,
+      "GoldReward": 3000,
+      "MasteryEssenceReward": 50
     },
     {
       "Index": 2,
@@ -3234,8 +3337,9 @@
       "StageFrom": 25,
       "StageTo": 49,
       "DiamondReward": 1000,
-      "RefundBonusPerPoint": 1,
-      "MaxRefundMultiplier": 5
+      "GrowthEnergyReward": 3000,
+      "GoldReward": 6000,
+      "MasteryEssenceReward": 100
     },
     {
       "Index": 3,
@@ -3243,8 +3347,9 @@
       "StageFrom": 50,
       "StageTo": 99,
       "DiamondReward": 1750,
-      "RefundBonusPerPoint": 1,
-      "MaxRefundMultiplier": 5
+      "GrowthEnergyReward": 6000,
+      "GoldReward": 12000,
+      "MasteryEssenceReward": 200
     },
     {
       "Index": 4,
@@ -3252,8 +3357,9 @@
       "StageFrom": 100,
       "StageTo": 199,
       "DiamondReward": 3000,
-      "RefundBonusPerPoint": 1,
-      "MaxRefundMultiplier": 5
+      "GrowthEnergyReward": 12000,
+      "GoldReward": 24000,
+      "MasteryEssenceReward": 400
     },
     {
       "Index": 5,
@@ -3261,8 +3367,9 @@
       "StageFrom": 200,
       "StageTo": 999999,
       "DiamondReward": 5000,
-      "RefundBonusPerPoint": 1,
-      "MaxRefundMultiplier": 5
+      "GrowthEnergyReward": 24000,
+      "GoldReward": 48000,
+      "MasteryEssenceReward": 800
     }
   ],
   "ExistTreeTable": [
@@ -8504,6 +8611,116 @@
       "RewardTimeEnergy": 110,
       "NameStringId": 0,
       "FirstClearDiamond": 417
+    }
+  ],
+  "PatchNoteTable": [
+    {
+      "Index": 1,
+      "Id": 33001,
+      "Version": "v0.1.0",
+      "ReleaseDate": "2026-09-10",
+      "Category": "ADD",
+      "TextStringId": 55000,
+      "SortOrder": 1
+    },
+    {
+      "Index": 2,
+      "Id": 33002,
+      "Version": "v0.1.0",
+      "ReleaseDate": "2026-09-10",
+      "Category": "ADD",
+      "TextStringId": 55001,
+      "SortOrder": 2
+    },
+    {
+      "Index": 3,
+      "Id": 33003,
+      "Version": "v0.1.0",
+      "ReleaseDate": "2026-09-10",
+      "Category": "ADD",
+      "TextStringId": 55002,
+      "SortOrder": 3
+    },
+    {
+      "Index": 4,
+      "Id": 33004,
+      "Version": "v0.1.0",
+      "ReleaseDate": "2026-09-10",
+      "Category": "ADD",
+      "TextStringId": 55003,
+      "SortOrder": 4
+    },
+    {
+      "Index": 5,
+      "Id": 33005,
+      "Version": "v0.1.0",
+      "ReleaseDate": "2026-09-10",
+      "Category": "ADD",
+      "TextStringId": 55004,
+      "SortOrder": 5
+    },
+    {
+      "Index": 6,
+      "Id": 33006,
+      "Version": "v0.1.0",
+      "ReleaseDate": "2026-09-10",
+      "Category": "ADD",
+      "TextStringId": 55005,
+      "SortOrder": 6
+    },
+    {
+      "Index": 7,
+      "Id": 33007,
+      "Version": "v0.2.0",
+      "ReleaseDate": "2026-09-11",
+      "Category": "ADD",
+      "TextStringId": 55006,
+      "SortOrder": 1
+    },
+    {
+      "Index": 8,
+      "Id": 33008,
+      "Version": "v0.2.0",
+      "ReleaseDate": "2026-09-11",
+      "Category": "ADD",
+      "TextStringId": 55007,
+      "SortOrder": 2
+    },
+    {
+      "Index": 9,
+      "Id": 33009,
+      "Version": "v0.2.0",
+      "ReleaseDate": "2026-09-11",
+      "Category": "ADD",
+      "TextStringId": 55008,
+      "SortOrder": 3
+    },
+    {
+      "Index": 10,
+      "Id": 33010,
+      "Version": "v0.2.0",
+      "ReleaseDate": "2026-09-11",
+      "Category": "CHANGE",
+      "TextStringId": 55009,
+      "SortOrder": 4
+    },
+    {
+      "Index": 11,
+      "Id": 33011,
+      "Version": "v0.2.0",
+      "ReleaseDate": "2026-09-11",
+      "Category": "CHANGE",
+      "TextStringId": 55010,
+      "SortOrder": 5
+    },
+    {
+      "Index": 12,
+      "Id": 33012,
+      "Version": "v0.2.0",
+      "ReleaseDate": "2026-09-11",
+      "Category": "FIX",
+      "TextStringId": 55011,
+      "SortOrder": 6
     }
   ]
 }

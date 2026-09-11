@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { MASTERY_WEAPONS, masteryMultiplier, masteryPrimaryStat, masteryUpgradeCost } from '../data/mastery'
-import { BALANCE_TABLES, getCommon, getCommonBool, getCurrencyConfig, getRebirthDiamondReward, getWeaponFusionConfig } from '../data/balance'
+import { BALANCE_TABLES, getCommon, getCommonBool, getCurrencyConfig, getRebirthRewardRow, getWeaponFusionConfig } from '../data/balance'
 import { getBattleUiLabel } from '../data/uiStrings'
 import { EXIST_SPECIAL_UNLOCKS, generateExistTree } from '../data/existTree'
 import { generateStage, killsRequiredForStage } from '../data/stages'
@@ -9,7 +9,7 @@ import { computeOfflineReward, type OfflineRewardResult } from '../systems/battl
 import { isRankingEnabled, submitRanking } from '../systems/ranking/ranking'
 import { readLastSubmittedStage, writeLastSubmittedStage } from '../systems/ranking/rankingStorage'
 import { computeActiveRelicEffects, computeRelicSlotCount, RELIC_SLOT_MAX, rollRelicGacha } from '../systems/relic/relic'
-import { computeRebirthBonusPoints, computeRefundMultiplier } from '../systems/rebirth/rebirthBonus'
+import { computeRebirthCountMultiplier } from '../systems/rebirth/rebirthBonus'
 import { computeTimeHeistPreview, timeHeistCooldownEndsAt } from '../systems/timeheist/timeHeist'
 import {
   canBreakthrough,
@@ -30,7 +30,6 @@ import type {
   BattleState,
   CurrencyKey,
   OwnedWeapons,
-  RebirthSpentTotals,
   RelicGachaPullResult,
   SpecialUnlockId,
   StatKey,
@@ -166,9 +165,7 @@ interface GameState {
   lastFirstClear: { id: number; stage: number; diamond: number } | null
   unlockedCount: number
   specialUnlocks: Record<SpecialUnlockId, boolean>
-  rebirthSpent: RebirthSpentTotals
   rebirthCount: number
-  rebirthBonusPoint: number
   rebirthMaxStage: number
   timeHeistUsedCount: number
   timeHeistLastUsedAt: number | null
@@ -209,7 +206,6 @@ interface GameState {
   resetTimeHeistCooldown: () => void
   resetTimeHeistUsedCount: () => void
   claimOfflineReward: () => void
-  setRebirthBonusPoint: (point: number) => void
   resetRebirthBonus: () => void
 
   // 무기
@@ -246,12 +242,6 @@ const initialMasteryLevels: Record<string, number> = Object.fromEntries(
 const initialOwnedWeapons: OwnedWeapons = {}
 const initialActiveRelics: ActiveRelicSlots = Array(RELIC_SLOT_MAX).fill(null)
 
-const initialRebirthSpent: RebirthSpentTotals = {
-  growthEnergy: 0,
-  gold: 0,
-  essence: 0,
-}
-
 const initialExistTreeStatBonus: Record<StatKey, number> = {
   atk: 0,
   aspd: 0,
@@ -265,7 +255,6 @@ const startMasteryLevels = persistedGame?.masteryLevels ?? initialMasteryLevels
 const startExistTreeStatBonus = persistedGame?.existTreeStatBonus ?? initialExistTreeStatBonus
 const startStage = persistedGame?.currentStage ?? INITIAL_STAGE
 const startRebirthCount = persistedGame?.rebirthCount ?? 0
-const startRebirthBonusPoint = persistedGame?.rebirthBonusPoint ?? 0
 const startRebirthMaxStage = Math.max(persistedGame?.rebirthMaxStage ?? startStage, startStage)
 const startOwnedWeapons = persistedGame?.ownedWeapons ?? initialOwnedWeapons
 const startEquippedWeaponId = persistedGame?.equippedWeaponId ?? null
@@ -314,9 +303,7 @@ export const useGameStore = create<GameState>((set, get) => ({
     reverse: false,
     timeHeist: false,
   },
-  rebirthSpent: persistedGame?.rebirthSpent ?? initialRebirthSpent,
   rebirthCount: startRebirthCount,
-  rebirthBonusPoint: startRebirthBonusPoint,
   rebirthMaxStage: startRebirthMaxStage,
   timeHeistUsedCount: persistedGame?.timeHeistUsedCount ?? 0,
   timeHeistLastUsedAt: persistedGame?.timeHeistLastUsedAt ?? null,
@@ -375,7 +362,6 @@ export const useGameStore = create<GameState>((set, get) => ({
           state.equippedWeaponId,
           state.activeRelics,
         ),
-        rebirthSpent: { ...state.rebirthSpent, growthEnergy: state.rebirthSpent.growthEnergy + spent },
       }
     })
   },
@@ -405,7 +391,6 @@ export const useGameStore = create<GameState>((set, get) => ({
           state.equippedWeaponId,
           state.activeRelics,
         ),
-        rebirthSpent: { ...state.rebirthSpent, growthEnergy: state.rebirthSpent.growthEnergy + cost },
       }
     })
     return true
@@ -415,7 +400,6 @@ export const useGameStore = create<GameState>((set, get) => ({
     const order: StatKey[] = ['atk', 'aspd', 'crit', 'critDmg', 'existGain']
     const statLevels = { ...get().statLevels }
     let growthEnergy = get().currencies.growthEnergy
-    const startingGrowthEnergy = growthEnergy
 
     for (const key of order) {
       let level = statLevels[key]
@@ -425,8 +409,6 @@ export const useGameStore = create<GameState>((set, get) => ({
       }
       statLevels[key] = level
     }
-
-    const spent = startingGrowthEnergy - growthEnergy
 
     set((state) => ({
       statLevels,
@@ -439,7 +421,6 @@ export const useGameStore = create<GameState>((set, get) => ({
         state.activeRelics,
       ),
       currencies: { ...state.currencies, growthEnergy },
-      rebirthSpent: { ...state.rebirthSpent, growthEnergy: state.rebirthSpent.growthEnergy + spent },
     }))
   },
 
@@ -460,7 +441,6 @@ export const useGameStore = create<GameState>((set, get) => ({
           state.equippedWeaponId,
           state.activeRelics,
         ),
-        rebirthSpent: { ...state.rebirthSpent, essence: state.rebirthSpent.essence + cost },
       }
     })
     return true
@@ -469,7 +449,6 @@ export const useGameStore = create<GameState>((set, get) => ({
   maxUpgradeMastery: (weaponType) => {
     const masteryLevels = { ...get().masteryLevels }
     let essence = get().currencies.essence
-    const startingEssence = essence
     const targets = weaponType ? MASTERY_WEAPONS.filter((weapon) => weapon.id === weaponType) : MASTERY_WEAPONS
 
     for (const weapon of targets) {
@@ -480,8 +459,6 @@ export const useGameStore = create<GameState>((set, get) => ({
       }
       masteryLevels[weapon.id] = level
     }
-
-    const spent = startingEssence - essence
 
     set((state) => ({
       masteryLevels,
@@ -494,7 +471,6 @@ export const useGameStore = create<GameState>((set, get) => ({
         state.activeRelics,
       ),
       currencies: { ...state.currencies, essence },
-      rebirthSpent: { ...state.rebirthSpent, essence: state.rebirthSpent.essence + spent },
     }))
   },
 
@@ -555,25 +531,24 @@ export const useGameStore = create<GameState>((set, get) => ({
 
   executeRebirth: () => {
     // RebirthTable 삭제(3단계) — ResetStage/ResetStats/ResetMastery/KeepExistTree는
-    // CommonTable로, 재화 환급 여부는 CurrencyTable.RefundOnRebirth로 옮겨갔다(1단계
+    // CommonTable로, 재화 지급 여부는 CurrencyTable.RefundOnRebirth로 옮겨갔다(1단계
     // 때부터 스키마+데이터는 있었지만 실제로 읽지는 않았던 값 — 이번에 연결).
+    // 4단계 개편(리버스 보상 재설계)에서도 이 세 재화가 "리버스 시 초기화 후
+    // 다시 지급되는 재화"라는 의미 자체는 그대로라 이 플래그를 계속 쓴다.
     const resetStage = getCommonBool('RebirthResetStage')
     const resetStats = getCommonBool('RebirthResetStats')
     const resetMastery = getCommonBool('RebirthResetMastery')
     const keepExistTree = getCommonBool('RebirthKeepExistTree')
-    const refundGrowthEnergy = getCurrencyConfig('GROWTH_ENERGY').RefundOnRebirth
-    const refundGold = getCurrencyConfig('GOLD').RefundOnRebirth
-    const refundMasteryEssence = getCurrencyConfig('MASTERY_ESSENCE').RefundOnRebirth
+    const grantGrowthEnergy = getCurrencyConfig('GROWTH_ENERGY').RefundOnRebirth
+    const grantGold = getCurrencyConfig('GOLD').RefundOnRebirth
+    const grantMasteryEssence = getCurrencyConfig('MASTERY_ESSENCE').RefundOnRebirth
 
     set((state) => {
-      // 이번 리버스에서 도달 스테이지로 얻는 포인트를 먼저 누적한 뒤, 그 누적치를
-      // 바로 이번 환급 배율 계산에도 반영한다 — "깊이 갈수록 이득"이 첫 리버스부터
-      // 즉시 체감되게 하기 위함(이전엔 직전까지의 누적 포인트만 반영돼 첫 리버스는
-      // 도달 스테이지와 무관하게 항상 ×1.00이었다).
-      const earnedBonusPoints = computeRebirthBonusPoints(state.currentStage)
-      const nextRebirthBonusPoint = state.rebirthBonusPoint + earnedBonusPoints
-      const refundMultiplier = computeRefundMultiplier(state.currentStage, nextRebirthBonusPoint)
-      const diamondReward = getRebirthDiamondReward(state.currentStage)
+      // 리버스 횟수 배율은 "이번 리버스를 실행하기 전" rebirthCount로 계산한다
+      // (첫 리버스는 항상 ×1.00). rebirthCount 자체의 증가(nextRebirthCount)는
+      // 이 계산 다음에 이뤄진다.
+      const rewardRow = getRebirthRewardRow(state.currentStage)
+      const countMultiplier = computeRebirthCountMultiplier(state.rebirthCount)
       const nextRebirthCount = state.rebirthCount + 1
       const nextRebirthMaxStage = Math.max(state.rebirthMaxStage, state.currentStage)
 
@@ -587,8 +562,6 @@ export const useGameStore = create<GameState>((set, get) => ({
         : { reverse: false, timeHeist: false }
 
       // 무기는 전부 소멸, 유물은 전부 초기화. 가챠 레벨/누적 뽑기 횟수는 유지.
-      // 다이아는 환급 대상이 아니라(rebirthSpent가 추적하지 않음) 도달 스테이지 기준으로
-      // 매번 새로 지급된다 — 다이아의 유일한 획득 경로.
       const nextOwnedWeapons = initialOwnedWeapons
       const nextEquippedWeaponId = null
       const nextOwnedRelics: number[] = []
@@ -603,7 +576,6 @@ export const useGameStore = create<GameState>((set, get) => ({
         unlockedCount: nextUnlockedCount,
         specialUnlocks: nextSpecialUnlocks,
         rebirthCount: nextRebirthCount,
-        rebirthBonusPoint: nextRebirthBonusPoint,
         rebirthMaxStage: nextRebirthMaxStage,
         ownedWeapons: nextOwnedWeapons,
         equippedWeaponId: nextEquippedWeaponId,
@@ -617,20 +589,18 @@ export const useGameStore = create<GameState>((set, get) => ({
           nextEquippedWeaponId,
           nextActiveRelics,
         ),
-        // growthEnergy/gold/essence는 "환급"이지 "유지 + 보너스"가 아니다 — 리버스 시
-        // 보유량을 0으로 초기화한 뒤, 그동안 소비한 누적량 × 환급 배율만큼만 다시
-        // 지급한다(예전엔 기존 보유량에 환급분을 더하기만 해서 리버스할수록 재화가
-        // 끝없이 누적되는 버그가 있었다). exist/timeEnergy/diamond는 리버스로 초기화
-        // 되지 않는 재화라 그대로 유지하거나(exist/timeEnergy) 별도 신규 지급만
-        // 더한다(diamond, RebirthRewardTable 기준 — 환급과는 다른 메커니즘).
+        // growthEnergy/gold/essence는 "누적 소비량 환급"이 아니라 "도달 스테이지
+        // 구간의 고정 지급량 × 리버스 횟수 배율"로 새로 지급된다(4단계 개편) — 리버스
+        // 시 보유량을 0으로 초기화한 뒤 그만큼만 채운다. exist/timeEnergy는 리버스로
+        // 초기화되지 않는 재화라 그대로 유지하고, diamond는 구간 고정값만 그대로
+        // 더한다(횟수 배율 미적용 — 가챠 재화라 인플레이션 우려로 의도적으로 제외).
         currencies: {
           ...state.currencies,
-          growthEnergy: refundGrowthEnergy ? Math.floor(state.rebirthSpent.growthEnergy * refundMultiplier) : 0,
-          gold: refundGold ? Math.floor(state.rebirthSpent.gold * refundMultiplier) : 0,
-          essence: refundMasteryEssence ? Math.floor(state.rebirthSpent.essence * refundMultiplier) : 0,
-          diamond: state.currencies.diamond + diamondReward,
+          growthEnergy: grantGrowthEnergy ? Math.floor(rewardRow.GrowthEnergyReward * countMultiplier) : 0,
+          gold: grantGold ? Math.floor(rewardRow.GoldReward * countMultiplier) : 0,
+          essence: grantMasteryEssence ? Math.floor(rewardRow.MasteryEssenceReward * countMultiplier) : 0,
+          diamond: state.currencies.diamond + rewardRow.DiamondReward,
         },
-        rebirthSpent: initialRebirthSpent,
         timeHeistUsedCount: 0,
         timeHeistLastUsedAt: null,
         currentRunTime: 0,
@@ -697,11 +667,8 @@ export const useGameStore = create<GameState>((set, get) => ({
     set({ offlineReward: null })
   },
 
-  // 개발자 콘솔 테스트용: 누적 보너스 포인트를 임의 값으로 지정 (환급 배율에만 영향, 스탯은 무관)
-  setRebirthBonusPoint: (point) => set({ rebirthBonusPoint: point }),
-
-  // 개발자 콘솔 테스트용: 리버스 횟수·누적 보너스 포인트·최고 도달 스테이지 초기화
-  resetRebirthBonus: () => set({ rebirthCount: 0, rebirthBonusPoint: 0, rebirthMaxStage: 0 }),
+  // 개발자 콘솔 테스트용: 리버스 횟수·최고 도달 스테이지 초기화
+  resetRebirthBonus: () => set({ rebirthCount: 0, rebirthMaxStage: 0 }),
 
   // 무기 타입을 count만큼 지급(없으면 신규 생성, 있으면 count만 증가). 가챠/합성/개발자
   // 콘솔 지급이 전부 이 액션을 공유한다.
@@ -837,7 +804,6 @@ export const useGameStore = create<GameState>((set, get) => ({
           state.equippedWeaponId,
           state.activeRelics,
         ),
-        rebirthSpent: { ...state.rebirthSpent, gold: state.rebirthSpent.gold + cost },
       }
     })
     return true
@@ -876,7 +842,6 @@ export const useGameStore = create<GameState>((set, get) => ({
           state.equippedWeaponId,
           state.activeRelics,
         ),
-        rebirthSpent: { ...state.rebirthSpent, gold: state.rebirthSpent.gold + spent },
       }
     })
   },
@@ -1001,9 +966,7 @@ useGameStore.subscribe((state) => {
     battle: state.battle,
     unlockedCount: state.unlockedCount,
     specialUnlocks: state.specialUnlocks,
-    rebirthSpent: state.rebirthSpent,
     rebirthCount: state.rebirthCount,
-    rebirthBonusPoint: state.rebirthBonusPoint,
     rebirthMaxStage: state.rebirthMaxStage,
     timeHeistUsedCount: state.timeHeistUsedCount,
     timeHeistLastUsedAt: state.timeHeistLastUsedAt,
@@ -1136,8 +1099,7 @@ if (import.meta.env.DEV) {
       '- __grantRandomWeapons(n) — 랜덤 무기 n개 지급 (다이아/가챠 카운트 무관)',
       '- __setGachaLevel(level) — 가챠 레벨 임의 설정',
       '- __grantAllRelics() — 보유 유물 전부 지급(활성화는 별도)',
-      '- __gameStore.getState().setRebirthBonusPoint(point) — 리버스 회차 보너스 포인트 임의 설정',
-      '- __gameStore.getState().resetRebirthBonus() — 리버스 횟수/보너스 포인트/최고 스테이지 초기화',
+      '- __gameStore.getState().resetRebirthBonus() — 리버스 횟수/최고 스테이지 초기화',
       '- __setLastActiveHoursAgo(hours) — 마지막 접속 시각을 n시간 전으로(오프라인 보상 테스트, 새로고침 필요)',
     ].join('\n'),
   )

@@ -3,15 +3,7 @@
 // 전투 틱마다 상태가 바뀌므로 매번 쓰지 않고 일정 주기로 묶어서(debounce) 저장한다.
 
 import { getCommon } from '../data/balance'
-import type {
-  ActiveRelicSlots,
-  BattleState,
-  CurrencyKey,
-  OwnedWeapons,
-  RebirthSpentTotals,
-  SpecialUnlockId,
-  StatKey,
-} from '../types/game'
+import type { ActiveRelicSlots, BattleState, CurrencyKey, OwnedWeapons, SpecialUnlockId, StatKey } from '../types/game'
 
 const STORAGE_KEY = 'idle-rpg:game'
 const SAVE_DEBOUNCE_MS = getCommon('AutoSaveIntervalSec') * 1000
@@ -31,7 +23,11 @@ const STORAGE_PREFIX = 'idle-rpg:'
 // 이전 버전 사용자들도 전부 그 흐름을 거치게 하려고 일부러 세이브를 무효화했다
 // (기술적으로 GameSaveState 필드가 바뀐 건 아니지만, RELEASE.md 3절 — 일관된
 // 첫인상이 더 중요한 경우 — 에 해당한다고 판단).
-const SAVE_VERSION = 3
+// v0.2.0에서 3→4: 리버스 보상 구조를 "누적 소비량 × 환급 배율"에서 "구간 고정
+// 지급량 × 리버스 횟수 배율"로 교체하며 rebirthSpent/rebirthBonusPoint 필드
+// 자체를 없앴다 — 필드가 사라졌으니 RELEASE.md 3절 기준으로도 세이브 버전을
+// 올려야 하는 경우.
+const SAVE_VERSION = 4
 
 export interface GameSaveState {
   currencies: Record<CurrencyKey, number>
@@ -42,14 +38,12 @@ export interface GameSaveState {
   battle: BattleState
   unlockedCount: number
   specialUnlocks: Record<SpecialUnlockId, boolean>
-  rebirthSpent: RebirthSpentTotals
   timeHeistUsedCount: number
   timeHeistLastUsedAt: number | null
   // 오프라인 보상 계산용. 저장할 때마다 현재 시각으로 갱신된다.
   lastActiveAt: number
-  // 리버스 회차 보너스 — 리버스해도 초기화되지 않는다.
+  // 리버스 횟수 — 리버스해도 초기화되지 않는다(리버스 보상 배율의 기준값).
   rebirthCount: number
-  rebirthBonusPoint: number
   rebirthMaxStage: number
   // 무기 — 리버스 시 전부 소멸(초기화)
   ownedWeapons: OwnedWeapons

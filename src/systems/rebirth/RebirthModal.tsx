@@ -1,10 +1,10 @@
 import type { CSSProperties, ReactNode } from 'react'
-import { BALANCE_TABLES, getRebirthDiamondReward } from '../../data/balance'
+import { BALANCE_TABLES, getRebirthRewardRow, type RebirthRewardTableRow } from '../../data/balance'
 import type { CurrencyKey } from '../../types/game'
 import { EXIST_TREE_TOTAL_NODES } from '../../data/existTree'
-import { getButtonLabel, getCommonUiLabel, getCurrencyName, getRebirthBonusLabel, getRebirthUiLabel, getSystemName } from '../../data/uiStrings'
+import { getButtonLabel, getCurrencyName, getRebirthBonusLabel, getRebirthUiLabel, getSystemName } from '../../data/uiStrings'
 import { useGameStore } from '../../store/gameStore'
-import { computeRebirthBonusPoints, computeRefundMultiplier } from './rebirthBonus'
+import { computeRebirthCountMultiplier } from './rebirthBonus'
 import { formatNumber } from '../../utils/format'
 import { useMountTransition } from '../../utils/useMountTransition'
 import { Button } from '../../components/ui'
@@ -23,25 +23,27 @@ function formatMultiplier(value: number): string {
   return `×${value.toFixed(2)}`
 }
 
-function formatPoints(value: number): string {
-  return value.toFixed(2)
+// RebirthRewardTable의 마지막 구간은 StageTo가 사실상 무한대(999999)를 가리키는
+// 관례라 그대로 보여주면 어색해서 "200+"처럼 열린 구간으로 표시한다.
+function formatStageBracket(row: RebirthRewardTableRow): string {
+  return row.StageTo >= 999999 ? `${row.StageFrom}+` : `${row.StageFrom}~${row.StageTo}`
 }
 
 export function RebirthModal({ isOpen, onCancel, onConfirm }: RebirthModalProps) {
-  const spent = useGameStore((state) => state.rebirthSpent)
   const unlockedCount = useGameStore((state) => state.unlockedCount)
   const currentStage = useGameStore((state) => state.currentStage)
   const rebirthCount = useGameStore((state) => state.rebirthCount)
-  const rebirthBonusPoint = useGameStore((state) => state.rebirthBonusPoint)
   const shouldRender = useMountTransition(isOpen, TRANSITION_MS)
 
   if (!shouldRender) return null
 
-  // 이번 리버스에서 도달 스테이지로 얻는 포인트(pendingPoints)는 이번 환급 배율에
-  // 바로 반영된다 — 도달 스테이지가 이번 환급에 즉시 체감되게.
-  const pendingPoints = computeRebirthBonusPoints(currentStage)
-  const currentMultiplier = computeRefundMultiplier(currentStage, rebirthBonusPoint + pendingPoints)
-  const diamondReward = getRebirthDiamondReward(currentStage)
+  // 회차 배율은 "이번 리버스를 실행하기 전" rebirthCount 기준 — executeRebirth와
+  // 같은 값을 미리 보여준다. nextCountMultiplier는 "그다음 리버스"(이번 리버스 후
+  // rebirthCount+1)를 실행할 때 적용될 배율 미리보기.
+  const rewardRow = getRebirthRewardRow(currentStage)
+  const countMultiplier = computeRebirthCountMultiplier(rebirthCount)
+  const nextCountMultiplier = computeRebirthCountMultiplier(rebirthCount + 1)
+
   // 다음 구간 미리보기 — 지금 스테이지보다 뒤에서 시작하는 구간 중 가장 가까운 것.
   // 이미 마지막 구간(StageTo가 사실상 무한대)에 들어와 있으면 다음 구간이 없다.
   const nextRewardTier = [...BALANCE_TABLES.RebirthRewardTable]
@@ -75,16 +77,16 @@ export function RebirthModal({ isOpen, onCancel, onConfirm }: RebirthModalProps)
 
         <RebirthSection title={getRebirthBonusLabel('title')} tone="text-gold-strong">
           <li>
+            {getRebirthUiLabel('currentBracket')} {formatStageBracket(rewardRow)}
+          </li>
+          <li>
             {getRebirthBonusLabel('currentCycle')} {rebirthCount + 1}회차
           </li>
           <li>
-            {getRebirthBonusLabel('totalPoints')} {formatPoints(rebirthBonusPoint)}
+            {getRebirthBonusLabel('countMultiplier')} {formatMultiplier(countMultiplier)}
           </li>
           <li>
-            {getRebirthBonusLabel('pendingPoints')} +{formatPoints(pendingPoints)} {getRebirthUiLabel('pendingNote')}
-          </li>
-          <li>
-            {getRebirthBonusLabel('refundMultiplier')} {formatMultiplier(currentMultiplier)}
+            {getRebirthUiLabel('nextMultiplier')} {formatMultiplier(nextCountMultiplier)}
           </li>
         </RebirthSection>
 
@@ -96,19 +98,11 @@ export function RebirthModal({ isOpen, onCancel, onConfirm }: RebirthModalProps)
           <li>{getRebirthUiLabel('resetMastery')}</li>
         </RebirthSection>
 
-        <RebirthSection
-          title={`환급 (${getRebirthBonusLabel('refundMultiplier')} ${formatMultiplier(currentMultiplier)})`}
-          tone="text-success-strong"
-        >
-          <RefundRow currency="growthEnergy" spent={spent.growthEnergy} multiplier={currentMultiplier} />
-          <RefundRow currency="gold" spent={spent.gold} multiplier={currentMultiplier} />
-          <RefundRow currency="essence" spent={spent.essence} multiplier={currentMultiplier} />
-        </RebirthSection>
-
-        <RebirthSection title={getRebirthUiLabel('grantSectionTitle')} tone="text-gold-strong">
-          <li>
-            {getCurrencyName('diamond')} +{formatNumber(diamondReward)}
-          </li>
+        <RebirthSection title={getRebirthUiLabel('rewardSectionTitle')} tone="text-success-strong">
+          <RewardRow currency="diamond" base={rewardRow.DiamondReward} />
+          <RewardRow currency="growthEnergy" base={rewardRow.GrowthEnergyReward} multiplier={countMultiplier} />
+          <RewardRow currency="gold" base={rewardRow.GoldReward} multiplier={countMultiplier} />
+          <RewardRow currency="essence" base={rewardRow.MasteryEssenceReward} multiplier={countMultiplier} />
           {nextRewardTier && (
             <li className="font-medium text-gold-strong">
               {getRebirthUiLabel('nextTierReachPrefix')} {nextRewardTier.StageFrom} {getRebirthUiLabel('nextTierReachSuffix')}{' '}
@@ -142,18 +136,21 @@ export function RebirthModal({ isOpen, onCancel, onConfirm }: RebirthModalProps)
   )
 }
 
-// 소비량을 그대로 돌려받는 게 아니라 "소비량 × 배율"만큼 새로 지급되는 것임을
-// 한 줄에서 바로 읽을 수 있게 — 예전엔 "37.5K → +40.9K"처럼만 보여줘서 보유량이
-// 그만큼 불어나는 것처럼 오해하기 쉬웠다.
-function RefundRow({ currency, spent, multiplier }: { currency: CurrencyKey; spent: number; multiplier: number }) {
-  const granted = Math.floor(spent * multiplier)
+// 구간 고정 지급량에 회차 배율을 곱해 최종 지급량을 보여준다. multiplier가 없으면
+// (다이아) 배율 없이 지급량 그대로 — 다이아는 회차 배율이 적용되지 않는 유일한 재화다.
+function RewardRow({ currency, base, multiplier }: { currency: CurrencyKey; base: number; multiplier?: number }) {
+  const final = multiplier != null ? Math.floor(base * multiplier) : base
   return (
     <li className="flex items-center justify-between gap-2">
       <span className="text-text-primary">{getCurrencyName(currency)}</span>
       <span className="text-right">
-        {getCommonUiLabel('consume')} {formatNumber(spent)} × {multiplier.toFixed(2)} →{' '}
+        {multiplier != null && (
+          <>
+            {getRebirthUiLabel('baseAmount')} {formatNumber(base)} × {multiplier.toFixed(2)} →{' '}
+          </>
+        )}
         <span className="font-medium text-success-strong">
-          {formatNumber(granted)} {getRebirthUiLabel('grantSectionTitle')}
+          {formatNumber(final)} {getRebirthUiLabel('grantSectionTitle')}
         </span>
       </span>
     </li>

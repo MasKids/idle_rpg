@@ -38,6 +38,7 @@ export type RelicEffectTypeEnum =
   | 'STAT_EXIST_GAIN'
   | 'GOLD_GAIN'
   | 'TIMEHEIST_COOLDOWN'
+export type PatchNoteCategoryEnum = 'ADD' | 'CHANGE' | 'FIX'
 
 // ---------------------------------------------------------------------------
 // 테이블별 행 타입 — 엑셀 4행 칼럼명 그대로
@@ -198,19 +199,21 @@ export interface TimeHeistTableRow {
 }
 
 
-// 리버스 시 신규 지급되는 다이아 — 환급이 아니라 도달 스테이지 구간별 고정값
-// 지급이라 rebirthSpent/환급 배율과 무관하다. 구간은 [StageFrom, StageTo] 양끝 포함.
-// RefundBonusPerPoint/MaxRefundMultiplier는 RebirthTable 삭제(3단계)로 흡수된
-// 값 — 지금은 5개 구간 전부 동일값이지만, 구간별로 환급 배율을 다르게 줄 여지를
-// 남겨둔다.
+// 리버스 시 지급되는 재화 — 전부 "도달 스테이지 구간별 고정값 × 리버스 횟수
+// 배율"(구간별로는 이 테이블, 횟수 배율은 CommonTable의 RebirthCountBonusPerRun/
+// MaxRebirthCountMultiplier — rebirthBonus.ts 참고)로 계산한다. 구간은 [StageFrom,
+// StageTo] 양끝 포함. DiamondReward만 예외적으로 횟수 배율이 붙지 않는 순수
+// 고정값이다(가챠 재화라 회차가 쌓일수록 배율까지 붙으면 인플레이션 우려가 커서
+// 의도적으로 제외 — 4단계 개편).
 export interface RebirthRewardTableRow {
   Index: number
   Id: number
   StageFrom: number
   StageTo: number
   DiamondReward: number
-  RefundBonusPerPoint: number
-  MaxRefundMultiplier: number
+  GrowthEnergyReward: number
+  GoldReward: number
+  MasteryEssenceReward: number
 }
 
 export interface CommonTableRow {
@@ -257,6 +260,19 @@ export interface CurrencyTableRow {
   SortOrder: number
 }
 
+// 인게임 패치노트 한 줄 — CHANGELOG.md를 그대로 옮긴 게 아니라 플레이어가 체감할
+// 만한 항목만 간결하게 추려 별도로 작성한다(release 절차: CLAUDE.md "변경 이력
+// 관리" 참고). Version은 "v0.2.0"처럼 CHANGELOG.md의 버전 헤더와 맞춘다.
+export interface PatchNoteTableRow {
+  Index: number
+  Id: number
+  Version: string
+  ReleaseDate: string
+  Category: PatchNoteCategoryEnum
+  TextStringId: number
+  SortOrder: number
+}
+
 interface BalanceTables {
   StageTable: StageTableRow[]
   StatTable: StatTableRow[]
@@ -269,6 +285,7 @@ interface BalanceTables {
   RelicSlotTable: RelicSlotTableRow[]
   TimeHeistTable: TimeHeistTableRow[]
   RebirthRewardTable: RebirthRewardTableRow[]
+  PatchNoteTable: PatchNoteTableRow[]
   CommonTable: CommonTableRow[]
   StringTable: StringTableRow[]
   GrowthCurveTable: GrowthCurveTableRow[]
@@ -605,13 +622,21 @@ export function getTimeHeistConfig(usedCount: number): TimeHeistTableRow {
 }
 
 // 리버스 시점의 도달 스테이지가 속한 RebirthRewardTable 구간 행을 조회한다.
-// 어느 구간에도 안 맞으면(데이터 구멍) 경고하고 안전한 기본값(1200다이아,
-// 환급 배율 계수 1/5 — 기존 DEFAULT_REBIRTH와 동일한 값)을 반환한다.
+// 어느 구간에도 안 맞으면(데이터 구멍) 경고하고 안전한 기본값을 반환한다.
 function findRebirthRewardRow(stage: number): RebirthRewardTableRow {
   const row = TABLES.RebirthRewardTable.find((r) => stage >= r.StageFrom && stage <= r.StageTo)
   if (!row) {
     warnMissing('RebirthRewardTable', `stage=${stage}`)
-    return { Index: 0, Id: 0, StageFrom: stage, StageTo: stage, DiamondReward: 1200, RefundBonusPerPoint: 1, MaxRefundMultiplier: 5 }
+    return {
+      Index: 0,
+      Id: 0,
+      StageFrom: stage,
+      StageTo: stage,
+      DiamondReward: 1200,
+      GrowthEnergyReward: 1500,
+      GoldReward: 3000,
+      MasteryEssenceReward: 50,
+    }
   }
   return row
 }
@@ -620,11 +645,11 @@ export function getRebirthDiamondReward(stage: number): number {
   return findRebirthRewardRow(stage).DiamondReward
 }
 
-// 리버스 회차 보너스의 환급 배율 계수(포인트당 증폭률·상한) — RebirthTable 삭제(3단계)로
-// RebirthRewardTable에 흡수됐다. 도달 스테이지 구간에 따라 달라질 수 있다.
-export function getRebirthRefundConfig(stage: number): { RefundBonusPerPoint: number; MaxRefundMultiplier: number } {
-  const row = findRebirthRewardRow(stage)
-  return { RefundBonusPerPoint: row.RefundBonusPerPoint, MaxRefundMultiplier: row.MaxRefundMultiplier }
+// 리버스 실행 시 지급되는 구간별 고정 보상 행 전체(다이아 + growthEnergy/gold/
+// essence 지급량) — executeRebirth가 여기에 리버스 횟수 배율(rebirthBonus.ts의
+// computeRebirthCountMultiplier)을 곱해 최종 지급량을 계산한다.
+export function getRebirthRewardRow(stage: number): RebirthRewardTableRow {
+  return findRebirthRewardRow(stage)
 }
 
 export function getCommon(key: string): number {

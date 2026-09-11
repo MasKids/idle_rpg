@@ -32,6 +32,7 @@ const TABLE_ORDER = [
   'RelicSlotTable',
   'TimeHeistTable',
   'RebirthRewardTable',
+  'PatchNoteTable',
   'CommonTable',
   'StringTable',
   'GrowthCurveTable',

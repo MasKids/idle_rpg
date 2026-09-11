@@ -2,7 +2,7 @@ import type { CSSProperties } from 'react'
 import { generateStage, stageLabel } from '../data/stages'
 import { getButtonLabel, getCommonUiLabel, getCurrencyName, getRebirthBonusLabel, getSystemName } from '../data/uiStrings'
 import { useGameStore } from '../store/gameStore'
-import { computeRebirthBonusPoints, computeRefundMultiplier } from '../systems/rebirth/rebirthBonus'
+import { computeRebirthCountMultiplier } from '../systems/rebirth/rebirthBonus'
 import { formatNumber } from '../utils/format'
 import { useMountTransition } from '../utils/useMountTransition'
 import { Button } from './ui'
@@ -22,16 +22,15 @@ export function StageInfoModal({ isOpen, onClose, onRebirthClick }: StageInfoMod
   const isBossStage = useGameStore((state) => state.battle.isBossStage)
   const reverseUnlocked = useGameStore((state) => state.specialUnlocks.reverse)
   const rebirthCount = useGameStore((state) => state.rebirthCount)
-  const rebirthBonusPoint = useGameStore((state) => state.rebirthBonusPoint)
   const rebirthMaxStage = useGameStore((state) => state.rebirthMaxStage)
   const shouldRender = useMountTransition(isOpen, TRANSITION_MS)
 
   if (!shouldRender) return null
 
   const data = generateStage(stage)
-  // 지금 리버스한다면 적용될 배율 미리보기 — 도달 스테이지로 얻는 포인트가 즉시 반영되는
-  // RebirthModal과 동일한 기준(rebirthBonusPoint + 이번 스테이지분 pending)으로 맞춘다.
-  const refundMultiplier = computeRefundMultiplier(stage, rebirthBonusPoint + computeRebirthBonusPoints(stage))
+  // 지금 리버스한다면 적용될 배율 미리보기 — "이번 리버스 실행 전" rebirthCount
+  // 기준이라 RebirthModal과 동일한 값이 된다.
+  const countMultiplier = computeRebirthCountMultiplier(rebirthCount)
 
   return (
     <div
@@ -90,8 +89,8 @@ export function StageInfoModal({ isOpen, onClose, onRebirthClick }: StageInfoMod
                 </dd>
               </div>
               <div className="flex justify-between">
-                <dt>{getRebirthBonusLabel('refundMultiplier')}</dt>
-                <dd className="text-text-primary">×{refundMultiplier.toFixed(2)}</dd>
+                <dt>{getRebirthBonusLabel('countMultiplier')}</dt>
+                <dd className="text-text-primary">×{countMultiplier.toFixed(2)}</dd>
               </div>
               <div className="flex justify-between">
                 <dt>{getRebirthBonusLabel('maxStageReached')}</dt>
