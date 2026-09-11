@@ -42,10 +42,12 @@ interface BattleAreaProps {
   onStageInfoClick: () => void
   onTimeHeistClick: () => void
   onRankingClick: () => void
+  onProfileClick: () => void
 }
 
-export function BattleArea({ onStageInfoClick, onTimeHeistClick, onRankingClick }: BattleAreaProps) {
+export function BattleArea({ onStageInfoClick, onTimeHeistClick, onRankingClick, onProfileClick }: BattleAreaProps) {
   const currencies = useGameStore((state) => state.currencies)
+  const playerName = useGameStore((state) => state.playerName)
   const timeHeistUnlocked = useGameStore((state) => state.specialUnlocks.timeHeist)
   const timeHeistUsedCount = useGameStore((state) => state.timeHeistUsedCount)
   const timeHeistLastUsedAt = useGameStore((state) => state.timeHeistLastUsedAt)
@@ -251,10 +253,14 @@ export function BattleArea({ onStageInfoClick, onTimeHeistClick, onRankingClick 
       </div>
 
       <div className="absolute inset-x-0 top-0 flex items-center justify-between gap-1.5 bg-gradient-to-b from-black/50 to-transparent p-2">
-        <div className="flex shrink-0 items-center gap-1.5 rounded-full bg-black/30 py-1 pl-1 pr-2 backdrop-blur-sm">
+        <button
+          type="button"
+          onClick={onProfileClick}
+          className="flex shrink-0 items-center gap-1.5 rounded-full bg-black/30 py-1 pl-1 pr-2 backdrop-blur-sm transition-colors hover:bg-black/50"
+        >
           <div className="h-6 w-6 shrink-0 rounded-full bg-blue-base/50" />
-          <span className="whitespace-nowrap text-[10px] text-text-primary/80">{getBattleUiLabel('playerName')}</span>
-        </div>
+          <span className="whitespace-nowrap text-[10px] text-text-primary/80">{playerName}</span>
+        </button>
 
         <div className="flex flex-1 justify-end gap-1">
           {CURRENCY_ORDER.map((key) => (

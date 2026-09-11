@@ -47,7 +47,10 @@ const STAT_KEYS: StatKey[] = ['atk', 'aspd', 'crit', 'critDmg', 'existGain']
 // persistedGame은 로드 직후 스토어가 즉시 새 시각으로 덮어쓰므로 별도로 남겨둔다.
 const lastSessionEndedAt: number | null = persistedGame?.lastActiveAt ?? null
 
-const DEFAULT_PLAYER_NAME = getBattleUiLabel('playerName')
+// 이름을 아직 정하지 않은 상태를 가리키는 값 — NameEntryGate가 이 값과 같은 동안만
+// "이름 입력 강제" 화면을 띄운다. 실제 이름을 입력하면 이 값과 달라지므로 별도의
+// "이름을 정했는지" 플래그 없이 playerName 자체로 판별할 수 있다.
+export const DEFAULT_PLAYER_NAME = getBattleUiLabel('playerName')
 
 // 플레이타임 — "지금까지 저장된 누적값 + 이번 세션 시작 이후 흐른 시간"으로 항상
 // 다시 계산한다(틱마다 1초씩 더하는 방식이 아니다). setInterval에만 의존하면 탭이
@@ -1017,6 +1020,9 @@ const RANKING_STAGE_INTERVAL = 10
 
 useGameStore.subscribe((state) => {
   if (!isRankingEnabled) return
+  // 이름을 아직 정하지 않은 상태(기본값·빈 문자열)로는 랭킹에 등록하지 않는다.
+  const trimmedName = state.playerName.trim()
+  if (trimmedName.length === 0 || trimmedName === DEFAULT_PLAYER_NAME) return
 
   const maxStageEver = Math.max(state.rebirthMaxStage, state.currentStage)
   const lastSubmitted = readLastSubmittedStage()

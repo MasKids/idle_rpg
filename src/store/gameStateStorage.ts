@@ -15,6 +15,10 @@ import type {
 
 const STORAGE_KEY = 'idle-rpg:game'
 const SAVE_DEBOUNCE_MS = getCommon('AutoSaveIntervalSec') * 1000
+// idle-rpg:game(세이브 본체) 외에 onboarding(idle-rpg:onboarding:*)·ranking
+// (idle-rpg:ranking:*) 등도 전부 이 접두사를 쓴다 — 세이브 버전이 바뀌어 초기화할
+// 때 구버전이 남긴 흔적을 한 번에 정리하기 위한 공용 접두사.
+const STORAGE_PREFIX = 'idle-rpg:'
 
 // 저장 구조가 바뀌면 이 값을 올린다. 로드 시 버전이 다르면 깨진 값으로 취급하지 않고
 // 그냥 "저장 없음"과 동일하게 취급해 초기 상태로 시작한다 (마이그레이션은 하지 않음 — 프로토타입 범위 밖).
@@ -23,7 +27,11 @@ const SAVE_DEBOUNCE_MS = getCommon('AutoSaveIntervalSec') * 1000
 // (실제로 확인함 — 새 필드는 ??로 기본값 대체, 무기/스탯 등 기존 필드도 그대로
 // 유효) 진행 중이던 난이도가 로드 시점에 갑자기 확 뀌는 어색한 경험이 된다.
 // 포트폴리오 데모라 굳이 구버전 진행을 이어갈 이유가 없어 초기화 쪽을 택했다.
-const SAVE_VERSION = 2
+// v0.2.0에서 2→3: 이름 입력을 강제하는 흐름을 새로 넣으면서, 이미 배포돼있던
+// 이전 버전 사용자들도 전부 그 흐름을 거치게 하려고 일부러 세이브를 무효화했다
+// (기술적으로 GameSaveState 필드가 바뀐 건 아니지만, RELEASE.md 3절 — 일관된
+// 첫인상이 더 중요한 경우 — 에 해당한다고 판단).
+const SAVE_VERSION = 3
 
 export interface GameSaveState {
   currencies: Record<CurrencyKey, number>
@@ -68,15 +76,42 @@ interface SaveEnvelope {
   data: GameSaveState
 }
 
+// 이번 로드에서 "버전이 달라(또는 값이 깨져) 세이브를 무효화했는지" — NameEntryGate가
+// "저장 데이터가 초기화되었습니다" 안내를 보여줄지 판단하는 데 쓴다. 앱 부팅 중
+// loadGameState()가 실행되는 시점에 딱 한 번만 정해지고 그 뒤로는 바뀌지 않는다.
+let didResetOnLoad = false
+
+export function wasSaveResetOnLoad(): boolean {
+  return didResetOnLoad
+}
+
+// idle-rpg: 접두사를 쓰는 로컬스토리지 키를 전부 지운다(세이브 본체 + 온보딩 +
+// 랭킹 등록 스로틀 상태). 세이브 버전이 달라 초기화하는 시점에는 구버전이 남긴
+// 흔적이 새 흐름(이름 입력 강제 등)과 꼬이지 않게 통째로 정리하는 편이 안전하다.
+function clearAllIdleRpgStorage(): void {
+  try {
+    const keys = Object.keys(localStorage).filter((key) => key.startsWith(STORAGE_PREFIX))
+    for (const key of keys) localStorage.removeItem(key)
+  } catch {
+    // ignore
+  }
+}
+
 export function loadGameState(): GameSaveState | null {
   try {
     const raw = localStorage.getItem(STORAGE_KEY)
     if (!raw) return null
 
     const parsed = JSON.parse(raw) as Partial<SaveEnvelope>
-    if (parsed.version !== SAVE_VERSION || !parsed.data) return null
+    if (parsed.version !== SAVE_VERSION || !parsed.data) {
+      didResetOnLoad = true
+      clearAllIdleRpgStorage()
+      return null
+    }
     return parsed.data
   } catch {
+    didResetOnLoad = true
+    clearAllIdleRpgStorage()
     return null
   }
 }

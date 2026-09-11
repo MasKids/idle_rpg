@@ -454,3 +454,30 @@ const RANKING_UI_LABEL_ID: Record<RankingUiLabelKey, number> = {
 export function getRankingUiLabel(key: RankingUiLabelKey): string {
   return getString(RANKING_UI_LABEL_ID[key], 'KOR', key)
 }
+
+export type ProfileUiLabelKey =
+  | 'resetNoticeTitle'
+  | 'resetNoticeBody'
+  | 'nameEntryTitle'
+  | 'nameEntryBody'
+  | 'nameEntryPlaceholder'
+  | 'nameEntryError'
+  | 'profileTitle'
+  | 'profileTotalPlayTime'
+  | 'editName'
+
+const PROFILE_UI_LABEL_ID: Record<ProfileUiLabelKey, number> = {
+  resetNoticeTitle: 41038,
+  resetNoticeBody: 41039,
+  nameEntryTitle: 41040,
+  nameEntryBody: 41041,
+  nameEntryPlaceholder: 41042,
+  nameEntryError: 41043,
+  profileTitle: 41044,
+  profileTotalPlayTime: 41045,
+  editName: 41046,
+}
+
+export function getProfileUiLabel(key: ProfileUiLabelKey): string {
+  return getString(PROFILE_UI_LABEL_ID[key], 'KOR', key)
+}

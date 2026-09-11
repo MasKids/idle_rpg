@@ -15,8 +15,10 @@ import { RebirthModal } from './systems/rebirth/RebirthModal'
 import { TimeHeistModal } from './systems/timeheist/TimeHeistModal'
 import { SummonPanel } from './systems/gacha/SummonPanel'
 import { WeaponStoragePanel } from './systems/weapon/WeaponStoragePanel'
+import { NameEntryGate } from './systems/profile/NameEntryGate'
+import { ProfileModal } from './systems/profile/ProfileModal'
 import { WelcomeOnboarding } from './systems/onboarding/WelcomeOnboarding'
-import { useGameStore } from './store/gameStore'
+import { DEFAULT_PLAYER_NAME, useGameStore } from './store/gameStore'
 import { FRAME_HEIGHT, FRAME_WIDTH, useFrameScale } from './utils/useFrameScale'
 import type { TabKey } from './types/game'
 
@@ -30,10 +32,12 @@ function App() {
   const [isTimeHeistModalOpen, setTimeHeistModalOpen] = useState(false)
   const [timeHeistFlashKey, setTimeHeistFlashKey] = useState(0)
   const [isRankingModalOpen, setRankingModalOpen] = useState(false)
+  const [isProfileModalOpen, setProfileModalOpen] = useState(false)
   const [isDesignSystemOpen, setDesignSystemOpen] = useState(false)
   const executeRebirth = useGameStore((state) => state.executeRebirth)
   const executeTimeHeist = useGameStore((state) => state.executeTimeHeist)
   const claimOfflineReward = useGameStore((state) => state.claimOfflineReward)
+  const needsPlayerName = useGameStore((state) => state.playerName === DEFAULT_PLAYER_NAME)
   const { isDesktopFrame, scale } = useFrameScale()
   const goBack = () => setActiveTab('growth')
 
@@ -91,6 +95,7 @@ function App() {
               onStageInfoClick={() => setStageInfoOpen(true)}
               onTimeHeistClick={() => setTimeHeistModalOpen(true)}
               onRankingClick={() => setRankingModalOpen(true)}
+              onProfileClick={() => setProfileModalOpen(true)}
             />
             <ControlArea activeTab={activeTab} />
           </div>
@@ -120,6 +125,8 @@ function App() {
 
         <RankingModal isOpen={isRankingModalOpen} onClose={() => setRankingModalOpen(false)} />
 
+        <ProfileModal isOpen={isProfileModalOpen} onClose={() => setProfileModalOpen(false)} />
+
         {rebirthFlashKey > 0 && (
           <div
             key={`rebirth-${rebirthFlashKey}`}
@@ -134,7 +141,8 @@ function App() {
           />
         )}
 
-        <WelcomeOnboarding />
+        <NameEntryGate />
+        {!needsPlayerName && <WelcomeOnboarding />}
 
         {import.meta.env.DEV && <DevPanel onOpenDesignSystem={() => setDesignSystemOpen(true)} />}
         {import.meta.env.DEV && isDesignSystemOpen && (
