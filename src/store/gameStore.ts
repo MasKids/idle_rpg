@@ -1,6 +1,14 @@
 import { create } from 'zustand'
 import { MASTERY_WEAPONS, masteryBonusPercent, masteryPrimaryStat, masteryUpgradeCost } from '../data/mastery'
-import { BALANCE_TABLES, getCommon, getCommonBool, getCurrencyConfig, getRebirthRewardRow, getWeaponFusionConfig } from '../data/balance'
+import {
+  BALANCE_TABLES,
+  getCommon,
+  getCommonBool,
+  getCurrencyConfig,
+  getRebirthRewardRow,
+  getWeaponFusionConfig,
+  type CurrencyTypeEnum,
+} from '../data/balance'
 import { getBattleUiLabel } from '../data/uiStrings'
 import { EXIST_SPECIAL_UNLOCKS, generateExistTree } from '../data/existTree'
 import { generateStage, killsRequiredForStage } from '../data/stages'
@@ -172,6 +180,16 @@ function statsPatch(
   activeRelics: ActiveRelicSlots,
 ): { stats: Record<StatKey, number>; statBreakdown: Record<StatKey, StatBreakdown> } {
   return computeEffectiveStats(statLevels, masteryLevels, existTreeBonus, ownedWeapons, equippedWeaponId, activeRelics)
+}
+
+// 리버스 시 재화 하나의 다음 값을 계산한다. CurrencyTable.ResetOnRebirth가
+// false면 리버스와 무관하게 그대로(예: 시간에너지). true면 0으로 초기화되고,
+// 거기에 RefundOnRebirth까지 true면 grantAmount로 채워진다(false면 0인 채로
+// 남는다 — 예: EXIST는 초기화만 되고 재지급은 없음).
+function nextCurrencyOnRebirth(type: CurrencyTypeEnum, current: number, grantAmount: number): number {
+  const config = getCurrencyConfig(type)
+  if (!config.ResetOnRebirth) return current
+  return config.RefundOnRebirth ? grantAmount : 0
 }
 
 function battleStateForStage(stage: number): BattleState {
@@ -570,17 +588,17 @@ export const useGameStore = create<GameState>((set, get) => ({
 
   executeRebirth: () => {
     // RebirthTable 삭제(3단계) — ResetStage/ResetStats/ResetMastery/KeepExistTree는
-    // CommonTable로, 재화 지급 여부는 CurrencyTable.RefundOnRebirth로 옮겨갔다(1단계
-    // 때부터 스키마+데이터는 있었지만 실제로 읽지는 않았던 값 — 이번에 연결).
-    // 4단계 개편(리버스 보상 재설계)에서도 이 세 재화가 "리버스 시 초기화 후
-    // 다시 지급되는 재화"라는 의미 자체는 그대로라 이 플래그를 계속 쓴다.
+    // CommonTable로 옮겨갔다. 재화별 리버스 처리는 CurrencyTable의 두 칼럼이
+    // 결정한다: ResetOnRebirth(0으로 초기화할지)와 RefundOnRebirth(초기화 후
+    // 구간별 지급량을 새로 채울지 — false면 초기화만 되고 0으로 남는다).
+    // 5단계 개편(재화 초기화 범위 확장)까지는 ResetOnRebirth가 스키마만 있고
+    // 읽히지 않는 죽은 칼럼이었는데, 이제 재화마다 "초기화만" vs "초기화+재지급"이
+    // 갈려서(다이아·EXIST는 초기화만 또는 초기화+재지급, 시간에너지는 둘 다 아님)
+    // 두 칼럼을 각자의 역할로 살려 썼다.
     const resetStage = getCommonBool('RebirthResetStage')
     const resetStats = getCommonBool('RebirthResetStats')
     const resetMastery = getCommonBool('RebirthResetMastery')
     const keepExistTree = getCommonBool('RebirthKeepExistTree')
-    const grantGrowthEnergy = getCurrencyConfig('GROWTH_ENERGY').RefundOnRebirth
-    const grantGold = getCurrencyConfig('GOLD').RefundOnRebirth
-    const grantMasteryEssence = getCurrencyConfig('MASTERY_ESSENCE').RefundOnRebirth
 
     set((state) => {
       // 리버스 횟수 배율은 "이번 리버스를 실행하기 전" rebirthCount로 계산한다
@@ -628,17 +646,31 @@ export const useGameStore = create<GameState>((set, get) => ({
           nextEquippedWeaponId,
           nextActiveRelics,
         ),
-        // growthEnergy/gold/essence는 "누적 소비량 환급"이 아니라 "도달 스테이지
-        // 구간의 고정 지급량 × 리버스 횟수 배율"로 새로 지급된다(4단계 개편) — 리버스
-        // 시 보유량을 0으로 초기화한 뒤 그만큼만 채운다. exist/timeEnergy는 리버스로
-        // 초기화되지 않는 재화라 그대로 유지하고, diamond는 구간 고정값만 그대로
-        // 더한다(횟수 배율 미적용 — 가챠 재화라 인플레이션 우려로 의도적으로 제외).
+        // growthEnergy/gold/essence/diamond는 "누적 소비량 환급"이 아니라 "도달
+        // 스테이지 구간의 고정 지급량 × 리버스 횟수 배율"로 새로 지급된다(다이아는
+        // 가챠 재화라 인플레이션 우려로 횟수 배율 미적용 — 구간 고정값만). exist는
+        // 초기화만 되고 재지급은 없다(존재력 트리 해금 자체는 keepExistTree로 별도
+        // 유지되고, EXIST는 전투로 다시 모으는 재화라 재지급 소스가 없다).
+        // timeEnergy는 시간에너지를 제외해달라는 요청대로 리버스와 완전히 무관하게
+        // 그대로 유지된다. 각 재화의 실제 분기는 CurrencyTable.ResetOnRebirth/
+        // RefundOnRebirth로 결정되므로(nextCurrencyOnRebirth), 재화 구성을 바꾸고
+        // 싶으면 코드가 아니라 그 두 칼럼만 고치면 된다.
         currencies: {
           ...state.currencies,
-          growthEnergy: grantGrowthEnergy ? Math.floor(rewardRow.GrowthEnergyReward * countMultiplier) : 0,
-          gold: grantGold ? Math.floor(rewardRow.GoldReward * countMultiplier) : 0,
-          essence: grantMasteryEssence ? Math.floor(rewardRow.MasteryEssenceReward * countMultiplier) : 0,
-          diamond: state.currencies.diamond + rewardRow.DiamondReward,
+          exist: nextCurrencyOnRebirth('EXIST', state.currencies.exist, 0),
+          growthEnergy: nextCurrencyOnRebirth(
+            'GROWTH_ENERGY',
+            state.currencies.growthEnergy,
+            Math.floor(rewardRow.GrowthEnergyReward * countMultiplier),
+          ),
+          gold: nextCurrencyOnRebirth('GOLD', state.currencies.gold, Math.floor(rewardRow.GoldReward * countMultiplier)),
+          essence: nextCurrencyOnRebirth(
+            'MASTERY_ESSENCE',
+            state.currencies.essence,
+            Math.floor(rewardRow.MasteryEssenceReward * countMultiplier),
+          ),
+          diamond: nextCurrencyOnRebirth('DIAMOND', state.currencies.diamond, rewardRow.DiamondReward),
+          timeEnergy: nextCurrencyOnRebirth('TIME_ENERGY', state.currencies.timeEnergy, 0),
         },
         timeHeistUsedCount: 0,
         timeHeistLastUsedAt: null,

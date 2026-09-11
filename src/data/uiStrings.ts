@@ -319,6 +319,7 @@ export type RebirthUiLabelKey =
   | 'resetWeapons'
   | 'resetRelics'
   | 'resetMastery'
+  | 'resetCurrency'
   | 'grantSectionTitle'
   | 'nextTierReachPrefix'
   | 'nextTierReachSuffix'
@@ -339,6 +340,7 @@ const REBIRTH_UI_LABEL_ID: Record<RebirthUiLabelKey, number> = {
   resetWeapons: 41005,
   resetRelics: 41006,
   resetMastery: 41007,
+  resetCurrency: 41054,
   grantSectionTitle: 41008,
   nextTierReachPrefix: 41009,
   nextTierReachSuffix: 41010,

@@ -1123,8 +1123,8 @@
     {
       "Index": 128,
       "Id": 41000,
-      "KOR": "스테이지·스탯·숙련을 초기화하고 무기·유물을 소멸/초기화하는 대신, 그동안 소비한 재화를 전액 돌려받고 도달 스테이지에 비례한 다이아를 새로 받습니다. 존재력 트리는 그대로 유지됩니다.",
-      "ENG": "스테이지·스탯·숙련을 초기화하고 무기·유물을 소멸/초기화하는 대신, 그동안 소비한 재화를 전액 돌려받고 도달 스테이지에 비례한 다이아를 새로 받습니다. 존재력 트리는 그대로 유지됩니다."
+      "KOR": "스테이지·스탯·숙련을 초기화하고 무기·유물을 소멸/초기화합니다. 골드·성장에너지·숙련의 정수·다이아는 초기화된 뒤 도달 스테이지 구간에 맞춰 새로 지급되고, 존재력은 초기화만 됩니다(시간에너지는 그대로 유지). 존재력 트리는 그대로 유지됩니다.",
+      "ENG": "스테이지·스탯·숙련을 초기화하고 무기·유물을 소멸/초기화합니다. 골드·성장에너지·숙련의 정수·다이아는 초기화된 뒤 도달 스테이지 구간에 맞춰 새로 지급되고, 존재력은 초기화만 됩니다(시간에너지는 그대로 유지). 존재력 트리는 그대로 유지됩니다."
     },
     {
       "Index": 129,
@@ -1207,8 +1207,8 @@
     {
       "Index": 142,
       "Id": 41014,
-      "KOR": "존재력(EXIST), 시간에너지 보유량",
-      "ENG": "존재력(EXIST), 시간에너지 보유량"
+      "KOR": "시간에너지 보유량",
+      "ENG": "시간에너지 보유량"
     },
     {
       "Index": 143,
@@ -3111,6 +3111,18 @@
       "Id": 55018,
       "KOR": "로딩 화면 추가",
       "ENG": "로딩 화면 추가"
+    },
+    {
+      "Index": 460,
+      "Id": 41054,
+      "KOR": "다이아 · 존재력 재화 초기화",
+      "ENG": "다이아 · 존재력 재화 초기화"
+    },
+    {
+      "Index": 461,
+      "Id": 55019,
+      "KOR": "리버스 재화 초기화 범위 확대",
+      "ENG": "리버스 재화 초기화 범위 확대"
     }
   ],
   "CurrencyTable": [
@@ -3119,8 +3131,8 @@
       "Id": 39101,
       "Type": "DIAMOND",
       "NameStringId": 40075,
-      "ResetOnRebirth": false,
-      "RefundOnRebirth": false,
+      "ResetOnRebirth": true,
+      "RefundOnRebirth": true,
       "ShowInHUD": true,
       "SortOrder": 1
     },
@@ -3129,7 +3141,7 @@
       "Id": 39102,
       "Type": "EXIST",
       "NameStringId": 40015,
-      "ResetOnRebirth": false,
+      "ResetOnRebirth": true,
       "RefundOnRebirth": false,
       "ShowInHUD": true,
       "SortOrder": 2
@@ -3139,7 +3151,7 @@
       "Id": 39103,
       "Type": "GROWTH_ENERGY",
       "NameStringId": 40016,
-      "ResetOnRebirth": false,
+      "ResetOnRebirth": true,
       "RefundOnRebirth": true,
       "ShowInHUD": true,
       "SortOrder": 3
@@ -3149,7 +3161,7 @@
       "Id": 39104,
       "Type": "GOLD",
       "NameStringId": 40019,
-      "ResetOnRebirth": false,
+      "ResetOnRebirth": true,
       "RefundOnRebirth": true,
       "ShowInHUD": true,
       "SortOrder": 4
@@ -3159,7 +3171,7 @@
       "Id": 39105,
       "Type": "MASTERY_ESSENCE",
       "NameStringId": 40017,
-      "ResetOnRebirth": false,
+      "ResetOnRebirth": true,
       "RefundOnRebirth": true,
       "ShowInHUD": false,
       "SortOrder": 5
@@ -8827,6 +8839,15 @@
       "Category": "ADD",
       "TextStringId": 55018,
       "SortOrder": 5
+    },
+    {
+      "Index": 17,
+      "Id": 33017,
+      "Version": "v0.3.0",
+      "ReleaseDate": "2026-09-11",
+      "Category": "CHANGE",
+      "TextStringId": 55019,
+      "SortOrder": 6
     }
   ]
 }

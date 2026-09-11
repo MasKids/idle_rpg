@@ -96,6 +96,7 @@ export function RebirthModal({ isOpen, onCancel, onConfirm }: RebirthModalProps)
           <li>{getRebirthUiLabel('resetWeapons')}</li>
           <li>{getRebirthUiLabel('resetRelics')}</li>
           <li>{getRebirthUiLabel('resetMastery')}</li>
+          <li>{getRebirthUiLabel('resetCurrency')}</li>
         </RebirthSection>
 
         <RebirthSection title={getRebirthUiLabel('rewardSectionTitle')} tone="text-success-strong">
