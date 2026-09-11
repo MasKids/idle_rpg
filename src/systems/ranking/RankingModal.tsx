@@ -3,6 +3,8 @@ import { SYSTEM_ICON } from '../../components/icons'
 import { Button, EmptyState, Modal } from '../../components/ui'
 import { stageLabel } from '../../data/stages'
 import { getButtonLabel, getCommonUiLabel, getRankingUiLabel } from '../../data/uiStrings'
+import { IntroBanner } from '../onboarding/IntroBanner'
+import { SYSTEM_INTRO_LINES } from '../onboarding/onboardingContent'
 import { useGameStore } from '../../store/gameStore'
 import { formatDuration } from '../../utils/format'
 import { fetchRankings, type RankingRow } from './ranking'
@@ -79,6 +81,14 @@ export function RankingModal({ isOpen, onClose }: RankingModalProps) {
         </Button>
       }
     >
+      <IntroBanner
+        storageKey="intro-ranking"
+        title={getRankingUiLabel('title')}
+        lines={SYSTEM_INTRO_LINES.ranking}
+        accentColorVar="var(--color-blue-strong)"
+        className="mb-3"
+      />
+
       {status === 'loading' && (
         <div className="py-8 text-center text-xs text-text-secondary">{getRankingUiLabel('loading')}</div>
       )}

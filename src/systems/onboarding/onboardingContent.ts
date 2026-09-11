@@ -21,7 +21,7 @@ export const WELCOME_STEPS: WelcomeStep[] = [
   },
 ]
 
-export type SystemIntroKey = 'existTree' | 'equipment' | 'relic' | 'reverse' | 'timeHeist'
+export type SystemIntroKey = 'existTree' | 'equipment' | 'relic' | 'reverse' | 'timeHeist' | 'ranking'
 
 export const SYSTEM_INTRO_LINES: Record<SystemIntroKey, string[]> = {
   existTree: ['순서대로 노드를 해금하며 스탯과 재화를 얻습니다.', '일정 노드를 해금하면 리버스·타임 하이스트 같은 특별 기능이 열립니다.'],
@@ -29,4 +29,9 @@ export const SYSTEM_INTRO_LINES: Record<SystemIntroKey, string[]> = {
   relic: ['존재력 트리를 진행하면 유물을 장착할 수 있는 활성화 슬롯이 늘어납니다.'],
   reverse: ['진행 상황을 초기화하지만, 소비한 재화를 전액 돌려받습니다.', '도달 스테이지에 비례한 다이아도 새로 얻습니다.'],
   timeHeist: ['시간에너지를 소비해 미래 스테이지의 보상을 미리 받아옵니다.', '스테이지 진행 자체에는 영향을 주지 않습니다.'],
+  ranking: [
+    '리버스를 실행할 때, 그 회차 도달 스테이지가 이전 최고 기록보다 높으면 자동으로 등록됩니다.',
+    '리버스를 아직 해금하지 못했다면 최고 스테이지가 20 스테이지 오를 때마다 대신 등록됩니다.',
+    '이름별로 최고 기록 하나만, 최고 스테이지 순으로 상위 50명까지 보여줍니다.',
+  ],
 }

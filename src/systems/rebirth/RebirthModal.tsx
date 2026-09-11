@@ -1,7 +1,8 @@
 import type { CSSProperties, ReactNode } from 'react'
 import { BALANCE_TABLES, getRebirthDiamondReward } from '../../data/balance'
+import type { CurrencyKey } from '../../types/game'
 import { EXIST_TREE_TOTAL_NODES } from '../../data/existTree'
-import { getButtonLabel, getCurrencyName, getRebirthBonusLabel, getRebirthUiLabel, getSystemName } from '../../data/uiStrings'
+import { getButtonLabel, getCommonUiLabel, getCurrencyName, getRebirthBonusLabel, getRebirthUiLabel, getSystemName } from '../../data/uiStrings'
 import { useGameStore } from '../../store/gameStore'
 import { computeRebirthBonusPoints, computeRefundMultiplier } from './rebirthBonus'
 import { formatNumber } from '../../utils/format'
@@ -99,17 +100,9 @@ export function RebirthModal({ isOpen, onCancel, onConfirm }: RebirthModalProps)
           title={`환급 (${getRebirthBonusLabel('refundMultiplier')} ${formatMultiplier(currentMultiplier)})`}
           tone="text-success-strong"
         >
-          <li>
-            {getCurrencyName('growthEnergy')} {formatNumber(spent.growthEnergy)} → +
-            {formatNumber(Math.floor(spent.growthEnergy * currentMultiplier))}
-          </li>
-          <li>
-            {getCurrencyName('gold')} {formatNumber(spent.gold)} → +{formatNumber(Math.floor(spent.gold * currentMultiplier))}
-          </li>
-          <li>
-            {getCurrencyName('essence')} {formatNumber(spent.essence)} → +
-            {formatNumber(Math.floor(spent.essence * currentMultiplier))}
-          </li>
+          <RefundRow currency="growthEnergy" spent={spent.growthEnergy} multiplier={currentMultiplier} />
+          <RefundRow currency="gold" spent={spent.gold} multiplier={currentMultiplier} />
+          <RefundRow currency="essence" spent={spent.essence} multiplier={currentMultiplier} />
         </RebirthSection>
 
         <RebirthSection title={getRebirthUiLabel('grantSectionTitle')} tone="text-gold-strong">
@@ -146,6 +139,24 @@ export function RebirthModal({ isOpen, onCancel, onConfirm }: RebirthModalProps)
         </div>
       </div>
     </div>
+  )
+}
+
+// 소비량을 그대로 돌려받는 게 아니라 "소비량 × 배율"만큼 새로 지급되는 것임을
+// 한 줄에서 바로 읽을 수 있게 — 예전엔 "37.5K → +40.9K"처럼만 보여줘서 보유량이
+// 그만큼 불어나는 것처럼 오해하기 쉬웠다.
+function RefundRow({ currency, spent, multiplier }: { currency: CurrencyKey; spent: number; multiplier: number }) {
+  const granted = Math.floor(spent * multiplier)
+  return (
+    <li className="flex items-center justify-between gap-2">
+      <span className="text-text-primary">{getCurrencyName(currency)}</span>
+      <span className="text-right">
+        {getCommonUiLabel('consume')} {formatNumber(spent)} × {multiplier.toFixed(2)} →{' '}
+        <span className="font-medium text-success-strong">
+          {formatNumber(granted)} {getRebirthUiLabel('grantSectionTitle')}
+        </span>
+      </span>
+    </li>
   )
 }
 

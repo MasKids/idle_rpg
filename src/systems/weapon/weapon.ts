@@ -80,8 +80,15 @@ export function weaponBaseAtkOwnBonus(type: WeaponTypeEnum, grade: WeaponGradeEn
   return getWeaponConfig(type, grade, tier).BaseAtk * level * count
 }
 
+// 특화 스탯(OwnEffectValue/EquipEffectValue)은 데이터 자체가 보유:장착 = 1:10
+// 비율로 돼 있어 장착이 항상 확실히 앞서는데, 기본 공격력(BaseAtk)은 보유·장착
+// 양쪽이 같은 값을 쓰고(보유만 개수(count)로 누적) 그런 배율이 없어, 무기를
+// 몇 개만 모아도(심지어 종류가 달라도) 보유 총합이 장착 하나를 넘어서 버렸다
+// (창/활처럼 특화 스탯이 ATK가 아닌 무기일수록 이 문제가 그대로 드러남 — 공격력
+// 기여가 BaseAtk뿐이라 특화 스탯의 10배 배율로 가려지지 않았다). 같은 1:10 비율을
+// 여기에도 적용해 장착이 보유보다 확실히 유의미하게 만든다.
 export function weaponBaseAtkEquipBonus(type: WeaponTypeEnum, grade: WeaponGradeEnum, tier: number, level: number): number {
-  return getWeaponConfig(type, grade, tier).BaseAtk * level
+  return getWeaponConfig(type, grade, tier).BaseAtk * level * getCommon('WeaponBaseAtkEquipMultiplier')
 }
 
 // 종류별 특화 스탯(검=ATK 추가 특화, 창=ASPD, 활=CRIT) 보유 효과 —

@@ -341,6 +341,13 @@
       "Key": "RebirthBonusExponent",
       "Value": 0.5,
       "ValueType": "float"
+    },
+    {
+      "Index": 25,
+      "Id": 36025,
+      "Key": "WeaponBaseAtkEquipMultiplier",
+      "Value": 10,
+      "ValueType": "float"
     }
   ],
   "StringTable": [

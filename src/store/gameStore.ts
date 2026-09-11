@@ -642,6 +642,18 @@ export const useGameStore = create<GameState>((set, get) => ({
     // 화면 표시용 즉시 반영일 뿐, 실제 기준이 되는 건 이 두 변수다).
     currentRunTimeBaseSec = 0
     currentRunTimeBaseAt = Date.now()
+
+    // 랭킹 등록 — submitRankingIfNewBest가 "이미 랭킹 서버에 알려준 최고 스테이지"
+    // 보다 실제로 더 깊이 도달했을 때만 보낸다. rebirthMaxStage는 스테이지를 클리어할
+    // 때마다(setStage) 실시간으로 갱신되는 값이라 리버스 시점의 currentStage와 이미
+    // 같아져 있으므로, "이번 회차가 기록을 갱신했는지"는 이 값 자체가 아니라 저
+    // 함수가 참조하는 별도 기준점(rankingStorage의 lastSubmittedStage)으로 판정한다.
+    submitRankingIfNewBest({
+      playerName: get().playerName,
+      maxStage: get().rebirthMaxStage,
+      playTime: get().totalPlayTime,
+      rebirthCount: get().rebirthCount,
+    })
   },
 
   executeTimeHeist: () => {
@@ -1011,27 +1023,46 @@ useGameStore.subscribe((state) => {
   })
 })
 
-// 최고 스테이지(리버스해도 유지되는 rebirthMaxStage와 진행 중인 currentStage 중 큰 쪽)가
-// 10 단위 구간을 새로 넘을 때마다 랭킹 서버에 기록을 등록한다. 너무 잦은 등록을 막기
-// 위한 기준점(마지막으로 등록을 시도한 스테이지)은 게임 세이브와 별개로 로컬스토리지에
-// 둔다(rankingStorage.ts) — 새로고침해도 같은 구간에서 중복 등록하지 않는다.
-// submitRanking 자체가 실패를 삼키므로 여기서는 호출만 하고 결과를 기다리지 않는다.
-const RANKING_STAGE_INTERVAL = 10
+// 랭킹 등록의 실제 트리거는 executeRebirth() 안(리버스 성공 직후)과, 아래의
+// "리버스 미해금 사용자" 보조 경로 두 곳뿐이다. 두 곳 모두 이름이 비어있거나
+// 기본값이면 등록하지 않는다는 조건이 같아 여기 하나로 모았다. submitRanking
+// 자체가 실패를 삼키므로 여기서도 호출만 하고 결과를 기다리지 않는다.
+function submitRankingIfNamed(entry: Parameters<typeof submitRanking>[0]): void {
+  if (!isRankingEnabled) return
+  const trimmedName = entry.playerName.trim()
+  if (trimmedName.length === 0 || trimmedName === DEFAULT_PLAYER_NAME) return
+  void submitRanking({ ...entry, playerName: trimmedName })
+}
+
+// 리버스 시점 등록 전용 — "이미 랭킹 서버에 알려준 최고 스테이지"(rankingStorage의
+// lastSubmittedStage, 아래 보조 경로와 공유)보다 실제로 더 깊이 도달했을 때만
+// 보낸다. 그렇지 않으면 같은 자리(또는 그보다 낮은 자리)에서 반복 리버스할 때마다
+// 중복 등록하게 된다.
+function submitRankingIfNewBest(entry: Parameters<typeof submitRanking>[0]): void {
+  if (entry.maxStage <= readLastSubmittedStage()) return
+  writeLastSubmittedStage(entry.maxStage)
+  submitRankingIfNamed(entry)
+}
+
+// 리버스를 아직 해금하지 못한 사용자는 리버스라는 등록 계기 자체가 없어 랭킹에
+// 영영 오르지 못한다 — 그 구간에서만 보조로, 최고 스테이지가 20 단위 구간을 새로
+// 넘을 때 등록한다. 마지막으로 등록을 시도한 스테이지는 게임 세이브와 별개로
+// 로컬스토리지에 둔다(rankingStorage.ts) — 새로고침해도 같은 구간에서 중복
+// 등록하지 않는다. 리버스를 해금하고 나면(그러면 아래 executeRebirth 쪽 등록으로
+// 넘어가므로) 이 경로는 완전히 멈춘다.
+const PRE_REBIRTH_RANKING_STAGE_INTERVAL = 20
 
 useGameStore.subscribe((state) => {
-  if (!isRankingEnabled) return
-  // 이름을 아직 정하지 않은 상태(기본값·빈 문자열)로는 랭킹에 등록하지 않는다.
-  const trimmedName = state.playerName.trim()
-  if (trimmedName.length === 0 || trimmedName === DEFAULT_PLAYER_NAME) return
+  if (state.specialUnlocks.reverse) return
 
   const maxStageEver = Math.max(state.rebirthMaxStage, state.currentStage)
   const lastSubmitted = readLastSubmittedStage()
-  const currentMilestone = Math.floor(maxStageEver / RANKING_STAGE_INTERVAL)
-  const lastMilestone = Math.floor(lastSubmitted / RANKING_STAGE_INTERVAL)
+  const currentMilestone = Math.floor(maxStageEver / PRE_REBIRTH_RANKING_STAGE_INTERVAL)
+  const lastMilestone = Math.floor(lastSubmitted / PRE_REBIRTH_RANKING_STAGE_INTERVAL)
   if (currentMilestone <= lastMilestone) return
 
   writeLastSubmittedStage(maxStageEver)
-  void submitRanking({
+  submitRankingIfNamed({
     playerName: state.playerName,
     maxStage: maxStageEver,
     playTime: state.totalPlayTime,
