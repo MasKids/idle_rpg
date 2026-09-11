@@ -19,6 +19,7 @@ import {
   Sword,
   Swords,
   TrendingUp,
+  Trophy,
   Unlock,
   type LucideIcon,
 } from 'lucide-react'
@@ -57,11 +58,12 @@ export const TAB_ICON = {
   dogam: BookOpen,
 } as const satisfies Record<TabKey, LucideIcon>
 
-// 유물 / 타임 하이스트 / 리버스
+// 유물 / 타임 하이스트 / 리버스 / 랭킹
 export const SYSTEM_ICON = {
   relic: Relic,
   timeHeist: History,
   reverse: RotateCcw,
+  ranking: Trophy,
 } as const
 
 // 상태: 잠김 / 해금 / 장착 중

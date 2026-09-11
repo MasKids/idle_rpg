@@ -10,6 +10,7 @@ import { startBattleLoop } from './systems/battle/battleLoop'
 import { OfflineRewardModal } from './systems/battle/OfflineRewardModal'
 import { getTabName } from './data/uiStrings'
 import { ExistTreePanel } from './systems/exist/ExistTreePanel'
+import { RankingModal } from './systems/ranking/RankingModal'
 import { RebirthModal } from './systems/rebirth/RebirthModal'
 import { TimeHeistModal } from './systems/timeheist/TimeHeistModal'
 import { SummonPanel } from './systems/gacha/SummonPanel'
@@ -28,6 +29,7 @@ function App() {
   const [rebirthFlashKey, setRebirthFlashKey] = useState(0)
   const [isTimeHeistModalOpen, setTimeHeistModalOpen] = useState(false)
   const [timeHeistFlashKey, setTimeHeistFlashKey] = useState(0)
+  const [isRankingModalOpen, setRankingModalOpen] = useState(false)
   const [isDesignSystemOpen, setDesignSystemOpen] = useState(false)
   const executeRebirth = useGameStore((state) => state.executeRebirth)
   const executeTimeHeist = useGameStore((state) => state.executeTimeHeist)
@@ -88,6 +90,7 @@ function App() {
             <BattleArea
               onStageInfoClick={() => setStageInfoOpen(true)}
               onTimeHeistClick={() => setTimeHeistModalOpen(true)}
+              onRankingClick={() => setRankingModalOpen(true)}
             />
             <ControlArea activeTab={activeTab} />
           </div>
@@ -114,6 +117,8 @@ function App() {
         />
 
         <OfflineRewardModal onClaim={claimOfflineReward} />
+
+        <RankingModal isOpen={isRankingModalOpen} onClose={() => setRankingModalOpen(false)} />
 
         {rebirthFlashKey > 0 && (
           <div

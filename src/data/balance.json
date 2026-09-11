@@ -2821,6 +2821,72 @@
       "Id": 41026,
       "KOR": "최초 클리어",
       "ENG": "First Clear"
+    },
+    {
+      "Index": 414,
+      "Id": 41027,
+      "KOR": "랭킹",
+      "ENG": "Ranking"
+    },
+    {
+      "Index": 415,
+      "Id": 41028,
+      "KOR": "순위",
+      "ENG": "Rank"
+    },
+    {
+      "Index": 416,
+      "Id": 41029,
+      "KOR": "이름",
+      "ENG": "Name"
+    },
+    {
+      "Index": 417,
+      "Id": 41030,
+      "KOR": "최고 스테이지",
+      "ENG": "Best Stage"
+    },
+    {
+      "Index": 418,
+      "Id": 41031,
+      "KOR": "플레이 시간",
+      "ENG": "Play Time"
+    },
+    {
+      "Index": 419,
+      "Id": 41032,
+      "KOR": "리버스",
+      "ENG": "Rebirths"
+    },
+    {
+      "Index": 420,
+      "Id": 41033,
+      "KOR": "불러오는 중...",
+      "ENG": "Loading..."
+    },
+    {
+      "Index": 421,
+      "Id": 41034,
+      "KOR": "랭킹을 불러오지 못했습니다",
+      "ENG": "Failed to load ranking"
+    },
+    {
+      "Index": 422,
+      "Id": 41035,
+      "KOR": "다시 시도",
+      "ENG": "Retry"
+    },
+    {
+      "Index": 423,
+      "Id": 41036,
+      "KOR": "아직 등록된 기록이 없습니다",
+      "ENG": "No records yet"
+    },
+    {
+      "Index": 424,
+      "Id": 41037,
+      "KOR": "내 기록",
+      "ENG": "My Record"
     }
   ],
   "CurrencyTable": [
