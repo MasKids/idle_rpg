@@ -4,6 +4,7 @@ import { BottomMenu } from './components/BottomMenu'
 import { ControlArea } from './components/ControlArea'
 import { DevPanel } from './components/DevPanel'
 import { DesignSystemPreview } from './dev/DesignSystemPreview'
+import { LoadingScreen } from './components/LoadingScreen'
 import { StageInfoModal } from './components/StageInfoModal'
 import { StubPanel } from './components/StubPanel'
 import { startBattleLoop } from './systems/battle/battleLoop'
@@ -36,6 +37,7 @@ function App() {
   const [isProfileModalOpen, setProfileModalOpen] = useState(false)
   const [isPatchNoteModalOpen, setPatchNoteModalOpen] = useState(false)
   const [isDesignSystemOpen, setDesignSystemOpen] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
   const executeRebirth = useGameStore((state) => state.executeRebirth)
   const executeTimeHeist = useGameStore((state) => state.executeTimeHeist)
   const claimOfflineReward = useGameStore((state) => state.claimOfflineReward)
@@ -156,6 +158,8 @@ function App() {
         {import.meta.env.DEV && isDesignSystemOpen && (
           <DesignSystemPreview onClose={() => setDesignSystemOpen(false)} />
         )}
+
+        {isLoading && <LoadingScreen onDone={() => setIsLoading(false)} />}
       </div>
     </div>
   )

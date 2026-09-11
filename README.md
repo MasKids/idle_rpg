@@ -1,4 +1,6 @@
-# 시간 기반 방치형 RPG (웹 프로토타입)
+# Re: NOVA
+
+### Nonlinear Oscillation Void Apparatus
 
 가만히 둬도 자라는 캐릭터 위에, 직접 뚫어나가는 성장 트리를 올린 방치형 RPG.
 

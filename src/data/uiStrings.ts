@@ -491,3 +491,18 @@ const PROFILE_UI_LABEL_ID: Record<ProfileUiLabelKey, number> = {
 export function getProfileUiLabel(key: ProfileUiLabelKey): string {
   return getString(PROFILE_UI_LABEL_ID[key], 'KOR', key)
 }
+
+// 게임 제목/부제/제작자 표기 — 현재는 로딩 화면에서만 쓰인다(그 외 인게임
+// 화면에는 게임 이름을 보여주는 자리가 따로 없다). KOR/ENG 둘 다 같은 값이다
+// (고유명사라 번역 대상이 아님).
+export type MetaUiLabelKey = 'gameTitle' | 'gameSubtitle' | 'createdByPrefix'
+
+const META_UI_LABEL_ID: Record<MetaUiLabelKey, number> = {
+  gameTitle: 55014,
+  gameSubtitle: 55015,
+  createdByPrefix: 55016,
+}
+
+export function getMetaUiLabel(key: MetaUiLabelKey): string {
+  return getString(META_UI_LABEL_ID[key], 'KOR', key)
+}

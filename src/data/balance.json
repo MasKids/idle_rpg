@@ -3081,6 +3081,36 @@
       "Id": 55013,
       "KOR": "재화 획득량 조정",
       "ENG": "재화 획득량 조정"
+    },
+    {
+      "Index": 455,
+      "Id": 55014,
+      "KOR": "Re: NOVA",
+      "ENG": "Re: NOVA"
+    },
+    {
+      "Index": 456,
+      "Id": 55015,
+      "KOR": "NONLINEAR OSCILLATION VOID APPARATUS",
+      "ENG": "NONLINEAR OSCILLATION VOID APPARATUS"
+    },
+    {
+      "Index": 457,
+      "Id": 55016,
+      "KOR": "Created by ______",
+      "ENG": "Created by ______"
+    },
+    {
+      "Index": 458,
+      "Id": 55017,
+      "KOR": "게임 제목 \"Re: NOVA\" 공개",
+      "ENG": "게임 제목 \"Re: NOVA\" 공개"
+    },
+    {
+      "Index": 459,
+      "Id": 55018,
+      "KOR": "로딩 화면 추가",
+      "ENG": "로딩 화면 추가"
     }
   ],
   "CurrencyTable": [
@@ -8779,6 +8809,24 @@
       "Category": "CHANGE",
       "TextStringId": 55013,
       "SortOrder": 3
+    },
+    {
+      "Index": 15,
+      "Id": 33015,
+      "Version": "v0.3.0",
+      "ReleaseDate": "2026-09-11",
+      "Category": "ADD",
+      "TextStringId": 55017,
+      "SortOrder": 4
+    },
+    {
+      "Index": 16,
+      "Id": 33016,
+      "Version": "v0.3.0",
+      "ReleaseDate": "2026-09-11",
+      "Category": "ADD",
+      "TextStringId": 55018,
+      "SortOrder": 5
     }
   ]
 }
