@@ -6,6 +6,8 @@ import { EXIST_SPECIAL_UNLOCKS, generateExistTree } from '../data/existTree'
 import { generateStage, killsRequiredForStage } from '../data/stages'
 import { computeStatValue, statUpgradeCost } from '../data/stats'
 import { computeOfflineReward, type OfflineRewardResult } from '../systems/battle/offlineReward'
+import { isRankingEnabled, submitRanking } from '../systems/ranking/ranking'
+import { readLastSubmittedStage, writeLastSubmittedStage } from '../systems/ranking/rankingStorage'
 import { computeActiveRelicEffects, computeRelicSlotCount, RELIC_SLOT_MAX, rollRelicGacha } from '../systems/relic/relic'
 import { computeRebirthBonusPoints, computeRefundMultiplier } from '../systems/rebirth/rebirthBonus'
 import { computeTimeHeistPreview, timeHeistCooldownEndsAt } from '../systems/timeheist/timeHeist'
@@ -1003,6 +1005,31 @@ useGameStore.subscribe((state) => {
     // 시점에는 그보다 정확한(지금 이 순간까지의) 값을 다시 계산해서 쓴다.
     totalPlayTimeSec: computeTotalPlayTimeSec(),
     currentRunTimeSec: computeCurrentRunTimeSec(),
+  })
+})
+
+// 최고 스테이지(리버스해도 유지되는 rebirthMaxStage와 진행 중인 currentStage 중 큰 쪽)가
+// 10 단위 구간을 새로 넘을 때마다 랭킹 서버에 기록을 등록한다. 너무 잦은 등록을 막기
+// 위한 기준점(마지막으로 등록을 시도한 스테이지)은 게임 세이브와 별개로 로컬스토리지에
+// 둔다(rankingStorage.ts) — 새로고침해도 같은 구간에서 중복 등록하지 않는다.
+// submitRanking 자체가 실패를 삼키므로 여기서는 호출만 하고 결과를 기다리지 않는다.
+const RANKING_STAGE_INTERVAL = 10
+
+useGameStore.subscribe((state) => {
+  if (!isRankingEnabled) return
+
+  const maxStageEver = Math.max(state.rebirthMaxStage, state.currentStage)
+  const lastSubmitted = readLastSubmittedStage()
+  const currentMilestone = Math.floor(maxStageEver / RANKING_STAGE_INTERVAL)
+  const lastMilestone = Math.floor(lastSubmitted / RANKING_STAGE_INTERVAL)
+  if (currentMilestone <= lastMilestone) return
+
+  writeLastSubmittedStage(maxStageEver)
+  void submitRanking({
+    playerName: state.playerName,
+    maxStage: maxStageEver,
+    playTime: state.totalPlayTime,
+    rebirthCount: state.rebirthCount,
   })
 })
 

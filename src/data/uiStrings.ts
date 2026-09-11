@@ -423,3 +423,34 @@ const RELIC_DETAIL_UI_LABEL_ID: Record<RelicDetailUiLabelKey, number> = {
 export function getRelicDetailUiLabel(key: RelicDetailUiLabelKey): string {
   return getString(RELIC_DETAIL_UI_LABEL_ID[key], 'KOR', key)
 }
+
+export type RankingUiLabelKey =
+  | 'title'
+  | 'columnRank'
+  | 'columnName'
+  | 'columnMaxStage'
+  | 'columnPlayTime'
+  | 'columnRebirthCount'
+  | 'loading'
+  | 'errorTitle'
+  | 'retry'
+  | 'empty'
+  | 'myRecord'
+
+const RANKING_UI_LABEL_ID: Record<RankingUiLabelKey, number> = {
+  title: 41027,
+  columnRank: 41028,
+  columnName: 41029,
+  columnMaxStage: 41030,
+  columnPlayTime: 41031,
+  columnRebirthCount: 41032,
+  loading: 41033,
+  errorTitle: 41034,
+  retry: 41035,
+  empty: 41036,
+  myRecord: 41037,
+}
+
+export function getRankingUiLabel(key: RankingUiLabelKey): string {
+  return getString(RANKING_UI_LABEL_ID[key], 'KOR', key)
+}

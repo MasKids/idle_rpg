@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import { stageLabel } from '../data/stages'
-import { getBattleUiLabel } from '../data/uiStrings'
+import { getBattleUiLabel, getRankingUiLabel } from '../data/uiStrings'
 import { computeActiveRelicEffects } from '../systems/relic/relic'
+import { isRankingEnabled } from '../systems/ranking/ranking'
 import { useGameStore } from '../store/gameStore'
 import { useBattleLoop } from '../systems/battle/useBattleLoop'
 import { timeHeistCooldownEndsAt, timeHeistCost } from '../systems/timeheist/timeHeist'
@@ -40,9 +41,10 @@ const CLOCK_TICKS = Array.from({ length: 12 }, (_, i) => {
 interface BattleAreaProps {
   onStageInfoClick: () => void
   onTimeHeistClick: () => void
+  onRankingClick: () => void
 }
 
-export function BattleArea({ onStageInfoClick, onTimeHeistClick }: BattleAreaProps) {
+export function BattleArea({ onStageInfoClick, onTimeHeistClick, onRankingClick }: BattleAreaProps) {
   const currencies = useGameStore((state) => state.currencies)
   const timeHeistUnlocked = useGameStore((state) => state.specialUnlocks.timeHeist)
   const timeHeistUsedCount = useGameStore((state) => state.timeHeistUsedCount)
@@ -63,6 +65,7 @@ export function BattleArea({ onStageInfoClick, onTimeHeistClick }: BattleAreaPro
   const canAffordTimeHeist = currencies.timeEnergy >= timeHeistCost(timeHeistUsedCount)
   const canTimeHeist = canAffordTimeHeist && !isOnCooldown
   const TimeHeistIcon = SYSTEM_ICON.timeHeist
+  const RankingIcon = SYSTEM_ICON.ranking
 
   // 다음 적 등장 감지 — 데미지로는 hp가 줄어들기만 하므로, hp가 "늘어났다"는 건
   // 곧 리스폰(같은 스테이지 반복이든 다음 스테이지 진입이든)뿐이다. 그 순간에
@@ -259,6 +262,17 @@ export function BattleArea({ onStageInfoClick, onTimeHeistClick }: BattleAreaPro
           ))}
         </div>
       </div>
+
+      {isRankingEnabled && (
+        <button
+          type="button"
+          onClick={onRankingClick}
+          aria-label={getRankingUiLabel('title')}
+          className="absolute bottom-3 left-3 flex h-14 w-14 items-center justify-center rounded-full border-2 border-blue-strong/60 bg-blue-soft shadow-lg transition-all duration-150 hover:brightness-110 active:scale-95"
+        >
+          <RankingIcon size={22} strokeWidth={2} className="text-blue-strong" />
+        </button>
+      )}
 
       {timeHeistUnlocked && (
         <button
