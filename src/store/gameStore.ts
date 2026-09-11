@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { MASTERY_WEAPONS, masteryMultiplier, masteryPrimaryStat, masteryUpgradeCost } from '../data/mastery'
+import { MASTERY_WEAPONS, masteryBonusPercent, masteryPrimaryStat, masteryUpgradeCost } from '../data/mastery'
 import { BALANCE_TABLES, getCommon, getCommonBool, getCurrencyConfig, getRebirthRewardRow, getWeaponFusionConfig } from '../data/balance'
 import { getBattleUiLabel } from '../data/uiStrings'
 import { EXIST_SPECIAL_UNLOCKS, generateExistTree } from '../data/existTree'
@@ -98,13 +98,22 @@ function grantWeaponEntry(
   return { ...owned, [weaponId]: nextEntry }
 }
 
-// 성장 스탯 + 존재력 트리 영구 보너스(가산) + 활성 유물 스탯형 효과(가산)를 먼저 합치고,
-// 모든 보유 무기의 공통 기본 공격력(종류 불문)을 ATK에 가산한다. 장착 중인 무기가
-// 있으면 그 종류의 특화 스탯(ATK/ASPD/CRIT)에 추가로 보유·장착 효과를 가산한 뒤,
-// 그 종류의 숙련 배율을 곱연산으로 적용한다 — 검이면 특화 스탯도 ATK라 배율이
-// ATK 전체에 걸리고, 창/활이면 ATK는 기본 공격력만 남고 특화 스탯(ASPD/CRIT)에만
-// 배율이 걸린다. 무기 종류를 바꿔도 ATK가 0으로 꺼지지 않는다.
-// 리버스 회차 보너스는 리버스 환급량에만 영향을 주고 이 계산에는 관여하지 않는다.
+// v0.3.0 밸런스 개편 — 콘텐츠 간 시너지가 나도록 깡스탯과 퍼센트를 분리해 곱연산으로
+// 합친다: 최종 스탯 = (기본값 + 깡스탯 합계) × (1 + 퍼센트 합계/100).
+//   - 깡스탯: 6스탯 업그레이드(기본값 포함) + 무기 장착 효과(기본 공격력·특화 스탯) +
+//     유물(FLAT 타입)
+//   - 퍼센트: 존재력 트리 + 무기 보유 효과(기본 공격력·특화 스탯) + 무기 숙련 +
+//     유물(PERCENT 타입)
+// 장착 중인 무기가 있으면 그 종류의 특화 스탯(ATK/ASPD/CRIT)에만 보유·장착 효과와
+// 숙련 퍼센트가 더해진다 — 검이면 특화 스탯도 ATK라 기본 공격력과 합쳐지고,
+// 창/활이면 ATK는 기본 공격력만 남고 특화 스탯(ASPD/CRIT)에만 붙는다. 무기 종류를
+// 바꿔도 ATK 깡스탯/퍼센트가 0으로 꺼지지 않는다(기본 공격력은 항상 전체 보유 무기
+// 기준). 리버스 회차 보너스는 리버스 환급량에만 영향을 주고 이 계산에는 관여하지 않는다.
+export interface StatBreakdown {
+  flat: number
+  percent: number
+}
+
 function computeEffectiveStats(
   statLevels: Record<StatKey, number>,
   masteryLevels: Record<string, number>,
@@ -112,31 +121,57 @@ function computeEffectiveStats(
   ownedWeapons: OwnedWeapons,
   equippedWeaponId: string | null,
   activeRelics: ActiveRelicSlots,
-): Record<StatKey, number> {
-  const base = baseStatsFromLevels(statLevels)
+): { stats: Record<StatKey, number>; statBreakdown: Record<StatKey, StatBreakdown> } {
+  const flatTotal: Record<StatKey, number> = { ...baseStatsFromLevels(statLevels) }
+  const percentSum: Record<StatKey, number> = { atk: 0, aspd: 0, crit: 0, critDmg: 0, existGain: 0 }
 
-  const combined: Record<StatKey, number> = {
-    atk: base.atk + existTreeBonus.atk,
-    aspd: base.aspd + existTreeBonus.aspd,
-    crit: base.crit + existTreeBonus.crit,
-    critDmg: base.critDmg + existTreeBonus.critDmg,
-    existGain: base.existGain + existTreeBonus.existGain,
+  // 존재력 트리는 전부 퍼센트(영구 성장)
+  for (const key of STAT_KEYS) percentSum[key] += existTreeBonus[key]
+
+  // 유물은 혼합 — FLAT/PERCENT 각자의 버킷으로
+  const relicEffects = computeActiveRelicEffects(activeRelics)
+  for (const key of STAT_KEYS) {
+    flatTotal[key] += relicEffects.statBonusFlat[key]
+    percentSum[key] += relicEffects.statBonusPercent[key]
   }
 
-  const relicEffects = computeActiveRelicEffects(activeRelics)
-  for (const key of STAT_KEYS) combined[key] += relicEffects.statBonus[key]
-
+  // 무기 기본 공격력 — 장착은 깡스탯, 보유는 퍼센트(둘 다 종류 불문 ATK)
   const weaponBonus = computeWeaponBonusBreakdown(ownedWeapons, equippedWeaponId)
-  combined.atk += weaponBonus.baseAtkTotal
+  flatTotal.atk += weaponBonus.atkFlat
+  percentSum.atk += weaponBonus.atkPercent
 
   if (equippedWeaponId) {
     const { type } = parseWeaponId(equippedWeaponId)
     const primaryStat = masteryPrimaryStat(type)
-    combined[primaryStat] += weaponBonus.specialtyOwnTotal + weaponBonus.specialtyEquipBonus
-    combined[primaryStat] *= masteryMultiplier(type, masteryLevels[type] ?? 0)
+    // 무기 특화 효과 — 장착은 깡스탯, 보유는 퍼센트
+    flatTotal[primaryStat] += weaponBonus.specialtyFlat
+    percentSum[primaryStat] += weaponBonus.specialtyPercent
+    // 무기 숙련 — 퍼센트
+    percentSum[primaryStat] += masteryBonusPercent(type, masteryLevels[type] ?? 0)
   }
 
-  return combined
+  const stats = {} as Record<StatKey, number>
+  const statBreakdown = {} as Record<StatKey, StatBreakdown>
+  for (const key of STAT_KEYS) {
+    stats[key] = flatTotal[key] * (1 + percentSum[key] / 100)
+    statBreakdown[key] = { flat: flatTotal[key], percent: percentSum[key] }
+  }
+
+  return { stats, statBreakdown }
+}
+
+// 위 계산 결과를 zustand set()의 부분 상태 객체로 바로 스프레드할 수 있는 형태로
+// 감싼 헬퍼 — 매 액션마다 반복되는 "stats: computeEffectiveStats(...)." 6줄을
+// "...statsPatch(...)."로 줄인다.
+function statsPatch(
+  statLevels: Record<StatKey, number>,
+  masteryLevels: Record<string, number>,
+  existTreeBonus: Record<StatKey, number>,
+  ownedWeapons: OwnedWeapons,
+  equippedWeaponId: string | null,
+  activeRelics: ActiveRelicSlots,
+): { stats: Record<StatKey, number>; statBreakdown: Record<StatKey, StatBreakdown> } {
+  return computeEffectiveStats(statLevels, masteryLevels, existTreeBonus, ownedWeapons, equippedWeaponId, activeRelics)
 }
 
 function battleStateForStage(stage: number): BattleState {
@@ -157,6 +192,9 @@ interface GameState {
   masteryLevels: Record<string, number>
   existTreeStatBonus: Record<StatKey, number>
   stats: Record<StatKey, number>
+  // 스탯 화면에 "1,250 = (100 + 400) × 2.5" 형태로 구성을 보여주기 위한 분해값
+  // (깡스탯 합계/퍼센트 합계) — stats와 항상 같이 재계산된다(세이브 대상 아님).
+  statBreakdown: Record<StatKey, StatBreakdown>
   currentStage: number
   battle: BattleState
   lastHit: BattleHit | null
@@ -262,7 +300,7 @@ const startGachaCount = persistedGame?.gachaCount ?? 0
 const startGachaLevel = persistedGame?.gachaLevel ?? currentGachaLevelConfig(startGachaCount).GachaLevel
 const startOwnedRelics = persistedGame?.ownedRelics ?? []
 const startActiveRelics = persistedGame?.activeRelics ?? initialActiveRelics
-const startStats = computeEffectiveStats(
+const { stats: startStats, statBreakdown: startStatBreakdown } = computeEffectiveStats(
   startStatLevels,
   startMasteryLevels,
   startExistTreeStatBonus,
@@ -294,6 +332,7 @@ export const useGameStore = create<GameState>((set, get) => ({
   masteryLevels: startMasteryLevels,
   existTreeStatBonus: startExistTreeStatBonus,
   stats: startStats,
+  statBreakdown: startStatBreakdown,
   currentStage: startStage,
   battle: persistedGame?.battle ?? battleStateForStage(startStage),
   lastHit: null,
@@ -354,7 +393,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       return {
         currencies: { ...currencies, growthEnergy },
         statLevels,
-        stats: computeEffectiveStats(
+        ...statsPatch(
           statLevels,
           state.masteryLevels,
           state.existTreeStatBonus,
@@ -383,7 +422,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       const statLevels = { ...state.statLevels, [key]: level + 1 }
       return {
         statLevels,
-        stats: computeEffectiveStats(
+        ...statsPatch(
           statLevels,
           state.masteryLevels,
           state.existTreeStatBonus,
@@ -412,7 +451,7 @@ export const useGameStore = create<GameState>((set, get) => ({
 
     set((state) => ({
       statLevels,
-      stats: computeEffectiveStats(
+      ...statsPatch(
         statLevels,
         state.masteryLevels,
         state.existTreeStatBonus,
@@ -433,7 +472,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       const masteryLevels = { ...state.masteryLevels, [weaponType]: level + 1 }
       return {
         masteryLevels,
-        stats: computeEffectiveStats(
+        ...statsPatch(
           state.statLevels,
           masteryLevels,
           state.existTreeStatBonus,
@@ -462,7 +501,7 @@ export const useGameStore = create<GameState>((set, get) => ({
 
     set((state) => ({
       masteryLevels,
-      stats: computeEffectiveStats(
+      ...statsPatch(
         state.statLevels,
         masteryLevels,
         state.existTreeStatBonus,
@@ -501,7 +540,7 @@ export const useGameStore = create<GameState>((set, get) => ({
         return {
           unlockedCount: state.unlockedCount + 1,
           existTreeStatBonus,
-          stats: computeEffectiveStats(
+          ...statsPatch(
             state.statLevels,
             state.masteryLevels,
             existTreeStatBonus,
@@ -581,7 +620,7 @@ export const useGameStore = create<GameState>((set, get) => ({
         equippedWeaponId: nextEquippedWeaponId,
         ownedRelics: nextOwnedRelics,
         activeRelics: nextActiveRelics,
-        stats: computeEffectiveStats(
+        ...statsPatch(
           nextStatLevels,
           nextMasteryLevels,
           nextExistTreeStatBonus,
@@ -677,7 +716,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       const ownedWeapons = grantWeaponEntry(state.ownedWeapons, weaponId, count)
       return {
         ownedWeapons,
-        stats: computeEffectiveStats(
+        ...statsPatch(
           state.statLevels,
           state.masteryLevels,
           state.existTreeStatBonus,
@@ -702,7 +741,7 @@ export const useGameStore = create<GameState>((set, get) => ({
         ownedWeapons,
         gachaCount: nextGachaCount,
         gachaLevel: currentGachaLevelConfig(nextGachaCount).GachaLevel,
-        stats: computeEffectiveStats(
+        ...statsPatch(
           state.statLevels,
           state.masteryLevels,
           state.existTreeStatBonus,
@@ -749,7 +788,7 @@ export const useGameStore = create<GameState>((set, get) => ({
         ownedWeapons,
         gachaCount,
         gachaLevel: currentGachaLevelConfig(gachaCount).GachaLevel,
-        stats: computeEffectiveStats(
+        ...statsPatch(
           state.statLevels,
           state.masteryLevels,
           state.existTreeStatBonus,
@@ -769,7 +808,7 @@ export const useGameStore = create<GameState>((set, get) => ({
 
     set((state) => ({
       equippedWeaponId: weaponId,
-      stats: computeEffectiveStats(
+      ...statsPatch(
         state.statLevels,
         state.masteryLevels,
         state.existTreeStatBonus,
@@ -796,7 +835,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       const ownedWeapons = { ...state.ownedWeapons, [weaponId]: { ...current, level: current.level + 1 } }
       return {
         ownedWeapons,
-        stats: computeEffectiveStats(
+        ...statsPatch(
           state.statLevels,
           state.masteryLevels,
           state.existTreeStatBonus,
@@ -834,7 +873,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       return {
         ownedWeapons,
         currencies: { ...state.currencies, gold },
-        stats: computeEffectiveStats(
+        ...statsPatch(
           state.statLevels,
           state.masteryLevels,
           state.existTreeStatBonus,
@@ -865,7 +904,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       }
       return {
         ownedWeapons,
-        stats: computeEffectiveStats(
+        ...statsPatch(
           state.statLevels,
           state.masteryLevels,
           state.existTreeStatBonus,
@@ -896,7 +935,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       const ownedWeapons = grantWeaponEntry(afterConsume, targetId, 1, fusion.ResultLevel, fusion.ResultBreakthroughCount)
       return {
         ownedWeapons,
-        stats: computeEffectiveStats(
+        ...statsPatch(
           state.statLevels,
           state.masteryLevels,
           state.existTreeStatBonus,
@@ -936,7 +975,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       activeRelics[slotIndex] = relicId
       return {
         activeRelics,
-        stats: computeEffectiveStats(
+        ...statsPatch(
           state.statLevels,
           state.masteryLevels,
           state.existTreeStatBonus,

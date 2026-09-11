@@ -377,7 +377,15 @@ export function getBattleUiLabel(key: BattleUiLabelKey): string {
   return getString(BATTLE_UI_LABEL_ID[key], 'KOR', key)
 }
 
-export type WeaponDetailUiLabelKey = 'level' | 'maxReached' | 'unitCount' | 'fusionUnavailable' | 'fusionNotePrefix' | 'fusionNoteSuffix'
+export type WeaponDetailUiLabelKey =
+  | 'level'
+  | 'maxReached'
+  | 'unitCount'
+  | 'fusionUnavailable'
+  | 'fusionNotePrefix'
+  | 'fusionNoteSuffix'
+  | 'fixedValueSuffix'
+  | 'nextLevel'
 
 const WEAPON_DETAIL_UI_LABEL_ID: Record<WeaponDetailUiLabelKey, number> = {
   level: 41017,
@@ -386,6 +394,8 @@ const WEAPON_DETAIL_UI_LABEL_ID: Record<WeaponDetailUiLabelKey, number> = {
   fusionUnavailable: 41020,
   fusionNotePrefix: 41021,
   fusionNoteSuffix: 41022,
+  fixedValueSuffix: 41052,
+  nextLevel: 41053,
 }
 
 export function getWeaponDetailUiLabel(key: WeaponDetailUiLabelKey): string {

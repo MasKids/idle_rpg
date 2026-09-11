@@ -2,7 +2,7 @@ import type { CSSProperties } from 'react'
 import { getWeaponFusionConfig } from '../../data/balance'
 import { getButtonLabel, getStatName, getWeaponDetailUiLabel, getWeaponUiLabel } from '../../data/uiStrings'
 import { useGameStore } from '../../store/gameStore'
-import { formatNumber } from '../../utils/format'
+import { formatNumber, formatPercent } from '../../utils/format'
 import {
   canBreakthrough,
   canMerge,
@@ -10,12 +10,12 @@ import {
   nextWeaponIdForMerge,
   parseWeaponId,
   weaponBaseAtkEquipBonus,
-  weaponBaseAtkOwnBonus,
+  weaponBaseAtkOwnPercent,
   weaponDisplayName,
   weaponEquipBonus,
   weaponLevelUpCost,
   weaponMaxLevel,
-  weaponOwnBonus,
+  weaponOwnPercent,
   WEAPON_MAX_BREAKTHROUGH,
 } from './weapon'
 import { GRADE_TEXT_COLOR } from './weaponUi'
@@ -60,10 +60,15 @@ export function WeaponDetailModal({ weaponId, onClose }: WeaponDetailModalProps)
 
   const primaryStat = masteryPrimaryStat(type)
   const isAtkSpecialty = primaryStat === 'atk'
-  const baseAtkOwn = owned ? weaponBaseAtkOwnBonus(type, grade, tier, level, count) : 0
+  // 보유 효과(퍼센트, 레벨과 무관한 고정값)는 count만 넘긴다. 장착 효과(깡스탯)는
+  // 현재 레벨과 다음 레벨(있으면) 값을 둘 다 보여줘야 해서 두 레벨로 각각 계산한다.
+  const baseAtkOwnPercent = owned ? weaponBaseAtkOwnPercent(type, grade, tier, count) : 0
   const baseAtkEquip = owned ? weaponBaseAtkEquipBonus(type, grade, tier, level) : 0
-  const specialtyOwn = owned ? weaponOwnBonus(type, grade, tier, level, count) : 0
+  const specialtyOwnPercent = owned ? weaponOwnPercent(type, grade, tier, count) : 0
   const specialtyEquip = owned ? weaponEquipBonus(type, grade, tier, level) : 0
+  const hasNextLevel = owned && level < maxLevel
+  const baseAtkEquipNext = hasNextLevel ? weaponBaseAtkEquipBonus(type, grade, tier, level + 1) : 0
+  const specialtyEquipNext = hasNextLevel ? weaponEquipBonus(type, grade, tier, level + 1) : 0
 
   return (
     <div
@@ -124,19 +129,23 @@ export function WeaponDetailModal({ weaponId, onClose }: WeaponDetailModalProps)
 
         <div className="mt-3 space-y-1 border-t border-surface-border pt-2 text-xs">
           <div className="flex justify-between">
-            <span className="text-text-secondary">{getWeaponUiLabel('ownBonus')}</span>
+            <span className="text-text-secondary">
+              {getWeaponUiLabel('ownBonus')} <span className="text-text-disabled">{getWeaponDetailUiLabel('fixedValueSuffix')}</span>
+            </span>
             <span className="text-text-primary">
-              {getStatName('atk')} +{formatNumber(baseAtkOwn + (isAtkSpecialty ? specialtyOwn : 0))}
+              {getStatName('atk')} +{formatPercent(baseAtkOwnPercent + (isAtkSpecialty ? specialtyOwnPercent : 0))}
               {!isAtkSpecialty && (
                 <>
                   {' '}
-                  · {getStatName(primaryStat)} +{formatNumber(specialtyOwn)}
+                  · {getStatName(primaryStat)} +{formatPercent(specialtyOwnPercent)}
                 </>
               )}
             </span>
           </div>
           <div className="flex justify-between">
-            <span className="text-text-secondary">{getWeaponUiLabel('equipBonus')}</span>
+            <span className="text-text-secondary">
+              {getWeaponUiLabel('equipBonus')} <span className="text-text-disabled">Lv.{level}</span>
+            </span>
             <span className="text-text-primary">
               {getStatName('atk')} +{formatNumber(baseAtkEquip + (isAtkSpecialty ? specialtyEquip : 0))}
               {!isAtkSpecialty && (
@@ -147,6 +156,22 @@ export function WeaponDetailModal({ weaponId, onClose }: WeaponDetailModalProps)
               )}
             </span>
           </div>
+          {hasNextLevel && (
+            <div className="flex justify-between">
+              <span className="text-text-disabled">
+                {getWeaponDetailUiLabel('nextLevel')} <span>Lv.{level + 1}</span>
+              </span>
+              <span className="text-text-disabled">
+                {getStatName('atk')} +{formatNumber(baseAtkEquipNext + (isAtkSpecialty ? specialtyEquipNext : 0))}
+                {!isAtkSpecialty && (
+                  <>
+                    {' '}
+                    · {getStatName(primaryStat)} +{formatNumber(specialtyEquipNext)}
+                  </>
+                )}
+              </span>
+            </div>
+          )}
         </div>
 
         <div className="mt-3 grid grid-cols-2 gap-2">

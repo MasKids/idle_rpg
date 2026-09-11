@@ -19,3 +19,9 @@ export function computeStatValue(key: StatKey, level: number): number {
   const config = getStatConfig(STAT_TYPE_BY_KEY[key])
   return config.BaseValue + level * config.ValuePerLevel
 }
+
+// 스탯 화면의 구성 분해 표시("1,250 = (100 + 400) × 2.5")용 — 깡스탯 합계에서
+// "기본값" 부분만 따로 떼어 보여주기 위해 필요하다.
+export function getStatBaseValue(key: StatKey): number {
+  return getStatConfig(STAT_TYPE_BY_KEY[key]).BaseValue
+}

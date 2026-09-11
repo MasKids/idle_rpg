@@ -27,7 +27,11 @@ const STORAGE_PREFIX = 'idle-rpg:'
 // 지급량 × 리버스 횟수 배율"로 교체하며 rebirthSpent/rebirthBonusPoint 필드
 // 자체를 없앴다 — 필드가 사라졌으니 RELEASE.md 3절 기준으로도 세이브 버전을
 // 올려야 하는 경우.
-const SAVE_VERSION = 4
+// v0.3.0에서 4→5: 스탯 계산을 깡스탯/퍼센트 분리 구조로 개편하며 existTreeStatBonus에
+// 저장된 수치의 의미 자체가 바뀌었다(깡스탯 포인트 → 퍼센트 포인트) — 필드 이름과
+// 타입(Record<StatKey, number>)은 그대로라 크래시는 안 나지만, 구버전 세이브를 그대로
+// 로드하면 존재력 트리 보너스가 완전히 다른(훨씬 작은) 값으로 잘못 해석된다.
+const SAVE_VERSION = 5
 
 export interface GameSaveState {
   currencies: Record<CurrencyKey, number>

@@ -74,74 +74,96 @@ export function weaponLevelUpCost(type: WeaponTypeEnum, grade: WeaponGradeEnum, 
   return Math.floor(curve.CostBase * curve.CostGrowthRate ** (level - 1))
 }
 
-// 모든 무기가 종류 불문 공통으로 갖는 "기본 공격력" — 무기 종류를 바꿔도 ATK가
-// 0으로 떨어지지 않는다. 장착 여부와 무관하게 보유만 해도(어떤 종류든) 적용된다.
-export function weaponBaseAtkOwnBonus(type: WeaponTypeEnum, grade: WeaponGradeEnum, tier: number, level: number, count: number): number {
-  return getWeaponConfig(type, grade, tier).BaseAtk * level * count
+// 장착 효과 레벨 성장 배율 — GrowthCurveTable(무기의 CurveKey)의
+// ValueBase + (레벨-1) × ValuePerLevel. 레벨 1에서는 배율이 1이라 장착 효과가
+// "기준값 그대로"이고, 레벨이 오를수록 커진다. 기본 공격력/특화 스탯 두
+// 장착 효과 모두 같은 배율을 쓴다(무기를 레벨업하면 그 무기의 모든 장착
+// 효과가 같이 성장해야 자연스럽다).
+function weaponEquipGrowthMultiplier(type: WeaponTypeEnum, grade: WeaponGradeEnum, tier: number, level: number): number {
+  const curve = getGrowthCurveConfig(getWeaponConfig(type, grade, tier).CurveKey)
+  return curve.ValueBase + (level - 1) * curve.ValuePerLevel
 }
 
-// 특화 스탯(OwnEffectValue/EquipEffectValue)은 데이터 자체가 보유:장착 = 1:10
-// 비율로 돼 있어 장착이 항상 확실히 앞서는데, 기본 공격력(BaseAtk)은 보유·장착
-// 양쪽이 같은 값을 쓰고(보유만 개수(count)로 누적) 그런 배율이 없어, 무기를
-// 몇 개만 모아도(심지어 종류가 달라도) 보유 총합이 장착 하나를 넘어서 버렸다
-// (창/활처럼 특화 스탯이 ATK가 아닌 무기일수록 이 문제가 그대로 드러남 — 공격력
-// 기여가 BaseAtk뿐이라 특화 스탯의 10배 배율로 가려지지 않았다). 같은 1:10 비율을
-// 여기에도 적용해 장착이 보유보다 확실히 유의미하게 만든다.
+// 모든 무기가 종류 불문 공통으로 갖는 "기본 공격력 보유 효과" — 무기 종류를
+// 바꿔도 ATK 보너스가 0으로 떨어지지 않는다. 장착 여부와 무관하게 보유만 해도
+// (어떤 종류든) 적용되며, 개수에 비례해 누적된다. v0.3.0 밸런스 개편으로 깡스탯이
+// 아니라 ATK 깡스탯 총합에 곱해지는 퍼센트가 됐다 — WeaponTable.OwnEffectValue
+// (특화 스탯 보유 퍼센트)에 CommonTable.WeaponBaseAtkOwnPercentRatio(=0.5)를 곱해,
+// "모든 무기에 항상 적용되는 범용 효과"답게 특화 효과의 절반만 반영한다.
+export function weaponBaseAtkOwnPercent(type: WeaponTypeEnum, grade: WeaponGradeEnum, tier: number, count: number): number {
+  const config = getWeaponConfig(type, grade, tier)
+  return config.OwnEffectValue * getCommon('WeaponBaseAtkOwnPercentRatio') * count
+}
+
+// 기본 공격력 장착 효과 — 깡스탯. BaseAtk에 WeaponBaseAtkEquipMultiplier(보유
+// 대비 장착 배율)와 레벨 성장 배율을 곱한다.
 export function weaponBaseAtkEquipBonus(type: WeaponTypeEnum, grade: WeaponGradeEnum, tier: number, level: number): number {
-  return getWeaponConfig(type, grade, tier).BaseAtk * level * getCommon('WeaponBaseAtkEquipMultiplier')
+  const config = getWeaponConfig(type, grade, tier)
+  const growthMultiplier = weaponEquipGrowthMultiplier(type, grade, tier, level)
+  return config.BaseAtk * getCommon('WeaponBaseAtkEquipMultiplier') * growthMultiplier
 }
 
-// 종류별 특화 스탯(검=ATK 추가 특화, 창=ASPD, 활=CRIT) 보유 효과 —
-// 장착 중인 무기와 같은 종류의 보유 무기에만 적용된다(docs/WEAPON_SYSTEM.md 1.4).
-export function weaponOwnBonus(type: WeaponTypeEnum, grade: WeaponGradeEnum, tier: number, level: number, count: number): number {
-  return getWeaponConfig(type, grade, tier).OwnEffectValue * level * count
+// 종류별 특화 스탯(검=ATK 추가 특화, 창=ASPD, 활=CRIT) 보유 효과 — 장착 중인
+// 무기와 같은 종류의 보유 무기에만 적용되고, 보유 개수에 비례해 누적된다
+// (docs/WEAPON_SYSTEM.md 1.4). v0.3.0 밸런스 개편으로 깡스탯에서 그 스탯의
+// 깡스탯 총합에 곱해지는 퍼센트로 바뀌었다 — 퍼센트라 검(ATK)·창(ASPD)·활(CRIT)
+// 처럼 스탯마다 기준값이 달라도 종류별로 다른 크기를 잡을 필요가 없어져서,
+// WeaponTable.OwnEffectValue는 이제 종류 무관 등급·단계로만 정해진다.
+export function weaponOwnPercent(type: WeaponTypeEnum, grade: WeaponGradeEnum, tier: number, count: number): number {
+  return getWeaponConfig(type, grade, tier).OwnEffectValue * count
 }
 
-// 장착 효과 (개수 무관, 장착 1개 취급)
+// 장착 효과 — EquipEffectValue에 레벨 성장 배율을 곱한다(개수 무관, 장착 1개
+// 취급). 깡스탯 — 무기 등급/단계·레벨이 오를수록 커지는 절대치.
 export function weaponEquipBonus(type: WeaponTypeEnum, grade: WeaponGradeEnum, tier: number, level: number): number {
-  return getWeaponConfig(type, grade, tier).EquipEffectValue * level
+  const config = getWeaponConfig(type, grade, tier)
+  const growthMultiplier = weaponEquipGrowthMultiplier(type, grade, tier, level)
+  return config.EquipEffectValue * growthMultiplier
 }
 
 export interface WeaponBonusBreakdown {
-  // 종류 불문 모든 보유 무기의 기본 공격력 합(장착한 무기가 있으면 그 장착효과도 포함) — 항상 ATK에 가산
-  baseAtkTotal: number
-  // 장착 중인 종류와 같은 종류의 보유 무기들 특화 스탯 보유 효과 합
-  specialtyOwnTotal: number
-  // 장착한 무기 1개만의 특화 스탯 장착 효과
-  specialtyEquipBonus: number
+  // 기본 공격력 장착 효과(깡스탯) — 장착 중인 무기의 등급/단계/레벨 기준, 항상 ATK
+  atkFlat: number
+  // 기본 공격력 보유 효과(퍼센트) — 종류 불문 모든 보유 무기 합, 항상 ATK
+  atkPercent: number
+  // 장착 중인 무기 1개만의 특화 스탯 장착 효과(깡스탯)
+  specialtyFlat: number
+  // 장착 중인 종류와 같은 종류의 보유 무기들 특화 스탯 보유 효과 합(퍼센트)
+  specialtyPercent: number
 }
 
-const EMPTY_BREAKDOWN: WeaponBonusBreakdown = { baseAtkTotal: 0, specialtyOwnTotal: 0, specialtyEquipBonus: 0 }
+const EMPTY_BREAKDOWN: WeaponBonusBreakdown = { atkFlat: 0, atkPercent: 0, specialtyFlat: 0, specialtyPercent: 0 }
 
-// 기본 공격력(종류 불문, 장착 여부 무관 항상 합산)과, 장착 중인 종류의 특화 스탯
-// 보유/장착 효과(같은 종류만 대상)를 분리해서 반환한다.
+// 기본 공격력(종류 불문, 보유는 퍼센트·장착은 깡스탯)과, 장착 중인 종류의 특화
+// 스탯 보유/장착 효과(같은 종류만 대상, 보유는 퍼센트·장착은 깡스탯)를 분리해서
+// 반환한다.
 export function computeWeaponBonusBreakdown(ownedWeapons: OwnedWeapons, equippedWeaponId: string | null): WeaponBonusBreakdown {
-  let baseAtkTotal = 0
+  let atkPercent = 0
   for (const [id, entry] of Object.entries(ownedWeapons)) {
     if (entry.count <= 0) continue
     const { type, grade, tier } = parseWeaponId(id)
-    baseAtkTotal += weaponBaseAtkOwnBonus(type, grade, tier, entry.level, entry.count)
+    atkPercent += weaponBaseAtkOwnPercent(type, grade, tier, entry.count)
   }
 
-  if (!equippedWeaponId) return { ...EMPTY_BREAKDOWN, baseAtkTotal }
+  if (!equippedWeaponId) return { ...EMPTY_BREAKDOWN, atkPercent }
   const equippedEntry = ownedWeapons[equippedWeaponId]
-  if (!equippedEntry || equippedEntry.count <= 0) return { ...EMPTY_BREAKDOWN, baseAtkTotal }
+  if (!equippedEntry || equippedEntry.count <= 0) return { ...EMPTY_BREAKDOWN, atkPercent }
 
   const equipped = parseWeaponId(equippedWeaponId)
-  baseAtkTotal += weaponBaseAtkEquipBonus(equipped.type, equipped.grade, equipped.tier, equippedEntry.level)
+  const atkFlat = weaponBaseAtkEquipBonus(equipped.type, equipped.grade, equipped.tier, equippedEntry.level)
 
-  let specialtyOwnTotal = 0
-  let specialtyEquipBonus = 0
+  let specialtyPercent = 0
+  let specialtyFlat = 0
   for (const [id, entry] of Object.entries(ownedWeapons)) {
     if (entry.count <= 0) continue
     const { type, grade, tier } = parseWeaponId(id)
     if (type !== equipped.type) continue
-    specialtyOwnTotal += weaponOwnBonus(type, grade, tier, entry.level, entry.count)
+    specialtyPercent += weaponOwnPercent(type, grade, tier, entry.count)
     if (id === equippedWeaponId) {
-      specialtyEquipBonus = weaponEquipBonus(type, grade, tier, entry.level)
+      specialtyFlat = weaponEquipBonus(type, grade, tier, entry.level)
     }
   }
-  return { baseAtkTotal, specialtyOwnTotal, specialtyEquipBonus }
+  return { atkFlat, atkPercent, specialtyFlat, specialtyPercent }
 }
 
 // ---------------------------------------------------------------------------

@@ -58,17 +58,25 @@ const STAT_EFFECT_TO_KEY: Partial<Record<RelicEffectTypeEnum, StatKey>> = {
   STAT_EXIST_GAIN: 'existGain',
 }
 
-// 유물 목록/뽑기 결과에 보여줄 효과 한 줄 설명 (예: "공격력 +5", "골드 획득량 +10%")
+// 유물 목록/뽑기 결과에 보여줄 효과 한 줄 설명 (예: "공격력 +5", "공격속도 +8%",
+// "골드 획득량 +10%") — v0.3.0 밸런스 개편으로 스탯형 효과도 EffectValueType이
+// PERCENT면 % 표기가 붙는다.
 export function relicEffectLabel(relic: RelicTableRow): string {
   const statKey = STAT_EFFECT_TO_KEY[relic.EffectType]
-  if (statKey) return `${getStatName(statKey)} +${relic.EffectValue}`
+  if (statKey) {
+    const suffix = relic.EffectValueType === 'PERCENT' ? '%' : ''
+    return `${getStatName(statKey)} +${relic.EffectValue}${suffix}`
+  }
   if (relic.EffectType === 'GOLD_GAIN') return `${getRelicUiLabel('goldGain')} +${relic.EffectValue}%`
   if (relic.EffectType === 'TIMEHEIST_COOLDOWN') return `${getRelicUiLabel('timeHeistCooldown')} -${relic.EffectValue}%`
   return ''
 }
 
 export interface ActiveRelicEffects {
-  statBonus: Record<StatKey, number>
+  // v0.3.0 밸런스 개편 — 유물은 "혼합"(유물별로 깡스탯 또는 퍼센트)이라 둘을
+  // 분리해서 반환한다. gameStore가 각각 깡스탯 합계/퍼센트 합계에 더한다.
+  statBonusFlat: Record<StatKey, number>
+  statBonusPercent: Record<StatKey, number>
   // 스탯 밖 특수 효과 — applyGoldGainBonus/applyTimeHeistCooldownReduction으로 적용한다.
   goldGainBonusPercent: number
   timeHeistCooldownReductionPercent: number
@@ -96,7 +104,8 @@ export function applyTimeHeistCooldownReduction(cooldownMs: number, reductionPer
 
 // 활성화된(슬롯에 꽂힌) 유물들의 효과를 합산한다. 보유만 하고 비활성화된 유물은 반영 안 됨.
 export function computeActiveRelicEffects(activeRelics: ActiveRelicSlots): ActiveRelicEffects {
-  const statBonus = { ...EMPTY_STAT_BONUS }
+  const statBonusFlat = { ...EMPTY_STAT_BONUS }
+  const statBonusPercent = { ...EMPTY_STAT_BONUS }
   let goldGainBonusPercent = 0
   let timeHeistCooldownReductionPercent = 0
 
@@ -108,7 +117,8 @@ export function computeActiveRelicEffects(activeRelics: ActiveRelicSlots): Activ
 
     const statKey = STAT_EFFECT_TO_KEY[relic.EffectType]
     if (statKey) {
-      statBonus[statKey] += relic.EffectValue
+      if (relic.EffectValueType === 'PERCENT') statBonusPercent[statKey] += relic.EffectValue
+      else statBonusFlat[statKey] += relic.EffectValue
     } else if (relic.EffectType === 'GOLD_GAIN') {
       goldGainBonusPercent += relic.EffectValue
     } else if (relic.EffectType === 'TIMEHEIST_COOLDOWN') {
@@ -116,5 +126,5 @@ export function computeActiveRelicEffects(activeRelics: ActiveRelicSlots): Activ
     }
   }
 
-  return { statBonus, goldGainBonusPercent, timeHeistCooldownReductionPercent }
+  return { statBonusFlat, statBonusPercent, goldGainBonusPercent, timeHeistCooldownReductionPercent }
 }

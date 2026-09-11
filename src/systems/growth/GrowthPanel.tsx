@@ -1,10 +1,10 @@
 import { useState } from 'react'
-import { MASTERY_WEAPONS, masteryMultiplier, masteryPrimaryStat, masteryUpgradeCost } from '../../data/mastery'
-import { statUpgradeCost } from '../../data/stats'
+import { MASTERY_WEAPONS, masteryBonusPercent, masteryPrimaryStat, masteryUpgradeCost } from '../../data/mastery'
+import { getStatBaseValue, statUpgradeCost } from '../../data/stats'
 import { getButtonLabel, getCurrencyName, getGrowthUiLabel, getStatName, getTabName, getWeaponUiLabel } from '../../data/uiStrings'
 import { useGameStore } from '../../store/gameStore'
 import type { StatKey } from '../../types/game'
-import { formatNumber } from '../../utils/format'
+import { formatNumber, formatPercent } from '../../utils/format'
 import { parseWeaponId } from '../weapon/weapon'
 import { Button, CostLabel } from '../../components/ui'
 
@@ -64,9 +64,21 @@ export function GrowthPanel() {
   )
 }
 
+// "1,250 = (100 + 400) × 2.5" 형태로 스탯 구성(기본값 + 깡스탯 합계, 퍼센트 배율)을
+// 보여준다 — 깡스탯 획득분이 0이고 퍼센트도 0이면(아직 아무 것도 투자하지 않은
+// 초기 상태) 보여줄 구성이 없으므로 생략한다.
+function formatStatBreakdown(key: StatKey, base: number, flatTotal: number, percent: number): string | null {
+  const gained = flatTotal - base
+  if (gained === 0 && percent === 0) return null
+  const multiplier = 1 + percent / 100
+  const final = flatTotal * multiplier
+  return `${formatStatValue(key, final)} = (${formatNumber(base)} + ${formatNumber(gained)}) × ${multiplier.toFixed(2)}`
+}
+
 function StatSubTab() {
   const statLevels = useGameStore((state) => state.statLevels)
   const stats = useGameStore((state) => state.stats)
+  const statBreakdown = useGameStore((state) => state.statBreakdown)
   const growthEnergy = useGameStore((state) => state.currencies.growthEnergy)
   const upgradeStat = useGameStore((state) => state.upgradeStat)
   const maxUpgradeAll = useGameStore((state) => state.maxUpgradeAll)
@@ -104,6 +116,10 @@ function StatSubTab() {
         const level = statLevels[key]
         const cost = statUpgradeCost(key, level)
         const canAfford = growthEnergy >= cost
+        const breakdown = statBreakdown[key]
+        const breakdownText = breakdown
+          ? formatStatBreakdown(key, getStatBaseValue(key), breakdown.flat, breakdown.percent)
+          : null
 
         return (
           <div key={key} className="flex items-center justify-between gap-2 rounded-lg bg-surface-card px-2.5 py-1.5">
@@ -113,6 +129,7 @@ function StatSubTab() {
                 <span className="text-[10px] text-text-secondary">Lv.{level}</span>
               </div>
               <div className="text-[11px] text-text-secondary">{formatStatValue(key, stats[key])}</div>
+              {breakdownText && <div className="text-[10px] text-text-disabled">{breakdownText}</div>}
             </div>
 
             <Button variant="primary" disabled={!canAfford} onClick={() => upgradeStat(key)} className="shrink-0">
@@ -157,7 +174,7 @@ function MasterySubTab() {
         const level = masteryLevels[weapon.id] ?? 0
         const cost = masteryUpgradeCost(weapon.id, level)
         const canAfford = essence >= cost
-        const multiplier = masteryMultiplier(weapon.id, level)
+        const bonusPercent = masteryBonusPercent(weapon.id, level)
         const isEquippedType = weapon.id === equippedType
 
         return (
@@ -174,7 +191,7 @@ function MasterySubTab() {
                 {isEquippedType && <span className="text-[10px] text-success-strong">{getWeaponUiLabel('equipped')}</span>}
               </div>
               <div className="text-[11px] text-text-secondary">
-                {getStatName(masteryPrimaryStat(weapon.id))} ×{multiplier.toFixed(2)}
+                {getStatName(masteryPrimaryStat(weapon.id))} +{formatPercent(bonusPercent)}
               </div>
             </div>
 

@@ -38,6 +38,12 @@ export type RelicEffectTypeEnum =
   | 'STAT_EXIST_GAIN'
   | 'GOLD_GAIN'
   | 'TIMEHEIST_COOLDOWN'
+// v0.3.0 밸런스 개편(깡스탯/퍼센트 분리) — 유물은 "혼합" 역할이라 유물별로
+// EffectValue가 깡스탯인지 퍼센트인지 RelicTable에 직접 표시한다. StatTable(항상
+// 깡스탯)·WeaponTable(보유=퍼센트/장착=깡스탯, 칼럼 자체로 고정)·ExistTreeTable
+// (스탯형 노드는 전부 퍼센트)은 테이블 전체가 단일 값으로 고정돼 있어 같은 칼럼을
+// 추가하지 않았다 — 항상 같은 값만 들어가는 칼럼은 스키마 낭비라고 판단.
+export type EffectValueTypeEnum = 'FLAT' | 'PERCENT'
 export type PatchNoteCategoryEnum = 'ADD' | 'CHANGE' | 'FIX'
 
 // ---------------------------------------------------------------------------
@@ -175,6 +181,7 @@ export interface RelicTableRow {
   GradeColorToken: string
   EffectType: RelicEffectTypeEnum
   EffectValue: number
+  EffectValueType: EffectValueTypeEnum
   GachaWeight: number
 }
 
@@ -407,6 +414,7 @@ const DEFAULT_RELIC: RelicTableRow = {
   GradeColorToken: 'normal',
   EffectType: 'STAT_ATK',
   EffectValue: 0,
+  EffectValueType: 'FLAT',
   GachaWeight: 0,
 }
 

@@ -4,7 +4,7 @@ import { masteryPrimaryStat } from '../../data/mastery'
 import { getStatName, getTabName, getWeaponUiLabel } from '../../data/uiStrings'
 import { useGameStore } from '../../store/gameStore'
 import type { WeaponInstance } from '../../types/game'
-import { formatNumber } from '../../utils/format'
+import { formatNumber, formatPercent } from '../../utils/format'
 import { WeaponDetailModal } from './WeaponDetailModal'
 import {
   buildWeaponId,
@@ -172,10 +172,14 @@ function EquippedSummary({
   const type = equippedWeaponId.split('_')[0] as WeaponTypeEnum
   const primaryStat = masteryPrimaryStat(type)
   const isAtkSpecialty = primaryStat === 'atk'
-  const { baseAtkTotal, specialtyOwnTotal, specialtyEquipBonus } = computeWeaponBonusBreakdown(
+  const { atkFlat, atkPercent, specialtyFlat, specialtyPercent } = computeWeaponBonusBreakdown(
     ownedWeapons,
     equippedWeaponId,
   )
+  // 장착(깡스탯)은 "+N", 보유(퍼센트)는 "+N%"로 구분해서 보여준다 — 단위가 달라
+  // 하나로 합칠 수 없다(v0.3.0 밸런스 개편, 보유=퍼센트/장착=깡스탯).
+  const atkFlatTotal = atkFlat + (isAtkSpecialty ? specialtyFlat : 0)
+  const atkPercentTotal = atkPercent + (isAtkSpecialty ? specialtyPercent : 0)
 
   return (
     <div className="shrink-0 border-b border-surface-border p-3">
@@ -187,11 +191,11 @@ function EquippedSummary({
       </div>
       <div className="mt-1 flex flex-wrap justify-end gap-x-3 gap-y-0.5 text-[11px] text-text-secondary">
         <span>
-          {getStatName('atk')} +{formatNumber(baseAtkTotal + (isAtkSpecialty ? specialtyOwnTotal + specialtyEquipBonus : 0))}
+          {getStatName('atk')} +{formatNumber(atkFlatTotal)} ({formatPercent(atkPercentTotal)})
         </span>
         {!isAtkSpecialty && (
           <span>
-            {getStatName(primaryStat)} +{formatNumber(specialtyOwnTotal + specialtyEquipBonus)}
+            {getStatName(primaryStat)} +{formatNumber(specialtyFlat)} ({formatPercent(specialtyPercent)})
           </span>
         )}
       </div>

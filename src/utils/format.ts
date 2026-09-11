@@ -34,6 +34,14 @@ export function formatNumber(value: number): string {
   return `${sign}${scaled.toFixed(1)}${suffix}`
 }
 
+// 퍼센트 포인트 값(예: 1.46, 8) → "1.5%"/"8%". 깡스탯과 달리 퍼센트는 등급·단계
+// 배율(×1.1 등) 때문에 소수점이 흔해서 formatNumber처럼 버리지 않고 소수 첫째
+// 자리까지 반올림한다(정수면 ".0"을 생략).
+export function formatPercent(value: number): string {
+  const rounded = Math.round(value * 10) / 10
+  return `${rounded % 1 === 0 ? rounded.toFixed(0) : rounded.toFixed(1)}%`
+}
+
 // 밀리초를 "H:MM:SS" 형태 카운트다운 문자열로. 음수는 0으로 취급
 export function formatCountdown(ms: number): string {
   const totalSeconds = Math.max(0, Math.ceil(ms / 1000))

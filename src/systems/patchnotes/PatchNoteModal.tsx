@@ -28,6 +28,22 @@ interface PatchNoteVersionGroup {
   items: PatchNoteTableRow[]
 }
 
+// "v0.3.0" → [0, 3, 0]. 문자열째 비교("v0.10.0" < "v0.2.0")가 아니라 자리별 숫자
+// 비교라 안전하다.
+function parseVersion(version: string): number[] {
+  return version.replace(/^v/, '').split('.').map((part) => Number(part) || 0)
+}
+
+function compareVersionDesc(a: string, b: string): number {
+  const pa = parseVersion(a)
+  const pb = parseVersion(b)
+  for (let i = 0; i < Math.max(pa.length, pb.length); i++) {
+    const diff = (pb[i] ?? 0) - (pa[i] ?? 0)
+    if (diff !== 0) return diff
+  }
+  return 0
+}
+
 function groupByVersion(rows: readonly PatchNoteTableRow[]): PatchNoteVersionGroup[] {
   const groups = new Map<string, PatchNoteVersionGroup>()
   for (const row of rows) {
@@ -38,8 +54,10 @@ function groupByVersion(rows: readonly PatchNoteTableRow[]): PatchNoteVersionGro
   for (const group of groups.values()) {
     group.items.sort((a, b) => a.SortOrder - b.SortOrder)
   }
-  // 최신 버전이 위로 — 출시일(ISO 문자열) 내림차순. 버전 문자열 비교보다 안전하다.
-  return [...groups.values()].sort((a, b) => b.releaseDate.localeCompare(a.releaseDate))
+  // 최신 버전이 위로 — 버전 번호 내림차순(자리별 숫자 비교). 출시일만으로 정렬하면
+  // 같은 날 여러 버전이 나왔을 때(예: 출시 전 미리 기록해둔 다음 버전) 순서가
+  // 뒤섞일 수 있어 버전 번호를 기준으로 삼는다.
+  return [...groups.values()].sort((a, b) => compareVersionDesc(a.version, b.version))
 }
 
 export function PatchNoteModal({ isOpen, onClose }: PatchNoteModalProps) {

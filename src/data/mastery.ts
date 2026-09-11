@@ -34,8 +34,13 @@ export const MASTERY_WEAPONS: WeaponMasteryData[] = WEAPON_TYPES.map((weaponType
 
 // weaponType은 WeaponMasteryData.id(문자열)를 그대로 받아 내부에서 캐스팅한다 —
 // 기존 masteryUpgradeCost(weaponId: string)와 동일한 호출 관례를 유지.
-export function masteryMultiplier(_weaponType: string, level: number): number {
-  return 1 + level * getCommon('MasteryMultiplierPerLevel')
+// v0.3.0 밸런스 개편 — 숙련은 원래도 퍼센트 역할이었지만(레벨당 배율 곱연산)
+// 존재력 트리·무기 보유 효과와 같은 "퍼센트 합산" 버킷에 함께 들어가도록,
+// 배율(예: 1.25)이 아니라 퍼센트 포인트(레벨당 +5 → 25)를 반환하게 바꿨다.
+// 레벨당 실제 성장률(5%)은 그대로다 — CommonTable.MasteryMultiplierPerLevel의
+// 단위만 소수(0.05)에서 퍼센트 포인트(5)로 바뀌었다.
+export function masteryBonusPercent(_weaponType: string, level: number): number {
+  return level * getCommon('MasteryMultiplierPerLevel')
 }
 
 export function masteryUpgradeCost(_weaponType: string, currentLevel: number): number {
