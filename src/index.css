@@ -45,12 +45,15 @@
   --color-success-base: #16a34a;
   --color-success-strong: #4ade80;
 
-  /* 무기 등급 5색 — 유물(Normal/Rare/Epic)은 앞 3개를 그대로 재사용한다 */
+  /* 무기 등급 6색 — 유물(Normal/Rare/Epic)은 앞 3개를 그대로 재사용한다.
+     mythic은 v0.4.0에서 legendary(금) 위에 추가 — 기존 5색(회/하늘/보라/주황/금)과
+     겹치지 않는 선명한 로즈-레드로 잡아 "최상위 등급"이 한눈에 구별되게 했다 */
   --color-grade-normal: #9ca3af;
   --color-grade-rare: #38bdf8;
   --color-grade-epic: #a78bfa;
   --color-grade-unique: #fb923c;
   --color-grade-legendary: #fbbf24;
+  --color-grade-mythic: #f43f5e;
 
   /* 재화 6종 */
   --color-currency-diamond: #67e8f9;

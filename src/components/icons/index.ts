@@ -23,20 +23,24 @@ import {
   Unlock,
   type LucideIcon,
 } from 'lucide-react'
+import { Axe } from './Axe'
 import { Bow } from './Bow'
 import { Relic } from './Relic'
 import { Spear } from './Spear'
+import { Staff } from './Staff'
 import type { IconProps } from './types'
 import type { CurrencyKey, TabKey } from '../../types/game'
 
 export type { IconProps }
-export { Bow, Relic, Spear }
+export { Axe, Bow, Relic, Spear, Staff }
 
-// 무기 3종
+// 무기 5종(v0.4.0에서 도끼/지팡이 추가)
 export const WEAPON_ICON = {
   Sword,
   Spear,
   Bow,
+  Axe,
+  Staff,
 } as const
 
 // 재화 6종

@@ -18,12 +18,12 @@ import {
 import type { OwnedWeapons, WeaponInstance } from '../../types/game'
 
 export { WEAPON_TYPES }
-export const WEAPON_GRADES: WeaponGradeEnum[] = ['Normal', 'Rare', 'Epic', 'Unique', 'Legendary']
+export const WEAPON_GRADES: WeaponGradeEnum[] = ['Normal', 'Rare', 'Epic', 'Unique', 'Legendary', 'Mythic']
 export const WEAPON_TIERS = [1, 2, 3, 4, 5] as const
 export const WEAPON_MAX_BREAKTHROUGH = BALANCE_TABLES.WeaponBreakthroughTable.length
 
 // ---------------------------------------------------------------------------
-// 무기 식별자 — "{종류}_{등급}_{단계}" 문자열 하나가 75종 중 하나를 가리킨다.
+// 무기 식별자 — "{종류}_{등급}_{단계}" 문자열 하나가 150종(v0.4.0부터 5종류×6등급×5단계) 중 하나를 가리킨다.
 // ---------------------------------------------------------------------------
 
 export function buildWeaponId(type: WeaponTypeEnum, grade: WeaponGradeEnum, tier: number): string {
@@ -48,9 +48,9 @@ export function weaponDisplayName(id: string): string {
 }
 
 // ---------------------------------------------------------------------------
-// 성장 공식 — 레벨업 비용/상한, 보유·장착 효과. 2단계 개편으로 무기 75종
-// (3종류×5등급×5단계) 전부가 WeaponTable에 리터럴 값으로 있어, 실행 시점엔
-// 레벨(과 보유 개수)만 곱하면 된다 — 등급 배율을 실시간으로 참조하지 않는다
+// 성장 공식 — 레벨업 비용/상한, 보유·장착 효과. 2단계 개편으로 무기 150종
+// (v0.4.0부터 5종류×6등급×5단계) 전부가 WeaponTable에 리터럴 값으로 있어, 실행
+// 시점엔 레벨(과 보유 개수)만 곱하면 된다 — 등급 배율을 실시간으로 참조하지 않는다
 // (docs/TABLE_REDESIGN.md 2.2절).
 // ---------------------------------------------------------------------------
 
@@ -183,8 +183,8 @@ export function canBreakthrough(entry: WeaponInstance): boolean {
   return entry.count - 1 >= step.RequiredDuplicateCount
 }
 
-// 사다리(종류별 25단계: 5등급×5단계)에서 다음 칸. 등급 경계도 자연스럽게 이어지고,
-// 레전드리 5단계는 끝이라 null.
+// 사다리(종류별 30단계: 6등급×5단계, v0.4.0부터)에서 다음 칸. 등급 경계도 자연스럽게
+// 이어지고, 마지막 등급(WEAPON_GRADES 배열의 끝, 현재 Mythic) 5단계는 끝이라 null.
 export function nextWeaponIdForMerge(id: string): string | null {
   const { type, grade, tier } = parseWeaponId(id)
   if (tier < 5) return buildWeaponId(type, grade, tier + 1)
@@ -265,6 +265,7 @@ export function rollWeaponGacha(gachaCount: number): string {
     ['Epic', level.EpicWeight],
     ['Unique', level.UniqueWeight],
     ['Legendary', level.LegendaryWeight],
+    ['Mythic', level.MythicWeight],
   ])
   const tier = weightedPick<number>([
     [1, level.Tier1Weight],

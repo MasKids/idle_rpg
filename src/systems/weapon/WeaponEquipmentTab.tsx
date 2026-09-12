@@ -17,7 +17,7 @@ import {
   WEAPON_TYPES,
 } from './weapon'
 import { GRADE_BG_COLOR, GRADE_BORDER_COLOR, GRADE_GLOW_SHADOW, GRADE_TEXT_COLOR } from './weaponUi'
-import { STATE_ICON } from '../../components/icons'
+import { STATE_ICON, WEAPON_ICON } from '../../components/icons'
 import { ProgressBar } from '../../components/ui'
 import { IntroBanner } from '../onboarding/IntroBanner'
 import { SYSTEM_INTRO_LINES } from '../onboarding/onboardingContent'
@@ -133,18 +133,22 @@ function TypeSwitcher({
           0,
         )
         const isSelected = type === selectedType
+        const TypeIcon = WEAPON_ICON[type]
 
         return (
           <button
             key={type}
             type="button"
             onClick={() => onSelect(type)}
-            className={`flex-1 rounded-lg px-2 py-2 text-center text-xs font-medium transition-colors ${
+            className={`flex flex-1 flex-col items-center gap-0.5 rounded-lg px-1 py-2 text-center text-xs font-medium transition-colors ${
               isSelected ? 'bg-teal-base text-white' : 'bg-surface-card text-text-secondary hover:text-text-primary'
             }`}
           >
+            <TypeIcon size={16} strokeWidth={2} />
             <div>{getString(WEAPON_TYPE_NAME_STRING_ID[type], 'KOR', type)}</div>
-            <div className="text-[10px] opacity-80">{ownedTypeCount}/25</div>
+            <div className="text-[10px] opacity-80">
+              {ownedTypeCount}/{WEAPON_GRADES.length * WEAPON_TIERS.length}
+            </div>
           </button>
         )
       })}

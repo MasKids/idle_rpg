@@ -9,8 +9,8 @@ import { GRADE_BG_COLOR, GRADE_BORDER_COLOR, GRADE_GLOW_SHADOW, GRADE_TEXT_COLOR
 import { Button, CostLabel, GradeBadge } from '../../components/ui'
 import { useAcknowledgeNumericNotice } from '../onboarding/useNumericNotice'
 
-const GRADE_WEIGHT_KEYS = ['NormalWeight', 'RareWeight', 'EpicWeight', 'UniqueWeight', 'LegendaryWeight'] as const
-const GRADES: WeaponGradeEnum[] = ['Normal', 'Rare', 'Epic', 'Unique', 'Legendary']
+const GRADE_WEIGHT_KEYS = ['NormalWeight', 'RareWeight', 'EpicWeight', 'UniqueWeight', 'LegendaryWeight', 'MythicWeight'] as const
+const GRADES: WeaponGradeEnum[] = ['Normal', 'Rare', 'Epic', 'Unique', 'Legendary', 'Mythic']
 
 export function WeaponGachaTab() {
   const [lastResults, setLastResults] = useState<WeaponGachaPullResult[]>([])

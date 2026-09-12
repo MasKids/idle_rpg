@@ -23,6 +23,8 @@ const MASTERY_NAME_STRING_ID: Record<WeaponTypeEnum, number> = {
   Sword: 40072,
   Spear: 40073,
   Bow: 40074,
+  Axe: 40139,
+  Staff: 40140,
 }
 
 // 무기 숙련 — 종류(검/창/활)별로 하나씩. WeaponMasteryData.id에는 WeaponTypeEnum

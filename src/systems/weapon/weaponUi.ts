@@ -8,6 +8,7 @@ export const GRADE_BORDER_COLOR: Record<WeaponGradeEnum, string> = {
   Epic: 'border-grade-epic',
   Unique: 'border-grade-unique',
   Legendary: 'border-grade-legendary',
+  Mythic: 'border-grade-mythic',
 }
 
 export const GRADE_BG_COLOR: Record<WeaponGradeEnum, string> = {
@@ -16,6 +17,7 @@ export const GRADE_BG_COLOR: Record<WeaponGradeEnum, string> = {
   Epic: 'bg-grade-epic/15',
   Unique: 'bg-grade-unique/15',
   Legendary: 'bg-grade-legendary/15',
+  Mythic: 'bg-grade-mythic/15',
 }
 
 export const GRADE_TEXT_COLOR: Record<WeaponGradeEnum, string> = {
@@ -24,14 +26,17 @@ export const GRADE_TEXT_COLOR: Record<WeaponGradeEnum, string> = {
   Epic: 'text-grade-epic',
   Unique: 'text-grade-unique',
   Legendary: 'text-grade-legendary',
+  Mythic: 'text-grade-mythic',
 }
 
 // 등급 표시에 얹는 은은한 발광 — box-shadow만 쓰고 색은 등급 토큰 그대로 재사용한다.
 // 등급이 높을수록 반경/불투명도를 키워 강도 차이를 준다. Normal은 발광 없음.
+// Mythic은 Legendary보다 한 단계 더 강하게(반경 확대)해 "최상위"가 한눈에 보이게 했다.
 export const GRADE_GLOW_SHADOW: Record<WeaponGradeEnum, string> = {
   Normal: '',
   Rare: 'shadow-[0_0_6px_var(--color-grade-rare)]',
   Epic: 'shadow-[0_0_9px_var(--color-grade-epic)]',
   Unique: 'shadow-[0_0_9px_var(--color-grade-unique),0_0_18px_var(--color-grade-unique)]',
   Legendary: 'shadow-[0_0_10px_var(--color-grade-legendary),0_0_22px_var(--color-grade-legendary)]',
+  Mythic: 'shadow-[0_0_12px_var(--color-grade-mythic),0_0_26px_var(--color-grade-mythic)]',
 }

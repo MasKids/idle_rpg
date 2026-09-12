@@ -16,19 +16,22 @@ export type NodeEffectTypeEnum = 'STAT' | 'GRANT'
 // 다뤄야 해서 추가했다.
 export type CurrencyTypeEnum = 'EXIST' | 'GROWTH_ENERGY' | 'MASTERY_ESSENCE' | 'TIME_ENERGY' | 'GOLD' | 'DIAMOND'
 export type FeatureTypeEnum = 'REBIRTH' | 'TIME_HEIST'
-export type WeaponTypeEnum = 'Sword' | 'Spear' | 'Bow'
+export type WeaponTypeEnum = 'Sword' | 'Spear' | 'Bow' | 'Axe' | 'Staff'
 // weapon.ts(무기 로직)와 mastery.ts(숙련 로직) 양쪽이 같은 목록을 쓰므로, 두 시스템
 // 사이 의존 방향이 꼬이지 않도록 더 하위 계층인 여기(data/)에 한 곳만 둔다.
-export const WEAPON_TYPES: WeaponTypeEnum[] = ['Sword', 'Spear', 'Bow']
+export const WEAPON_TYPES: WeaponTypeEnum[] = ['Sword', 'Spear', 'Bow', 'Axe', 'Staff']
 // 무기 종류 이름 StringId — WeaponTypeTable 삭제(2026-09-10 개편)로 갈 곳을 잃은
-// 값이다. 종류가 3개로 고정돼 있어 테이블화할 실익이 없어 코드 상수로 둔다.
-// StringTable의 기존 40055/40056/40057 항목("검"/"창"/"활")을 그대로 참조한다.
+// 값이다. 종류가 고정 목록이라 테이블화할 실익이 없어 코드 상수로 둔다.
+// StringTable의 기존 40055~40057 항목("검"/"창"/"활") + v0.4.0에서 추가한
+// 40137/40138("도끼"/"지팡이")을 그대로 참조한다.
 export const WEAPON_TYPE_NAME_STRING_ID: Record<WeaponTypeEnum, number> = {
   Sword: 40055,
   Spear: 40056,
   Bow: 40057,
+  Axe: 40137,
+  Staff: 40138,
 }
-export type WeaponGradeEnum = 'Normal' | 'Rare' | 'Epic' | 'Unique' | 'Legendary'
+export type WeaponGradeEnum = 'Normal' | 'Rare' | 'Epic' | 'Unique' | 'Legendary' | 'Mythic'
 export type RelicGradeEnum = 'Normal' | 'Rare' | 'Epic'
 export type RelicEffectTypeEnum =
   | 'STAT_ATK'
@@ -121,7 +124,7 @@ export interface WeaponBreakthroughTableRow {
   LevelCapBonus: number
 }
 
-// 무기 75종(3종류×5등급×5단계) 전부를 리터럴 행으로 나열한다(2단계 개편,
+// 무기 150종(v0.4.0부터 5종류×6등급×5단계) 전부를 리터럴 행으로 나열한다(2단계 개편,
 // docs/TABLE_REDESIGN.md 2.2절) — 예전엔 OwnBonusBase×등급배율×Tier배율을 실시간
 // 곱연산으로 계산해 데이터 행이 0개였다. BaseAtk/OwnEffectValue/EquipEffectValue는
 // 전부 이미 등급·단계 배율까지 곱해진 최종값이라, 실행 시점엔 여기 값에 레벨(과
@@ -160,6 +163,7 @@ export interface GachaTableRow {
   EpicWeight: number
   UniqueWeight: number
   LegendaryWeight: number
+  MythicWeight: number
   Tier1Weight: number
   Tier2Weight: number
   Tier3Weight: number
@@ -397,6 +401,7 @@ const DEFAULT_GACHA_LEVEL: GachaTableRow = {
   EpicWeight: 6,
   UniqueWeight: 1.8,
   LegendaryWeight: 0.2,
+  MythicWeight: 0.03,
   Tier1Weight: 60,
   Tier2Weight: 25,
   Tier3Weight: 10,

@@ -70,7 +70,8 @@
       "Tier3Weight": 10,
       "Tier4Weight": 4,
       "Tier5Weight": 1,
-      "PullCostDiamond": 40
+      "PullCostDiamond": 40,
+      "MythicWeight": 0.03
     },
     {
       "Index": 2,
@@ -87,7 +88,8 @@
       "Tier3Weight": 14,
       "Tier4Weight": 6,
       "Tier5Weight": 3,
-      "PullCostDiamond": 40
+      "PullCostDiamond": 40,
+      "MythicWeight": 0.15
     },
     {
       "Index": 3,
@@ -104,7 +106,8 @@
       "Tier3Weight": 17,
       "Tier4Weight": 9,
       "Tier5Weight": 5,
-      "PullCostDiamond": 40
+      "PullCostDiamond": 40,
+      "MythicWeight": 0.4
     },
     {
       "Index": 4,
@@ -121,7 +124,8 @@
       "Tier3Weight": 19,
       "Tier4Weight": 12,
       "Tier5Weight": 8,
-      "PullCostDiamond": 40
+      "PullCostDiamond": 40,
+      "MythicWeight": 0.6
     },
     {
       "Index": 5,
@@ -138,7 +142,8 @@
       "Tier3Weight": 20,
       "Tier4Weight": 16,
       "Tier5Weight": 12,
-      "PullCostDiamond": 40
+      "PullCostDiamond": 40,
+      "MythicWeight": 1.4
     }
   ],
   "RelicSlotTable": [
@@ -3201,6 +3206,942 @@
       "Id": 55028,
       "KOR": "스테이지 300개로 확장",
       "ENG": "스테이지 300개로 확장"
+    },
+    {
+      "Index": 472,
+      "Id": 40136,
+      "KOR": "신화",
+      "ENG": "신화"
+    },
+    {
+      "Index": 473,
+      "Id": 40137,
+      "KOR": "도끼",
+      "ENG": "도끼"
+    },
+    {
+      "Index": 474,
+      "Id": 40138,
+      "KOR": "지팡이",
+      "ENG": "지팡이"
+    },
+    {
+      "Index": 475,
+      "Id": 50075,
+      "KOR": "검-신화-1",
+      "ENG": "검-신화-1"
+    },
+    {
+      "Index": 476,
+      "Id": 51075,
+      "KOR": "검 신화 등급 무기, 1단계",
+      "ENG": "검 신화 등급 무기, 1단계"
+    },
+    {
+      "Index": 477,
+      "Id": 50076,
+      "KOR": "검-신화-2",
+      "ENG": "검-신화-2"
+    },
+    {
+      "Index": 478,
+      "Id": 51076,
+      "KOR": "검 신화 등급 무기, 2단계",
+      "ENG": "검 신화 등급 무기, 2단계"
+    },
+    {
+      "Index": 479,
+      "Id": 50077,
+      "KOR": "검-신화-3",
+      "ENG": "검-신화-3"
+    },
+    {
+      "Index": 480,
+      "Id": 51077,
+      "KOR": "검 신화 등급 무기, 3단계",
+      "ENG": "검 신화 등급 무기, 3단계"
+    },
+    {
+      "Index": 481,
+      "Id": 50078,
+      "KOR": "검-신화-4",
+      "ENG": "검-신화-4"
+    },
+    {
+      "Index": 482,
+      "Id": 51078,
+      "KOR": "검 신화 등급 무기, 4단계",
+      "ENG": "검 신화 등급 무기, 4단계"
+    },
+    {
+      "Index": 483,
+      "Id": 50079,
+      "KOR": "검-신화-5",
+      "ENG": "검-신화-5"
+    },
+    {
+      "Index": 484,
+      "Id": 51079,
+      "KOR": "검 신화 등급 무기, 5단계",
+      "ENG": "검 신화 등급 무기, 5단계"
+    },
+    {
+      "Index": 485,
+      "Id": 50080,
+      "KOR": "창-신화-1",
+      "ENG": "창-신화-1"
+    },
+    {
+      "Index": 486,
+      "Id": 51080,
+      "KOR": "창 신화 등급 무기, 1단계",
+      "ENG": "창 신화 등급 무기, 1단계"
+    },
+    {
+      "Index": 487,
+      "Id": 50081,
+      "KOR": "창-신화-2",
+      "ENG": "창-신화-2"
+    },
+    {
+      "Index": 488,
+      "Id": 51081,
+      "KOR": "창 신화 등급 무기, 2단계",
+      "ENG": "창 신화 등급 무기, 2단계"
+    },
+    {
+      "Index": 489,
+      "Id": 50082,
+      "KOR": "창-신화-3",
+      "ENG": "창-신화-3"
+    },
+    {
+      "Index": 490,
+      "Id": 51082,
+      "KOR": "창 신화 등급 무기, 3단계",
+      "ENG": "창 신화 등급 무기, 3단계"
+    },
+    {
+      "Index": 491,
+      "Id": 50083,
+      "KOR": "창-신화-4",
+      "ENG": "창-신화-4"
+    },
+    {
+      "Index": 492,
+      "Id": 51083,
+      "KOR": "창 신화 등급 무기, 4단계",
+      "ENG": "창 신화 등급 무기, 4단계"
+    },
+    {
+      "Index": 493,
+      "Id": 50084,
+      "KOR": "창-신화-5",
+      "ENG": "창-신화-5"
+    },
+    {
+      "Index": 494,
+      "Id": 51084,
+      "KOR": "창 신화 등급 무기, 5단계",
+      "ENG": "창 신화 등급 무기, 5단계"
+    },
+    {
+      "Index": 495,
+      "Id": 50085,
+      "KOR": "활-신화-1",
+      "ENG": "활-신화-1"
+    },
+    {
+      "Index": 496,
+      "Id": 51085,
+      "KOR": "활 신화 등급 무기, 1단계",
+      "ENG": "활 신화 등급 무기, 1단계"
+    },
+    {
+      "Index": 497,
+      "Id": 50086,
+      "KOR": "활-신화-2",
+      "ENG": "활-신화-2"
+    },
+    {
+      "Index": 498,
+      "Id": 51086,
+      "KOR": "활 신화 등급 무기, 2단계",
+      "ENG": "활 신화 등급 무기, 2단계"
+    },
+    {
+      "Index": 499,
+      "Id": 50087,
+      "KOR": "활-신화-3",
+      "ENG": "활-신화-3"
+    },
+    {
+      "Index": 500,
+      "Id": 51087,
+      "KOR": "활 신화 등급 무기, 3단계",
+      "ENG": "활 신화 등급 무기, 3단계"
+    },
+    {
+      "Index": 501,
+      "Id": 50088,
+      "KOR": "활-신화-4",
+      "ENG": "활-신화-4"
+    },
+    {
+      "Index": 502,
+      "Id": 51088,
+      "KOR": "활 신화 등급 무기, 4단계",
+      "ENG": "활 신화 등급 무기, 4단계"
+    },
+    {
+      "Index": 503,
+      "Id": 50089,
+      "KOR": "활-신화-5",
+      "ENG": "활-신화-5"
+    },
+    {
+      "Index": 504,
+      "Id": 51089,
+      "KOR": "활 신화 등급 무기, 5단계",
+      "ENG": "활 신화 등급 무기, 5단계"
+    },
+    {
+      "Index": 505,
+      "Id": 50090,
+      "KOR": "도끼-노말-1",
+      "ENG": "도끼-노말-1"
+    },
+    {
+      "Index": 506,
+      "Id": 51090,
+      "KOR": "도끼 노말 등급 무기, 1단계",
+      "ENG": "도끼 노말 등급 무기, 1단계"
+    },
+    {
+      "Index": 507,
+      "Id": 50091,
+      "KOR": "도끼-노말-2",
+      "ENG": "도끼-노말-2"
+    },
+    {
+      "Index": 508,
+      "Id": 51091,
+      "KOR": "도끼 노말 등급 무기, 2단계",
+      "ENG": "도끼 노말 등급 무기, 2단계"
+    },
+    {
+      "Index": 509,
+      "Id": 50092,
+      "KOR": "도끼-노말-3",
+      "ENG": "도끼-노말-3"
+    },
+    {
+      "Index": 510,
+      "Id": 51092,
+      "KOR": "도끼 노말 등급 무기, 3단계",
+      "ENG": "도끼 노말 등급 무기, 3단계"
+    },
+    {
+      "Index": 511,
+      "Id": 50093,
+      "KOR": "도끼-노말-4",
+      "ENG": "도끼-노말-4"
+    },
+    {
+      "Index": 512,
+      "Id": 51093,
+      "KOR": "도끼 노말 등급 무기, 4단계",
+      "ENG": "도끼 노말 등급 무기, 4단계"
+    },
+    {
+      "Index": 513,
+      "Id": 50094,
+      "KOR": "도끼-노말-5",
+      "ENG": "도끼-노말-5"
+    },
+    {
+      "Index": 514,
+      "Id": 51094,
+      "KOR": "도끼 노말 등급 무기, 5단계",
+      "ENG": "도끼 노말 등급 무기, 5단계"
+    },
+    {
+      "Index": 515,
+      "Id": 50095,
+      "KOR": "도끼-레어-1",
+      "ENG": "도끼-레어-1"
+    },
+    {
+      "Index": 516,
+      "Id": 51095,
+      "KOR": "도끼 레어 등급 무기, 1단계",
+      "ENG": "도끼 레어 등급 무기, 1단계"
+    },
+    {
+      "Index": 517,
+      "Id": 50096,
+      "KOR": "도끼-레어-2",
+      "ENG": "도끼-레어-2"
+    },
+    {
+      "Index": 518,
+      "Id": 51096,
+      "KOR": "도끼 레어 등급 무기, 2단계",
+      "ENG": "도끼 레어 등급 무기, 2단계"
+    },
+    {
+      "Index": 519,
+      "Id": 50097,
+      "KOR": "도끼-레어-3",
+      "ENG": "도끼-레어-3"
+    },
+    {
+      "Index": 520,
+      "Id": 51097,
+      "KOR": "도끼 레어 등급 무기, 3단계",
+      "ENG": "도끼 레어 등급 무기, 3단계"
+    },
+    {
+      "Index": 521,
+      "Id": 50098,
+      "KOR": "도끼-레어-4",
+      "ENG": "도끼-레어-4"
+    },
+    {
+      "Index": 522,
+      "Id": 51098,
+      "KOR": "도끼 레어 등급 무기, 4단계",
+      "ENG": "도끼 레어 등급 무기, 4단계"
+    },
+    {
+      "Index": 523,
+      "Id": 50099,
+      "KOR": "도끼-레어-5",
+      "ENG": "도끼-레어-5"
+    },
+    {
+      "Index": 524,
+      "Id": 51099,
+      "KOR": "도끼 레어 등급 무기, 5단계",
+      "ENG": "도끼 레어 등급 무기, 5단계"
+    },
+    {
+      "Index": 525,
+      "Id": 50100,
+      "KOR": "도끼-에픽-1",
+      "ENG": "도끼-에픽-1"
+    },
+    {
+      "Index": 526,
+      "Id": 51100,
+      "KOR": "도끼 에픽 등급 무기, 1단계",
+      "ENG": "도끼 에픽 등급 무기, 1단계"
+    },
+    {
+      "Index": 527,
+      "Id": 50101,
+      "KOR": "도끼-에픽-2",
+      "ENG": "도끼-에픽-2"
+    },
+    {
+      "Index": 528,
+      "Id": 51101,
+      "KOR": "도끼 에픽 등급 무기, 2단계",
+      "ENG": "도끼 에픽 등급 무기, 2단계"
+    },
+    {
+      "Index": 529,
+      "Id": 50102,
+      "KOR": "도끼-에픽-3",
+      "ENG": "도끼-에픽-3"
+    },
+    {
+      "Index": 530,
+      "Id": 51102,
+      "KOR": "도끼 에픽 등급 무기, 3단계",
+      "ENG": "도끼 에픽 등급 무기, 3단계"
+    },
+    {
+      "Index": 531,
+      "Id": 50103,
+      "KOR": "도끼-에픽-4",
+      "ENG": "도끼-에픽-4"
+    },
+    {
+      "Index": 532,
+      "Id": 51103,
+      "KOR": "도끼 에픽 등급 무기, 4단계",
+      "ENG": "도끼 에픽 등급 무기, 4단계"
+    },
+    {
+      "Index": 533,
+      "Id": 50104,
+      "KOR": "도끼-에픽-5",
+      "ENG": "도끼-에픽-5"
+    },
+    {
+      "Index": 534,
+      "Id": 51104,
+      "KOR": "도끼 에픽 등급 무기, 5단계",
+      "ENG": "도끼 에픽 등급 무기, 5단계"
+    },
+    {
+      "Index": 535,
+      "Id": 50105,
+      "KOR": "도끼-유니크-1",
+      "ENG": "도끼-유니크-1"
+    },
+    {
+      "Index": 536,
+      "Id": 51105,
+      "KOR": "도끼 유니크 등급 무기, 1단계",
+      "ENG": "도끼 유니크 등급 무기, 1단계"
+    },
+    {
+      "Index": 537,
+      "Id": 50106,
+      "KOR": "도끼-유니크-2",
+      "ENG": "도끼-유니크-2"
+    },
+    {
+      "Index": 538,
+      "Id": 51106,
+      "KOR": "도끼 유니크 등급 무기, 2단계",
+      "ENG": "도끼 유니크 등급 무기, 2단계"
+    },
+    {
+      "Index": 539,
+      "Id": 50107,
+      "KOR": "도끼-유니크-3",
+      "ENG": "도끼-유니크-3"
+    },
+    {
+      "Index": 540,
+      "Id": 51107,
+      "KOR": "도끼 유니크 등급 무기, 3단계",
+      "ENG": "도끼 유니크 등급 무기, 3단계"
+    },
+    {
+      "Index": 541,
+      "Id": 50108,
+      "KOR": "도끼-유니크-4",
+      "ENG": "도끼-유니크-4"
+    },
+    {
+      "Index": 542,
+      "Id": 51108,
+      "KOR": "도끼 유니크 등급 무기, 4단계",
+      "ENG": "도끼 유니크 등급 무기, 4단계"
+    },
+    {
+      "Index": 543,
+      "Id": 50109,
+      "KOR": "도끼-유니크-5",
+      "ENG": "도끼-유니크-5"
+    },
+    {
+      "Index": 544,
+      "Id": 51109,
+      "KOR": "도끼 유니크 등급 무기, 5단계",
+      "ENG": "도끼 유니크 등급 무기, 5단계"
+    },
+    {
+      "Index": 545,
+      "Id": 50110,
+      "KOR": "도끼-레전드리-1",
+      "ENG": "도끼-레전드리-1"
+    },
+    {
+      "Index": 546,
+      "Id": 51110,
+      "KOR": "도끼 레전드리 등급 무기, 1단계",
+      "ENG": "도끼 레전드리 등급 무기, 1단계"
+    },
+    {
+      "Index": 547,
+      "Id": 50111,
+      "KOR": "도끼-레전드리-2",
+      "ENG": "도끼-레전드리-2"
+    },
+    {
+      "Index": 548,
+      "Id": 51111,
+      "KOR": "도끼 레전드리 등급 무기, 2단계",
+      "ENG": "도끼 레전드리 등급 무기, 2단계"
+    },
+    {
+      "Index": 549,
+      "Id": 50112,
+      "KOR": "도끼-레전드리-3",
+      "ENG": "도끼-레전드리-3"
+    },
+    {
+      "Index": 550,
+      "Id": 51112,
+      "KOR": "도끼 레전드리 등급 무기, 3단계",
+      "ENG": "도끼 레전드리 등급 무기, 3단계"
+    },
+    {
+      "Index": 551,
+      "Id": 50113,
+      "KOR": "도끼-레전드리-4",
+      "ENG": "도끼-레전드리-4"
+    },
+    {
+      "Index": 552,
+      "Id": 51113,
+      "KOR": "도끼 레전드리 등급 무기, 4단계",
+      "ENG": "도끼 레전드리 등급 무기, 4단계"
+    },
+    {
+      "Index": 553,
+      "Id": 50114,
+      "KOR": "도끼-레전드리-5",
+      "ENG": "도끼-레전드리-5"
+    },
+    {
+      "Index": 554,
+      "Id": 51114,
+      "KOR": "도끼 레전드리 등급 무기, 5단계",
+      "ENG": "도끼 레전드리 등급 무기, 5단계"
+    },
+    {
+      "Index": 555,
+      "Id": 50115,
+      "KOR": "도끼-신화-1",
+      "ENG": "도끼-신화-1"
+    },
+    {
+      "Index": 556,
+      "Id": 51115,
+      "KOR": "도끼 신화 등급 무기, 1단계",
+      "ENG": "도끼 신화 등급 무기, 1단계"
+    },
+    {
+      "Index": 557,
+      "Id": 50116,
+      "KOR": "도끼-신화-2",
+      "ENG": "도끼-신화-2"
+    },
+    {
+      "Index": 558,
+      "Id": 51116,
+      "KOR": "도끼 신화 등급 무기, 2단계",
+      "ENG": "도끼 신화 등급 무기, 2단계"
+    },
+    {
+      "Index": 559,
+      "Id": 50117,
+      "KOR": "도끼-신화-3",
+      "ENG": "도끼-신화-3"
+    },
+    {
+      "Index": 560,
+      "Id": 51117,
+      "KOR": "도끼 신화 등급 무기, 3단계",
+      "ENG": "도끼 신화 등급 무기, 3단계"
+    },
+    {
+      "Index": 561,
+      "Id": 50118,
+      "KOR": "도끼-신화-4",
+      "ENG": "도끼-신화-4"
+    },
+    {
+      "Index": 562,
+      "Id": 51118,
+      "KOR": "도끼 신화 등급 무기, 4단계",
+      "ENG": "도끼 신화 등급 무기, 4단계"
+    },
+    {
+      "Index": 563,
+      "Id": 50119,
+      "KOR": "도끼-신화-5",
+      "ENG": "도끼-신화-5"
+    },
+    {
+      "Index": 564,
+      "Id": 51119,
+      "KOR": "도끼 신화 등급 무기, 5단계",
+      "ENG": "도끼 신화 등급 무기, 5단계"
+    },
+    {
+      "Index": 565,
+      "Id": 50120,
+      "KOR": "지팡이-노말-1",
+      "ENG": "지팡이-노말-1"
+    },
+    {
+      "Index": 566,
+      "Id": 51120,
+      "KOR": "지팡이 노말 등급 무기, 1단계",
+      "ENG": "지팡이 노말 등급 무기, 1단계"
+    },
+    {
+      "Index": 567,
+      "Id": 50121,
+      "KOR": "지팡이-노말-2",
+      "ENG": "지팡이-노말-2"
+    },
+    {
+      "Index": 568,
+      "Id": 51121,
+      "KOR": "지팡이 노말 등급 무기, 2단계",
+      "ENG": "지팡이 노말 등급 무기, 2단계"
+    },
+    {
+      "Index": 569,
+      "Id": 50122,
+      "KOR": "지팡이-노말-3",
+      "ENG": "지팡이-노말-3"
+    },
+    {
+      "Index": 570,
+      "Id": 51122,
+      "KOR": "지팡이 노말 등급 무기, 3단계",
+      "ENG": "지팡이 노말 등급 무기, 3단계"
+    },
+    {
+      "Index": 571,
+      "Id": 50123,
+      "KOR": "지팡이-노말-4",
+      "ENG": "지팡이-노말-4"
+    },
+    {
+      "Index": 572,
+      "Id": 51123,
+      "KOR": "지팡이 노말 등급 무기, 4단계",
+      "ENG": "지팡이 노말 등급 무기, 4단계"
+    },
+    {
+      "Index": 573,
+      "Id": 50124,
+      "KOR": "지팡이-노말-5",
+      "ENG": "지팡이-노말-5"
+    },
+    {
+      "Index": 574,
+      "Id": 51124,
+      "KOR": "지팡이 노말 등급 무기, 5단계",
+      "ENG": "지팡이 노말 등급 무기, 5단계"
+    },
+    {
+      "Index": 575,
+      "Id": 50125,
+      "KOR": "지팡이-레어-1",
+      "ENG": "지팡이-레어-1"
+    },
+    {
+      "Index": 576,
+      "Id": 51125,
+      "KOR": "지팡이 레어 등급 무기, 1단계",
+      "ENG": "지팡이 레어 등급 무기, 1단계"
+    },
+    {
+      "Index": 577,
+      "Id": 50126,
+      "KOR": "지팡이-레어-2",
+      "ENG": "지팡이-레어-2"
+    },
+    {
+      "Index": 578,
+      "Id": 51126,
+      "KOR": "지팡이 레어 등급 무기, 2단계",
+      "ENG": "지팡이 레어 등급 무기, 2단계"
+    },
+    {
+      "Index": 579,
+      "Id": 50127,
+      "KOR": "지팡이-레어-3",
+      "ENG": "지팡이-레어-3"
+    },
+    {
+      "Index": 580,
+      "Id": 51127,
+      "KOR": "지팡이 레어 등급 무기, 3단계",
+      "ENG": "지팡이 레어 등급 무기, 3단계"
+    },
+    {
+      "Index": 581,
+      "Id": 50128,
+      "KOR": "지팡이-레어-4",
+      "ENG": "지팡이-레어-4"
+    },
+    {
+      "Index": 582,
+      "Id": 51128,
+      "KOR": "지팡이 레어 등급 무기, 4단계",
+      "ENG": "지팡이 레어 등급 무기, 4단계"
+    },
+    {
+      "Index": 583,
+      "Id": 50129,
+      "KOR": "지팡이-레어-5",
+      "ENG": "지팡이-레어-5"
+    },
+    {
+      "Index": 584,
+      "Id": 51129,
+      "KOR": "지팡이 레어 등급 무기, 5단계",
+      "ENG": "지팡이 레어 등급 무기, 5단계"
+    },
+    {
+      "Index": 585,
+      "Id": 50130,
+      "KOR": "지팡이-에픽-1",
+      "ENG": "지팡이-에픽-1"
+    },
+    {
+      "Index": 586,
+      "Id": 51130,
+      "KOR": "지팡이 에픽 등급 무기, 1단계",
+      "ENG": "지팡이 에픽 등급 무기, 1단계"
+    },
+    {
+      "Index": 587,
+      "Id": 50131,
+      "KOR": "지팡이-에픽-2",
+      "ENG": "지팡이-에픽-2"
+    },
+    {
+      "Index": 588,
+      "Id": 51131,
+      "KOR": "지팡이 에픽 등급 무기, 2단계",
+      "ENG": "지팡이 에픽 등급 무기, 2단계"
+    },
+    {
+      "Index": 589,
+      "Id": 50132,
+      "KOR": "지팡이-에픽-3",
+      "ENG": "지팡이-에픽-3"
+    },
+    {
+      "Index": 590,
+      "Id": 51132,
+      "KOR": "지팡이 에픽 등급 무기, 3단계",
+      "ENG": "지팡이 에픽 등급 무기, 3단계"
+    },
+    {
+      "Index": 591,
+      "Id": 50133,
+      "KOR": "지팡이-에픽-4",
+      "ENG": "지팡이-에픽-4"
+    },
+    {
+      "Index": 592,
+      "Id": 51133,
+      "KOR": "지팡이 에픽 등급 무기, 4단계",
+      "ENG": "지팡이 에픽 등급 무기, 4단계"
+    },
+    {
+      "Index": 593,
+      "Id": 50134,
+      "KOR": "지팡이-에픽-5",
+      "ENG": "지팡이-에픽-5"
+    },
+    {
+      "Index": 594,
+      "Id": 51134,
+      "KOR": "지팡이 에픽 등급 무기, 5단계",
+      "ENG": "지팡이 에픽 등급 무기, 5단계"
+    },
+    {
+      "Index": 595,
+      "Id": 50135,
+      "KOR": "지팡이-유니크-1",
+      "ENG": "지팡이-유니크-1"
+    },
+    {
+      "Index": 596,
+      "Id": 51135,
+      "KOR": "지팡이 유니크 등급 무기, 1단계",
+      "ENG": "지팡이 유니크 등급 무기, 1단계"
+    },
+    {
+      "Index": 597,
+      "Id": 50136,
+      "KOR": "지팡이-유니크-2",
+      "ENG": "지팡이-유니크-2"
+    },
+    {
+      "Index": 598,
+      "Id": 51136,
+      "KOR": "지팡이 유니크 등급 무기, 2단계",
+      "ENG": "지팡이 유니크 등급 무기, 2단계"
+    },
+    {
+      "Index": 599,
+      "Id": 50137,
+      "KOR": "지팡이-유니크-3",
+      "ENG": "지팡이-유니크-3"
+    },
+    {
+      "Index": 600,
+      "Id": 51137,
+      "KOR": "지팡이 유니크 등급 무기, 3단계",
+      "ENG": "지팡이 유니크 등급 무기, 3단계"
+    },
+    {
+      "Index": 601,
+      "Id": 50138,
+      "KOR": "지팡이-유니크-4",
+      "ENG": "지팡이-유니크-4"
+    },
+    {
+      "Index": 602,
+      "Id": 51138,
+      "KOR": "지팡이 유니크 등급 무기, 4단계",
+      "ENG": "지팡이 유니크 등급 무기, 4단계"
+    },
+    {
+      "Index": 603,
+      "Id": 50139,
+      "KOR": "지팡이-유니크-5",
+      "ENG": "지팡이-유니크-5"
+    },
+    {
+      "Index": 604,
+      "Id": 51139,
+      "KOR": "지팡이 유니크 등급 무기, 5단계",
+      "ENG": "지팡이 유니크 등급 무기, 5단계"
+    },
+    {
+      "Index": 605,
+      "Id": 50140,
+      "KOR": "지팡이-레전드리-1",
+      "ENG": "지팡이-레전드리-1"
+    },
+    {
+      "Index": 606,
+      "Id": 51140,
+      "KOR": "지팡이 레전드리 등급 무기, 1단계",
+      "ENG": "지팡이 레전드리 등급 무기, 1단계"
+    },
+    {
+      "Index": 607,
+      "Id": 50141,
+      "KOR": "지팡이-레전드리-2",
+      "ENG": "지팡이-레전드리-2"
+    },
+    {
+      "Index": 608,
+      "Id": 51141,
+      "KOR": "지팡이 레전드리 등급 무기, 2단계",
+      "ENG": "지팡이 레전드리 등급 무기, 2단계"
+    },
+    {
+      "Index": 609,
+      "Id": 50142,
+      "KOR": "지팡이-레전드리-3",
+      "ENG": "지팡이-레전드리-3"
+    },
+    {
+      "Index": 610,
+      "Id": 51142,
+      "KOR": "지팡이 레전드리 등급 무기, 3단계",
+      "ENG": "지팡이 레전드리 등급 무기, 3단계"
+    },
+    {
+      "Index": 611,
+      "Id": 50143,
+      "KOR": "지팡이-레전드리-4",
+      "ENG": "지팡이-레전드리-4"
+    },
+    {
+      "Index": 612,
+      "Id": 51143,
+      "KOR": "지팡이 레전드리 등급 무기, 4단계",
+      "ENG": "지팡이 레전드리 등급 무기, 4단계"
+    },
+    {
+      "Index": 613,
+      "Id": 50144,
+      "KOR": "지팡이-레전드리-5",
+      "ENG": "지팡이-레전드리-5"
+    },
+    {
+      "Index": 614,
+      "Id": 51144,
+      "KOR": "지팡이 레전드리 등급 무기, 5단계",
+      "ENG": "지팡이 레전드리 등급 무기, 5단계"
+    },
+    {
+      "Index": 615,
+      "Id": 50145,
+      "KOR": "지팡이-신화-1",
+      "ENG": "지팡이-신화-1"
+    },
+    {
+      "Index": 616,
+      "Id": 51145,
+      "KOR": "지팡이 신화 등급 무기, 1단계",
+      "ENG": "지팡이 신화 등급 무기, 1단계"
+    },
+    {
+      "Index": 617,
+      "Id": 50146,
+      "KOR": "지팡이-신화-2",
+      "ENG": "지팡이-신화-2"
+    },
+    {
+      "Index": 618,
+      "Id": 51146,
+      "KOR": "지팡이 신화 등급 무기, 2단계",
+      "ENG": "지팡이 신화 등급 무기, 2단계"
+    },
+    {
+      "Index": 619,
+      "Id": 50147,
+      "KOR": "지팡이-신화-3",
+      "ENG": "지팡이-신화-3"
+    },
+    {
+      "Index": 620,
+      "Id": 51147,
+      "KOR": "지팡이 신화 등급 무기, 3단계",
+      "ENG": "지팡이 신화 등급 무기, 3단계"
+    },
+    {
+      "Index": 621,
+      "Id": 50148,
+      "KOR": "지팡이-신화-4",
+      "ENG": "지팡이-신화-4"
+    },
+    {
+      "Index": 622,
+      "Id": 51148,
+      "KOR": "지팡이 신화 등급 무기, 4단계",
+      "ENG": "지팡이 신화 등급 무기, 4단계"
+    },
+    {
+      "Index": 623,
+      "Id": 50149,
+      "KOR": "지팡이-신화-5",
+      "ENG": "지팡이-신화-5"
+    },
+    {
+      "Index": 624,
+      "Id": 51149,
+      "KOR": "지팡이 신화 등급 무기, 5단계",
+      "ENG": "지팡이 신화 등급 무기, 5단계"
+    },
+    {
+      "Index": 625,
+      "Id": 40139,
+      "KOR": "도끼 숙련",
+      "ENG": "Axe Mastery"
+    },
+    {
+      "Index": 626,
+      "Id": 40140,
+      "KOR": "지팡이 숙련",
+      "ENG": "Staff Mastery"
+    },
+    {
+      "Index": 627,
+      "Id": 55029,
+      "KOR": "무기 150종으로 확장 (도끼/지팡이 추가)",
+      "ENG": "무기 150종으로 확장 (도끼/지팡이 추가)"
     }
   ],
   "CurrencyTable": [
@@ -3383,6 +4324,16 @@
       "Id": 39007,
       "CurveKey": "WEAPON_LEVEL_UP_LEGENDARY",
       "CostBase": 240,
+      "CostGrowthRate": 1.2,
+      "ValueBase": 1,
+      "ValuePerLevel": 0.1,
+      "MaxLevel": 0
+    },
+    {
+      "Index": 9,
+      "Id": 39008,
+      "CurveKey": "WEAPON_LEVEL_UP_MYTHIC",
+      "CostBase": 480,
       "CostGrowthRate": 1.2,
       "ValueBase": 1,
       "ValuePerLevel": 0.1,
@@ -8060,6 +9011,1281 @@
       "OwnEffectValue": 23.43,
       "EquipEffectValue": 67.2,
       "CurveKey": "WEAPON_LEVEL_UP_LEGENDARY"
+    },
+    {
+      "Index": 76,
+      "Id": 37276,
+      "WeaponId": "Sword_Mythic_1",
+      "Type": "Sword",
+      "PrimaryStat": "ATK",
+      "Grade": "Mythic",
+      "GradeNameStringId": 40136,
+      "GradeColorToken": "mythic",
+      "Tier": 1,
+      "NameStringId": 50075,
+      "DescStringId": 51075,
+      "BaseAtk": 16,
+      "OwnEffectValue": 32,
+      "EquipEffectValue": 160,
+      "CurveKey": "WEAPON_LEVEL_UP_MYTHIC"
+    },
+    {
+      "Index": 77,
+      "Id": 37277,
+      "WeaponId": "Sword_Mythic_2",
+      "Type": "Sword",
+      "PrimaryStat": "ATK",
+      "Grade": "Mythic",
+      "GradeNameStringId": 40136,
+      "GradeColorToken": "mythic",
+      "Tier": 2,
+      "NameStringId": 50076,
+      "DescStringId": 51076,
+      "BaseAtk": 17.6,
+      "OwnEffectValue": 35.2,
+      "EquipEffectValue": 176,
+      "CurveKey": "WEAPON_LEVEL_UP_MYTHIC"
+    },
+    {
+      "Index": 78,
+      "Id": 37278,
+      "WeaponId": "Sword_Mythic_3",
+      "Type": "Sword",
+      "PrimaryStat": "ATK",
+      "Grade": "Mythic",
+      "GradeNameStringId": 40136,
+      "GradeColorToken": "mythic",
+      "Tier": 3,
+      "NameStringId": 50077,
+      "DescStringId": 51077,
+      "BaseAtk": 19.2,
+      "OwnEffectValue": 38.72,
+      "EquipEffectValue": 192,
+      "CurveKey": "WEAPON_LEVEL_UP_MYTHIC"
+    },
+    {
+      "Index": 79,
+      "Id": 37279,
+      "WeaponId": "Sword_Mythic_4",
+      "Type": "Sword",
+      "PrimaryStat": "ATK",
+      "Grade": "Mythic",
+      "GradeNameStringId": 40136,
+      "GradeColorToken": "mythic",
+      "Tier": 4,
+      "NameStringId": 50078,
+      "DescStringId": 51078,
+      "BaseAtk": 20.8,
+      "OwnEffectValue": 42.592,
+      "EquipEffectValue": 208,
+      "CurveKey": "WEAPON_LEVEL_UP_MYTHIC"
+    },
+    {
+      "Index": 80,
+      "Id": 37280,
+      "WeaponId": "Sword_Mythic_5",
+      "Type": "Sword",
+      "PrimaryStat": "ATK",
+      "Grade": "Mythic",
+      "GradeNameStringId": 40136,
+      "GradeColorToken": "mythic",
+      "Tier": 5,
+      "NameStringId": 50079,
+      "DescStringId": 51079,
+      "BaseAtk": 22.4,
+      "OwnEffectValue": 46.851,
+      "EquipEffectValue": 224,
+      "CurveKey": "WEAPON_LEVEL_UP_MYTHIC"
+    },
+    {
+      "Index": 81,
+      "Id": 37281,
+      "WeaponId": "Spear_Mythic_1",
+      "Type": "Spear",
+      "PrimaryStat": "ASPD",
+      "Grade": "Mythic",
+      "GradeNameStringId": 40136,
+      "GradeColorToken": "mythic",
+      "Tier": 1,
+      "NameStringId": 50080,
+      "DescStringId": 51080,
+      "BaseAtk": 16,
+      "OwnEffectValue": 32,
+      "EquipEffectValue": 6.4,
+      "CurveKey": "WEAPON_LEVEL_UP_MYTHIC"
+    },
+    {
+      "Index": 82,
+      "Id": 37282,
+      "WeaponId": "Spear_Mythic_2",
+      "Type": "Spear",
+      "PrimaryStat": "ASPD",
+      "Grade": "Mythic",
+      "GradeNameStringId": 40136,
+      "GradeColorToken": "mythic",
+      "Tier": 2,
+      "NameStringId": 50081,
+      "DescStringId": 51081,
+      "BaseAtk": 17.6,
+      "OwnEffectValue": 35.2,
+      "EquipEffectValue": 7.04,
+      "CurveKey": "WEAPON_LEVEL_UP_MYTHIC"
+    },
+    {
+      "Index": 83,
+      "Id": 37283,
+      "WeaponId": "Spear_Mythic_3",
+      "Type": "Spear",
+      "PrimaryStat": "ASPD",
+      "Grade": "Mythic",
+      "GradeNameStringId": 40136,
+      "GradeColorToken": "mythic",
+      "Tier": 3,
+      "NameStringId": 50082,
+      "DescStringId": 51082,
+      "BaseAtk": 19.2,
+      "OwnEffectValue": 38.72,
+      "EquipEffectValue": 7.68,
+      "CurveKey": "WEAPON_LEVEL_UP_MYTHIC"
+    },
+    {
+      "Index": 84,
+      "Id": 37284,
+      "WeaponId": "Spear_Mythic_4",
+      "Type": "Spear",
+      "PrimaryStat": "ASPD",
+      "Grade": "Mythic",
+      "GradeNameStringId": 40136,
+      "GradeColorToken": "mythic",
+      "Tier": 4,
+      "NameStringId": 50083,
+      "DescStringId": 51083,
+      "BaseAtk": 20.8,
+      "OwnEffectValue": 42.592,
+      "EquipEffectValue": 8.32,
+      "CurveKey": "WEAPON_LEVEL_UP_MYTHIC"
+    },
+    {
+      "Index": 85,
+      "Id": 37285,
+      "WeaponId": "Spear_Mythic_5",
+      "Type": "Spear",
+      "PrimaryStat": "ASPD",
+      "Grade": "Mythic",
+      "GradeNameStringId": 40136,
+      "GradeColorToken": "mythic",
+      "Tier": 5,
+      "NameStringId": 50084,
+      "DescStringId": 51084,
+      "BaseAtk": 22.4,
+      "OwnEffectValue": 46.851,
+      "EquipEffectValue": 8.96,
+      "CurveKey": "WEAPON_LEVEL_UP_MYTHIC"
+    },
+    {
+      "Index": 86,
+      "Id": 37286,
+      "WeaponId": "Bow_Mythic_1",
+      "Type": "Bow",
+      "PrimaryStat": "CRIT",
+      "Grade": "Mythic",
+      "GradeNameStringId": 40136,
+      "GradeColorToken": "mythic",
+      "Tier": 1,
+      "NameStringId": 50085,
+      "DescStringId": 51085,
+      "BaseAtk": 16,
+      "OwnEffectValue": 32,
+      "EquipEffectValue": 96,
+      "CurveKey": "WEAPON_LEVEL_UP_MYTHIC"
+    },
+    {
+      "Index": 87,
+      "Id": 37287,
+      "WeaponId": "Bow_Mythic_2",
+      "Type": "Bow",
+      "PrimaryStat": "CRIT",
+      "Grade": "Mythic",
+      "GradeNameStringId": 40136,
+      "GradeColorToken": "mythic",
+      "Tier": 2,
+      "NameStringId": 50086,
+      "DescStringId": 51086,
+      "BaseAtk": 17.6,
+      "OwnEffectValue": 35.2,
+      "EquipEffectValue": 105.6,
+      "CurveKey": "WEAPON_LEVEL_UP_MYTHIC"
+    },
+    {
+      "Index": 88,
+      "Id": 37288,
+      "WeaponId": "Bow_Mythic_3",
+      "Type": "Bow",
+      "PrimaryStat": "CRIT",
+      "Grade": "Mythic",
+      "GradeNameStringId": 40136,
+      "GradeColorToken": "mythic",
+      "Tier": 3,
+      "NameStringId": 50087,
+      "DescStringId": 51087,
+      "BaseAtk": 19.2,
+      "OwnEffectValue": 38.72,
+      "EquipEffectValue": 115.2,
+      "CurveKey": "WEAPON_LEVEL_UP_MYTHIC"
+    },
+    {
+      "Index": 89,
+      "Id": 37289,
+      "WeaponId": "Bow_Mythic_4",
+      "Type": "Bow",
+      "PrimaryStat": "CRIT",
+      "Grade": "Mythic",
+      "GradeNameStringId": 40136,
+      "GradeColorToken": "mythic",
+      "Tier": 4,
+      "NameStringId": 50088,
+      "DescStringId": 51088,
+      "BaseAtk": 20.8,
+      "OwnEffectValue": 42.592,
+      "EquipEffectValue": 124.8,
+      "CurveKey": "WEAPON_LEVEL_UP_MYTHIC"
+    },
+    {
+      "Index": 90,
+      "Id": 37290,
+      "WeaponId": "Bow_Mythic_5",
+      "Type": "Bow",
+      "PrimaryStat": "CRIT",
+      "Grade": "Mythic",
+      "GradeNameStringId": 40136,
+      "GradeColorToken": "mythic",
+      "Tier": 5,
+      "NameStringId": 50089,
+      "DescStringId": 51089,
+      "BaseAtk": 22.4,
+      "OwnEffectValue": 46.851,
+      "EquipEffectValue": 134.4,
+      "CurveKey": "WEAPON_LEVEL_UP_MYTHIC"
+    },
+    {
+      "Index": 91,
+      "Id": 37291,
+      "WeaponId": "Axe_Normal_1",
+      "Type": "Axe",
+      "PrimaryStat": "CRIT_DMG",
+      "Grade": "Normal",
+      "GradeNameStringId": 40058,
+      "GradeColorToken": "normal",
+      "Tier": 1,
+      "NameStringId": 50090,
+      "DescStringId": 51090,
+      "BaseAtk": 0.5,
+      "OwnEffectValue": 1,
+      "EquipEffectValue": 10,
+      "CurveKey": "WEAPON_LEVEL_UP_NORMAL"
+    },
+    {
+      "Index": 92,
+      "Id": 37292,
+      "WeaponId": "Axe_Normal_2",
+      "Type": "Axe",
+      "PrimaryStat": "CRIT_DMG",
+      "Grade": "Normal",
+      "GradeNameStringId": 40058,
+      "GradeColorToken": "normal",
+      "Tier": 2,
+      "NameStringId": 50091,
+      "DescStringId": 51091,
+      "BaseAtk": 0.55,
+      "OwnEffectValue": 1.1,
+      "EquipEffectValue": 11,
+      "CurveKey": "WEAPON_LEVEL_UP_NORMAL"
+    },
+    {
+      "Index": 93,
+      "Id": 37293,
+      "WeaponId": "Axe_Normal_3",
+      "Type": "Axe",
+      "PrimaryStat": "CRIT_DMG",
+      "Grade": "Normal",
+      "GradeNameStringId": 40058,
+      "GradeColorToken": "normal",
+      "Tier": 3,
+      "NameStringId": 50092,
+      "DescStringId": 51092,
+      "BaseAtk": 0.6,
+      "OwnEffectValue": 1.21,
+      "EquipEffectValue": 12,
+      "CurveKey": "WEAPON_LEVEL_UP_NORMAL"
+    },
+    {
+      "Index": 94,
+      "Id": 37294,
+      "WeaponId": "Axe_Normal_4",
+      "Type": "Axe",
+      "PrimaryStat": "CRIT_DMG",
+      "Grade": "Normal",
+      "GradeNameStringId": 40058,
+      "GradeColorToken": "normal",
+      "Tier": 4,
+      "NameStringId": 50093,
+      "DescStringId": 51093,
+      "BaseAtk": 0.65,
+      "OwnEffectValue": 1.331,
+      "EquipEffectValue": 13,
+      "CurveKey": "WEAPON_LEVEL_UP_NORMAL"
+    },
+    {
+      "Index": 95,
+      "Id": 37295,
+      "WeaponId": "Axe_Normal_5",
+      "Type": "Axe",
+      "PrimaryStat": "CRIT_DMG",
+      "Grade": "Normal",
+      "GradeNameStringId": 40058,
+      "GradeColorToken": "normal",
+      "Tier": 5,
+      "NameStringId": 50094,
+      "DescStringId": 51094,
+      "BaseAtk": 0.7,
+      "OwnEffectValue": 1.464,
+      "EquipEffectValue": 14,
+      "CurveKey": "WEAPON_LEVEL_UP_NORMAL"
+    },
+    {
+      "Index": 96,
+      "Id": 37296,
+      "WeaponId": "Axe_Rare_1",
+      "Type": "Axe",
+      "PrimaryStat": "CRIT_DMG",
+      "Grade": "Rare",
+      "GradeNameStringId": 40059,
+      "GradeColorToken": "rare",
+      "Tier": 1,
+      "NameStringId": 50095,
+      "DescStringId": 51095,
+      "BaseAtk": 1,
+      "OwnEffectValue": 2,
+      "EquipEffectValue": 20,
+      "CurveKey": "WEAPON_LEVEL_UP_RARE"
+    },
+    {
+      "Index": 97,
+      "Id": 37297,
+      "WeaponId": "Axe_Rare_2",
+      "Type": "Axe",
+      "PrimaryStat": "CRIT_DMG",
+      "Grade": "Rare",
+      "GradeNameStringId": 40059,
+      "GradeColorToken": "rare",
+      "Tier": 2,
+      "NameStringId": 50096,
+      "DescStringId": 51096,
+      "BaseAtk": 1.1,
+      "OwnEffectValue": 2.2,
+      "EquipEffectValue": 22,
+      "CurveKey": "WEAPON_LEVEL_UP_RARE"
+    },
+    {
+      "Index": 98,
+      "Id": 37298,
+      "WeaponId": "Axe_Rare_3",
+      "Type": "Axe",
+      "PrimaryStat": "CRIT_DMG",
+      "Grade": "Rare",
+      "GradeNameStringId": 40059,
+      "GradeColorToken": "rare",
+      "Tier": 3,
+      "NameStringId": 50097,
+      "DescStringId": 51097,
+      "BaseAtk": 1.2,
+      "OwnEffectValue": 2.42,
+      "EquipEffectValue": 24,
+      "CurveKey": "WEAPON_LEVEL_UP_RARE"
+    },
+    {
+      "Index": 99,
+      "Id": 37299,
+      "WeaponId": "Axe_Rare_4",
+      "Type": "Axe",
+      "PrimaryStat": "CRIT_DMG",
+      "Grade": "Rare",
+      "GradeNameStringId": 40059,
+      "GradeColorToken": "rare",
+      "Tier": 4,
+      "NameStringId": 50098,
+      "DescStringId": 51098,
+      "BaseAtk": 1.3,
+      "OwnEffectValue": 2.662,
+      "EquipEffectValue": 26,
+      "CurveKey": "WEAPON_LEVEL_UP_RARE"
+    },
+    {
+      "Index": 100,
+      "Id": 37300,
+      "WeaponId": "Axe_Rare_5",
+      "Type": "Axe",
+      "PrimaryStat": "CRIT_DMG",
+      "Grade": "Rare",
+      "GradeNameStringId": 40059,
+      "GradeColorToken": "rare",
+      "Tier": 5,
+      "NameStringId": 50099,
+      "DescStringId": 51099,
+      "BaseAtk": 1.4,
+      "OwnEffectValue": 2.928,
+      "EquipEffectValue": 28,
+      "CurveKey": "WEAPON_LEVEL_UP_RARE"
+    },
+    {
+      "Index": 101,
+      "Id": 37301,
+      "WeaponId": "Axe_Epic_1",
+      "Type": "Axe",
+      "PrimaryStat": "CRIT_DMG",
+      "Grade": "Epic",
+      "GradeNameStringId": 40060,
+      "GradeColorToken": "epic",
+      "Tier": 1,
+      "NameStringId": 50100,
+      "DescStringId": 51100,
+      "BaseAtk": 2,
+      "OwnEffectValue": 4,
+      "EquipEffectValue": 40,
+      "CurveKey": "WEAPON_LEVEL_UP_EPIC"
+    },
+    {
+      "Index": 102,
+      "Id": 37302,
+      "WeaponId": "Axe_Epic_2",
+      "Type": "Axe",
+      "PrimaryStat": "CRIT_DMG",
+      "Grade": "Epic",
+      "GradeNameStringId": 40060,
+      "GradeColorToken": "epic",
+      "Tier": 2,
+      "NameStringId": 50101,
+      "DescStringId": 51101,
+      "BaseAtk": 2.2,
+      "OwnEffectValue": 4.4,
+      "EquipEffectValue": 44,
+      "CurveKey": "WEAPON_LEVEL_UP_EPIC"
+    },
+    {
+      "Index": 103,
+      "Id": 37303,
+      "WeaponId": "Axe_Epic_3",
+      "Type": "Axe",
+      "PrimaryStat": "CRIT_DMG",
+      "Grade": "Epic",
+      "GradeNameStringId": 40060,
+      "GradeColorToken": "epic",
+      "Tier": 3,
+      "NameStringId": 50102,
+      "DescStringId": 51102,
+      "BaseAtk": 2.4,
+      "OwnEffectValue": 4.84,
+      "EquipEffectValue": 48,
+      "CurveKey": "WEAPON_LEVEL_UP_EPIC"
+    },
+    {
+      "Index": 104,
+      "Id": 37304,
+      "WeaponId": "Axe_Epic_4",
+      "Type": "Axe",
+      "PrimaryStat": "CRIT_DMG",
+      "Grade": "Epic",
+      "GradeNameStringId": 40060,
+      "GradeColorToken": "epic",
+      "Tier": 4,
+      "NameStringId": 50103,
+      "DescStringId": 51103,
+      "BaseAtk": 2.6,
+      "OwnEffectValue": 5.324,
+      "EquipEffectValue": 52,
+      "CurveKey": "WEAPON_LEVEL_UP_EPIC"
+    },
+    {
+      "Index": 105,
+      "Id": 37305,
+      "WeaponId": "Axe_Epic_5",
+      "Type": "Axe",
+      "PrimaryStat": "CRIT_DMG",
+      "Grade": "Epic",
+      "GradeNameStringId": 40060,
+      "GradeColorToken": "epic",
+      "Tier": 5,
+      "NameStringId": 50104,
+      "DescStringId": 51104,
+      "BaseAtk": 2.8,
+      "OwnEffectValue": 5.856,
+      "EquipEffectValue": 56,
+      "CurveKey": "WEAPON_LEVEL_UP_EPIC"
+    },
+    {
+      "Index": 106,
+      "Id": 37306,
+      "WeaponId": "Axe_Unique_1",
+      "Type": "Axe",
+      "PrimaryStat": "CRIT_DMG",
+      "Grade": "Unique",
+      "GradeNameStringId": 40061,
+      "GradeColorToken": "unique",
+      "Tier": 1,
+      "NameStringId": 50105,
+      "DescStringId": 51105,
+      "BaseAtk": 4,
+      "OwnEffectValue": 8,
+      "EquipEffectValue": 80,
+      "CurveKey": "WEAPON_LEVEL_UP_UNIQUE"
+    },
+    {
+      "Index": 107,
+      "Id": 37307,
+      "WeaponId": "Axe_Unique_2",
+      "Type": "Axe",
+      "PrimaryStat": "CRIT_DMG",
+      "Grade": "Unique",
+      "GradeNameStringId": 40061,
+      "GradeColorToken": "unique",
+      "Tier": 2,
+      "NameStringId": 50106,
+      "DescStringId": 51106,
+      "BaseAtk": 4.4,
+      "OwnEffectValue": 8.8,
+      "EquipEffectValue": 88,
+      "CurveKey": "WEAPON_LEVEL_UP_UNIQUE"
+    },
+    {
+      "Index": 108,
+      "Id": 37308,
+      "WeaponId": "Axe_Unique_3",
+      "Type": "Axe",
+      "PrimaryStat": "CRIT_DMG",
+      "Grade": "Unique",
+      "GradeNameStringId": 40061,
+      "GradeColorToken": "unique",
+      "Tier": 3,
+      "NameStringId": 50107,
+      "DescStringId": 51107,
+      "BaseAtk": 4.8,
+      "OwnEffectValue": 9.68,
+      "EquipEffectValue": 96,
+      "CurveKey": "WEAPON_LEVEL_UP_UNIQUE"
+    },
+    {
+      "Index": 109,
+      "Id": 37309,
+      "WeaponId": "Axe_Unique_4",
+      "Type": "Axe",
+      "PrimaryStat": "CRIT_DMG",
+      "Grade": "Unique",
+      "GradeNameStringId": 40061,
+      "GradeColorToken": "unique",
+      "Tier": 4,
+      "NameStringId": 50108,
+      "DescStringId": 51108,
+      "BaseAtk": 5.2,
+      "OwnEffectValue": 10.648,
+      "EquipEffectValue": 104,
+      "CurveKey": "WEAPON_LEVEL_UP_UNIQUE"
+    },
+    {
+      "Index": 110,
+      "Id": 37310,
+      "WeaponId": "Axe_Unique_5",
+      "Type": "Axe",
+      "PrimaryStat": "CRIT_DMG",
+      "Grade": "Unique",
+      "GradeNameStringId": 40061,
+      "GradeColorToken": "unique",
+      "Tier": 5,
+      "NameStringId": 50109,
+      "DescStringId": 51109,
+      "BaseAtk": 5.6,
+      "OwnEffectValue": 11.713,
+      "EquipEffectValue": 112,
+      "CurveKey": "WEAPON_LEVEL_UP_UNIQUE"
+    },
+    {
+      "Index": 111,
+      "Id": 37311,
+      "WeaponId": "Axe_Legendary_1",
+      "Type": "Axe",
+      "PrimaryStat": "CRIT_DMG",
+      "Grade": "Legendary",
+      "GradeNameStringId": 40062,
+      "GradeColorToken": "legendary",
+      "Tier": 1,
+      "NameStringId": 50110,
+      "DescStringId": 51110,
+      "BaseAtk": 8,
+      "OwnEffectValue": 16,
+      "EquipEffectValue": 160,
+      "CurveKey": "WEAPON_LEVEL_UP_LEGENDARY"
+    },
+    {
+      "Index": 112,
+      "Id": 37312,
+      "WeaponId": "Axe_Legendary_2",
+      "Type": "Axe",
+      "PrimaryStat": "CRIT_DMG",
+      "Grade": "Legendary",
+      "GradeNameStringId": 40062,
+      "GradeColorToken": "legendary",
+      "Tier": 2,
+      "NameStringId": 50111,
+      "DescStringId": 51111,
+      "BaseAtk": 8.8,
+      "OwnEffectValue": 17.6,
+      "EquipEffectValue": 176,
+      "CurveKey": "WEAPON_LEVEL_UP_LEGENDARY"
+    },
+    {
+      "Index": 113,
+      "Id": 37313,
+      "WeaponId": "Axe_Legendary_3",
+      "Type": "Axe",
+      "PrimaryStat": "CRIT_DMG",
+      "Grade": "Legendary",
+      "GradeNameStringId": 40062,
+      "GradeColorToken": "legendary",
+      "Tier": 3,
+      "NameStringId": 50112,
+      "DescStringId": 51112,
+      "BaseAtk": 9.6,
+      "OwnEffectValue": 19.36,
+      "EquipEffectValue": 192,
+      "CurveKey": "WEAPON_LEVEL_UP_LEGENDARY"
+    },
+    {
+      "Index": 114,
+      "Id": 37314,
+      "WeaponId": "Axe_Legendary_4",
+      "Type": "Axe",
+      "PrimaryStat": "CRIT_DMG",
+      "Grade": "Legendary",
+      "GradeNameStringId": 40062,
+      "GradeColorToken": "legendary",
+      "Tier": 4,
+      "NameStringId": 50113,
+      "DescStringId": 51113,
+      "BaseAtk": 10.4,
+      "OwnEffectValue": 21.296,
+      "EquipEffectValue": 208,
+      "CurveKey": "WEAPON_LEVEL_UP_LEGENDARY"
+    },
+    {
+      "Index": 115,
+      "Id": 37315,
+      "WeaponId": "Axe_Legendary_5",
+      "Type": "Axe",
+      "PrimaryStat": "CRIT_DMG",
+      "Grade": "Legendary",
+      "GradeNameStringId": 40062,
+      "GradeColorToken": "legendary",
+      "Tier": 5,
+      "NameStringId": 50114,
+      "DescStringId": 51114,
+      "BaseAtk": 11.2,
+      "OwnEffectValue": 23.426,
+      "EquipEffectValue": 224,
+      "CurveKey": "WEAPON_LEVEL_UP_LEGENDARY"
+    },
+    {
+      "Index": 116,
+      "Id": 37316,
+      "WeaponId": "Axe_Mythic_1",
+      "Type": "Axe",
+      "PrimaryStat": "CRIT_DMG",
+      "Grade": "Mythic",
+      "GradeNameStringId": 40136,
+      "GradeColorToken": "mythic",
+      "Tier": 1,
+      "NameStringId": 50115,
+      "DescStringId": 51115,
+      "BaseAtk": 16,
+      "OwnEffectValue": 32,
+      "EquipEffectValue": 320,
+      "CurveKey": "WEAPON_LEVEL_UP_MYTHIC"
+    },
+    {
+      "Index": 117,
+      "Id": 37317,
+      "WeaponId": "Axe_Mythic_2",
+      "Type": "Axe",
+      "PrimaryStat": "CRIT_DMG",
+      "Grade": "Mythic",
+      "GradeNameStringId": 40136,
+      "GradeColorToken": "mythic",
+      "Tier": 2,
+      "NameStringId": 50116,
+      "DescStringId": 51116,
+      "BaseAtk": 17.6,
+      "OwnEffectValue": 35.2,
+      "EquipEffectValue": 352,
+      "CurveKey": "WEAPON_LEVEL_UP_MYTHIC"
+    },
+    {
+      "Index": 118,
+      "Id": 37318,
+      "WeaponId": "Axe_Mythic_3",
+      "Type": "Axe",
+      "PrimaryStat": "CRIT_DMG",
+      "Grade": "Mythic",
+      "GradeNameStringId": 40136,
+      "GradeColorToken": "mythic",
+      "Tier": 3,
+      "NameStringId": 50117,
+      "DescStringId": 51117,
+      "BaseAtk": 19.2,
+      "OwnEffectValue": 38.72,
+      "EquipEffectValue": 384,
+      "CurveKey": "WEAPON_LEVEL_UP_MYTHIC"
+    },
+    {
+      "Index": 119,
+      "Id": 37319,
+      "WeaponId": "Axe_Mythic_4",
+      "Type": "Axe",
+      "PrimaryStat": "CRIT_DMG",
+      "Grade": "Mythic",
+      "GradeNameStringId": 40136,
+      "GradeColorToken": "mythic",
+      "Tier": 4,
+      "NameStringId": 50118,
+      "DescStringId": 51118,
+      "BaseAtk": 20.8,
+      "OwnEffectValue": 42.592,
+      "EquipEffectValue": 416,
+      "CurveKey": "WEAPON_LEVEL_UP_MYTHIC"
+    },
+    {
+      "Index": 120,
+      "Id": 37320,
+      "WeaponId": "Axe_Mythic_5",
+      "Type": "Axe",
+      "PrimaryStat": "CRIT_DMG",
+      "Grade": "Mythic",
+      "GradeNameStringId": 40136,
+      "GradeColorToken": "mythic",
+      "Tier": 5,
+      "NameStringId": 50119,
+      "DescStringId": 51119,
+      "BaseAtk": 22.4,
+      "OwnEffectValue": 46.851,
+      "EquipEffectValue": 448,
+      "CurveKey": "WEAPON_LEVEL_UP_MYTHIC"
+    },
+    {
+      "Index": 121,
+      "Id": 37321,
+      "WeaponId": "Staff_Normal_1",
+      "Type": "Staff",
+      "PrimaryStat": "EXIST_GAIN",
+      "Grade": "Normal",
+      "GradeNameStringId": 40058,
+      "GradeColorToken": "normal",
+      "Tier": 1,
+      "NameStringId": 50120,
+      "DescStringId": 51120,
+      "BaseAtk": 0.5,
+      "OwnEffectValue": 1,
+      "EquipEffectValue": 0.1,
+      "CurveKey": "WEAPON_LEVEL_UP_NORMAL"
+    },
+    {
+      "Index": 122,
+      "Id": 37322,
+      "WeaponId": "Staff_Normal_2",
+      "Type": "Staff",
+      "PrimaryStat": "EXIST_GAIN",
+      "Grade": "Normal",
+      "GradeNameStringId": 40058,
+      "GradeColorToken": "normal",
+      "Tier": 2,
+      "NameStringId": 50121,
+      "DescStringId": 51121,
+      "BaseAtk": 0.55,
+      "OwnEffectValue": 1.1,
+      "EquipEffectValue": 0.11,
+      "CurveKey": "WEAPON_LEVEL_UP_NORMAL"
+    },
+    {
+      "Index": 123,
+      "Id": 37323,
+      "WeaponId": "Staff_Normal_3",
+      "Type": "Staff",
+      "PrimaryStat": "EXIST_GAIN",
+      "Grade": "Normal",
+      "GradeNameStringId": 40058,
+      "GradeColorToken": "normal",
+      "Tier": 3,
+      "NameStringId": 50122,
+      "DescStringId": 51122,
+      "BaseAtk": 0.6,
+      "OwnEffectValue": 1.21,
+      "EquipEffectValue": 0.12,
+      "CurveKey": "WEAPON_LEVEL_UP_NORMAL"
+    },
+    {
+      "Index": 124,
+      "Id": 37324,
+      "WeaponId": "Staff_Normal_4",
+      "Type": "Staff",
+      "PrimaryStat": "EXIST_GAIN",
+      "Grade": "Normal",
+      "GradeNameStringId": 40058,
+      "GradeColorToken": "normal",
+      "Tier": 4,
+      "NameStringId": 50123,
+      "DescStringId": 51123,
+      "BaseAtk": 0.65,
+      "OwnEffectValue": 1.331,
+      "EquipEffectValue": 0.13,
+      "CurveKey": "WEAPON_LEVEL_UP_NORMAL"
+    },
+    {
+      "Index": 125,
+      "Id": 37325,
+      "WeaponId": "Staff_Normal_5",
+      "Type": "Staff",
+      "PrimaryStat": "EXIST_GAIN",
+      "Grade": "Normal",
+      "GradeNameStringId": 40058,
+      "GradeColorToken": "normal",
+      "Tier": 5,
+      "NameStringId": 50124,
+      "DescStringId": 51124,
+      "BaseAtk": 0.7,
+      "OwnEffectValue": 1.464,
+      "EquipEffectValue": 0.14,
+      "CurveKey": "WEAPON_LEVEL_UP_NORMAL"
+    },
+    {
+      "Index": 126,
+      "Id": 37326,
+      "WeaponId": "Staff_Rare_1",
+      "Type": "Staff",
+      "PrimaryStat": "EXIST_GAIN",
+      "Grade": "Rare",
+      "GradeNameStringId": 40059,
+      "GradeColorToken": "rare",
+      "Tier": 1,
+      "NameStringId": 50125,
+      "DescStringId": 51125,
+      "BaseAtk": 1,
+      "OwnEffectValue": 2,
+      "EquipEffectValue": 0.2,
+      "CurveKey": "WEAPON_LEVEL_UP_RARE"
+    },
+    {
+      "Index": 127,
+      "Id": 37327,
+      "WeaponId": "Staff_Rare_2",
+      "Type": "Staff",
+      "PrimaryStat": "EXIST_GAIN",
+      "Grade": "Rare",
+      "GradeNameStringId": 40059,
+      "GradeColorToken": "rare",
+      "Tier": 2,
+      "NameStringId": 50126,
+      "DescStringId": 51126,
+      "BaseAtk": 1.1,
+      "OwnEffectValue": 2.2,
+      "EquipEffectValue": 0.22,
+      "CurveKey": "WEAPON_LEVEL_UP_RARE"
+    },
+    {
+      "Index": 128,
+      "Id": 37328,
+      "WeaponId": "Staff_Rare_3",
+      "Type": "Staff",
+      "PrimaryStat": "EXIST_GAIN",
+      "Grade": "Rare",
+      "GradeNameStringId": 40059,
+      "GradeColorToken": "rare",
+      "Tier": 3,
+      "NameStringId": 50127,
+      "DescStringId": 51127,
+      "BaseAtk": 1.2,
+      "OwnEffectValue": 2.42,
+      "EquipEffectValue": 0.24,
+      "CurveKey": "WEAPON_LEVEL_UP_RARE"
+    },
+    {
+      "Index": 129,
+      "Id": 37329,
+      "WeaponId": "Staff_Rare_4",
+      "Type": "Staff",
+      "PrimaryStat": "EXIST_GAIN",
+      "Grade": "Rare",
+      "GradeNameStringId": 40059,
+      "GradeColorToken": "rare",
+      "Tier": 4,
+      "NameStringId": 50128,
+      "DescStringId": 51128,
+      "BaseAtk": 1.3,
+      "OwnEffectValue": 2.662,
+      "EquipEffectValue": 0.26,
+      "CurveKey": "WEAPON_LEVEL_UP_RARE"
+    },
+    {
+      "Index": 130,
+      "Id": 37330,
+      "WeaponId": "Staff_Rare_5",
+      "Type": "Staff",
+      "PrimaryStat": "EXIST_GAIN",
+      "Grade": "Rare",
+      "GradeNameStringId": 40059,
+      "GradeColorToken": "rare",
+      "Tier": 5,
+      "NameStringId": 50129,
+      "DescStringId": 51129,
+      "BaseAtk": 1.4,
+      "OwnEffectValue": 2.928,
+      "EquipEffectValue": 0.28,
+      "CurveKey": "WEAPON_LEVEL_UP_RARE"
+    },
+    {
+      "Index": 131,
+      "Id": 37331,
+      "WeaponId": "Staff_Epic_1",
+      "Type": "Staff",
+      "PrimaryStat": "EXIST_GAIN",
+      "Grade": "Epic",
+      "GradeNameStringId": 40060,
+      "GradeColorToken": "epic",
+      "Tier": 1,
+      "NameStringId": 50130,
+      "DescStringId": 51130,
+      "BaseAtk": 2,
+      "OwnEffectValue": 4,
+      "EquipEffectValue": 0.4,
+      "CurveKey": "WEAPON_LEVEL_UP_EPIC"
+    },
+    {
+      "Index": 132,
+      "Id": 37332,
+      "WeaponId": "Staff_Epic_2",
+      "Type": "Staff",
+      "PrimaryStat": "EXIST_GAIN",
+      "Grade": "Epic",
+      "GradeNameStringId": 40060,
+      "GradeColorToken": "epic",
+      "Tier": 2,
+      "NameStringId": 50131,
+      "DescStringId": 51131,
+      "BaseAtk": 2.2,
+      "OwnEffectValue": 4.4,
+      "EquipEffectValue": 0.44,
+      "CurveKey": "WEAPON_LEVEL_UP_EPIC"
+    },
+    {
+      "Index": 133,
+      "Id": 37333,
+      "WeaponId": "Staff_Epic_3",
+      "Type": "Staff",
+      "PrimaryStat": "EXIST_GAIN",
+      "Grade": "Epic",
+      "GradeNameStringId": 40060,
+      "GradeColorToken": "epic",
+      "Tier": 3,
+      "NameStringId": 50132,
+      "DescStringId": 51132,
+      "BaseAtk": 2.4,
+      "OwnEffectValue": 4.84,
+      "EquipEffectValue": 0.48,
+      "CurveKey": "WEAPON_LEVEL_UP_EPIC"
+    },
+    {
+      "Index": 134,
+      "Id": 37334,
+      "WeaponId": "Staff_Epic_4",
+      "Type": "Staff",
+      "PrimaryStat": "EXIST_GAIN",
+      "Grade": "Epic",
+      "GradeNameStringId": 40060,
+      "GradeColorToken": "epic",
+      "Tier": 4,
+      "NameStringId": 50133,
+      "DescStringId": 51133,
+      "BaseAtk": 2.6,
+      "OwnEffectValue": 5.324,
+      "EquipEffectValue": 0.52,
+      "CurveKey": "WEAPON_LEVEL_UP_EPIC"
+    },
+    {
+      "Index": 135,
+      "Id": 37335,
+      "WeaponId": "Staff_Epic_5",
+      "Type": "Staff",
+      "PrimaryStat": "EXIST_GAIN",
+      "Grade": "Epic",
+      "GradeNameStringId": 40060,
+      "GradeColorToken": "epic",
+      "Tier": 5,
+      "NameStringId": 50134,
+      "DescStringId": 51134,
+      "BaseAtk": 2.8,
+      "OwnEffectValue": 5.856,
+      "EquipEffectValue": 0.56,
+      "CurveKey": "WEAPON_LEVEL_UP_EPIC"
+    },
+    {
+      "Index": 136,
+      "Id": 37336,
+      "WeaponId": "Staff_Unique_1",
+      "Type": "Staff",
+      "PrimaryStat": "EXIST_GAIN",
+      "Grade": "Unique",
+      "GradeNameStringId": 40061,
+      "GradeColorToken": "unique",
+      "Tier": 1,
+      "NameStringId": 50135,
+      "DescStringId": 51135,
+      "BaseAtk": 4,
+      "OwnEffectValue": 8,
+      "EquipEffectValue": 0.8,
+      "CurveKey": "WEAPON_LEVEL_UP_UNIQUE"
+    },
+    {
+      "Index": 137,
+      "Id": 37337,
+      "WeaponId": "Staff_Unique_2",
+      "Type": "Staff",
+      "PrimaryStat": "EXIST_GAIN",
+      "Grade": "Unique",
+      "GradeNameStringId": 40061,
+      "GradeColorToken": "unique",
+      "Tier": 2,
+      "NameStringId": 50136,
+      "DescStringId": 51136,
+      "BaseAtk": 4.4,
+      "OwnEffectValue": 8.8,
+      "EquipEffectValue": 0.88,
+      "CurveKey": "WEAPON_LEVEL_UP_UNIQUE"
+    },
+    {
+      "Index": 138,
+      "Id": 37338,
+      "WeaponId": "Staff_Unique_3",
+      "Type": "Staff",
+      "PrimaryStat": "EXIST_GAIN",
+      "Grade": "Unique",
+      "GradeNameStringId": 40061,
+      "GradeColorToken": "unique",
+      "Tier": 3,
+      "NameStringId": 50137,
+      "DescStringId": 51137,
+      "BaseAtk": 4.8,
+      "OwnEffectValue": 9.68,
+      "EquipEffectValue": 0.96,
+      "CurveKey": "WEAPON_LEVEL_UP_UNIQUE"
+    },
+    {
+      "Index": 139,
+      "Id": 37339,
+      "WeaponId": "Staff_Unique_4",
+      "Type": "Staff",
+      "PrimaryStat": "EXIST_GAIN",
+      "Grade": "Unique",
+      "GradeNameStringId": 40061,
+      "GradeColorToken": "unique",
+      "Tier": 4,
+      "NameStringId": 50138,
+      "DescStringId": 51138,
+      "BaseAtk": 5.2,
+      "OwnEffectValue": 10.648,
+      "EquipEffectValue": 1.04,
+      "CurveKey": "WEAPON_LEVEL_UP_UNIQUE"
+    },
+    {
+      "Index": 140,
+      "Id": 37340,
+      "WeaponId": "Staff_Unique_5",
+      "Type": "Staff",
+      "PrimaryStat": "EXIST_GAIN",
+      "Grade": "Unique",
+      "GradeNameStringId": 40061,
+      "GradeColorToken": "unique",
+      "Tier": 5,
+      "NameStringId": 50139,
+      "DescStringId": 51139,
+      "BaseAtk": 5.6,
+      "OwnEffectValue": 11.713,
+      "EquipEffectValue": 1.12,
+      "CurveKey": "WEAPON_LEVEL_UP_UNIQUE"
+    },
+    {
+      "Index": 141,
+      "Id": 37341,
+      "WeaponId": "Staff_Legendary_1",
+      "Type": "Staff",
+      "PrimaryStat": "EXIST_GAIN",
+      "Grade": "Legendary",
+      "GradeNameStringId": 40062,
+      "GradeColorToken": "legendary",
+      "Tier": 1,
+      "NameStringId": 50140,
+      "DescStringId": 51140,
+      "BaseAtk": 8,
+      "OwnEffectValue": 16,
+      "EquipEffectValue": 1.6,
+      "CurveKey": "WEAPON_LEVEL_UP_LEGENDARY"
+    },
+    {
+      "Index": 142,
+      "Id": 37342,
+      "WeaponId": "Staff_Legendary_2",
+      "Type": "Staff",
+      "PrimaryStat": "EXIST_GAIN",
+      "Grade": "Legendary",
+      "GradeNameStringId": 40062,
+      "GradeColorToken": "legendary",
+      "Tier": 2,
+      "NameStringId": 50141,
+      "DescStringId": 51141,
+      "BaseAtk": 8.8,
+      "OwnEffectValue": 17.6,
+      "EquipEffectValue": 1.76,
+      "CurveKey": "WEAPON_LEVEL_UP_LEGENDARY"
+    },
+    {
+      "Index": 143,
+      "Id": 37343,
+      "WeaponId": "Staff_Legendary_3",
+      "Type": "Staff",
+      "PrimaryStat": "EXIST_GAIN",
+      "Grade": "Legendary",
+      "GradeNameStringId": 40062,
+      "GradeColorToken": "legendary",
+      "Tier": 3,
+      "NameStringId": 50142,
+      "DescStringId": 51142,
+      "BaseAtk": 9.6,
+      "OwnEffectValue": 19.36,
+      "EquipEffectValue": 1.92,
+      "CurveKey": "WEAPON_LEVEL_UP_LEGENDARY"
+    },
+    {
+      "Index": 144,
+      "Id": 37344,
+      "WeaponId": "Staff_Legendary_4",
+      "Type": "Staff",
+      "PrimaryStat": "EXIST_GAIN",
+      "Grade": "Legendary",
+      "GradeNameStringId": 40062,
+      "GradeColorToken": "legendary",
+      "Tier": 4,
+      "NameStringId": 50143,
+      "DescStringId": 51143,
+      "BaseAtk": 10.4,
+      "OwnEffectValue": 21.296,
+      "EquipEffectValue": 2.08,
+      "CurveKey": "WEAPON_LEVEL_UP_LEGENDARY"
+    },
+    {
+      "Index": 145,
+      "Id": 37345,
+      "WeaponId": "Staff_Legendary_5",
+      "Type": "Staff",
+      "PrimaryStat": "EXIST_GAIN",
+      "Grade": "Legendary",
+      "GradeNameStringId": 40062,
+      "GradeColorToken": "legendary",
+      "Tier": 5,
+      "NameStringId": 50144,
+      "DescStringId": 51144,
+      "BaseAtk": 11.2,
+      "OwnEffectValue": 23.426,
+      "EquipEffectValue": 2.24,
+      "CurveKey": "WEAPON_LEVEL_UP_LEGENDARY"
+    },
+    {
+      "Index": 146,
+      "Id": 37346,
+      "WeaponId": "Staff_Mythic_1",
+      "Type": "Staff",
+      "PrimaryStat": "EXIST_GAIN",
+      "Grade": "Mythic",
+      "GradeNameStringId": 40136,
+      "GradeColorToken": "mythic",
+      "Tier": 1,
+      "NameStringId": 50145,
+      "DescStringId": 51145,
+      "BaseAtk": 16,
+      "OwnEffectValue": 32,
+      "EquipEffectValue": 3.2,
+      "CurveKey": "WEAPON_LEVEL_UP_MYTHIC"
+    },
+    {
+      "Index": 147,
+      "Id": 37347,
+      "WeaponId": "Staff_Mythic_2",
+      "Type": "Staff",
+      "PrimaryStat": "EXIST_GAIN",
+      "Grade": "Mythic",
+      "GradeNameStringId": 40136,
+      "GradeColorToken": "mythic",
+      "Tier": 2,
+      "NameStringId": 50146,
+      "DescStringId": 51146,
+      "BaseAtk": 17.6,
+      "OwnEffectValue": 35.2,
+      "EquipEffectValue": 3.52,
+      "CurveKey": "WEAPON_LEVEL_UP_MYTHIC"
+    },
+    {
+      "Index": 148,
+      "Id": 37348,
+      "WeaponId": "Staff_Mythic_3",
+      "Type": "Staff",
+      "PrimaryStat": "EXIST_GAIN",
+      "Grade": "Mythic",
+      "GradeNameStringId": 40136,
+      "GradeColorToken": "mythic",
+      "Tier": 3,
+      "NameStringId": 50147,
+      "DescStringId": 51147,
+      "BaseAtk": 19.2,
+      "OwnEffectValue": 38.72,
+      "EquipEffectValue": 3.84,
+      "CurveKey": "WEAPON_LEVEL_UP_MYTHIC"
+    },
+    {
+      "Index": 149,
+      "Id": 37349,
+      "WeaponId": "Staff_Mythic_4",
+      "Type": "Staff",
+      "PrimaryStat": "EXIST_GAIN",
+      "Grade": "Mythic",
+      "GradeNameStringId": 40136,
+      "GradeColorToken": "mythic",
+      "Tier": 4,
+      "NameStringId": 50148,
+      "DescStringId": 51148,
+      "BaseAtk": 20.8,
+      "OwnEffectValue": 42.592,
+      "EquipEffectValue": 4.16,
+      "CurveKey": "WEAPON_LEVEL_UP_MYTHIC"
+    },
+    {
+      "Index": 150,
+      "Id": 37350,
+      "WeaponId": "Staff_Mythic_5",
+      "Type": "Staff",
+      "PrimaryStat": "EXIST_GAIN",
+      "Grade": "Mythic",
+      "GradeNameStringId": 40136,
+      "GradeColorToken": "mythic",
+      "Tier": 5,
+      "NameStringId": 50149,
+      "DescStringId": 51149,
+      "BaseAtk": 22.4,
+      "OwnEffectValue": 46.851,
+      "EquipEffectValue": 4.48,
+      "CurveKey": "WEAPON_LEVEL_UP_MYTHIC"
     }
   ],
   "RelicTable": [
@@ -13181,6 +15407,15 @@
       "Category": "ADD",
       "TextStringId": 55028,
       "SortOrder": 5
+    },
+    {
+      "Index": 23,
+      "Id": 33023,
+      "Version": "v0.4.0",
+      "ReleaseDate": "2026-09-12",
+      "Category": "ADD",
+      "TextStringId": 55029,
+      "SortOrder": 6
     }
   ]
 }

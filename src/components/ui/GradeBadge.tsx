@@ -8,6 +8,7 @@ const GRADE_CLASS: Record<WeaponGradeEnum, string> = {
   Epic: 'border-grade-epic/40 bg-grade-epic/10 text-grade-epic',
   Unique: 'border-grade-unique/40 bg-grade-unique/10 text-grade-unique',
   Legendary: 'border-grade-legendary/40 bg-grade-legendary/10 text-grade-legendary',
+  Mythic: 'border-grade-mythic/40 bg-grade-mythic/10 text-grade-mythic',
 }
 
 interface GradeBadgeProps {
