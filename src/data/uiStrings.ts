@@ -289,10 +289,11 @@ export function getCommonUiLabel(key: CommonUiLabelKey): string {
   return getString(COMMON_UI_LABEL_ID[key], 'KOR', key)
 }
 
-export type ExistUiLabelKey = 'untilNextSpecial'
+export type ExistUiLabelKey = 'untilNextSpecial' | 'jumpToCurrent'
 
 const EXIST_UI_LABEL_ID: Record<ExistUiLabelKey, number> = {
   untilNextSpecial: 40132,
+  jumpToCurrent: 40135,
 }
 
 export function getExistUiLabel(key: ExistUiLabelKey): string {

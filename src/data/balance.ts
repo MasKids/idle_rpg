@@ -86,9 +86,10 @@ export interface StatTableRow {
   MaxLevel: number
 }
 
-// 50노드 전부를 리터럴 행으로 나열한다(구간 압축 없음) — 노드 하나하나를 개별
-// 조정할 수 있어야 하는 데이터라 공식/구간이 아니라 행으로 펼쳤다(2단계 개편,
-// docs/TABLE_REDESIGN.md 2.2절). Order로 조회하며, Tier는 표시용(1~10=1티어 등).
+// 250노드(v0.4.0부터, 25티어×10노드) 전부를 리터럴 행으로 나열한다(구간 압축
+// 없음) — 노드 하나하나를 개별 조정할 수 있어야 하는 데이터라 공식/구간이 아니라
+// 행으로 펼쳤다(2단계 개편, docs/TABLE_REDESIGN.md 2.2절). Order로 조회하며,
+// Tier는 표시용(1~10=1티어 등).
 export interface ExistTreeTableRow {
   Index: number
   Id: number
@@ -705,5 +706,5 @@ export function getCurrencyConfig(type: CurrencyTypeEnum): CurrencyTableRow {
   return row
 }
 
-// 원본 테이블 배열이 통째로 필요할 때(예: 존재력 트리 50노드 생성)를 위한 export
+// 원본 테이블 배열이 통째로 필요할 때(예: 존재력 트리 250노드 생성)를 위한 export
 export const BALANCE_TABLES: Readonly<BalanceTables> = TABLES

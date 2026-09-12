@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { ArrowDown } from 'lucide-react'
 import { EXIST_SPECIAL_UNLOCKS, EXIST_TREE_TOTAL_NODES, existNodeStatus, generateExistTree } from '../../data/existTree'
 import {
   getButtonLabel,
@@ -81,6 +82,21 @@ export function ExistTreePanel({ onBack }: ExistTreePanelProps) {
     }
   }, [])
 
+  // 250노드로 늘어나며 스크롤 길이가 상당히 길어져(최대 약 25000px) — 초반
+  // 노드를 구경하러 위로 스크롤했다가 지금 해금 가능한 노드(최하단 근처)로
+  // 빠르게 돌아올 방법이 필요하다. 바닥에서 화면 두 개 높이 이상 멀어지면
+  // "현재 위치로" 버튼을 띄운다.
+  const [showJumpToCurrent, setShowJumpToCurrent] = useState(false)
+  const handleScroll = () => {
+    const el = scrollRef.current
+    if (!el) return
+    const distanceFromBottom = el.scrollHeight - el.scrollTop - el.clientHeight
+    setShowJumpToCurrent(distanceFromBottom > el.clientHeight * 2)
+  }
+  const jumpToCurrent = () => {
+    scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: 'smooth' })
+  }
+
   // 노드 해금 순간 그 노드 자리에서 짧게 발광이 퍼지는 연출. unlockedCount가
   // 늘어난 순간의 값이 곧 "방금 해금된 노드의 order"다.
   const [burstOrder, setBurstOrder] = useState<number | null>(null)
@@ -156,7 +172,7 @@ export function ExistTreePanel({ onBack }: ExistTreePanelProps) {
         />
       )}
 
-      <div ref={scrollRef} className="min-h-0 flex-1 overflow-y-auto">
+      <div ref={scrollRef} onScroll={handleScroll} className="min-h-0 flex-1 overflow-y-auto">
         {nodesTopToBottom.map((node, index) => {
           const status = existNodeStatus(node.order, unlockedCount)
           const nextNode = nodesTopToBottom[index + 1]
@@ -194,6 +210,17 @@ export function ExistTreePanel({ onBack }: ExistTreePanelProps) {
           )
         })}
       </div>
+
+      {showJumpToCurrent && (
+        <button
+          type="button"
+          onClick={jumpToCurrent}
+          aria-label={getExistUiLabel('jumpToCurrent')}
+          className="absolute bottom-4 right-4 flex h-11 w-11 items-center justify-center rounded-full border-2 border-teal-strong bg-surface-elevated shadow-lg transition-transform hover:scale-105 active:scale-95"
+        >
+          <ArrowDown size={20} strokeWidth={2.2} className="text-teal-strong" />
+        </button>
+      )}
     </div>
   )
 }

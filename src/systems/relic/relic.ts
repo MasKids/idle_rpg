@@ -27,7 +27,7 @@ export function sortedRelicRows(): RelicTableRow[] {
   return RELIC_GRADES.flatMap((grade) => BALANCE_TABLES.RelicTable.filter((row) => row.RelicGrade === grade))
 }
 
-// 존재력 트리 해금 노드 수 → 사용 가능한 유물 슬롯 수 (RelicSlotTable 기준, 최대 5)
+// 존재력 트리 해금 노드 수 → 사용 가능한 유물 슬롯 수 (RelicSlotTable 기준, 최대 RELIC_SLOT_MAX)
 export function computeRelicSlotCount(unlockedCount: number): number {
   let count = 0
   for (let slot = 1; slot <= RELIC_SLOT_MAX; slot++) {

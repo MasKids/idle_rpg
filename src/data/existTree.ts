@@ -10,7 +10,7 @@ import type {
   StatKey,
 } from '../types/game'
 
-// ExistTreeTable은 50노드를 전부 개별 행으로 나열한다(2단계 개편 — 구간 압축 방식은
+// ExistTreeTable은 250노드(v0.4.0부터)를 전부 개별 행으로 나열한다(2단계 개편 — 구간 압축 방식은
 // 폐기, docs/TABLE_REDESIGN.md 2.2절). 노드 하나하나를 손으로 조정할 수 있어야 하는
 // 데이터라 공식이 아니라 리터럴 값을 그대로 조회만 한다. 총 노드 개수는 테이블 행 수.
 export const EXIST_TREE_TOTAL_NODES = BALANCE_TABLES.ExistTreeTable.length

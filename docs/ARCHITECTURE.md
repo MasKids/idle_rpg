@@ -99,7 +99,7 @@ docs/                  이 문서, WEAPON_SYSTEM.md(무기/유물/가챠 설계 
 | `currentStage` | 지금 몇 스테이지인지 |
 | `battle` | 지금 싸우는 중인 적의 상태 (최대체력/현재체력/보스 여부/처치 수/필요 처치 수) |
 | `lastHit` | 가장 최근 공격 결과 한 건. 화면에 데미지 숫자를 띄우는 연출용일 뿐, 전투 자체는 이 값과 무관하게 계속 진행됨 (3번 항목 참고) |
-| `unlockedCount` | 존재력 트리에서 지금까지 해금한 노드 개수 (0~50). 유물 슬롯 수와
+| `unlockedCount` | 존재력 트리에서 지금까지 해금한 노드 개수 (0~250). 유물 슬롯 수와
   숙련의 정수 지급 시점도 이 값에 연동된다 |
 | `specialUnlocks` | 리버스 / 타임 하이스트를 각각 해금했는지 여부 |
 | `rebirthSpent` | 이번 회차에 소비한 성장에너지·골드·숙련의 정수의 누적량. 리버스 환급 계산에 쓰임 (10번 항목 참고) |
@@ -111,7 +111,7 @@ docs/                  이 문서, WEAPON_SYSTEM.md(무기/유물/가챠 설계 
 | `equippedWeaponId` | 지금 장착 중인 무기 타입 ID 하나(없으면 `null`). 장착 슬롯은 1개뿐 |
 | `gachaCount` / `gachaLevel` | 무기 가챠 누적 뽑기 횟수와 현재 가챠 레벨 — 리버스해도 유지됨 (8번 항목) |
 | `ownedRelics` | 보유 유물 id 목록. 도감형이라 종류당 최대 1개만 담긴다 (9번 항목) |
-| `activeRelics` | 유물 슬롯 배열(길이 5, 잠긴 슬롯도 자리는 차지). 각 칸에 활성화된 유물 id 또는 `null` |
+| `activeRelics` | 유물 슬롯 배열(길이 8, 잠긴 슬롯도 자리는 차지). 각 칸에 활성화된 유물 id 또는 `null` |
 
 이 상태들을 바꾸는 함수(`upgradeStat`, `executeRebirth`, `executeTimeHeist`,
 `pullWeaponGacha`, `pullRelicGacha` 등)도 전부 같은 파일 안에 정의되어 있습니다.
@@ -307,7 +307,7 @@ CostGrowthRate^현재레벨`만큼 소비해 올립니다.
 단일 풀 방식이라, 등급별 게이트 없이 등급이 높을수록 가중치만 낮게 잡혀 있습니다.
 
 **슬롯**: 보유만으로는 효과가 없고 슬롯에 꽂아야(활성화) 발동합니다. 슬롯 개수는
-`RelicSlotTable`(슬롯 1~5번째 각각의 `RequireUnlockedCount` = 10/20/30/40/50)로
+`RelicSlotTable`(슬롯 1~8번째 각각의 `RequireUnlockedCount` = 30/60/90/120/150/180/210/240)로
 정의되고, `computeRelicSlotCount(unlockedCount)`가 존재력 트리 해금 노드 수를 보고
 지금 열려 있는 슬롯 수를 계산합니다. 슬롯 최대 개수(`RELIC_SLOT_MAX`)도 숫자를 박아두지
 않고 `RelicSlotTable.length`로 파생됩니다. `setRelicSlot(slotIndex, relicId)`이
