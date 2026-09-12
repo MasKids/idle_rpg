@@ -1,6 +1,6 @@
 import { getCommon, getTimeHeistConfig } from '../../data/balance'
 import { generateStage } from '../../data/stages'
-import { applyGoldGainBonus, applyTimeHeistCooldownReduction } from '../relic/relic'
+import { applyGoldGainBonus, applyGrowthGainBonus, applyTimeHeistCooldownReduction } from '../relic/relic'
 
 export function timeHeistCost(usedCount: number): number {
   return getTimeHeistConfig(usedCount).Cost
@@ -40,6 +40,7 @@ export function computeTimeHeistPreview(
   usedCount: number,
   goldGainBonusPercent = 0,
   cooldownReductionPercent = 0,
+  growthGainBonusPercent = 0,
 ): TimeHeistPreview {
   const config = getTimeHeistConfig(usedCount)
   const targetStage = currentStage + getCommon('TimeHeistTargetStageOffset')
@@ -53,7 +54,7 @@ export function computeTimeHeistPreview(
     cooldownMs: timeHeistCooldownMs(usedCount, cooldownReductionPercent),
     rewards: {
       gold: applyGoldGainBonus(perClear.gold * config.RewardMultiplier, goldGainBonusPercent),
-      growthEnergy: perClear.growthEnergy * config.RewardMultiplier,
+      growthEnergy: applyGrowthGainBonus(perClear.growthEnergy * config.RewardMultiplier, growthGainBonusPercent),
       exist: Math.floor(perClear.exist * config.RewardMultiplier * existGain),
     },
   }

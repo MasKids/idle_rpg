@@ -206,6 +206,9 @@ export type RelicUiLabelKey =
   | 'slotsFull'
   | 'goldGain'
   | 'timeHeistCooldown'
+  | 'growthGain'
+  | 'timeEnergyGain'
+  | 'mythicChance'
 
 const RELIC_UI_LABEL_ID: Record<RelicUiLabelKey, number> = {
   pullRelic: 40094,
@@ -216,6 +219,11 @@ const RELIC_UI_LABEL_ID: Record<RelicUiLabelKey, number> = {
   slotsFull: 40099,
   goldGain: 40100,
   timeHeistCooldown: 40101,
+  // v0.4.0 추가(유물 15종 확장) — 40000대가 이미 꽉 차 있어 52000대(유물 설명과
+  // 같은 대역)에 이어서 잡았다.
+  growthGain: 52200,
+  timeEnergyGain: 52201,
+  mythicChance: 52202,
 }
 
 export function getRelicUiLabel(key: RelicUiLabelKey): string {

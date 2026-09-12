@@ -104,6 +104,7 @@ docs/                  이 문서, WEAPON_SYSTEM.md(무기/유물/가챠 설계 
 | `specialUnlocks` | 리버스 / 타임 하이스트를 각각 해금했는지 여부 |
 | `rebirthSpent` | 이번 회차에 소비한 성장에너지·골드·숙련의 정수의 누적량. 리버스 환급 계산에 쓰임 (10번 항목 참고) |
 | `rebirthCount` / `rebirthBonusPoint` / `rebirthMaxStage` | 회차 보너스 관련 — 리버스해도 초기화되지 않고 계속 누적됨 |
+| `firstClearMaxStage` | 이번 회차에 최초 클리어 다이아를 이미 지급한 최고 스테이지 — `rebirthMaxStage`와 달리 리버스 시 초기화되어, 매 회차 같은 스테이지에서 다시 최초 클리어 다이아가 나온다(v0.4.0) |
 | `timeHeistUsedCount` | 타임 하이스트를 지금까지 사용한 누적 횟수 |
 | `timeHeistLastUsedAt` | 타임 하이스트를 마지막으로 사용한 시각. 쿨타임 계산의 기준 (11번 항목 참고) |
 | `offlineReward` | 오프라인 보상 미리보기 내용. 플레이어가 "받기"를 누르기 전까지만 존재하고, 받으면 `null`이 됨 |
@@ -303,11 +304,13 @@ CostGrowthRate^현재레벨`만큼 소비해 올립니다.
 유물은 시간에너지를 소모하는 순수 랜덤 뽑기입니다(가챠 레벨 같은 성장 개념 없음 —
 등급별 확률은 고정). **도감형 인벤토리**라 유물 종류당 최대 1개만 보유하고, 이미
 보유한 유물이 다시 뽑히면 자동으로 `RelicDuplicateRefundTimeEnergy`만큼 시간에너지로
-환급됩니다(`pullRelicGacha`). 뽑기 자체는 9종 전체를 `GachaWeight`로 한 번에 추첨하는
-단일 풀 방식이라, 등급별 게이트 없이 등급이 높을수록 가중치만 낮게 잡혀 있습니다.
+환급됩니다(`pullRelicGacha`). 뽑기 자체는 15종(v0.4.0에서 9종→15종, Legendary
+등급 추가) 전체를 `GachaWeight`로 한 번에 추첨하는 단일 풀 방식이라, 등급별
+게이트 없이 등급이 높을수록 가중치만 낮게 잡혀 있습니다.
 
 **슬롯**: 보유만으로는 효과가 없고 슬롯에 꽂아야(활성화) 발동합니다. 슬롯 개수는
-`RelicSlotTable`(슬롯 1~8번째 각각의 `RequireUnlockedCount` = 30/60/90/120/150/180/210/240)로
+`RelicSlotTable`(슬롯 1~10번째 각각의 `RequireUnlockedCount` = 25/50/75/.../250,
+v0.4.0에서 8슬롯/30노드 간격 → 10슬롯/25노드 간격으로 확장)로
 정의되고, `computeRelicSlotCount(unlockedCount)`가 존재력 트리 해금 노드 수를 보고
 지금 열려 있는 슬롯 수를 계산합니다. 슬롯 최대 개수(`RELIC_SLOT_MAX`)도 숫자를 박아두지
 않고 `RelicSlotTable.length`로 파생됩니다. `setRelicSlot(slotIndex, relicId)`이

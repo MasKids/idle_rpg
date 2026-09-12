@@ -52,7 +52,10 @@ export interface GameSaveState {
   lastActiveAt: number
   // 리버스 횟수 — 리버스해도 초기화되지 않는다(리버스 보상 배율의 기준값).
   rebirthCount: number
+  // 역대 최고 도달 스테이지(랭킹/리버스 보상 구간 판정용) — 리버스해도 유지.
   rebirthMaxStage: number
+  // 이번 회차의 최초 클리어 다이아 최고 기록 — 리버스 시 초기화(gameStore.ts 참고).
+  firstClearMaxStage: number
   // 무기 — 리버스 시 전부 소멸(초기화)
   ownedWeapons: OwnedWeapons
   equippedWeaponId: string | null

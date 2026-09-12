@@ -225,7 +225,18 @@ interface GameState {
   unlockedCount: number
   specialUnlocks: Record<SpecialUnlockId, boolean>
   rebirthCount: number
+  // 역대 최고 도달 스테이지 — 리버스해도 초기화되지 않는다(랭킹, 리버스 보상 구간
+  // 판정 전용 기록). "이번 회차에서 어디까지 최초 클리어했는지"와는 별개 개념이라
+  // firstClearMaxStage와 완전히 분리했다(예전엔 이 값 하나로 최초 클리어까지
+  // 겸용했는데, 그러면 리버스 후 스테이지가 1로 돌아가도 이 값은 그대로 남아있어
+  // 예전에 도달했던 스테이지까지는 최초 클리어 다이아가 전혀 나오지 않는 버그가
+  // 있었다).
   rebirthMaxStage: number
+  // 이번 회차(리버스 이후)에 최초 클리어 다이아를 이미 지급한 최고 스테이지 —
+  // 리버스 시 0으로 초기화되어, 매 회차 같은 스테이지를 다시 지나가도 최초 클리어
+  // 다이아가 다시 나온다. rebirthMaxStage와 달리 랭킹/리버스 보상 구간에는 쓰이지
+  // 않는다(battleLoop.ts의 최초 클리어 판정 전용).
+  firstClearMaxStage: number
   timeHeistUsedCount: number
   timeHeistLastUsedAt: number | null
   offlineReward: OfflineRewardResult | null
@@ -315,6 +326,7 @@ const startExistTreeStatBonus = persistedGame?.existTreeStatBonus ?? initialExis
 const startStage = persistedGame?.currentStage ?? INITIAL_STAGE
 const startRebirthCount = persistedGame?.rebirthCount ?? 0
 const startRebirthMaxStage = Math.max(persistedGame?.rebirthMaxStage ?? startStage, startStage)
+const startFirstClearMaxStage = Math.max(persistedGame?.firstClearMaxStage ?? startStage, startStage)
 const startOwnedWeapons = persistedGame?.ownedWeapons ?? initialOwnedWeapons
 const startEquippedWeaponId = persistedGame?.equippedWeaponId ?? null
 const startGachaCount = persistedGame?.gachaCount ?? 0
@@ -332,10 +344,16 @@ const { stats: startStats } = computeEffectiveStats(
 
 // 오프라인 보상은 앱 시작 시 단 한 번, 이전 세션이 끝난 시각과 지금의 차이로 계산한다.
 // (스테이지는 그대로 두고 재화만 지급 — 실제 battle 진행에는 영향 없음)
-const startGoldGainBonusPercent = computeActiveRelicEffects(startActiveRelics).goldGainBonusPercent
+const startRelicEffects = computeActiveRelicEffects(startActiveRelics)
 const startOfflineReward =
   lastSessionEndedAt !== null
-    ? computeOfflineReward(Date.now() - lastSessionEndedAt, startStage, startStats, startGoldGainBonusPercent)
+    ? computeOfflineReward(
+        Date.now() - lastSessionEndedAt,
+        startStage,
+        startStats,
+        startRelicEffects.goldGainBonusPercent,
+        startRelicEffects.growthGainBonusPercent,
+      )
     : null
 
 const initialCurrencies: Record<CurrencyKey, number> = {
@@ -364,6 +382,7 @@ export const useGameStore = create<GameState>((set, get) => ({
   },
   rebirthCount: startRebirthCount,
   rebirthMaxStage: startRebirthMaxStage,
+  firstClearMaxStage: startFirstClearMaxStage,
   timeHeistUsedCount: persistedGame?.timeHeistUsedCount ?? 0,
   timeHeistLastUsedAt: persistedGame?.timeHeistLastUsedAt ?? null,
   offlineReward: startOfflineReward,
@@ -537,6 +556,7 @@ export const useGameStore = create<GameState>((set, get) => ({
     set((state) => ({
       currentStage: stage,
       rebirthMaxStage: Math.max(state.rebirthMaxStage, stage),
+      firstClearMaxStage: Math.max(state.firstClearMaxStage, stage),
     })),
 
   setBattle: (battle) => set({ battle }),
@@ -636,6 +656,10 @@ export const useGameStore = create<GameState>((set, get) => ({
         specialUnlocks: nextSpecialUnlocks,
         rebirthCount: nextRebirthCount,
         rebirthMaxStage: nextRebirthMaxStage,
+        // 최초 클리어 기록은 회차마다 초기화 — nextStage(보통 1)부터 다시 최초
+        // 클리어 다이아를 받을 수 있어야 한다. rebirthMaxStage(랭킹/리버스 보상
+        // 구간 판정용)는 위에서 그대로 유지된다.
+        firstClearMaxStage: nextStage,
         ownedWeapons: nextOwnedWeapons,
         equippedWeaponId: nextEquippedWeaponId,
         ownedRelics: nextOwnedRelics,
@@ -714,6 +738,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       usedCount,
       relicEffects.goldGainBonusPercent,
       relicEffects.timeHeistCooldownReductionPercent,
+      relicEffects.growthGainBonusPercent,
     )
     if (!get().spendCurrency('timeEnergy', preview.cost)) return false
 
@@ -740,8 +765,8 @@ export const useGameStore = create<GameState>((set, get) => ({
     set({ offlineReward: null })
   },
 
-  // 개발자 콘솔 테스트용: 리버스 횟수·최고 도달 스테이지 초기화
-  resetRebirthBonus: () => set({ rebirthCount: 0, rebirthMaxStage: 0 }),
+  // 개발자 콘솔 테스트용: 리버스 횟수·최고 도달 스테이지·최초 클리어 기록 초기화
+  resetRebirthBonus: () => set({ rebirthCount: 0, rebirthMaxStage: 0, firstClearMaxStage: 0 }),
 
   // 무기 타입을 count만큼 지급(없으면 신규 생성, 있으면 count만 증가). 가챠/합성/개발자
   // 콘솔 지급이 전부 이 액션을 공유한다.
@@ -765,7 +790,8 @@ export const useGameStore = create<GameState>((set, get) => ({
     const cost = currentGachaLevelConfig(get().gachaCount).PullCostDiamond
     if (!get().spendCurrency('diamond', cost)) return null
 
-    const weaponId = rollWeaponGacha(get().gachaCount)
+    const mythicChanceBonus = computeActiveRelicEffects(get().activeRelics).mythicChanceBonus
+    const weaponId = rollWeaponGacha(get().gachaCount, mythicChanceBonus)
     const isDuplicate = (get().ownedWeapons[weaponId]?.count ?? 0) > 0
 
     set((state) => {
@@ -797,6 +823,7 @@ export const useGameStore = create<GameState>((set, get) => ({
   // 무거운 스탯 재계산과 상태 반영은 마지막에 한 번만 한다.
   pullWeaponGachaTimes: (times) => {
     const results: WeaponGachaPullResult[] = []
+    const mythicChanceBonus = computeActiveRelicEffects(get().activeRelics).mythicChanceBonus
 
     set((state) => {
       let diamond = state.currencies.diamond
@@ -808,7 +835,7 @@ export const useGameStore = create<GameState>((set, get) => ({
         if (diamond < cost) break
         diamond -= cost
 
-        const weaponId = rollWeaponGacha(gachaCount)
+        const weaponId = rollWeaponGacha(gachaCount, mythicChanceBonus)
         const isDuplicate = (ownedWeapons[weaponId]?.count ?? 0) > 0
         ownedWeapons = grantWeaponEntry(ownedWeapons, weaponId, 1)
         gachaCount += 1
@@ -1041,6 +1068,7 @@ useGameStore.subscribe((state) => {
     specialUnlocks: state.specialUnlocks,
     rebirthCount: state.rebirthCount,
     rebirthMaxStage: state.rebirthMaxStage,
+    firstClearMaxStage: state.firstClearMaxStage,
     timeHeistUsedCount: state.timeHeistUsedCount,
     timeHeistLastUsedAt: state.timeHeistLastUsedAt,
     ownedWeapons: state.ownedWeapons,
@@ -1172,7 +1200,7 @@ if (import.meta.env.DEV) {
       '- __grantRandomWeapons(n) — 랜덤 무기 n개 지급 (다이아/가챠 카운트 무관)',
       '- __setGachaLevel(level) — 가챠 레벨 임의 설정',
       '- __grantAllRelics() — 보유 유물 전부 지급(활성화는 별도)',
-      '- __gameStore.getState().resetRebirthBonus() — 리버스 횟수/최고 스테이지 초기화',
+      '- __gameStore.getState().resetRebirthBonus() — 리버스 횟수/최고 스테이지/최초 클리어 기록 초기화',
       '- __setLastActiveHoursAgo(hours) — 마지막 접속 시각을 n시간 전으로(오프라인 보상 테스트, 새로고침 필요)',
     ].join('\n'),
   )

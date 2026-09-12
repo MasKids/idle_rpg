@@ -20,7 +20,7 @@ export function relicGradeName(grade: RelicGradeEnum): string {
   return getString(getRelicGradeInfo(grade).NameStringId, 'KOR', grade)
 }
 
-export const RELIC_GRADES: RelicGradeEnum[] = ['Normal', 'Rare', 'Epic']
+export const RELIC_GRADES: RelicGradeEnum[] = ['Normal', 'Rare', 'Epic', 'Legendary']
 
 // 무기 그리드와 동일하게 등급순으로 정렬된 유물 전체 목록 (보유 여부 무관)
 export function sortedRelicRows(): RelicTableRow[] {
@@ -69,6 +69,9 @@ export function relicEffectLabel(relic: RelicTableRow): string {
   }
   if (relic.EffectType === 'GOLD_GAIN') return `${getRelicUiLabel('goldGain')} +${relic.EffectValue}%`
   if (relic.EffectType === 'TIMEHEIST_COOLDOWN') return `${getRelicUiLabel('timeHeistCooldown')} -${relic.EffectValue}%`
+  if (relic.EffectType === 'GROWTH_GAIN') return `${getRelicUiLabel('growthGain')} +${relic.EffectValue}%`
+  if (relic.EffectType === 'TIME_ENERGY_GAIN') return `${getRelicUiLabel('timeEnergyGain')} +${relic.EffectValue}%`
+  if (relic.EffectType === 'GACHA_MYTHIC_CHANCE') return `${getRelicUiLabel('mythicChance')} +${relic.EffectValue}%p`
   return ''
 }
 
@@ -80,6 +83,11 @@ export interface ActiveRelicEffects {
   // 스탯 밖 특수 효과 — applyGoldGainBonus/applyTimeHeistCooldownReduction으로 적용한다.
   goldGainBonusPercent: number
   timeHeistCooldownReductionPercent: number
+  // v0.4.0 추가 — applyGrowthGainBonus/applyTimeEnergyGainBonus로 적용.
+  growthGainBonusPercent: number
+  timeEnergyGainBonusPercent: number
+  // 무기 가챠 신화 가중치에 그대로 더하는 가산 보너스(rollWeaponGacha가 직접 소비).
+  mythicChanceBonus: number
 }
 
 const EMPTY_STAT_BONUS: Record<StatKey, number> = {
@@ -102,12 +110,24 @@ export function applyTimeHeistCooldownReduction(cooldownMs: number, reductionPer
   return Math.floor(cooldownMs * (1 - clamped / 100))
 }
 
+// 성장에너지/시간에너지 획득량 특수 효과 적용 — applyGoldGainBonus와 동일한 패턴.
+export function applyGrowthGainBonus(amount: number, bonusPercent: number): number {
+  return Math.floor(amount * (1 + bonusPercent / 100))
+}
+
+export function applyTimeEnergyGainBonus(amount: number, bonusPercent: number): number {
+  return Math.floor(amount * (1 + bonusPercent / 100))
+}
+
 // 활성화된(슬롯에 꽂힌) 유물들의 효과를 합산한다. 보유만 하고 비활성화된 유물은 반영 안 됨.
 export function computeActiveRelicEffects(activeRelics: ActiveRelicSlots): ActiveRelicEffects {
   const statBonusFlat = { ...EMPTY_STAT_BONUS }
   const statBonusPercent = { ...EMPTY_STAT_BONUS }
   let goldGainBonusPercent = 0
   let timeHeistCooldownReductionPercent = 0
+  let growthGainBonusPercent = 0
+  let timeEnergyGainBonusPercent = 0
+  let mythicChanceBonus = 0
 
   for (const relicId of activeRelics) {
     if (relicId === null) continue
@@ -123,8 +143,22 @@ export function computeActiveRelicEffects(activeRelics: ActiveRelicSlots): Activ
       goldGainBonusPercent += relic.EffectValue
     } else if (relic.EffectType === 'TIMEHEIST_COOLDOWN') {
       timeHeistCooldownReductionPercent += relic.EffectValue
+    } else if (relic.EffectType === 'GROWTH_GAIN') {
+      growthGainBonusPercent += relic.EffectValue
+    } else if (relic.EffectType === 'TIME_ENERGY_GAIN') {
+      timeEnergyGainBonusPercent += relic.EffectValue
+    } else if (relic.EffectType === 'GACHA_MYTHIC_CHANCE') {
+      mythicChanceBonus += relic.EffectValue
     }
   }
 
-  return { statBonusFlat, statBonusPercent, goldGainBonusPercent, timeHeistCooldownReductionPercent }
+  return {
+    statBonusFlat,
+    statBonusPercent,
+    goldGainBonusPercent,
+    timeHeistCooldownReductionPercent,
+    growthGainBonusPercent,
+    timeEnergyGainBonusPercent,
+    mythicChanceBonus,
+  }
 }

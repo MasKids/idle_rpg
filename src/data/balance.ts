@@ -32,7 +32,11 @@ export const WEAPON_TYPE_NAME_STRING_ID: Record<WeaponTypeEnum, number> = {
   Staff: 40138,
 }
 export type WeaponGradeEnum = 'Normal' | 'Rare' | 'Epic' | 'Unique' | 'Legendary' | 'Mythic'
-export type RelicGradeEnum = 'Normal' | 'Rare' | 'Epic'
+// v0.4.0에서 Legendary 추가(9종→15종 확장) — 기존 Normal/Rare/Epic 3단계 위에
+// 한 단계만 더 얹었다(무기처럼 6단계 전부 따라갈 필요는 없다고 판단). 무기용
+// 등급 색상 토큰(GRADE_BORDER_COLOR 등, weaponUi.ts)을 그대로 재사용하므로
+// WeaponGradeEnum에 이미 있는 값만 추가해야 새 색상 작업 없이 바로 연결된다.
+export type RelicGradeEnum = 'Normal' | 'Rare' | 'Epic' | 'Legendary'
 export type RelicEffectTypeEnum =
   | 'STAT_ATK'
   | 'STAT_ASPD'
@@ -41,6 +45,13 @@ export type RelicEffectTypeEnum =
   | 'STAT_EXIST_GAIN'
   | 'GOLD_GAIN'
   | 'TIMEHEIST_COOLDOWN'
+  // v0.4.0 추가 — 재화 획득량 확장(성장에너지/시간에너지)과 가챠 시스템 효과.
+  | 'GROWTH_GAIN'
+  | 'TIME_ENERGY_GAIN'
+  // 무기 가챠 신화(Mythic) 등급 가중치에 그대로 더해지는 가산 보너스(퍼센트
+  // 포인트 취급 — GachaTable 등급 가중치 합이 대략 100이라 %p로 표기해도
+  // 체감이 맞는다). weapon.ts의 rollWeaponGacha가 직접 소비한다.
+  | 'GACHA_MYTHIC_CHANCE'
 // v0.3.0 밸런스 개편(깡스탯/퍼센트 분리) — 유물은 "혼합" 역할이라 유물별로
 // EffectValue가 깡스탯인지 퍼센트인지 RelicTable에 직접 표시한다. StatTable(항상
 // 깡스탯)·WeaponTable(보유=퍼센트/장착=깡스탯, 칼럼 자체로 고정)·ExistTreeTable

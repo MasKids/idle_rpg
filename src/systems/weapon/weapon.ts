@@ -255,7 +255,9 @@ export function currentGachaLevelConfig(gachaCount: number): GachaTableRow {
   return getGachaLevelForPullCount(gachaCount)
 }
 
-export function rollWeaponGacha(gachaCount: number): string {
+// mythicChanceBonus — 활성화된 유물(GACHA_MYTHIC_CHANCE)이 있으면 MythicWeight에
+// 그대로 더한다(가중치 합이 대략 100이라 %p로 안내해도 체감이 맞는다).
+export function rollWeaponGacha(gachaCount: number, mythicChanceBonus = 0): string {
   const level = currentGachaLevelConfig(gachaCount)
 
   const type = WEAPON_TYPES[Math.floor(Math.random() * WEAPON_TYPES.length)]
@@ -265,7 +267,7 @@ export function rollWeaponGacha(gachaCount: number): string {
     ['Epic', level.EpicWeight],
     ['Unique', level.UniqueWeight],
     ['Legendary', level.LegendaryWeight],
-    ['Mythic', level.MythicWeight],
+    ['Mythic', level.MythicWeight + mythicChanceBonus],
   ])
   const tier = weightedPick<number>([
     [1, level.Tier1Weight],

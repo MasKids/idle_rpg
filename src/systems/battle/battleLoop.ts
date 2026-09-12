@@ -1,5 +1,5 @@
 import { generateStage, killsRequiredForStage } from '../../data/stages'
-import { applyGoldGainBonus, computeActiveRelicEffects } from '../relic/relic'
+import { applyGoldGainBonus, applyGrowthGainBonus, applyTimeEnergyGainBonus, computeActiveRelicEffects } from '../relic/relic'
 import { useGameStore } from '../../store/gameStore'
 import { calculateDamage } from './calculateDamage'
 
@@ -73,23 +73,24 @@ function processKill() {
     if (state.battle.enemyHp > 0) return
 
     const clearedStage = generateStage(state.currentStage)
-    const goldGainBonusPercent = computeActiveRelicEffects(state.activeRelics).goldGainBonusPercent
-    state.addCurrency('gold', applyGoldGainBonus(clearedStage.rewards.gold, goldGainBonusPercent))
-    state.addCurrency('growthEnergy', clearedStage.rewards.growthEnergy)
+    const relicEffects = computeActiveRelicEffects(state.activeRelics)
+    state.addCurrency('gold', applyGoldGainBonus(clearedStage.rewards.gold, relicEffects.goldGainBonusPercent))
+    state.addCurrency('growthEnergy', applyGrowthGainBonus(clearedStage.rewards.growthEnergy, relicEffects.growthGainBonusPercent))
     state.addCurrency('exist', Math.floor(clearedStage.rewards.exist * state.stats.existGain))
     if (clearedStage.rewards.timeEnergy > 0) {
-      state.addCurrency('timeEnergy', clearedStage.rewards.timeEnergy)
+      state.addCurrency('timeEnergy', applyTimeEnergyGainBonus(clearedStage.rewards.timeEnergy, relicEffects.timeEnergyGainBonusPercent))
     }
 
     const kills = state.battle.kills + 1
 
     if (kills >= state.battle.killsRequired) {
-      // 최초 클리어 판정 — rebirthMaxStage는 "지금까지 한 번이라도 있어본 가장
-      // 높은 스테이지 번호"를 리버스해도 유지하며 실시간 갱신하는 기존 값이다.
-      // setStage(currentStage+1)가 이 값을 currentStage+1로 갱신하기 *전*에 비교해야
-      // "이 스테이지가 이미 클리어된 적 있는지"를 정확히 판정할 수 있다(리버스로
-      // currentStage가 1로 되돌아가도 rebirthMaxStage는 그대로라 재클리어는 걸러진다).
-      const isFirstClear = state.currentStage >= state.rebirthMaxStage
+      // 최초 클리어 판정 — firstClearMaxStage는 "이번 회차에서 최초 클리어 다이아를
+      // 이미 지급한 가장 높은 스테이지 번호"이고, 리버스 시 초기화된다(rebirthMaxStage와
+      // 달리). setStage(currentStage+1)가 이 값을 currentStage+1로 갱신하기 *전*에
+      // 비교해야 "이 스테이지가 이번 회차에 이미 클리어된 적 있는지"를 정확히 판정할
+      // 수 있다 — 리버스로 currentStage가 1로 되돌아가면 firstClearMaxStage도 함께
+      // 초기화되므로, 매 회차 같은 스테이지에서 다시 최초 클리어 다이아가 나온다.
+      const isFirstClear = state.currentStage >= state.firstClearMaxStage
       if (isFirstClear && clearedStage.rewards.firstClearDiamond > 0) {
         state.addCurrency('diamond', clearedStage.rewards.firstClearDiamond)
         firstClearCounter += 1
