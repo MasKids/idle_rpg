@@ -40,25 +40,29 @@ export function BrandLogo({ size = 280, showSubtitle = true, color, className }:
 
         {/* 글자 사이 간격이 실제 글리프 폭 기준으로 균등(약 43px)하도록 점을 각
             간격의 중앙에 배치했다 — 원래 좌표는 눈대중이라 N-O 간격만 유독
-            넓고(63px) 점도 중앙에서 벗어나 있었다. */}
-        <circle cx="284" cy="44" r="6" fill="currentColor" />
-        <circle cx="377" cy="44" r="6" fill="currentColor" />
-        <circle cx="469" cy="44" r="6" fill="currentColor" />
+            넓고(63px) 점도 중앙에서 벗어나 있었다. cy는 N.O.V.A 텍스트와 함께
+            아래쪽 y=73 기준으로 맞췄다(바로 아래 주석 참고). */}
+        <circle cx="284" cy="54" r="6" fill="currentColor" />
+        <circle cx="377" cy="54" r="6" fill="currentColor" />
+        <circle cx="469" cy="54" r="6" fill="currentColor" />
       </g>
 
       {/* N.O.V.A — 흰색 고정, 글로우 없음. x좌표는 각 글자의 실측 렌더 폭(getBBox)
-          기준으로 간격을 균등하게(약 43px) 맞춘 값이다. */}
+          기준으로 간격을 균등하게(약 43px) 맞춘 값이다. y는 실측(getBBox) 기준
+          Re: 박스의 세로 중앙(y=50)과 글자 중앙을 맞추기 위해 63→73으로
+          내렸다 — 63일 때는 폰트 메트릭 차이로 박스보다 10px 위쪽에 치우쳐
+          보였다. */}
       <g fill="var(--color-text-primary)" fontFamily="var(--font-sans)" fontWeight="700" fontSize="66">
-        <text x="216" y="63">
+        <text x="216" y="73">
           N
         </text>
-        <text x="306" y="63">
+        <text x="306" y="73">
           O
         </text>
-        <text x="399" y="63">
+        <text x="399" y="73">
           V
         </text>
-        <text x="490" y="63">
+        <text x="490" y="73">
           A
         </text>
       </g>
