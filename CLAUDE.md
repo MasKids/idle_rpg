@@ -242,3 +242,9 @@ balance/README.md 참고.
 - v0.X.0 : 큰 기능 추가 또는 시스템 개편
 - v0.X.Y : 버그 수정, 밸런싱 조정
 - 프로토타입 단계이므로 앞자리는 0 유지
+- **릴리스 시(v0.X.0/v0.X.Y 무관) 세이브 버전(`src/store/gameStateStorage.ts`의
+  `SAVE_VERSION`)을 반드시 함께 올린다.** 저장 구조가 실제로 바뀌었는지는 따지지
+  않는다 — 마이그레이션을 만들지 않는 프로토타입 특성상 매 릴리스를 깨끗한
+  상태에서 시작하는 쪽을 원칙으로 삼는다. 손으로 상수를 고치지 말고
+  `node scripts/bump-save-version.mjs vX.Y.Z "사유"`로 올린다(절차 상세는
+  docs/RELEASE.md 1·3절).

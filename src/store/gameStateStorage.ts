@@ -12,8 +12,11 @@ const SAVE_DEBOUNCE_MS = getCommon('AutoSaveIntervalSec') * 1000
 // 때 구버전이 남긴 흔적을 한 번에 정리하기 위한 공용 접두사.
 const STORAGE_PREFIX = 'idle-rpg:'
 
-// 저장 구조가 바뀌면 이 값을 올린다. 로드 시 버전이 다르면 깨진 값으로 취급하지 않고
+// 릴리스마다(v0.X.0/v0.X.Y 무관, 저장 구조 변경 여부와 무관하게 항상) 이 값을
+// 올린다 — docs/RELEASE.md 3절. 로드 시 버전이 다르면 깨진 값으로 취급하지 않고
 // 그냥 "저장 없음"과 동일하게 취급해 초기 상태로 시작한다 (마이그레이션은 하지 않음 — 프로토타입 범위 밖).
+// 손으로 상수를 고치지 말고 scripts/bump-save-version.mjs로 올린다(이력 주석까지
+// 자동으로 추가된다).
 // v0.2.0에서 1→2: 데이터 테이블 전면 개편으로 존재력 트리 비용 곡선·스테이지 HP
 // 증가율이 달라져서, 구버전 세이브를 그대로 이어서 로드하면 크래시는 안 나지만
 // (실제로 확인함 — 새 필드는 ??로 기본값 대체, 무기/스탯 등 기존 필드도 그대로
@@ -31,7 +34,8 @@ const STORAGE_PREFIX = 'idle-rpg:'
 // 저장된 수치의 의미 자체가 바뀌었다(깡스탯 포인트 → 퍼센트 포인트) — 필드 이름과
 // 타입(Record<StatKey, number>)은 그대로라 크래시는 안 나지만, 구버전 세이브를 그대로
 // 로드하면 존재력 트리 보너스가 완전히 다른(훨씬 작은) 값으로 잘못 해석된다.
-const SAVE_VERSION = 5
+// v0.4.0에서 5→6: 몬스터 스프라이트/로고·로딩 화면 리디자인 등 v0.4.0 변경 — 구조 변경 여부와 무관하게 릴리스마다 올리는 정책으로 전환
+const SAVE_VERSION = 6
 
 export interface GameSaveState {
   currencies: Record<CurrencyKey, number>

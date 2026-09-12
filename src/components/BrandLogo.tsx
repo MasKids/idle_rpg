@@ -38,20 +38,24 @@ export function BrandLogo({ size = 280, showSubtitle = true, color, className }:
         </text>
         <rect x="156" y="26" width="15" height="48" fill="currentColor" style={{ animation: 'cursor-blink 1s step-end infinite' }} />
 
-        <circle cx="308" cy="44" r="6" fill="currentColor" />
-        <circle cx="392" cy="44" r="6" fill="currentColor" />
-        <circle cx="472" cy="44" r="6" fill="currentColor" />
+        {/* 글자 사이 간격이 실제 글리프 폭 기준으로 균등(약 43px)하도록 점을 각
+            간격의 중앙에 배치했다 — 원래 좌표는 눈대중이라 N-O 간격만 유독
+            넓고(63px) 점도 중앙에서 벗어나 있었다. */}
+        <circle cx="284" cy="44" r="6" fill="currentColor" />
+        <circle cx="377" cy="44" r="6" fill="currentColor" />
+        <circle cx="469" cy="44" r="6" fill="currentColor" />
       </g>
 
-      {/* N.O.V.A — 흰색 고정, 글로우 없음 */}
+      {/* N.O.V.A — 흰색 고정, 글로우 없음. x좌표는 각 글자의 실측 렌더 폭(getBBox)
+          기준으로 간격을 균등하게(약 43px) 맞춘 값이다. */}
       <g fill="var(--color-text-primary)" fontFamily="var(--font-sans)" fontWeight="700" fontSize="66">
         <text x="216" y="63">
           N
         </text>
-        <text x="326" y="63">
+        <text x="306" y="63">
           O
         </text>
-        <text x="410" y="63">
+        <text x="399" y="63">
           V
         </text>
         <text x="490" y="63">

@@ -1,6 +1,6 @@
 import { BALANCE_TABLES, getString, type PatchNoteCategoryEnum, type PatchNoteTableRow } from '../../data/balance'
 import { Button, Modal } from '../../components/ui'
-import { getButtonLabel, getProfileUiLabel } from '../../data/uiStrings'
+import { getButtonLabel, getMetaUiLabel, getProfileUiLabel } from '../../data/uiStrings'
 
 interface PatchNoteModalProps {
   isOpen: boolean
@@ -74,6 +74,13 @@ export function PatchNoteModal({ isOpen, onClose }: PatchNoteModalProps) {
         </Button>
       }
     >
+      {/* 버전 데이터 행이 아니라 고정 배너 — 매 릴리스마다 세이브가 초기화된다는
+          정책은 예외 없이 항상 적용되므로, 버전별로 문구를 깜빡할 수 있는
+          PatchNoteTable 행 대신 여기 코드에 한 번만 박아 항상 보이게 한다. */}
+      <p className="mb-3 rounded-lg bg-surface-card px-2.5 py-2 text-[11px] text-text-secondary">
+        {getMetaUiLabel('saveResetNotice')}
+      </p>
+
       <div className="max-h-80 space-y-4 overflow-y-auto">
         {versionGroups.map((group) => (
           <div key={group.version}>

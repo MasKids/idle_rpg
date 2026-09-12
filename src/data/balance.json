@@ -2911,8 +2911,8 @@
     {
       "Index": 426,
       "Id": 41039,
-      "KOR": "데이터 구조가 변경되어 기존 진행 상황을 이어갈 수 없습니다.",
-      "ENG": "The save structure changed, so previous progress can't be carried over."
+      "KOR": "버전이 올라가며 기존 진행 상황이 초기화되었습니다.",
+      "ENG": "Progress was reset because the app was updated to a new version."
     },
     {
       "Index": 427,
@@ -3153,6 +3153,18 @@
       "Id": 55024,
       "KOR": "로고·로딩 화면 리디자인",
       "ENG": "로고·로딩 화면 리디자인"
+    },
+    {
+      "Index": 467,
+      "Id": 55025,
+      "KOR": "버전이 올라갈 때마다 진행 상황이 초기화됩니다.",
+      "ENG": "Progress resets with every version bump."
+    },
+    {
+      "Index": 468,
+      "Id": 55026,
+      "KOR": "스탯 화면 표시 정리",
+      "ENG": "스탯 화면 표시 정리"
     }
   ],
   "CurrencyTable": [
@@ -8896,6 +8908,15 @@
       "Category": "CHANGE",
       "TextStringId": 55024,
       "SortOrder": 2
+    },
+    {
+      "Index": 20,
+      "Id": 33020,
+      "Version": "v0.4.0",
+      "ReleaseDate": "2026-09-12",
+      "Category": "FIX",
+      "TextStringId": 55026,
+      "SortOrder": 3
     }
   ]
 }

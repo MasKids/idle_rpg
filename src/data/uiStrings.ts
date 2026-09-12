@@ -504,6 +504,7 @@ export type MetaUiLabelKey =
   | 'statusInitializing'
   | 'statusLoadingArchive'
   | 'statusReady'
+  | 'saveResetNotice'
 
 const META_UI_LABEL_ID: Record<MetaUiLabelKey, number> = {
   gameTitle: 55014,
@@ -512,6 +513,7 @@ const META_UI_LABEL_ID: Record<MetaUiLabelKey, number> = {
   statusInitializing: 55021,
   statusLoadingArchive: 55022,
   statusReady: 55023,
+  saveResetNotice: 55025,
 }
 
 export function getMetaUiLabel(key: MetaUiLabelKey): string {

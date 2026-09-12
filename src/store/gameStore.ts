@@ -117,11 +117,6 @@ function grantWeaponEntry(
 // 창/활이면 ATK는 기본 공격력만 남고 특화 스탯(ASPD/CRIT)에만 붙는다. 무기 종류를
 // 바꿔도 ATK 깡스탯/퍼센트가 0으로 꺼지지 않는다(기본 공격력은 항상 전체 보유 무기
 // 기준). 리버스 회차 보너스는 리버스 환급량에만 영향을 주고 이 계산에는 관여하지 않는다.
-export interface StatBreakdown {
-  flat: number
-  percent: number
-}
-
 function computeEffectiveStats(
   statLevels: Record<StatKey, number>,
   masteryLevels: Record<string, number>,
@@ -129,7 +124,7 @@ function computeEffectiveStats(
   ownedWeapons: OwnedWeapons,
   equippedWeaponId: string | null,
   activeRelics: ActiveRelicSlots,
-): { stats: Record<StatKey, number>; statBreakdown: Record<StatKey, StatBreakdown> } {
+): { stats: Record<StatKey, number> } {
   const flatTotal: Record<StatKey, number> = { ...baseStatsFromLevels(statLevels) }
   const percentSum: Record<StatKey, number> = { atk: 0, aspd: 0, crit: 0, critDmg: 0, existGain: 0 }
 
@@ -159,17 +154,28 @@ function computeEffectiveStats(
   }
 
   const stats = {} as Record<StatKey, number>
-  const statBreakdown = {} as Record<StatKey, StatBreakdown>
   for (const key of STAT_KEYS) {
-    stats[key] = flatTotal[key] * (1 + percentSum[key] / 100)
-    statBreakdown[key] = { flat: flatTotal[key], percent: percentSum[key] }
+    const value = flatTotal[key] * (1 + percentSum[key] / 100)
+    // 밸런스 데이터 이상(예: CommonTable 키 누락) 등으로 값이 깨지면 전투 루프가
+    // 조용히 멈춰버린다(NaN은 어떤 비교에도 true가 안 돼 데미지도, 처치 판정도 멈춘다).
+    // 그런 사고를 완전히 막을 수는 없지만, 최소한 콘솔에 남기고 깡스탯만으로
+    // 계속 진행되게 한다 — 0/NaN보다는 "약하게라도 진행"이 항상 낫다.
+    if (!Number.isFinite(value)) {
+      console.error(`[computeEffectiveStats] ${key} 계산 결과가 유효하지 않습니다(NaN/Infinity) — 깡스탯만 적용합니다.`, {
+        flat: flatTotal[key],
+        percent: percentSum[key],
+      })
+      stats[key] = Number.isFinite(flatTotal[key]) ? flatTotal[key] : 0
+    } else {
+      stats[key] = value
+    }
   }
 
-  return { stats, statBreakdown }
+  return { stats }
 }
 
 // 위 계산 결과를 zustand set()의 부분 상태 객체로 바로 스프레드할 수 있는 형태로
-// 감싼 헬퍼 — 매 액션마다 반복되는 "stats: computeEffectiveStats(...)." 6줄을
+// 감싼 헬퍼 — 매 액션마다 반복되는 "stats: computeEffectiveStats(...)." 줄을
 // "...statsPatch(...)."로 줄인다.
 function statsPatch(
   statLevels: Record<StatKey, number>,
@@ -178,7 +184,7 @@ function statsPatch(
   ownedWeapons: OwnedWeapons,
   equippedWeaponId: string | null,
   activeRelics: ActiveRelicSlots,
-): { stats: Record<StatKey, number>; statBreakdown: Record<StatKey, StatBreakdown> } {
+): { stats: Record<StatKey, number> } {
   return computeEffectiveStats(statLevels, masteryLevels, existTreeBonus, ownedWeapons, equippedWeaponId, activeRelics)
 }
 
@@ -210,9 +216,6 @@ interface GameState {
   masteryLevels: Record<string, number>
   existTreeStatBonus: Record<StatKey, number>
   stats: Record<StatKey, number>
-  // 스탯 화면에 "1,250 = (100 + 400) × 2.5" 형태로 구성을 보여주기 위한 분해값
-  // (깡스탯 합계/퍼센트 합계) — stats와 항상 같이 재계산된다(세이브 대상 아님).
-  statBreakdown: Record<StatKey, StatBreakdown>
   currentStage: number
   battle: BattleState
   lastHit: BattleHit | null
@@ -318,7 +321,7 @@ const startGachaCount = persistedGame?.gachaCount ?? 0
 const startGachaLevel = persistedGame?.gachaLevel ?? currentGachaLevelConfig(startGachaCount).GachaLevel
 const startOwnedRelics = persistedGame?.ownedRelics ?? []
 const startActiveRelics = persistedGame?.activeRelics ?? initialActiveRelics
-const { stats: startStats, statBreakdown: startStatBreakdown } = computeEffectiveStats(
+const { stats: startStats } = computeEffectiveStats(
   startStatLevels,
   startMasteryLevels,
   startExistTreeStatBonus,
@@ -350,7 +353,6 @@ export const useGameStore = create<GameState>((set, get) => ({
   masteryLevels: startMasteryLevels,
   existTreeStatBonus: startExistTreeStatBonus,
   stats: startStats,
-  statBreakdown: startStatBreakdown,
   currentStage: startStage,
   battle: persistedGame?.battle ?? battleStateForStage(startStage),
   lastHit: null,
