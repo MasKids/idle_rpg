@@ -485,6 +485,10 @@ export type ProfileUiLabelKey =
   | 'profileTotalPlayTime'
   | 'editName'
   | 'patchNoteTitle'
+  | 'settingsTitle'
+  | 'bgmVolume'
+  | 'sfxVolume'
+  | 'muteAll'
 
 const PROFILE_UI_LABEL_ID: Record<ProfileUiLabelKey, number> = {
   resetNoticeTitle: 41038,
@@ -497,6 +501,12 @@ const PROFILE_UI_LABEL_ID: Record<ProfileUiLabelKey, number> = {
   profileTotalPlayTime: 41045,
   editName: 41046,
   patchNoteTitle: 41051,
+  // v0.4.0 사운드 시스템 추가 — 40000대가 이미 꽉 차 있어 52000대(다른 v0.4.0
+  // 신규 문자열과 같은 대역)에 이어서 잡았다.
+  settingsTitle: 52210,
+  bgmVolume: 52211,
+  sfxVolume: 52212,
+  muteAll: 52213,
 }
 
 export function getProfileUiLabel(key: ProfileUiLabelKey): string {

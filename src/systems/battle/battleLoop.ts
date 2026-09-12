@@ -1,6 +1,7 @@
 import { generateStage, killsRequiredForStage } from '../../data/stages'
 import { applyGoldGainBonus, applyGrowthGainBonus, applyTimeEnergyGainBonus, computeActiveRelicEffects } from '../relic/relic'
 import { useGameStore } from '../../store/gameStore'
+import { audioManager } from '../../lib/audio'
 import { calculateDamage } from './calculateDamage'
 
 // 전투 루프는 화면(BattleArea) 마운트 여부와 무관하게 앱이 켜져 있는 동안 항상 돈다.
@@ -35,6 +36,7 @@ function tick() {
 
       hitCounter += 1
       useGameStore.setState({ lastHit: { id: hitCounter, amount, isCrit } })
+      audioManager.playSfx('hit')
 
       const remainingHp = state.battle.enemyHp - amount
 
@@ -71,6 +73,8 @@ function processKill() {
     const state = useGameStore.getState()
     // enemyHp가 이미 0보다 크면(방어적) 다른 경로로 이미 처리된 것 — 중복 집계 방지.
     if (state.battle.enemyHp > 0) return
+
+    audioManager.playSfx('kill')
 
     const clearedStage = generateStage(state.currentStage)
     const relicEffects = computeActiveRelicEffects(state.activeRelics)

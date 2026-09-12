@@ -8,6 +8,7 @@ import { LoadingScreen } from './components/LoadingScreen'
 import { StageInfoModal } from './components/StageInfoModal'
 import { StubPanel } from './components/StubPanel'
 import { startBattleLoop } from './systems/battle/battleLoop'
+import { initAudioUnlock, initClickSfx, preloadAudio } from './lib/audio'
 import { OfflineRewardModal } from './systems/battle/OfflineRewardModal'
 import { getTabName } from './data/uiStrings'
 import { ExistTreePanel } from './systems/exist/ExistTreePanel'
@@ -46,8 +47,14 @@ function App() {
   const goBack = () => setActiveTab('growth')
 
   // 전투 루프는 App이 살아있는 한(탭 전환/화면 이동과 무관하게) 단 한 번만 시작된다.
+  // 오디오 프리로드/잠금해제도 여기서 한 번만 등록 — preloadAudio()는 로딩 화면이
+  // 떠 있는 동안 미리 디코딩을 끝내 두고(첫 재생 지연 방지), initAudioUnlock()은
+  // 첫 사용자 상호작용에서 BGM을 시작한다(자동재생 정책 대응).
   useEffect(() => {
     startBattleLoop()
+    preloadAudio()
+    initAudioUnlock()
+    initClickSfx()
   }, [])
 
   const isFullscreen = FULLSCREEN_TABS.includes(activeTab)

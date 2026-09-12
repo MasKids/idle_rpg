@@ -118,8 +118,13 @@ npm run balance
 npm run build   # tsc -b && vite build, 결과물은 dist/
 ```
 
-## 아이콘 · 폰트 라이선스
+## 아이콘 · 폰트 · 음원 라이선스
 
 - 아이콘: [lucide-react](https://lucide.dev) (ISC License)
 - 폰트: [Pretendard](https://github.com/orioncactus/pretendard) (SIL Open Font
   License 1.1)
+- 음원: 전부 Creative Commons CC0(퍼블릭 도메인, 출처 표기 의무 없음)
+  - 배경음악: [Residual World - 4 Game Audio Samples](https://opengameart.org/content/residual-world-4-game-audio-samples-cc0)
+    (OpenGameArt.org, SRG774)
+  - 버튼 클릭음: [Interface Sounds](https://kenney.nl/assets/interface-sounds) (Kenney.nl)
+  - 피격·처치음: [Sci-fi Sounds](https://kenney.nl/assets/sci-fi-sounds) (Kenney.nl)

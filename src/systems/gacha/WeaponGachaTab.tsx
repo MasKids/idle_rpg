@@ -75,7 +75,7 @@ export function WeaponGachaTab() {
             return (
               <div key={grade} className="flex items-center justify-between text-[11px]">
                 <GradeBadge grade={grade} />
-                <span className="text-text-secondary">{percent.toFixed(1)}%</span>
+                <span className="text-text-secondary">{percent.toFixed(3)}%</span>
               </div>
             )
           })}
