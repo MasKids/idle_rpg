@@ -15551,7 +15551,7 @@
       "Tier3Weight": 10,
       "Tier4Weight": 4,
       "Tier5Weight": 1,
-      "PullCostDiamond": 60
+      "PullCostDiamond": 30
     },
     {
       "Index": 2,
@@ -15569,7 +15569,7 @@
       "Tier3Weight": 14,
       "Tier4Weight": 6,
       "Tier5Weight": 3,
-      "PullCostDiamond": 60
+      "PullCostDiamond": 30
     },
     {
       "Index": 3,
@@ -15587,7 +15587,7 @@
       "Tier3Weight": 17,
       "Tier4Weight": 9,
       "Tier5Weight": 5,
-      "PullCostDiamond": 60
+      "PullCostDiamond": 30
     },
     {
       "Index": 4,
@@ -15605,7 +15605,7 @@
       "Tier3Weight": 19,
       "Tier4Weight": 12,
       "Tier5Weight": 8,
-      "PullCostDiamond": 60
+      "PullCostDiamond": 30
     },
     {
       "Index": 5,
@@ -15623,7 +15623,7 @@
       "Tier3Weight": 20,
       "Tier4Weight": 16,
       "Tier5Weight": 12,
-      "PullCostDiamond": 60
+      "PullCostDiamond": 30
     },
     {
       "Index": 6,
@@ -15641,7 +15641,7 @@
       "Tier3Weight": 21,
       "Tier4Weight": 19,
       "Tier5Weight": 16,
-      "PullCostDiamond": 60
+      "PullCostDiamond": 30
     },
     {
       "Index": 7,
@@ -15659,7 +15659,7 @@
       "Tier3Weight": 21,
       "Tier4Weight": 21,
       "Tier5Weight": 22,
-      "PullCostDiamond": 60
+      "PullCostDiamond": 30
     },
     {
       "Index": 8,
@@ -15677,7 +15677,7 @@
       "Tier3Weight": 19,
       "Tier4Weight": 24,
       "Tier5Weight": 30,
-      "PullCostDiamond": 60
+      "PullCostDiamond": 30
     }
   ],
   "RelicSlotTable": [
