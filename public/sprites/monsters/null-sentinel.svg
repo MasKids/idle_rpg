@@ -1,0 +1,13 @@
+<!--
+  참고·보관용 원본 SVG(보스). 실제 게임은 이 파일을 쓰지 않고
+  src/components/sprites/monsters/NullSentinel.tsx(색상 토큰/currentColor 버전)를 사용한다.
+  README.md 참고. 다른 5종보다 viewBox가 넓다(방사형 스파이크가 더 밖으로 뻗음).
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 140">
+  <circle cx="70" cy="70" r="52" fill="none" stroke="#F0595E" stroke-width="1" stroke-dasharray="24 14" opacity="0.6"/>
+  <circle cx="70" cy="70" r="42" fill="none" stroke="#F0595E" stroke-width="0.8" stroke-dasharray="14 10" opacity="0.4"/>
+  <path d="M70 32 L103 51 L103 89 L70 108 L37 89 L37 51 Z" fill="none" stroke="#F0595E" stroke-width="2.2"/>
+  <path d="M70 46 L90 58 L90 82 L70 94 L50 82 L50 58 Z" fill="none" stroke="#F0595E" stroke-width="1"/>
+  <circle cx="70" cy="70" r="7" fill="#F0595E"/>
+  <path d="M70 8 V20 M70 120 V132 M18 70 H6 M122 70 H134" stroke="#F0595E" stroke-width="1.5"/>
+</svg>

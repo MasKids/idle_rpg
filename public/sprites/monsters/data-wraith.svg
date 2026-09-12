@@ -1,0 +1,11 @@
+<!--
+  참고·보관용 원본 SVG. 실제 게임은 이 파일을 쓰지 않고
+  src/components/sprites/monsters/DataWraith.tsx(색상 토큰/currentColor 버전)를 사용한다.
+  README.md 참고.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <path d="M60 22 L90 52 L86 98 L34 98 L30 52 Z" fill="none" stroke="#2DD4E0" stroke-width="1.8"/>
+  <path d="M37 66 H83 M36 76 H84 M35 86 H85" stroke="#2DD4E0" stroke-width="0.8" opacity="0.4"/>
+  <path d="M46 52 L58 52 L58 58 L46 58 Z M62 52 L74 52 L74 58 L62 58 Z" fill="#EF9F27"/>
+  <path d="M30 52 L16 42 M90 52 L104 42" stroke="#2DD4E0" stroke-width="1.2" opacity="0.7"/>
+</svg>

@@ -3123,6 +3123,36 @@
       "Id": 55019,
       "KOR": "리버스 재화 초기화 범위 확대",
       "ENG": "리버스 재화 초기화 범위 확대"
+    },
+    {
+      "Index": 462,
+      "Id": 55020,
+      "KOR": "몬스터 스프라이트 추가",
+      "ENG": "몬스터 스프라이트 추가"
+    },
+    {
+      "Index": 463,
+      "Id": 55021,
+      "KOR": "INITIALIZING",
+      "ENG": "INITIALIZING"
+    },
+    {
+      "Index": 464,
+      "Id": 55022,
+      "KOR": "LOADING ARCHIVE",
+      "ENG": "LOADING ARCHIVE"
+    },
+    {
+      "Index": 465,
+      "Id": 55023,
+      "KOR": "READY",
+      "ENG": "READY"
+    },
+    {
+      "Index": 466,
+      "Id": 55024,
+      "KOR": "로고·로딩 화면 리디자인",
+      "ENG": "로고·로딩 화면 리디자인"
     }
   ],
   "CurrencyTable": [
@@ -8848,6 +8878,24 @@
       "Category": "CHANGE",
       "TextStringId": 55019,
       "SortOrder": 6
+    },
+    {
+      "Index": 18,
+      "Id": 33018,
+      "Version": "v0.4.0",
+      "ReleaseDate": "2026-09-12",
+      "Category": "ADD",
+      "TextStringId": 55020,
+      "SortOrder": 1
+    },
+    {
+      "Index": 19,
+      "Id": 33019,
+      "Version": "v0.4.0",
+      "ReleaseDate": "2026-09-12",
+      "Category": "CHANGE",
+      "TextStringId": 55024,
+      "SortOrder": 2
     }
   ]
 }

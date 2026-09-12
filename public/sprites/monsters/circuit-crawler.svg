@@ -1,0 +1,16 @@
+<!--
+  참고·보관용 원본 SVG. 실제 게임은 이 파일을 쓰지 않고
+  src/components/sprites/monsters/CircuitCrawler.tsx(색상 토큰/currentColor 버전)를 사용한다.
+  README.md 참고.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <rect x="34" y="44" width="52" height="30" rx="5" fill="none" stroke="#2DD4E0" stroke-width="1.8"/>
+  <path d="M34 52 L16 38 L0 38 M34 66 L16 80 L0 80 M86 52 L104 38 L120 38 M86 66 L104 80 L120 80" fill="none" stroke="#2DD4E0" stroke-width="1.2"/>
+  <circle cx="16" cy="38" r="2.5" fill="#2DD4E0"/>
+  <circle cx="16" cy="80" r="2.5" fill="#2DD4E0"/>
+  <circle cx="104" cy="38" r="2.5" fill="#2DD4E0"/>
+  <circle cx="104" cy="80" r="2.5" fill="#2DD4E0"/>
+  <rect x="44" y="55" width="7" height="7" fill="#EF9F27"/>
+  <rect x="69" y="55" width="7" height="7" fill="#EF9F27"/>
+  <path d="M60 44 V30" stroke="#5E7A85" stroke-width="1"/>
+</svg>

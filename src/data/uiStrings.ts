@@ -497,12 +497,21 @@ export function getProfileUiLabel(key: ProfileUiLabelKey): string {
 // 게임 제목/부제/제작자 표기 — 현재는 로딩 화면에서만 쓰인다(그 외 인게임
 // 화면에는 게임 이름을 보여주는 자리가 따로 없다). KOR/ENG 둘 다 같은 값이다
 // (고유명사라 번역 대상이 아님).
-export type MetaUiLabelKey = 'gameTitle' | 'gameSubtitle' | 'createdByPrefix'
+export type MetaUiLabelKey =
+  | 'gameTitle'
+  | 'gameSubtitle'
+  | 'createdByPrefix'
+  | 'statusInitializing'
+  | 'statusLoadingArchive'
+  | 'statusReady'
 
 const META_UI_LABEL_ID: Record<MetaUiLabelKey, number> = {
   gameTitle: 55014,
   gameSubtitle: 55015,
   createdByPrefix: 55016,
+  statusInitializing: 55021,
+  statusLoadingArchive: 55022,
+  statusReady: 55023,
 }
 
 export function getMetaUiLabel(key: MetaUiLabelKey): string {

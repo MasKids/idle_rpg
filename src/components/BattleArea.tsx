@@ -11,7 +11,33 @@ import { formatCountdown } from '../utils/format'
 import { useNow } from '../utils/useNow'
 import { usePageVisible } from '../utils/usePageVisible'
 import { CURRENCY_ICON, SYSTEM_ICON } from './icons'
+import { CircuitCrawler, DataWraith, FractureCore, GlitchWisp, NullSentinel, Oscillator } from './sprites/monsters'
 import { CurrencyChip, ProgressBar } from './ui'
+
+const NORMAL_SPRITE_SIZE = 104
+// 보스는 일반 몬스터의 약 1.75배 — 요청한 1.5~2배 범위 안.
+const BOSS_SPRITE_SIZE = 182
+
+// 일반 몬스터 5종 스프라이트 순환 배정 — 정식 스테이지별 배정 테이블이 나오기
+// 전까지의 임시 로직(다음 작업 예정). stage 기준으로 결정론적이라 같은
+// 스테이지에 머무는 동안(재도전 등) 몬스터가 계속 바뀌어 보이지 않는다. 컴포넌트
+// 참조를 변수에 담아 동적으로 렌더하지 않고(린트가 리렌더마다 새 컴포넌트로
+// 오인할 수 있다고 경고) switch로 분기해 항상 고정된 JSX 태그를 쓴다.
+function EnemySprite({ stage, isBoss, size, className }: { stage: number; isBoss: boolean; size: number; className?: string }) {
+  if (isBoss) return <NullSentinel size={size} className={className} />
+  switch (stage % 5) {
+    case 0:
+      return <GlitchWisp size={size} className={className} />
+    case 1:
+      return <CircuitCrawler size={size} className={className} />
+    case 2:
+      return <DataWraith size={size} className={className} />
+    case 3:
+      return <FractureCore size={size} className={className} />
+    default:
+      return <Oscillator size={size} className={className} />
+  }
+}
 
 // HUD 재화 칩 4개(확정): 다이아 / 존재력 / 성장에너지 / 골드.
 // 시간에너지는 유물 탭·타임 하이스트 모달에서만, 숙련의 정수는 성장 탭에서만 표시한다.
@@ -74,14 +100,18 @@ export function BattleArea({ onStageInfoClick, onTimeHeistClick, onRankingClick,
   // 이전 적은 짧게 사라지는 연출(ghost)을 남기고, 새 적은 key를 바꿔 등장 연출을 튼다.
   const prevHpRef = useRef(enemyHp)
   const prevIsBossRef = useRef(isBossStage)
+  const prevStageRef = useRef(stage)
   const genKeyRef = useRef(0)
   const [genKey, setGenKey] = useState(0)
-  const [ghosts, setGhosts] = useState<{ key: number; isBoss: boolean }[]>([])
+  const [ghosts, setGhosts] = useState<{ key: number; isBoss: boolean; stage: number }[]>([])
 
   useEffect(() => {
     if (enemyHp > prevHpRef.current) {
       const ghostKey = genKeyRef.current
-      setGhosts((prev) => [...prev.slice(-2), { key: ghostKey, isBoss: prevIsBossRef.current }])
+      setGhosts((prev) => [
+        ...prev.slice(-2),
+        { key: ghostKey, isBoss: prevIsBossRef.current, stage: prevStageRef.current },
+      ])
       setTimeout(() => {
         setGhosts((prev) => prev.filter((ghost) => ghost.key !== ghostKey))
       }, 320)
@@ -90,7 +120,8 @@ export function BattleArea({ onStageInfoClick, onTimeHeistClick, onRankingClick,
     }
     prevHpRef.current = enemyHp
     prevIsBossRef.current = isBossStage
-  }, [enemyHp, isBossStage])
+    prevStageRef.current = stage
+  }, [enemyHp, isBossStage, stage])
 
   return (
     <div className="relative min-h-0 flex-1 overflow-hidden bg-gradient-to-b from-blue-soft to-surface-base">
@@ -169,29 +200,36 @@ export function BattleArea({ onStageInfoClick, onTimeHeistClick, onRankingClick,
           {isBossStage && <span className="ml-1 text-gold-strong">BOSS</span>}
         </button>
 
-        <div className="relative flex h-36 w-36 items-center justify-center">
+        <div className="relative flex h-48 w-48 items-center justify-center">
           {ghosts.map((ghost) => (
             <div
               key={ghost.key}
-              className={`pointer-events-none absolute rounded-lg animate-[enemy-defeat_300ms_ease-in_forwards] ${
-                ghost.isBoss ? 'h-36 w-36 bg-gold-base/70' : 'h-28 w-28 bg-danger-base/60'
-              }`}
-            />
+              className="pointer-events-none absolute animate-[enemy-defeat_300ms_ease-in_forwards]"
+            >
+              <EnemySprite
+                stage={ghost.stage}
+                isBoss={ghost.isBoss}
+                size={ghost.isBoss ? BOSS_SPRITE_SIZE : NORMAL_SPRITE_SIZE}
+                className={decorClassName}
+              />
+            </div>
           ))}
 
           <div
             key={genKey}
-            className={
-              isBossStage
-                ? 'h-36 w-36 rounded-lg animate-[boss-appear_450ms_ease-out]'
-                : 'h-28 w-28 rounded-lg animate-[enemy-appear_250ms_ease-out]'
-            }
+            className={isBossStage ? 'animate-[boss-appear_450ms_ease-out]' : 'animate-[enemy-appear_250ms_ease-out]'}
           >
             <div
               key={lastHitId ?? 'idle'}
-              className={`h-full w-full rounded-lg ${isBossStage ? 'bg-gold-base/70' : 'bg-danger-base/60'}`}
-              style={lastHitId !== null ? { animation: 'hit-shake 100ms ease-out' } : undefined}
-            />
+              style={lastHitId !== null ? { animation: 'hit-shake 100ms ease-out, hit-flash 150ms ease-out' } : undefined}
+            >
+              <EnemySprite
+                stage={stage}
+                isBoss={isBossStage}
+                size={isBossStage ? BOSS_SPRITE_SIZE : NORMAL_SPRITE_SIZE}
+                className={decorClassName}
+              />
+            </div>
           </div>
         </div>
 

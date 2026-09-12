@@ -1,0 +1,13 @@
+<!--
+  참고·보관용 원본 SVG. 실제 게임은 이 파일을 쓰지 않고
+  src/components/sprites/monsters/GlitchWisp.tsx(색상 토큰/currentColor 버전)를 사용한다.
+  README.md 참고.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <path d="M64 19 L96 57 L64 95 L32 57 Z" fill="none" stroke="#2DD4E0" stroke-width="0.8" opacity="0.35"/>
+  <path d="M60 22 L92 60 L60 98 L28 60 Z" fill="none" stroke="#2DD4E0" stroke-width="1.8"/>
+  <path d="M44 41 L76 41 M40 79 L80 79" stroke="#2DD4E0" stroke-width="1" opacity="0.5"/>
+  <rect x="46" y="56" width="28" height="6" fill="#EF9F27"/>
+  <rect x="80" y="50" width="14" height="3" fill="#2DD4E0" opacity="0.6"/>
+  <rect x="22" y="70" width="12" height="3" fill="#2DD4E0" opacity="0.6"/>
+</svg>

@@ -1,0 +1,15 @@
+<!--
+  참고·보관용 원본 SVG. 실제 게임은 이 파일을 쓰지 않고
+  src/components/sprites/monsters/Oscillator.tsx(색상 토큰/currentColor 버전)를 사용한다.
+  README.md 참고.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <ellipse cx="60" cy="62" rx="30" ry="38" fill="none" stroke="#2DD4E0" stroke-width="1.8"/>
+  <path d="M32 62 Q41 42 50 62 Q59 82 68 62 Q77 42 86 62" fill="none" stroke="#EF9F27" stroke-width="1.5"/>
+  <rect x="44" y="36" width="9" height="4" fill="#EF9F27"/>
+  <rect x="67" y="36" width="9" height="4" fill="#EF9F27"/>
+  <path d="M46 28 L40 14 M74 28 L80 14" stroke="#2DD4E0" stroke-width="1.2"/>
+  <circle cx="40" cy="14" r="2.5" fill="#2DD4E0"/>
+  <circle cx="80" cy="14" r="2.5" fill="#2DD4E0"/>
+  <path d="M44 94 L38 108 M76 94 L82 108" stroke="#2DD4E0" stroke-width="1" opacity="0.6"/>
+</svg>
