@@ -1,23 +1,34 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react'
 import { ArrowDown } from 'lucide-react'
-import { EXIST_SPECIAL_UNLOCKS, EXIST_TREE_TOTAL_NODES, existNodeStatus, generateExistTree } from '../../data/existTree'
 import {
+  EXIST_SPECIAL_UNLOCKS,
+  EXIST_TREE_TOTAL_NODES,
+  existNodeStatus,
+  generateExistTree,
+  simulateBulkExistUnlock,
+  type BulkExistUnlockResult,
+} from '../../data/existTree'
+import {
+  getBulkUiLabel,
   getButtonLabel,
   getCommonUiLabel,
   getCurrencyAbbr,
   getCurrencyName,
   getExistUiLabel,
   getStateLabel,
+  getStatName,
   getSystemName,
 } from '../../data/uiStrings'
 import { useGameStore } from '../../store/gameStore'
 import { formatNumber } from '../../utils/format'
 import type {
+  CurrencyKey,
   ExistNodeEffect,
   ExistNodeStatus,
   ExistSpecialUnlock,
   ExistTreeLane,
   ExistTreeNode,
+  SpecialUnlockId,
   StatKey,
 } from '../../types/game'
 import { Button, PanelHeader, ProgressBar } from '../../components/ui'
@@ -59,12 +70,17 @@ export function ExistTreePanel({ onBack }: ExistTreePanelProps) {
   const unlockedCount = useGameStore((state) => state.unlockedCount)
   const specialUnlocks = useGameStore((state) => state.specialUnlocks)
   const unlockNextExistNode = useGameStore((state) => state.unlockNextExistNode)
+  const bulkUnlockExistNodes = useGameStore((state) => state.bulkUnlockExistNodes)
   const unlockSpecial = useGameStore((state) => state.unlockSpecial)
 
   const [selectedOrder, setSelectedOrder] = useState<number | null>(null)
+  const [isBulkUnlockOpen, setBulkUnlockOpen] = useState(false)
 
+  // order(1~250) 순서 그대로 — 일괄 해금 미리보기 시뮬레이션에 쓴다(nodesTopToBottom은
+  // 화면 표시용으로 뒤집혀 있어 재사용 불가).
+  const nodesInOrder = useMemo(() => generateExistTree(), [])
   // 50번(최상단) -> 1번(최하단) 순서로 렌더링. 시각적으로 아래에서 위로 올라가는 구조.
-  const nodesTopToBottom = useMemo(() => [...generateExistTree()].reverse(), [])
+  const nodesTopToBottom = useMemo(() => [...nodesInOrder].reverse(), [nodesInOrder])
   const specialByAnchor = useMemo(() => {
     const map = new Map<number, ExistSpecialUnlock>()
     for (const unlock of EXIST_SPECIAL_UNLOCKS) map.set(unlock.anchorOrder, unlock)
@@ -158,7 +174,26 @@ export function ExistTreePanel({ onBack }: ExistTreePanelProps) {
           )}
         </div>
         <ProgressBar value={unlockedCount} max={EXIST_TREE_TOTAL_NODES} colorClassName="bg-teal-base" className="mt-1" />
+        <Button
+          variant="secondary"
+          disabled={unlockedCount >= EXIST_TREE_TOTAL_NODES}
+          onClick={() => setBulkUnlockOpen(true)}
+          className="mt-2 w-full py-1.5 text-[11px]"
+        >
+          {getBulkUiLabel('bulk')} {getButtonLabel('unlock')}
+        </Button>
       </div>
+
+      {isBulkUnlockOpen && (
+        <BulkUnlockOverlay
+          nodes={nodesInOrder}
+          unlockedCount={unlockedCount}
+          exist={exist}
+          specialUnlocks={specialUnlocks}
+          onExecute={bulkUnlockExistNodes}
+          onClose={() => setBulkUnlockOpen(false)}
+        />
+      )}
 
       {selectedNode && selectedStatus && (
         <NodeInfoBar
@@ -433,6 +468,112 @@ function NodeInfoBar({
           >
             {getButtonLabel('close')}
           </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+interface BulkUnlockOverlayProps {
+  nodes: ExistTreeNode[]
+  unlockedCount: number
+  exist: number
+  specialUnlocks: Record<SpecialUnlockId, boolean>
+  onExecute: () => BulkExistUnlockResult | null
+  onClose: () => void
+}
+
+// 일괄 해금 — 실행 전(미리보기)과 실행 후(결과)를 같은 틀로 보여준다. 아직 해금
+// 안 한 특별 해금(리버스/타임 하이스트) 조건 노드에 도달하면 시뮬레이션이 거기서
+// 멈추므로, 그 사실을 눈에 띄게 안내한다(요청 3번 — 중요한 해금은 개별 클릭 유도).
+function BulkUnlockOverlay({ nodes, unlockedCount, exist, specialUnlocks, onExecute, onClose }: BulkUnlockOverlayProps) {
+  const [result, setResult] = useState<BulkExistUnlockResult | null>(null)
+  const preview = result ?? simulateBulkExistUnlock(nodes, unlockedCount, exist, specialUnlocks)
+  const hasAnyStep = preview.toCount > preview.fromCount
+  const isResultPhase = result !== null
+
+  const gainEntries = [
+    ...Object.entries(preview.currencyGrants).map(([key, amount]) => `${getCurrencyName(key as CurrencyKey)} +${formatNumber(amount ?? 0)}`),
+    ...Object.entries(preview.statGains).map(([key, value]) => `${getStatName(key as StatKey)} +${formatNumber(value ?? 0)}%`),
+  ]
+
+  return (
+    <div
+      className="absolute inset-0 z-40 flex items-center justify-center bg-black/70 p-6 animate-[backdrop-fade-in_180ms_ease-out]"
+      onClick={onClose}
+    >
+      <div
+        className="panel-frame w-full max-w-xs rounded-xl border border-surface-border bg-surface-card p-4 text-text-primary animate-[modal-pop-in_180ms_ease-out]"
+        style={{ '--panel-accent-color': 'var(--color-teal-strong)' } as CSSProperties}
+        onClick={(event) => event.stopPropagation()}
+      >
+        <div className="flex items-center justify-between gap-2">
+          <h2 className="text-sm font-semibold text-text-primary">
+            {getBulkUiLabel('bulk')} {getButtonLabel('unlock')}
+          </h2>
+          <button
+            type="button"
+            onClick={onClose}
+            className="shrink-0 rounded-lg bg-surface-elevated px-2 py-1 text-[11px] text-text-secondary transition-colors hover:bg-surface-border hover:text-text-primary"
+          >
+            {getButtonLabel('close')}
+          </button>
+        </div>
+
+        <p className="mt-2 text-[11px] font-medium text-text-secondary">
+          {isResultPhase ? getBulkUiLabel('resultHeading') : getBulkUiLabel('previewHeading')}
+        </p>
+
+        {hasAnyStep ? (
+          <>
+            <dl className="mt-2 space-y-1 text-xs text-text-secondary">
+              <div className="flex justify-between">
+                <dt>{getButtonLabel('unlock')}</dt>
+                <dd className="font-medium text-text-primary">
+                  {preview.fromCount} → {preview.toCount}
+                  {getCommonUiLabel('nodeSuffix')}
+                </dd>
+              </div>
+              <div className="flex justify-between">
+                <dt>{getCommonUiLabel('consume')}</dt>
+                <dd className="text-text-primary">
+                  {getCurrencyName('exist')} {formatNumber(preview.totalCost)}
+                </dd>
+              </div>
+            </dl>
+
+            {gainEntries.length > 0 && (
+              <div className="mt-2 border-t border-surface-border pt-2 text-[11px] text-text-secondary">
+                <p>{getCommonUiLabel('rewardsEarned')}</p>
+                <p className="mt-0.5 text-text-primary">{gainEntries.join(' · ')}</p>
+              </div>
+            )}
+
+            {preview.stoppedAtSpecial && (
+              <p className="mt-2 rounded-lg bg-surface-elevated px-2 py-1.5 text-[10px] text-teal-strong">
+                {preview.stoppedAtSpecial.label} {getBulkUiLabel('stoppedAtSpecialSuffix')}
+              </p>
+            )}
+          </>
+        ) : (
+          <p className="mt-2 text-xs text-text-disabled">{getBulkUiLabel('noneAvailable')}</p>
+        )}
+
+        <div className="mt-4 flex justify-end gap-2">
+          {isResultPhase ? (
+            <Button variant="teal" onClick={onClose} className="px-3 py-1.5 text-xs">
+              {getButtonLabel('close')}
+            </Button>
+          ) : (
+            <>
+              <Button variant="secondary" onClick={onClose} className="px-3 py-1.5 text-xs">
+                {getButtonLabel('cancel')}
+              </Button>
+              <Button variant="teal" disabled={!hasAnyStep} onClick={() => setResult(onExecute())} className="px-3 py-1.5 text-xs">
+                {getButtonLabel('execute')}
+              </Button>
+            </>
+          )}
         </div>
       </div>
     </div>

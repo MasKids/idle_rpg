@@ -99,3 +99,59 @@ export const EXIST_SPECIAL_UNLOCKS: ExistSpecialUnlock[] = (Object.keys(SPECIAL_
     }
   },
 )
+
+export interface BulkExistUnlockResult {
+  fromCount: number
+  toCount: number
+  totalCost: number
+  // 도중에 멈췄다면 그 원인이 된 특별 해금(아직 해금 안 한 리버스/타임 하이스트) —
+  // 도달한 순간 자동으로 계속 진행하지 않고 여기서 멈춘다(v0.4.0 일괄 해금).
+  stoppedAtSpecial: ExistSpecialUnlock | null
+  currencyGrants: Partial<Record<CurrencyKey, number>>
+  statGains: Partial<Record<StatKey, number>>
+}
+
+// 보유 EXIST로 가능한 만큼 다음 노드부터 연속 해금 — 순수 함수라 미리보기와 실제
+// 적용(gameStore.ts의 bulkUnlockExistNodes) 양쪽에서 그대로 재사용한다. 아직
+// 해금하지 않은 특별 해금(리버스/타임 하이스트)의 조건 노드에 도달하면 그 노드까지만
+// 해금하고 멈춘다 — 중요한 해금이라 "일괄"에 묻혀 지나치지 않고 플레이어가 직접
+// 인지하고 개별 클릭하게 하기 위함(요청 3번).
+export function simulateBulkExistUnlock(
+  nodes: ExistTreeNode[],
+  startCount: number,
+  exist: number,
+  specialUnlocks: Record<SpecialUnlockId, boolean>,
+): BulkExistUnlockResult {
+  let count = startCount
+  let remaining = exist
+  let totalCost = 0
+  const currencyGrants: Partial<Record<CurrencyKey, number>> = {}
+  const statGains: Partial<Record<StatKey, number>> = {}
+  const pendingSpecialOrders = new Set(
+    EXIST_SPECIAL_UNLOCKS.filter((unlock) => !specialUnlocks[unlock.id]).map((unlock) => unlock.requiredUnlockedCount),
+  )
+  let stoppedAtSpecial: ExistSpecialUnlock | null = null
+
+  while (true) {
+    const node = nodes[count]
+    if (!node) break
+    if (remaining < node.cost) break
+
+    remaining -= node.cost
+    totalCost += node.cost
+    count = node.order
+
+    if (node.effect.kind === 'currency') {
+      currencyGrants[node.effect.currency] = (currencyGrants[node.effect.currency] ?? 0) + node.effect.amount
+    } else {
+      statGains[node.effect.stat] = (statGains[node.effect.stat] ?? 0) + node.effect.value
+    }
+
+    if (pendingSpecialOrders.has(count)) {
+      stoppedAtSpecial = EXIST_SPECIAL_UNLOCKS.find((unlock) => unlock.requiredUnlockedCount === count) ?? null
+      break
+    }
+  }
+
+  return { fromCount: startCount, toCount: count, totalCost, stoppedAtSpecial, currencyGrants, statGains }
+}

@@ -205,6 +205,104 @@ export function canMerge(id: string, entry: WeaponInstance): boolean {
   return entry.count - 1 >= fusion.RequiredCount
 }
 
+// 무기 타입을 count만큼 지급(없으면 신규 생성, 있으면 count만 증가) — 가챠/합성/개발자
+// 콘솔 지급/일괄 처리가 전부 이 헬퍼를 공유한다. gameStore.ts에 있던 걸 옮겨왔다(다른
+// 무기 도메인 함수들과 같은 곳에 있어야 일괄 합성 시뮬레이션에서도 재사용하기 쉽다).
+export function grantWeaponEntry(
+  owned: OwnedWeapons,
+  weaponId: string,
+  amount: number,
+  freshLevel = 1,
+  freshBreakthroughCount = 0,
+): OwnedWeapons {
+  const existing = owned[weaponId]
+  const nextEntry: WeaponInstance = existing
+    ? { ...existing, count: existing.count + amount }
+    : { count: amount, level: freshLevel, breakthroughCount: freshBreakthroughCount }
+  return { ...owned, [weaponId]: nextEntry }
+}
+
+// ---------------------------------------------------------------------------
+// 일괄 돌파 / 일괄 합성 — 실행 전 미리보기와 실제 적용이 같은 시뮬레이션 결과를
+// 공유한다(둘 다 순수 함수라 부작용 없음). 미리보기는 이 결과를 읽기만 하고,
+// gameStore.ts의 bulkBreakthroughWeapon/bulkMergeWeapon이 반환값을 그대로 다음
+// 상태로 커밋한다.
+// ---------------------------------------------------------------------------
+
+export interface BulkBreakthroughResult {
+  fromBreakthroughCount: number
+  toBreakthroughCount: number
+  totalConsumed: number
+  entry: WeaponInstance
+}
+
+// 돌파 5단계(WEAPON_MAX_BREAKTHROUGH)까지, 최소 1개 보존 규칙을 지키며 가능한
+// 만큼 반복 — canBreakthrough와 정확히 같은 조건을 매 단계 다시 검사한다.
+export function simulateBulkBreakthrough(entry: WeaponInstance): BulkBreakthroughResult {
+  let current = { ...entry }
+  const fromBreakthroughCount = entry.breakthroughCount
+  let totalConsumed = 0
+
+  while (canBreakthrough(current)) {
+    const step = nextBreakthroughStep(current)
+    if (!step) break
+    current = {
+      ...current,
+      count: current.count - step.RequiredDuplicateCount,
+      breakthroughCount: current.breakthroughCount + 1,
+    }
+    totalConsumed += step.RequiredDuplicateCount
+  }
+
+  return { fromBreakthroughCount, toBreakthroughCount: current.breakthroughCount, totalConsumed, entry: current }
+}
+
+export interface WeaponFusionStep {
+  fromId: string
+  toId: string
+  timesFused: number
+  consumed: number
+  produced: number
+}
+
+export interface BulkFusionResult {
+  steps: WeaponFusionStep[]
+  ownedWeapons: OwnedWeapons
+}
+
+// startId에서 시작해 5개 단위로 가능한 만큼 합성 — chain=false면 한 등급/단계
+// 경계만 처리하고 멈추고(예: 노말1→노말2), chain=true면 결과물로 또 합성이
+// 가능한 한 계속 이어간다(노말1→노말2→노말3→...). 매 단계 "그 시점의 보유
+// 개수 - 1"을 재료로 써서 canMerge와 동일한 최소 1개 보존 규칙을 그대로 지킨다.
+export function simulateBulkFusion(ownedWeapons: OwnedWeapons, startId: string, chain: boolean): BulkFusionResult {
+  const fusion = getWeaponFusionConfig()
+  const steps: WeaponFusionStep[] = []
+  let working = ownedWeapons
+  let currentId = startId
+
+  while (true) {
+    const targetId = nextWeaponIdForMerge(currentId)
+    if (!targetId) break
+
+    const current = working[currentId]
+    const count = current?.count ?? 0
+    const available = Math.max(0, count - 1)
+    const times = Math.floor(available / fusion.RequiredCount)
+    if (times <= 0) break
+
+    const consumed = times * fusion.RequiredCount
+    const produced = times
+    working = { ...working, [currentId]: { ...current!, count: current!.count - consumed } }
+    working = grantWeaponEntry(working, targetId, produced, fusion.ResultLevel, fusion.ResultBreakthroughCount)
+    steps.push({ fromId: currentId, toId: targetId, timesFused: times, consumed, produced })
+
+    if (!chain) break
+    currentId = targetId
+  }
+
+  return { steps, ownedWeapons: working }
+}
+
 export interface WeaponReadiness {
   // 지금 보여주는 진행도가 돌파인지 합성인지 — UI에서 색/안내를 다르게 하기 위함.
   kind: 'breakthrough' | 'fusion'

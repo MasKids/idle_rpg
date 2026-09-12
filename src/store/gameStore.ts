@@ -10,7 +10,7 @@ import {
   type CurrencyTypeEnum,
 } from '../data/balance'
 import { getBattleUiLabel } from '../data/uiStrings'
-import { EXIST_SPECIAL_UNLOCKS, generateExistTree } from '../data/existTree'
+import { EXIST_SPECIAL_UNLOCKS, generateExistTree, simulateBulkExistUnlock, type BulkExistUnlockResult } from '../data/existTree'
 import { generateStage, killsRequiredForStage } from '../data/stages'
 import { computeStatValue, statUpgradeCost } from '../data/stats'
 import { computeOfflineReward, type OfflineRewardResult } from '../systems/battle/offlineReward'
@@ -24,12 +24,17 @@ import {
   canMerge,
   computeWeaponBonusBreakdown,
   currentGachaLevelConfig,
+  grantWeaponEntry,
   nextBreakthroughStep,
   nextWeaponIdForMerge,
   parseWeaponId,
   rollWeaponGacha,
+  simulateBulkBreakthrough,
+  simulateBulkFusion,
   weaponLevelUpCost,
   weaponMaxLevel,
+  type BulkBreakthroughResult,
+  type BulkFusionResult,
 } from '../systems/weapon/weapon'
 import { debugOverrideLastActiveAt, disableAutosave, flushSave, loadGameState, scheduleSave } from './gameStateStorage'
 import type {
@@ -42,7 +47,6 @@ import type {
   SpecialUnlockId,
   StatKey,
   WeaponGachaPullResult,
-  WeaponInstance,
 } from '../types/game'
 
 const INITIAL_STAGE = 1
@@ -87,23 +91,6 @@ function baseStatsFromLevels(levels: Record<StatKey, number>): Record<StatKey, n
     critDmg: computeStatValue('critDmg', levels.critDmg),
     existGain: computeStatValue('existGain', levels.existGain),
   }
-}
-
-// 새로 얻는(또는 처음 보는) 무기 타입은 레벨1/돌파0으로 시작한다. 합성 결과물의
-// 초기 레벨/돌파(WeaponFusionTable.ResultLevel/ResultBreakthroughCount)만 예외적으로
-// freshLevel/freshBreakthroughCount로 넘겨 받는다 — 그 외(가챠, 콘솔 지급)는 기본값(1/0) 사용.
-function grantWeaponEntry(
-  owned: OwnedWeapons,
-  weaponId: string,
-  amount: number,
-  freshLevel = 1,
-  freshBreakthroughCount = 0,
-): OwnedWeapons {
-  const existing = owned[weaponId]
-  const nextEntry: WeaponInstance = existing
-    ? { ...existing, count: existing.count + amount }
-    : { count: amount, level: freshLevel, breakthroughCount: freshBreakthroughCount }
-  return { ...owned, [weaponId]: nextEntry }
 }
 
 // v0.3.0 밸런스 개편 — 콘텐츠 간 시너지가 나도록 깡스탯과 퍼센트를 분리해 곱연산으로
@@ -270,6 +257,7 @@ interface GameState {
   setStage: (stage: number) => void
   setBattle: (battle: BattleState) => void
   unlockNextExistNode: () => boolean
+  bulkUnlockExistNodes: () => BulkExistUnlockResult | null
   unlockSpecial: (id: SpecialUnlockId) => boolean
   executeRebirth: () => void
   executeTimeHeist: () => boolean
@@ -286,7 +274,9 @@ interface GameState {
   levelUpWeapon: (weaponId: string) => boolean
   maxLevelUpWeapon: (weaponId: string) => void
   breakthroughWeapon: (weaponId: string) => boolean
+  bulkBreakthroughWeapon: (weaponId: string) => BulkBreakthroughResult | null
   mergeWeapon: (weaponId: string) => boolean
+  bulkMergeWeapon: (weaponId: string, chain: boolean) => BulkFusionResult | null
 
   // 유물
   pullRelicGacha: () => RelicGachaPullResult | null
@@ -593,6 +583,41 @@ export const useGameStore = create<GameState>((set, get) => ({
     }
 
     return true
+  },
+
+  // 일괄 해금(v0.4.0) — 보유 EXIST로 가능한 만큼 연속 해금. 노드 하나하나마다
+  // set()을 부르면(unlockNextExistNode를 반복 호출) 무거운 statsPatch 재계산이
+  // 그만큼 반복되므로, 시뮬레이션 결과를 한 번에 커밋한다(gachaTimes와 같은 패턴).
+  bulkUnlockExistNodes: () => {
+    const state = get()
+    const result = simulateBulkExistUnlock(EXIST_TREE_NODES, state.unlockedCount, state.currencies.exist, state.specialUnlocks)
+    if (result.toCount === result.fromCount) return null
+
+    set((state) => {
+      const existTreeStatBonus = { ...state.existTreeStatBonus }
+      for (const [stat, value] of Object.entries(result.statGains)) {
+        existTreeStatBonus[stat as StatKey] += value ?? 0
+      }
+      const currencies = { ...state.currencies, exist: state.currencies.exist - result.totalCost }
+      for (const [currency, amount] of Object.entries(result.currencyGrants)) {
+        currencies[currency as CurrencyKey] += amount ?? 0
+      }
+      return {
+        unlockedCount: result.toCount,
+        existTreeStatBonus,
+        currencies,
+        ...statsPatch(
+          state.statLevels,
+          state.masteryLevels,
+          existTreeStatBonus,
+          state.ownedWeapons,
+          state.equippedWeaponId,
+          state.activeRelics,
+        ),
+      }
+    })
+
+    return result
   },
 
   unlockSpecial: (id) => {
@@ -978,6 +1003,30 @@ export const useGameStore = create<GameState>((set, get) => ({
     return true
   },
 
+  // 일괄 돌파(v0.4.0) — 순수 시뮬레이션(weapon.ts) 결과를 그대로 커밋한다.
+  bulkBreakthroughWeapon: (weaponId) => {
+    const entry = get().ownedWeapons[weaponId]
+    if (!entry) return null
+    const result = simulateBulkBreakthrough(entry)
+    if (result.toBreakthroughCount === result.fromBreakthroughCount) return null
+
+    set((state) => {
+      const ownedWeapons = { ...state.ownedWeapons, [weaponId]: result.entry }
+      return {
+        ownedWeapons,
+        ...statsPatch(
+          state.statLevels,
+          state.masteryLevels,
+          state.existTreeStatBonus,
+          ownedWeapons,
+          state.equippedWeaponId,
+          state.activeRelics,
+        ),
+      }
+    })
+    return result
+  },
+
   mergeWeapon: (weaponId) => {
     const entry = get().ownedWeapons[weaponId]
     if (!entry) return false
@@ -1007,6 +1056,26 @@ export const useGameStore = create<GameState>((set, get) => ({
       }
     })
     return true
+  },
+
+  // 일괄 합성(v0.4.0) — chain=false면 한 등급/단계 경계만, chain=true면 결과물로
+  // 또 합성 가능한 한 계속 이어간다(연쇄 여부는 화면에서 사용자가 선택).
+  bulkMergeWeapon: (weaponId, chain) => {
+    const result = simulateBulkFusion(get().ownedWeapons, weaponId, chain)
+    if (result.steps.length === 0) return null
+
+    set((state) => ({
+      ownedWeapons: result.ownedWeapons,
+      ...statsPatch(
+        state.statLevels,
+        state.masteryLevels,
+        state.existTreeStatBonus,
+        result.ownedWeapons,
+        state.equippedWeaponId,
+        state.activeRelics,
+      ),
+    }))
+    return result
   },
 
   pullRelicGacha: () => {

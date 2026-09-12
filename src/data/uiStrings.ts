@@ -413,6 +413,31 @@ export function getWeaponDetailUiLabel(key: WeaponDetailUiLabelKey): string {
   return getString(WEAPON_DETAIL_UI_LABEL_ID[key], 'KOR', key)
 }
 
+// v0.4.0 일괄 처리 기능(일괄 돌파/합성/존재력 해금) 공용 라벨 — 40000대가 꽉 차
+// 있어 52000대(다른 v0.4.0 신규 문자열과 같은 대역)에 잡았다.
+export type BulkUiLabelKey =
+  | 'bulk'
+  | 'previewHeading'
+  | 'resultHeading'
+  | 'chainFusion'
+  | 'chainFusionHint'
+  | 'noneAvailable'
+  | 'stoppedAtSpecialSuffix'
+
+const BULK_UI_LABEL_ID: Record<BulkUiLabelKey, number> = {
+  bulk: 52300,
+  previewHeading: 52301,
+  resultHeading: 52302,
+  chainFusion: 52303,
+  chainFusionHint: 52304,
+  noneAvailable: 52305,
+  stoppedAtSpecialSuffix: 52306,
+}
+
+export function getBulkUiLabel(key: BulkUiLabelKey): string {
+  return getString(BULK_UI_LABEL_ID[key], 'KOR', key)
+}
+
 export type OfflineRewardUiLabelKey = 'description'
 
 const OFFLINE_REWARD_UI_LABEL_ID: Record<OfflineRewardUiLabelKey, number> = {

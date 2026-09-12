@@ -4162,6 +4162,60 @@
       "Id": 55037,
       "KOR": "가챠 확률 표시 정밀도 개선",
       "ENG": "More precise gacha probability display"
+    },
+    {
+      "Index": 655,
+      "Id": 52300,
+      "KOR": "일괄",
+      "ENG": "Bulk"
+    },
+    {
+      "Index": 656,
+      "Id": 52301,
+      "KOR": "실행 전 확인",
+      "ENG": "Confirm before executing"
+    },
+    {
+      "Index": 657,
+      "Id": 52302,
+      "KOR": "처리 완료",
+      "ENG": "Done"
+    },
+    {
+      "Index": 658,
+      "Id": 52303,
+      "KOR": "연쇄 합성",
+      "ENG": "Chain fusion"
+    },
+    {
+      "Index": 659,
+      "Id": 52304,
+      "KOR": "결과물로 또 합성할 수 있으면 계속 이어갑니다",
+      "ENG": "Keeps fusing the result as long as it can"
+    },
+    {
+      "Index": 660,
+      "Id": 52305,
+      "KOR": "지금 처리할 수 있는 게 없습니다",
+      "ENG": "Nothing to process right now"
+    },
+    {
+      "Index": 661,
+      "Id": 52306,
+      "KOR": "조건에 도달해 여기서 멈췄습니다",
+      "ENG": "reached its unlock condition, stopping here"
+    },
+    {
+      "Index": 662,
+      "Id": 55038,
+      "KOR": "무기 일괄 돌파·합성 추가",
+      "ENG": "Bulk breakthrough/fusion added"
+    },
+    {
+      "Index": 663,
+      "Id": 55039,
+      "KOR": "존재력 트리 일괄 해금 추가",
+      "ENG": "Bulk exist tree unlock added"
     }
   ],
   "CurrencyTable": [
@@ -15586,6 +15640,24 @@
       "Category": "CHANGE",
       "TextStringId": 55037,
       "SortOrder": 14
+    },
+    {
+      "Index": 32,
+      "Id": 33032,
+      "Version": "v0.4.0",
+      "ReleaseDate": "2026-09-12",
+      "Category": "ADD",
+      "TextStringId": 55038,
+      "SortOrder": 15
+    },
+    {
+      "Index": 33,
+      "Id": 33033,
+      "Version": "v0.4.0",
+      "ReleaseDate": "2026-09-12",
+      "Category": "ADD",
+      "TextStringId": 55039,
+      "SortOrder": 16
     }
   ],
   "RelicSlotTable": [
