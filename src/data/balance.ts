@@ -50,7 +50,7 @@ export type PatchNoteCategoryEnum = 'ADD' | 'CHANGE' | 'FIX'
 // 테이블별 행 타입 — 엑셀 4행 칼럼명 그대로
 // ---------------------------------------------------------------------------
 
-// 스테이지 1개당 1행(200행 = 20챕터 × 10스테이지)으로 전부 나열한다 — 챕터 템플릿 +
+// 스테이지 1개당 1행(300행 = 30챕터 × 10스테이지, v0.4.0부터)으로 전부 나열한다 — 챕터 템플릿 +
 // 보간 방식은 폐기(2단계 개편, docs/TABLE_REDESIGN.md 2.2절). HpGrowthRate/
 // RewardGrowthRate 칼럼은 보간이 필요 없어지며 함께 사라졌다. Stage로 직접 조회한다.
 export interface StageTableRow {
