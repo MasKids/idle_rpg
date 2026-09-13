@@ -35,7 +35,8 @@ const STORAGE_PREFIX = 'idle-rpg:'
 // 타입(Record<StatKey, number>)은 그대로라 크래시는 안 나지만, 구버전 세이브를 그대로
 // 로드하면 존재력 트리 보너스가 완전히 다른(훨씬 작은) 값으로 잘못 해석된다.
 // v0.4.0에서 5→6: 몬스터 스프라이트/로고·로딩 화면 리디자인 등 v0.4.0 변경 — 구조 변경 여부와 무관하게 릴리스마다 올리는 정책으로 전환
-const SAVE_VERSION = 6
+// v0.5.0에서 6→7: v0.5.0 릴리스 — 존재력 트리 250노드/스테이지 300개/무기 150종 확장, 랭킹/사운드/다중 치명타/일괄 처리 추가, 보상 전반 재조정
+const SAVE_VERSION = 7
 
 export interface GameSaveState {
   currencies: Record<CurrencyKey, number>
