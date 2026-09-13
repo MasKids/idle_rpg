@@ -23,16 +23,29 @@ export interface OfflineRewardResult {
   }
 }
 
-// 실제 전투 로직(calculateDamage)의 다중 치명타(v0.4.0) 기댓값과 동일한 공식.
-// 치확이 100%를 넘으면 100%마다 확정 치명타(guaranteedCrits), 남은 소수 부분이
-// 그다음 1회의 확률(p)이고, 치명타 배율은 발동 횟수만큼 거듭제곱된다:
-//   평균 데미지 = atk × (critDmg/100)^guaranteedCrits × (1 + p × (critDmg/100 - 1))
-// 치확이 100% 미만이면 guaranteedCrits=0이라 기존 공식과 완전히 동일하다.
+// 실제 전투 로직(calculateDamage)의 다중 치명타(v0.4.0, 이후 너프 반영) 기댓값과
+// 동일한 공식. 치명타 배율은 "100% 기준 보너스분만 절반" 너프가 적용된 값을
+// 쓰고, 치확 100% 초과분은 20%만 추가 치명타 확률로 환산된 뒤 100%마다 확정
+// 1회·잔여가 다음 1회의 확률이 된다. 치확이 100% 미만이면 guaranteedCrits=0,
+// q=crit/100이라 기존 단일 치명타 공식과 완전히 동일하다.
 function averageDamagePerHit(stats: Record<StatKey, number>): number {
-  const guaranteedCrits = Math.floor(stats.crit / 100)
-  const p = (stats.crit - guaranteedCrits * 100) / 100
-  const critMultiplier = stats.critDmg / 100
-  return stats.atk * critMultiplier ** guaranteedCrits * (1 + p * (critMultiplier - 1))
+  const CRIT_CONVERSION_RATE = 0.2
+  const CRIT_DMG_BONUS_SCALE = 0.5
+
+  const critMultiplier = (100 + Math.max(0, stats.critDmg - 100) * CRIT_DMG_BONUS_SCALE) / 100
+
+  let guaranteedCrits: number
+  let q: number
+  if (stats.crit >= 100) {
+    const convertedExcess = (stats.crit - 100) * CRIT_CONVERSION_RATE
+    guaranteedCrits = 1 + Math.floor(convertedExcess / 100)
+    q = (convertedExcess - Math.floor(convertedExcess / 100) * 100) / 100
+  } else {
+    guaranteedCrits = 0
+    q = stats.crit / 100
+  }
+
+  return stats.atk * critMultiplier ** guaranteedCrits * (1 + q * (critMultiplier - 1))
 }
 
 export function computeOfflineReward(

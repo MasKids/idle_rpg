@@ -4228,6 +4228,30 @@
       "Id": 55040,
       "KOR": "치명타 확률 100% 초과 시 다중 치명타",
       "ENG": "Multi-crit above 100% crit chance"
+    },
+    {
+      "Index": 666,
+      "Id": 55041,
+      "KOR": "스테이지 다이아 보상 하향",
+      "ENG": "Stage diamond reward decreased"
+    },
+    {
+      "Index": 667,
+      "Id": 55042,
+      "KOR": "존재력 획득량 하향",
+      "ENG": "Exist gain decreased"
+    },
+    {
+      "Index": 668,
+      "Id": 55043,
+      "KOR": "다중 치명타 위력 하향",
+      "ENG": "Multi-crit power decreased"
+    },
+    {
+      "Index": 669,
+      "Id": 55044,
+      "KOR": "후반부 몬스터 체력 대폭 상승",
+      "ENG": "Late-game monster HP significantly increased"
     }
   ],
   "CurrencyTable": [
@@ -10583,10 +10607,10 @@
       "KillCount": 5,
       "RewardGold": 1,
       "RewardGrowth": 1,
-      "RewardExist": 1,
+      "RewardExist": 0,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 24
+      "FirstClearDiamond": 1
     },
     {
       "Index": 2,
@@ -10599,10 +10623,10 @@
       "KillCount": 5,
       "RewardGold": 1,
       "RewardGrowth": 1,
-      "RewardExist": 1,
+      "RewardExist": 0,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 24
+      "FirstClearDiamond": 1
     },
     {
       "Index": 3,
@@ -10615,10 +10639,10 @@
       "KillCount": 5,
       "RewardGold": 2,
       "RewardGrowth": 1,
-      "RewardExist": 1,
+      "RewardExist": 0,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 24
+      "FirstClearDiamond": 1
     },
     {
       "Index": 4,
@@ -10631,10 +10655,10 @@
       "KillCount": 5,
       "RewardGold": 2,
       "RewardGrowth": 1,
-      "RewardExist": 1,
+      "RewardExist": 0,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 24
+      "FirstClearDiamond": 1
     },
     {
       "Index": 5,
@@ -10647,10 +10671,10 @@
       "KillCount": 5,
       "RewardGold": 2,
       "RewardGrowth": 1,
-      "RewardExist": 1,
+      "RewardExist": 0,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 24
+      "FirstClearDiamond": 1
     },
     {
       "Index": 6,
@@ -10663,10 +10687,10 @@
       "KillCount": 5,
       "RewardGold": 2,
       "RewardGrowth": 1,
-      "RewardExist": 1,
+      "RewardExist": 0,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 24
+      "FirstClearDiamond": 1
     },
     {
       "Index": 7,
@@ -10679,10 +10703,10 @@
       "KillCount": 5,
       "RewardGold": 2,
       "RewardGrowth": 1,
-      "RewardExist": 1,
+      "RewardExist": 0,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 24
+      "FirstClearDiamond": 1
     },
     {
       "Index": 8,
@@ -10695,10 +10719,10 @@
       "KillCount": 5,
       "RewardGold": 2,
       "RewardGrowth": 1,
-      "RewardExist": 1,
+      "RewardExist": 0,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 24
+      "FirstClearDiamond": 1
     },
     {
       "Index": 9,
@@ -10711,10 +10735,10 @@
       "KillCount": 5,
       "RewardGold": 3,
       "RewardGrowth": 2,
-      "RewardExist": 2,
+      "RewardExist": 1,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 24
+      "FirstClearDiamond": 1
     },
     {
       "Index": 10,
@@ -10727,10 +10751,10 @@
       "KillCount": 1,
       "RewardGold": 8,
       "RewardGrowth": 4,
-      "RewardExist": 4,
+      "RewardExist": 1,
       "RewardTimeEnergy": 15,
       "NameStringId": 0,
-      "FirstClearDiamond": 72
+      "FirstClearDiamond": 4
     },
     {
       "Index": 11,
@@ -10743,10 +10767,10 @@
       "KillCount": 5,
       "RewardGold": 3,
       "RewardGrowth": 2,
-      "RewardExist": 2,
+      "RewardExist": 1,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 28
+      "FirstClearDiamond": 2
     },
     {
       "Index": 12,
@@ -10759,10 +10783,10 @@
       "KillCount": 5,
       "RewardGold": 3,
       "RewardGrowth": 2,
-      "RewardExist": 2,
+      "RewardExist": 1,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 28
+      "FirstClearDiamond": 2
     },
     {
       "Index": 13,
@@ -10775,10 +10799,10 @@
       "KillCount": 5,
       "RewardGold": 4,
       "RewardGrowth": 2,
-      "RewardExist": 2,
+      "RewardExist": 1,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 28
+      "FirstClearDiamond": 2
     },
     {
       "Index": 14,
@@ -10791,10 +10815,10 @@
       "KillCount": 5,
       "RewardGold": 4,
       "RewardGrowth": 2,
-      "RewardExist": 2,
+      "RewardExist": 1,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 28
+      "FirstClearDiamond": 2
     },
     {
       "Index": 15,
@@ -10807,10 +10831,10 @@
       "KillCount": 5,
       "RewardGold": 4,
       "RewardGrowth": 2,
-      "RewardExist": 2,
+      "RewardExist": 1,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 28
+      "FirstClearDiamond": 2
     },
     {
       "Index": 16,
@@ -10823,10 +10847,10 @@
       "KillCount": 5,
       "RewardGold": 5,
       "RewardGrowth": 3,
-      "RewardExist": 3,
+      "RewardExist": 1,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 28
+      "FirstClearDiamond": 2
     },
     {
       "Index": 17,
@@ -10839,10 +10863,10 @@
       "KillCount": 5,
       "RewardGold": 5,
       "RewardGrowth": 3,
-      "RewardExist": 3,
+      "RewardExist": 1,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 28
+      "FirstClearDiamond": 2
     },
     {
       "Index": 18,
@@ -10855,10 +10879,10 @@
       "KillCount": 5,
       "RewardGold": 6,
       "RewardGrowth": 3,
-      "RewardExist": 3,
+      "RewardExist": 1,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 28
+      "FirstClearDiamond": 2
     },
     {
       "Index": 19,
@@ -10871,10 +10895,10 @@
       "KillCount": 5,
       "RewardGold": 6,
       "RewardGrowth": 4,
-      "RewardExist": 4,
+      "RewardExist": 1,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 28
+      "FirstClearDiamond": 2
     },
     {
       "Index": 20,
@@ -10887,10 +10911,10 @@
       "KillCount": 1,
       "RewardGold": 23,
       "RewardGrowth": 11,
-      "RewardExist": 8,
+      "RewardExist": 2,
       "RewardTimeEnergy": 20,
       "NameStringId": 0,
-      "FirstClearDiamond": 84
+      "FirstClearDiamond": 5
     },
     {
       "Index": 21,
@@ -10903,10 +10927,10 @@
       "KillCount": 5,
       "RewardGold": 8,
       "RewardGrowth": 4,
-      "RewardExist": 4,
+      "RewardExist": 1,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 32
+      "FirstClearDiamond": 2
     },
     {
       "Index": 22,
@@ -10919,10 +10943,10 @@
       "KillCount": 5,
       "RewardGold": 9,
       "RewardGrowth": 4,
-      "RewardExist": 4,
+      "RewardExist": 1,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 32
+      "FirstClearDiamond": 2
     },
     {
       "Index": 23,
@@ -10935,10 +10959,10 @@
       "KillCount": 5,
       "RewardGold": 10,
       "RewardGrowth": 5,
-      "RewardExist": 4,
+      "RewardExist": 1,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 32
+      "FirstClearDiamond": 2
     },
     {
       "Index": 24,
@@ -10951,10 +10975,10 @@
       "KillCount": 5,
       "RewardGold": 11,
       "RewardGrowth": 5,
-      "RewardExist": 5,
+      "RewardExist": 2,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 32
+      "FirstClearDiamond": 2
     },
     {
       "Index": 25,
@@ -10967,10 +10991,10 @@
       "KillCount": 5,
       "RewardGold": 12,
       "RewardGrowth": 6,
-      "RewardExist": 5,
+      "RewardExist": 2,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 32
+      "FirstClearDiamond": 2
     },
     {
       "Index": 26,
@@ -10983,10 +11007,10 @@
       "KillCount": 5,
       "RewardGold": 13,
       "RewardGrowth": 6,
-      "RewardExist": 6,
+      "RewardExist": 2,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 32
+      "FirstClearDiamond": 2
     },
     {
       "Index": 27,
@@ -10999,10 +11023,10 @@
       "KillCount": 5,
       "RewardGold": 15,
       "RewardGrowth": 7,
-      "RewardExist": 7,
+      "RewardExist": 2,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 32
+      "FirstClearDiamond": 2
     },
     {
       "Index": 28,
@@ -11015,10 +11039,10 @@
       "KillCount": 5,
       "RewardGold": 16,
       "RewardGrowth": 8,
-      "RewardExist": 7,
+      "RewardExist": 2,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 32
+      "FirstClearDiamond": 2
     },
     {
       "Index": 29,
@@ -11031,10 +11055,10 @@
       "KillCount": 5,
       "RewardGold": 18,
       "RewardGrowth": 9,
-      "RewardExist": 8,
+      "RewardExist": 2,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 32
+      "FirstClearDiamond": 2
     },
     {
       "Index": 30,
@@ -11047,10 +11071,10 @@
       "KillCount": 1,
       "RewardGold": 59,
       "RewardGrowth": 24,
-      "RewardExist": 12,
+      "RewardExist": 4,
       "RewardTimeEnergy": 25,
       "NameStringId": 0,
-      "FirstClearDiamond": 96
+      "FirstClearDiamond": 5
     },
     {
       "Index": 31,
@@ -11063,10 +11087,10 @@
       "KillCount": 5,
       "RewardGold": 22,
       "RewardGrowth": 9,
-      "RewardExist": 6,
+      "RewardExist": 2,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 40
+      "FirstClearDiamond": 2
     },
     {
       "Index": 32,
@@ -11079,10 +11103,10 @@
       "KillCount": 5,
       "RewardGold": 24,
       "RewardGrowth": 10,
-      "RewardExist": 6,
+      "RewardExist": 2,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 40
+      "FirstClearDiamond": 2
     },
     {
       "Index": 33,
@@ -11095,10 +11119,10 @@
       "KillCount": 5,
       "RewardGold": 26,
       "RewardGrowth": 11,
-      "RewardExist": 7,
+      "RewardExist": 2,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 40
+      "FirstClearDiamond": 2
     },
     {
       "Index": 34,
@@ -11111,10 +11135,10 @@
       "KillCount": 5,
       "RewardGold": 29,
       "RewardGrowth": 12,
-      "RewardExist": 7,
+      "RewardExist": 2,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 40
+      "FirstClearDiamond": 2
     },
     {
       "Index": 35,
@@ -11127,10 +11151,10 @@
       "KillCount": 5,
       "RewardGold": 32,
       "RewardGrowth": 13,
-      "RewardExist": 8,
+      "RewardExist": 2,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 40
+      "FirstClearDiamond": 2
     },
     {
       "Index": 36,
@@ -11143,10 +11167,10 @@
       "KillCount": 5,
       "RewardGold": 35,
       "RewardGrowth": 14,
-      "RewardExist": 9,
+      "RewardExist": 3,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 40
+      "FirstClearDiamond": 2
     },
     {
       "Index": 37,
@@ -11159,10 +11183,10 @@
       "KillCount": 5,
       "RewardGold": 39,
       "RewardGrowth": 16,
-      "RewardExist": 10,
+      "RewardExist": 3,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 40
+      "FirstClearDiamond": 2
     },
     {
       "Index": 38,
@@ -11175,10 +11199,10 @@
       "KillCount": 5,
       "RewardGold": 42,
       "RewardGrowth": 17,
-      "RewardExist": 11,
+      "RewardExist": 3,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 40
+      "FirstClearDiamond": 2
     },
     {
       "Index": 39,
@@ -11191,10 +11215,10 @@
       "KillCount": 5,
       "RewardGold": 47,
       "RewardGrowth": 19,
-      "RewardExist": 12,
+      "RewardExist": 4,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 40
+      "FirstClearDiamond": 2
     },
     {
       "Index": 40,
@@ -11207,10 +11231,10 @@
       "KillCount": 1,
       "RewardGold": 154,
       "RewardGrowth": 54,
-      "RewardExist": 16,
+      "RewardExist": 5,
       "RewardTimeEnergy": 30,
       "NameStringId": 0,
-      "FirstClearDiamond": 120
+      "FirstClearDiamond": 7
     },
     {
       "Index": 41,
@@ -11223,10 +11247,10 @@
       "KillCount": 5,
       "RewardGold": 57,
       "RewardGrowth": 19,
-      "RewardExist": 9,
+      "RewardExist": 3,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 48
+      "FirstClearDiamond": 3
     },
     {
       "Index": 42,
@@ -11239,10 +11263,10 @@
       "KillCount": 5,
       "RewardGold": 62,
       "RewardGrowth": 21,
-      "RewardExist": 9,
+      "RewardExist": 3,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 48
+      "FirstClearDiamond": 3
     },
     {
       "Index": 43,
@@ -11255,10 +11279,10 @@
       "KillCount": 5,
       "RewardGold": 68,
       "RewardGrowth": 23,
-      "RewardExist": 10,
+      "RewardExist": 3,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 48
+      "FirstClearDiamond": 3
     },
     {
       "Index": 44,
@@ -11271,10 +11295,10 @@
       "KillCount": 5,
       "RewardGold": 75,
       "RewardGrowth": 26,
-      "RewardExist": 11,
+      "RewardExist": 3,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 48
+      "FirstClearDiamond": 3
     },
     {
       "Index": 45,
@@ -11287,10 +11311,10 @@
       "KillCount": 5,
       "RewardGold": 83,
       "RewardGrowth": 28,
-      "RewardExist": 13,
+      "RewardExist": 4,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 48
+      "FirstClearDiamond": 3
     },
     {
       "Index": 46,
@@ -11303,10 +11327,10 @@
       "KillCount": 5,
       "RewardGold": 91,
       "RewardGrowth": 31,
-      "RewardExist": 14,
+      "RewardExist": 4,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 48
+      "FirstClearDiamond": 3
     },
     {
       "Index": 47,
@@ -11319,10 +11343,10 @@
       "KillCount": 5,
       "RewardGold": 100,
       "RewardGrowth": 34,
-      "RewardExist": 15,
+      "RewardExist": 5,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 48
+      "FirstClearDiamond": 3
     },
     {
       "Index": 48,
@@ -11335,10 +11359,10 @@
       "KillCount": 5,
       "RewardGold": 110,
       "RewardGrowth": 37,
-      "RewardExist": 17,
+      "RewardExist": 5,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 48
+      "FirstClearDiamond": 3
     },
     {
       "Index": 49,
@@ -11351,10 +11375,10 @@
       "KillCount": 5,
       "RewardGold": 121,
       "RewardGrowth": 41,
-      "RewardExist": 19,
+      "RewardExist": 6,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 48
+      "FirstClearDiamond": 3
     },
     {
       "Index": 50,
@@ -11367,10 +11391,10 @@
       "KillCount": 1,
       "RewardGold": 400,
       "RewardGrowth": 116,
-      "RewardExist": 22,
+      "RewardExist": 7,
       "RewardTimeEnergy": 35,
       "NameStringId": 0,
-      "FirstClearDiamond": 144
+      "FirstClearDiamond": 8
     },
     {
       "Index": 51,
@@ -11383,10 +11407,10 @@
       "KillCount": 5,
       "RewardGold": 147,
       "RewardGrowth": 42,
-      "RewardExist": 11,
+      "RewardExist": 3,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 56
+      "FirstClearDiamond": 3
     },
     {
       "Index": 52,
@@ -11399,10 +11423,10 @@
       "KillCount": 5,
       "RewardGold": 161,
       "RewardGrowth": 46,
-      "RewardExist": 12,
+      "RewardExist": 4,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 56
+      "FirstClearDiamond": 3
     },
     {
       "Index": 53,
@@ -11415,10 +11439,10 @@
       "KillCount": 5,
       "RewardGold": 177,
       "RewardGrowth": 50,
-      "RewardExist": 13,
+      "RewardExist": 4,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 56
+      "FirstClearDiamond": 3
     },
     {
       "Index": 54,
@@ -11431,10 +11455,10 @@
       "KillCount": 5,
       "RewardGold": 195,
       "RewardGrowth": 55,
-      "RewardExist": 14,
+      "RewardExist": 4,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 56
+      "FirstClearDiamond": 3
     },
     {
       "Index": 55,
@@ -11447,10 +11471,10 @@
       "KillCount": 5,
       "RewardGold": 214,
       "RewardGrowth": 61,
-      "RewardExist": 16,
+      "RewardExist": 5,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 56
+      "FirstClearDiamond": 3
     },
     {
       "Index": 56,
@@ -11463,10 +11487,10 @@
       "KillCount": 5,
       "RewardGold": 236,
       "RewardGrowth": 67,
-      "RewardExist": 17,
+      "RewardExist": 5,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 56
+      "FirstClearDiamond": 3
     },
     {
       "Index": 57,
@@ -11479,10 +11503,10 @@
       "KillCount": 5,
       "RewardGold": 260,
       "RewardGrowth": 74,
-      "RewardExist": 19,
+      "RewardExist": 6,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 56
+      "FirstClearDiamond": 3
     },
     {
       "Index": 58,
@@ -11495,10 +11519,10 @@
       "KillCount": 5,
       "RewardGold": 285,
       "RewardGrowth": 81,
-      "RewardExist": 21,
+      "RewardExist": 6,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 56
+      "FirstClearDiamond": 3
     },
     {
       "Index": 59,
@@ -11511,10 +11535,10 @@
       "KillCount": 5,
       "RewardGold": 314,
       "RewardGrowth": 90,
-      "RewardExist": 23,
+      "RewardExist": 7,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 56
+      "FirstClearDiamond": 3
     },
     {
       "Index": 60,
@@ -11527,10 +11551,10 @@
       "KillCount": 1,
       "RewardGold": 1038,
       "RewardGrowth": 252,
-      "RewardExist": 26,
+      "RewardExist": 8,
       "RewardTimeEnergy": 40,
       "NameStringId": 0,
-      "FirstClearDiamond": 168
+      "FirstClearDiamond": 10
     },
     {
       "Index": 61,
@@ -11543,10 +11567,10 @@
       "KillCount": 5,
       "RewardGold": 381,
       "RewardGrowth": 91,
-      "RewardExist": 13,
+      "RewardExist": 4,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 64
+      "FirstClearDiamond": 4
     },
     {
       "Index": 62,
@@ -11559,10 +11583,10 @@
       "KillCount": 5,
       "RewardGold": 419,
       "RewardGrowth": 100,
-      "RewardExist": 14,
+      "RewardExist": 4,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 64
+      "FirstClearDiamond": 4
     },
     {
       "Index": 63,
@@ -11575,10 +11599,10 @@
       "KillCount": 5,
       "RewardGold": 460,
       "RewardGrowth": 110,
-      "RewardExist": 15,
+      "RewardExist": 5,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 64
+      "FirstClearDiamond": 4
     },
     {
       "Index": 64,
@@ -11591,10 +11615,10 @@
       "KillCount": 5,
       "RewardGold": 506,
       "RewardGrowth": 121,
-      "RewardExist": 17,
+      "RewardExist": 5,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 64
+      "FirstClearDiamond": 4
     },
     {
       "Index": 65,
@@ -11607,10 +11631,10 @@
       "KillCount": 5,
       "RewardGold": 557,
       "RewardGrowth": 133,
-      "RewardExist": 19,
+      "RewardExist": 6,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 64
+      "FirstClearDiamond": 4
     },
     {
       "Index": 66,
@@ -11623,10 +11647,10 @@
       "KillCount": 5,
       "RewardGold": 613,
       "RewardGrowth": 146,
-      "RewardExist": 20,
+      "RewardExist": 6,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 64
+      "FirstClearDiamond": 4
     },
     {
       "Index": 67,
@@ -11639,10 +11663,10 @@
       "KillCount": 5,
       "RewardGold": 674,
       "RewardGrowth": 161,
-      "RewardExist": 23,
+      "RewardExist": 7,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 64
+      "FirstClearDiamond": 4
     },
     {
       "Index": 68,
@@ -11655,10 +11679,10 @@
       "KillCount": 5,
       "RewardGold": 741,
       "RewardGrowth": 177,
-      "RewardExist": 25,
+      "RewardExist": 8,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 64
+      "FirstClearDiamond": 4
     },
     {
       "Index": 69,
@@ -11671,10 +11695,10 @@
       "KillCount": 5,
       "RewardGold": 816,
       "RewardGrowth": 195,
-      "RewardExist": 27,
+      "RewardExist": 8,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 64
+      "FirstClearDiamond": 4
     },
     {
       "Index": 70,
@@ -11687,10 +11711,10 @@
       "KillCount": 1,
       "RewardGold": 2692,
       "RewardGrowth": 545,
-      "RewardExist": 30,
+      "RewardExist": 9,
       "RewardTimeEnergy": 45,
       "NameStringId": 0,
-      "FirstClearDiamond": 192
+      "FirstClearDiamond": 11
     },
     {
       "Index": 71,
@@ -11703,10 +11727,10 @@
       "KillCount": 5,
       "RewardGold": 987,
       "RewardGrowth": 197,
-      "RewardExist": 15,
+      "RewardExist": 5,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 76
+      "FirstClearDiamond": 4
     },
     {
       "Index": 72,
@@ -11719,10 +11743,10 @@
       "KillCount": 5,
       "RewardGold": 1086,
       "RewardGrowth": 216,
-      "RewardExist": 16,
+      "RewardExist": 5,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 76
+      "FirstClearDiamond": 4
     },
     {
       "Index": 73,
@@ -11735,10 +11759,10 @@
       "KillCount": 5,
       "RewardGold": 1194,
       "RewardGrowth": 238,
-      "RewardExist": 18,
+      "RewardExist": 5,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 76
+      "FirstClearDiamond": 4
     },
     {
       "Index": 74,
@@ -11751,10 +11775,10 @@
       "KillCount": 5,
       "RewardGold": 1314,
       "RewardGrowth": 261,
-      "RewardExist": 19,
+      "RewardExist": 6,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 76
+      "FirstClearDiamond": 4
     },
     {
       "Index": 75,
@@ -11767,10 +11791,10 @@
       "KillCount": 5,
       "RewardGold": 1445,
       "RewardGrowth": 288,
-      "RewardExist": 21,
+      "RewardExist": 6,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 76
+      "FirstClearDiamond": 4
     },
     {
       "Index": 76,
@@ -11783,10 +11807,10 @@
       "KillCount": 5,
       "RewardGold": 1590,
       "RewardGrowth": 316,
-      "RewardExist": 24,
+      "RewardExist": 7,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 76
+      "FirstClearDiamond": 4
     },
     {
       "Index": 77,
@@ -11799,10 +11823,10 @@
       "KillCount": 5,
       "RewardGold": 1749,
       "RewardGrowth": 348,
-      "RewardExist": 26,
+      "RewardExist": 8,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 76
+      "FirstClearDiamond": 4
     },
     {
       "Index": 78,
@@ -11815,10 +11839,10 @@
       "KillCount": 5,
       "RewardGold": 1923,
       "RewardGrowth": 383,
-      "RewardExist": 29,
+      "RewardExist": 9,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 76
+      "FirstClearDiamond": 4
     },
     {
       "Index": 79,
@@ -11831,10 +11855,10 @@
       "KillCount": 5,
       "RewardGold": 2116,
       "RewardGrowth": 421,
-      "RewardExist": 32,
+      "RewardExist": 10,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 76
+      "FirstClearDiamond": 4
     },
     {
       "Index": 80,
@@ -11847,10 +11871,10 @@
       "KillCount": 1,
       "RewardGold": 6983,
       "RewardGrowth": 1179,
-      "RewardExist": 34,
+      "RewardExist": 10,
       "RewardTimeEnergy": 50,
       "NameStringId": 0,
-      "FirstClearDiamond": 228
+      "FirstClearDiamond": 13
     },
     {
       "Index": 81,
@@ -11863,10 +11887,10 @@
       "KillCount": 5,
       "RewardGold": 2561,
       "RewardGrowth": 424,
-      "RewardExist": 18,
+      "RewardExist": 5,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 92
+      "FirstClearDiamond": 5
     },
     {
       "Index": 82,
@@ -11879,10 +11903,10 @@
       "KillCount": 5,
       "RewardGold": 2817,
       "RewardGrowth": 467,
-      "RewardExist": 19,
+      "RewardExist": 6,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 92
+      "FirstClearDiamond": 5
     },
     {
       "Index": 83,
@@ -11895,10 +11919,10 @@
       "KillCount": 5,
       "RewardGold": 3098,
       "RewardGrowth": 513,
-      "RewardExist": 21,
+      "RewardExist": 6,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 92
+      "FirstClearDiamond": 5
     },
     {
       "Index": 84,
@@ -11911,10 +11935,10 @@
       "KillCount": 5,
       "RewardGold": 3408,
       "RewardGrowth": 565,
-      "RewardExist": 23,
+      "RewardExist": 7,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 92
+      "FirstClearDiamond": 5
     },
     {
       "Index": 85,
@@ -11927,10 +11951,10 @@
       "KillCount": 5,
       "RewardGold": 3749,
       "RewardGrowth": 621,
-      "RewardExist": 26,
+      "RewardExist": 8,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 92
+      "FirstClearDiamond": 5
     },
     {
       "Index": 86,
@@ -11943,10 +11967,10 @@
       "KillCount": 5,
       "RewardGold": 4124,
       "RewardGrowth": 683,
-      "RewardExist": 28,
+      "RewardExist": 8,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 92
+      "FirstClearDiamond": 5
     },
     {
       "Index": 87,
@@ -11959,10 +11983,10 @@
       "KillCount": 5,
       "RewardGold": 4536,
       "RewardGrowth": 752,
-      "RewardExist": 31,
+      "RewardExist": 9,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 92
+      "FirstClearDiamond": 5
     },
     {
       "Index": 88,
@@ -11975,10 +11999,10 @@
       "KillCount": 5,
       "RewardGold": 4990,
       "RewardGrowth": 827,
-      "RewardExist": 35,
+      "RewardExist": 11,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 92
+      "FirstClearDiamond": 5
     },
     {
       "Index": 89,
@@ -11991,10 +12015,10 @@
       "KillCount": 5,
       "RewardGold": 5489,
       "RewardGrowth": 909,
-      "RewardExist": 38,
+      "RewardExist": 11,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 92
+      "FirstClearDiamond": 5
     },
     {
       "Index": 90,
@@ -12007,10 +12031,10 @@
       "KillCount": 1,
       "RewardGold": 18113,
       "RewardGrowth": 2546,
-      "RewardExist": 40,
+      "RewardExist": 12,
       "RewardTimeEnergy": 55,
       "NameStringId": 0,
-      "FirstClearDiamond": 276
+      "FirstClearDiamond": 16
     },
     {
       "Index": 91,
@@ -12023,10 +12047,10 @@
       "KillCount": 5,
       "RewardGold": 6641,
       "RewardGrowth": 917,
-      "RewardExist": 20,
+      "RewardExist": 6,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 108
+      "FirstClearDiamond": 6
     },
     {
       "Index": 92,
@@ -12039,10 +12063,10 @@
       "KillCount": 5,
       "RewardGold": 7305,
       "RewardGrowth": 1008,
-      "RewardExist": 22,
+      "RewardExist": 7,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 108
+      "FirstClearDiamond": 6
     },
     {
       "Index": 93,
@@ -12055,10 +12079,10 @@
       "KillCount": 5,
       "RewardGold": 8036,
       "RewardGrowth": 1109,
-      "RewardExist": 24,
+      "RewardExist": 7,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 108
+      "FirstClearDiamond": 6
     },
     {
       "Index": 94,
@@ -12071,10 +12095,10 @@
       "KillCount": 5,
       "RewardGold": 8840,
       "RewardGrowth": 1220,
-      "RewardExist": 26,
+      "RewardExist": 8,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 108
+      "FirstClearDiamond": 6
     },
     {
       "Index": 95,
@@ -12087,10 +12111,10 @@
       "KillCount": 5,
       "RewardGold": 9723,
       "RewardGrowth": 1342,
-      "RewardExist": 29,
+      "RewardExist": 9,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 108
+      "FirstClearDiamond": 6
     },
     {
       "Index": 96,
@@ -12103,10 +12127,10 @@
       "KillCount": 5,
       "RewardGold": 10696,
       "RewardGrowth": 1476,
-      "RewardExist": 32,
+      "RewardExist": 10,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 108
+      "FirstClearDiamond": 6
     },
     {
       "Index": 97,
@@ -12119,10 +12143,10 @@
       "KillCount": 5,
       "RewardGold": 11765,
       "RewardGrowth": 1624,
-      "RewardExist": 35,
+      "RewardExist": 11,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 108
+      "FirstClearDiamond": 6
     },
     {
       "Index": 98,
@@ -12135,10 +12159,10 @@
       "KillCount": 5,
       "RewardGold": 12942,
       "RewardGrowth": 1786,
-      "RewardExist": 38,
+      "RewardExist": 11,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 108
+      "FirstClearDiamond": 6
     },
     {
       "Index": 99,
@@ -12151,10 +12175,10 @@
       "KillCount": 5,
       "RewardGold": 14236,
       "RewardGrowth": 1965,
-      "RewardExist": 42,
+      "RewardExist": 13,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 108
+      "FirstClearDiamond": 6
     },
     {
       "Index": 100,
@@ -12167,10 +12191,10 @@
       "KillCount": 1,
       "RewardGold": 46979,
       "RewardGrowth": 5499,
-      "RewardExist": 44,
+      "RewardExist": 13,
       "RewardTimeEnergy": 60,
       "NameStringId": 0,
-      "FirstClearDiamond": 324
+      "FirstClearDiamond": 19
     },
     {
       "Index": 101,
@@ -12183,10 +12207,10 @@
       "KillCount": 5,
       "RewardGold": 17226,
       "RewardGrowth": 1980,
-      "RewardExist": 22,
+      "RewardExist": 7,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 124
+      "FirstClearDiamond": 7
     },
     {
       "Index": 102,
@@ -12199,10 +12223,10 @@
       "KillCount": 5,
       "RewardGold": 18948,
       "RewardGrowth": 2177,
-      "RewardExist": 24,
+      "RewardExist": 7,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 124
+      "FirstClearDiamond": 7
     },
     {
       "Index": 103,
@@ -12215,10 +12239,10 @@
       "KillCount": 5,
       "RewardGold": 20843,
       "RewardGrowth": 2395,
-      "RewardExist": 26,
+      "RewardExist": 8,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 124
+      "FirstClearDiamond": 7
     },
     {
       "Index": 104,
@@ -12231,10 +12255,10 @@
       "KillCount": 5,
       "RewardGold": 22927,
       "RewardGrowth": 2635,
-      "RewardExist": 29,
+      "RewardExist": 9,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 124
+      "FirstClearDiamond": 7
     },
     {
       "Index": 105,
@@ -12247,10 +12271,10 @@
       "KillCount": 5,
       "RewardGold": 25220,
       "RewardGrowth": 2898,
-      "RewardExist": 32,
+      "RewardExist": 10,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 124
+      "FirstClearDiamond": 7
     },
     {
       "Index": 106,
@@ -12263,10 +12287,10 @@
       "KillCount": 5,
       "RewardGold": 27742,
       "RewardGrowth": 3188,
-      "RewardExist": 35,
+      "RewardExist": 11,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 124
+      "FirstClearDiamond": 7
     },
     {
       "Index": 107,
@@ -12279,10 +12303,10 @@
       "KillCount": 5,
       "RewardGold": 30516,
       "RewardGrowth": 3507,
-      "RewardExist": 38,
+      "RewardExist": 11,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 124
+      "FirstClearDiamond": 7
     },
     {
       "Index": 108,
@@ -12295,10 +12319,10 @@
       "KillCount": 5,
       "RewardGold": 33568,
       "RewardGrowth": 3857,
-      "RewardExist": 42,
+      "RewardExist": 13,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 124
+      "FirstClearDiamond": 7
     },
     {
       "Index": 109,
@@ -12311,10 +12335,10 @@
       "KillCount": 5,
       "RewardGold": 36925,
       "RewardGrowth": 4243,
-      "RewardExist": 47,
+      "RewardExist": 14,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 124
+      "FirstClearDiamond": 7
     },
     {
       "Index": 110,
@@ -12327,10 +12351,10 @@
       "KillCount": 1,
       "RewardGold": 121852,
       "RewardGrowth": 11872,
-      "RewardExist": 48,
+      "RewardExist": 14,
       "RewardTimeEnergy": 65,
       "NameStringId": 0,
-      "FirstClearDiamond": 372
+      "FirstClearDiamond": 21
     },
     {
       "Index": 111,
@@ -12343,10 +12367,10 @@
       "KillCount": 5,
       "RewardGold": 44679,
       "RewardGrowth": 4274,
-      "RewardExist": 24,
+      "RewardExist": 7,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 148
+      "FirstClearDiamond": 8
     },
     {
       "Index": 112,
@@ -12359,10 +12383,10 @@
       "KillCount": 5,
       "RewardGold": 49147,
       "RewardGrowth": 4701,
-      "RewardExist": 26,
+      "RewardExist": 8,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 148
+      "FirstClearDiamond": 8
     },
     {
       "Index": 113,
@@ -12375,10 +12399,10 @@
       "KillCount": 5,
       "RewardGold": 54062,
       "RewardGrowth": 5171,
-      "RewardExist": 29,
+      "RewardExist": 9,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 148
+      "FirstClearDiamond": 8
     },
     {
       "Index": 114,
@@ -12391,10 +12415,10 @@
       "KillCount": 5,
       "RewardGold": 59468,
       "RewardGrowth": 5688,
-      "RewardExist": 31,
+      "RewardExist": 9,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 148
+      "FirstClearDiamond": 8
     },
     {
       "Index": 115,
@@ -12407,10 +12431,10 @@
       "KillCount": 5,
       "RewardGold": 65415,
       "RewardGrowth": 6258,
-      "RewardExist": 35,
+      "RewardExist": 11,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 148
+      "FirstClearDiamond": 8
     },
     {
       "Index": 116,
@@ -12423,10 +12447,10 @@
       "KillCount": 5,
       "RewardGold": 71956,
       "RewardGrowth": 6883,
-      "RewardExist": 38,
+      "RewardExist": 11,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 148
+      "FirstClearDiamond": 8
     },
     {
       "Index": 117,
@@ -12439,10 +12463,10 @@
       "KillCount": 5,
       "RewardGold": 79152,
       "RewardGrowth": 7572,
-      "RewardExist": 42,
+      "RewardExist": 13,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 148
+      "FirstClearDiamond": 8
     },
     {
       "Index": 118,
@@ -12455,10 +12479,10 @@
       "KillCount": 5,
       "RewardGold": 87067,
       "RewardGrowth": 8329,
-      "RewardExist": 46,
+      "RewardExist": 14,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 148
+      "FirstClearDiamond": 8
     },
     {
       "Index": 119,
@@ -12471,10 +12495,10 @@
       "KillCount": 5,
       "RewardGold": 95773,
       "RewardGrowth": 9162,
-      "RewardExist": 51,
+      "RewardExist": 15,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 148
+      "FirstClearDiamond": 8
     },
     {
       "Index": 120,
@@ -12487,10 +12511,10 @@
       "KillCount": 1,
       "RewardGold": 316053,
       "RewardGrowth": 25632,
-      "RewardExist": 52,
+      "RewardExist": 16,
       "RewardTimeEnergy": 70,
       "NameStringId": 0,
-      "FirstClearDiamond": 444
+      "FirstClearDiamond": 25
     },
     {
       "Index": 121,
@@ -12503,10 +12527,10 @@
       "KillCount": 5,
       "RewardGold": 115886,
       "RewardGrowth": 9227,
-      "RewardExist": 26,
+      "RewardExist": 8,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 176
+      "FirstClearDiamond": 10
     },
     {
       "Index": 122,
@@ -12519,10 +12543,10 @@
       "KillCount": 5,
       "RewardGold": 127475,
       "RewardGrowth": 10150,
-      "RewardExist": 28,
+      "RewardExist": 8,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 176
+      "FirstClearDiamond": 10
     },
     {
       "Index": 123,
@@ -12535,10 +12559,10 @@
       "KillCount": 5,
       "RewardGold": 140222,
       "RewardGrowth": 11165,
-      "RewardExist": 31,
+      "RewardExist": 9,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 176
+      "FirstClearDiamond": 10
     },
     {
       "Index": 124,
@@ -12551,10 +12575,10 @@
       "KillCount": 5,
       "RewardGold": 154245,
       "RewardGrowth": 12281,
-      "RewardExist": 34,
+      "RewardExist": 10,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 176
+      "FirstClearDiamond": 10
     },
     {
       "Index": 125,
@@ -12567,10 +12591,10 @@
       "KillCount": 5,
       "RewardGold": 169669,
       "RewardGrowth": 13509,
-      "RewardExist": 38,
+      "RewardExist": 11,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 176
+      "FirstClearDiamond": 10
     },
     {
       "Index": 126,
@@ -12583,10 +12607,10 @@
       "KillCount": 5,
       "RewardGold": 186636,
       "RewardGrowth": 14860,
-      "RewardExist": 41,
+      "RewardExist": 12,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 176
+      "FirstClearDiamond": 10
     },
     {
       "Index": 127,
@@ -12599,10 +12623,10 @@
       "KillCount": 5,
       "RewardGold": 205300,
       "RewardGrowth": 16346,
-      "RewardExist": 46,
+      "RewardExist": 14,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 176
+      "FirstClearDiamond": 10
     },
     {
       "Index": 128,
@@ -12615,10 +12639,10 @@
       "KillCount": 5,
       "RewardGold": 225830,
       "RewardGrowth": 17981,
-      "RewardExist": 50,
+      "RewardExist": 15,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 176
+      "FirstClearDiamond": 10
     },
     {
       "Index": 129,
@@ -12631,10 +12655,10 @@
       "KillCount": 5,
       "RewardGold": 248412,
       "RewardGrowth": 19779,
-      "RewardExist": 55,
+      "RewardExist": 17,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 176
+      "FirstClearDiamond": 10
     },
     {
       "Index": 130,
@@ -12647,10 +12671,10 @@
       "KillCount": 1,
       "RewardGold": 819761,
       "RewardGrowth": 55338,
-      "RewardExist": 56,
+      "RewardExist": 17,
       "RewardTimeEnergy": 75,
       "NameStringId": 0,
-      "FirstClearDiamond": 528
+      "FirstClearDiamond": 30
     },
     {
       "Index": 131,
@@ -12663,10 +12687,10 @@
       "KillCount": 5,
       "RewardGold": 300579,
       "RewardGrowth": 19922,
-      "RewardExist": 29,
+      "RewardExist": 9,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 208
+      "FirstClearDiamond": 12
     },
     {
       "Index": 132,
@@ -12679,10 +12703,10 @@
       "KillCount": 5,
       "RewardGold": 330637,
       "RewardGrowth": 21914,
-      "RewardExist": 31,
+      "RewardExist": 9,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 208
+      "FirstClearDiamond": 12
     },
     {
       "Index": 133,
@@ -12695,10 +12719,10 @@
       "KillCount": 5,
       "RewardGold": 363701,
       "RewardGrowth": 24105,
-      "RewardExist": 35,
+      "RewardExist": 11,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 208
+      "FirstClearDiamond": 12
     },
     {
       "Index": 134,
@@ -12711,10 +12735,10 @@
       "KillCount": 5,
       "RewardGold": 400071,
       "RewardGrowth": 26515,
-      "RewardExist": 38,
+      "RewardExist": 11,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 208
+      "FirstClearDiamond": 12
     },
     {
       "Index": 135,
@@ -12727,10 +12751,10 @@
       "KillCount": 5,
       "RewardGold": 440078,
       "RewardGrowth": 29167,
-      "RewardExist": 42,
+      "RewardExist": 13,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 208
+      "FirstClearDiamond": 12
     },
     {
       "Index": 136,
@@ -12743,10 +12767,10 @@
       "KillCount": 5,
       "RewardGold": 484086,
       "RewardGrowth": 32084,
-      "RewardExist": 46,
+      "RewardExist": 14,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 208
+      "FirstClearDiamond": 12
     },
     {
       "Index": 137,
@@ -12759,10 +12783,10 @@
       "KillCount": 5,
       "RewardGold": 532494,
       "RewardGrowth": 35292,
-      "RewardExist": 51,
+      "RewardExist": 15,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 208
+      "FirstClearDiamond": 12
     },
     {
       "Index": 138,
@@ -12775,10 +12799,10 @@
       "KillCount": 5,
       "RewardGold": 585744,
       "RewardGrowth": 38821,
-      "RewardExist": 56,
+      "RewardExist": 17,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 208
+      "FirstClearDiamond": 12
     },
     {
       "Index": 139,
@@ -12791,10 +12815,10 @@
       "KillCount": 5,
       "RewardGold": 644318,
       "RewardGrowth": 42703,
-      "RewardExist": 62,
+      "RewardExist": 19,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 208
+      "FirstClearDiamond": 12
     },
     {
       "Index": 140,
@@ -12807,10 +12831,10 @@
       "KillCount": 1,
       "RewardGold": 2126251,
       "RewardGrowth": 119471,
-      "RewardExist": 62,
+      "RewardExist": 19,
       "RewardTimeEnergy": 80,
       "NameStringId": 0,
-      "FirstClearDiamond": 624
+      "FirstClearDiamond": 36
     },
     {
       "Index": 141,
@@ -12823,10 +12847,10 @@
       "KillCount": 5,
       "RewardGold": 779625,
       "RewardGrowth": 43010,
-      "RewardExist": 31,
+      "RewardExist": 9,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 244
+      "FirstClearDiamond": 14
     },
     {
       "Index": 142,
@@ -12839,10 +12863,10 @@
       "KillCount": 5,
       "RewardGold": 857588,
       "RewardGrowth": 47310,
-      "RewardExist": 34,
+      "RewardExist": 10,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 244
+      "FirstClearDiamond": 14
     },
     {
       "Index": 143,
@@ -12855,10 +12879,10 @@
       "KillCount": 5,
       "RewardGold": 943347,
       "RewardGrowth": 52042,
-      "RewardExist": 37,
+      "RewardExist": 11,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 244
+      "FirstClearDiamond": 14
     },
     {
       "Index": 144,
@@ -12871,10 +12895,10 @@
       "KillCount": 5,
       "RewardGold": 1037681,
       "RewardGrowth": 57245,
-      "RewardExist": 41,
+      "RewardExist": 12,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 244
+      "FirstClearDiamond": 14
     },
     {
       "Index": 145,
@@ -12887,10 +12911,10 @@
       "KillCount": 5,
       "RewardGold": 1141449,
       "RewardGrowth": 62970,
-      "RewardExist": 45,
+      "RewardExist": 14,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 244
+      "FirstClearDiamond": 14
     },
     {
       "Index": 146,
@@ -12903,10 +12927,10 @@
       "KillCount": 5,
       "RewardGold": 1255594,
       "RewardGrowth": 69267,
-      "RewardExist": 49,
+      "RewardExist": 15,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 244
+      "FirstClearDiamond": 14
     },
     {
       "Index": 147,
@@ -12919,10 +12943,10 @@
       "KillCount": 5,
       "RewardGold": 1381154,
       "RewardGrowth": 76194,
-      "RewardExist": 54,
+      "RewardExist": 16,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 244
+      "FirstClearDiamond": 14
     },
     {
       "Index": 148,
@@ -12935,10 +12959,10 @@
       "KillCount": 5,
       "RewardGold": 1519269,
       "RewardGrowth": 83813,
-      "RewardExist": 60,
+      "RewardExist": 18,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 244
+      "FirstClearDiamond": 14
     },
     {
       "Index": 149,
@@ -12951,10 +12975,10 @@
       "KillCount": 5,
       "RewardGold": 1671196,
       "RewardGrowth": 92195,
-      "RewardExist": 66,
+      "RewardExist": 20,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 244
+      "FirstClearDiamond": 14
     },
     {
       "Index": 150,
@@ -12967,10 +12991,10 @@
       "KillCount": 1,
       "RewardGold": 5514947,
       "RewardGrowth": 257930,
-      "RewardExist": 66,
+      "RewardExist": 20,
       "RewardTimeEnergy": 85,
       "NameStringId": 0,
-      "FirstClearDiamond": 732
+      "FirstClearDiamond": 42
     },
     {
       "Index": 151,
@@ -12983,10 +13007,10 @@
       "KillCount": 5,
       "RewardGold": 2022147,
       "RewardGrowth": 92855,
-      "RewardExist": 33,
+      "RewardExist": 10,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 288
+      "FirstClearDiamond": 16
     },
     {
       "Index": 152,
@@ -12999,10 +13023,10 @@
       "KillCount": 5,
       "RewardGold": 2224362,
       "RewardGrowth": 102140,
-      "RewardExist": 36,
+      "RewardExist": 11,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 288
+      "FirstClearDiamond": 16
     },
     {
       "Index": 153,
@@ -13015,10 +13039,10 @@
       "KillCount": 5,
       "RewardGold": 2446798,
       "RewardGrowth": 112354,
-      "RewardExist": 39,
+      "RewardExist": 12,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 288
+      "FirstClearDiamond": 16
     },
     {
       "Index": 154,
@@ -13031,10 +13055,10 @@
       "KillCount": 5,
       "RewardGold": 2691478,
       "RewardGrowth": 123589,
-      "RewardExist": 43,
+      "RewardExist": 13,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 288
+      "FirstClearDiamond": 16
     },
     {
       "Index": 155,
@@ -13047,10 +13071,10 @@
       "KillCount": 5,
       "RewardGold": 2960626,
       "RewardGrowth": 135949,
-      "RewardExist": 48,
+      "RewardExist": 14,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 288
+      "FirstClearDiamond": 16
     },
     {
       "Index": 156,
@@ -13063,10 +13087,10 @@
       "KillCount": 5,
       "RewardGold": 3256688,
       "RewardGrowth": 149544,
-      "RewardExist": 53,
+      "RewardExist": 16,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 288
+      "FirstClearDiamond": 16
     },
     {
       "Index": 157,
@@ -13079,10 +13103,10 @@
       "KillCount": 5,
       "RewardGold": 3582357,
       "RewardGrowth": 164498,
-      "RewardExist": 58,
+      "RewardExist": 17,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 288
+      "FirstClearDiamond": 16
     },
     {
       "Index": 158,
@@ -13095,10 +13119,10 @@
       "KillCount": 5,
       "RewardGold": 3940593,
       "RewardGrowth": 180948,
-      "RewardExist": 64,
+      "RewardExist": 19,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 288
+      "FirstClearDiamond": 16
     },
     {
       "Index": 159,
@@ -13111,10 +13135,10 @@
       "KillCount": 5,
       "RewardGold": 4334652,
       "RewardGrowth": 199042,
-      "RewardExist": 70,
+      "RewardExist": 21,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 288
+      "FirstClearDiamond": 16
     },
     {
       "Index": 160,
@@ -13127,10 +13151,10 @@
       "KillCount": 1,
       "RewardGold": 14304353,
       "RewardGrowth": 556853,
-      "RewardExist": 70,
+      "RewardExist": 21,
       "RewardTimeEnergy": 90,
       "NameStringId": 0,
-      "FirstClearDiamond": 864
+      "FirstClearDiamond": 49
     },
     {
       "Index": 161,
@@ -13143,10 +13167,10 @@
       "KillCount": 5,
       "RewardGold": 5244929,
       "RewardGrowth": 200467,
-      "RewardExist": 35,
+      "RewardExist": 11,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 340
+      "FirstClearDiamond": 19
     },
     {
       "Index": 162,
@@ -13159,10 +13183,10 @@
       "KillCount": 5,
       "RewardGold": 5769422,
       "RewardGrowth": 220514,
-      "RewardExist": 38,
+      "RewardExist": 11,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 340
+      "FirstClearDiamond": 19
     },
     {
       "Index": 163,
@@ -13175,10 +13199,10 @@
       "KillCount": 5,
       "RewardGold": 6346364,
       "RewardGrowth": 242565,
-      "RewardExist": 42,
+      "RewardExist": 13,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 340
+      "FirstClearDiamond": 19
     },
     {
       "Index": 164,
@@ -13191,10 +13215,10 @@
       "KillCount": 5,
       "RewardGold": 6981001,
       "RewardGrowth": 266821,
-      "RewardExist": 46,
+      "RewardExist": 14,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 340
+      "FirstClearDiamond": 19
     },
     {
       "Index": 165,
@@ -13207,10 +13231,10 @@
       "KillCount": 5,
       "RewardGold": 7679101,
       "RewardGrowth": 293504,
-      "RewardExist": 51,
+      "RewardExist": 15,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 340
+      "FirstClearDiamond": 19
     },
     {
       "Index": 166,
@@ -13223,10 +13247,10 @@
       "KillCount": 5,
       "RewardGold": 8447011,
       "RewardGrowth": 322854,
-      "RewardExist": 56,
+      "RewardExist": 17,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 340
+      "FirstClearDiamond": 19
     },
     {
       "Index": 167,
@@ -13239,10 +13263,10 @@
       "KillCount": 5,
       "RewardGold": 9291712,
       "RewardGrowth": 355139,
-      "RewardExist": 62,
+      "RewardExist": 19,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 340
+      "FirstClearDiamond": 19
     },
     {
       "Index": 168,
@@ -13255,10 +13279,10 @@
       "KillCount": 5,
       "RewardGold": 10220883,
       "RewardGrowth": 390653,
-      "RewardExist": 68,
+      "RewardExist": 20,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 340
+      "FirstClearDiamond": 19
     },
     {
       "Index": 169,
@@ -13271,10 +13295,10 @@
       "KillCount": 5,
       "RewardGold": 11242972,
       "RewardGrowth": 429719,
-      "RewardExist": 75,
+      "RewardExist": 23,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 340
+      "FirstClearDiamond": 19
     },
     {
       "Index": 170,
@@ -13287,10 +13311,10 @@
       "KillCount": 1,
       "RewardGold": 37101806,
       "RewardGrowth": 1202205,
-      "RewardExist": 74,
+      "RewardExist": 22,
       "RewardTimeEnergy": 95,
       "NameStringId": 0,
-      "FirstClearDiamond": 1020
+      "FirstClearDiamond": 58
     },
     {
       "Index": 171,
@@ -13303,10 +13327,10 @@
       "KillCount": 5,
       "RewardGold": 13603996,
       "RewardGrowth": 432793,
-      "RewardExist": 38,
+      "RewardExist": 11,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 400
+      "FirstClearDiamond": 23
     },
     {
       "Index": 172,
@@ -13319,10 +13343,10 @@
       "KillCount": 5,
       "RewardGold": 14964395,
       "RewardGrowth": 476073,
-      "RewardExist": 41,
+      "RewardExist": 12,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 400
+      "FirstClearDiamond": 23
     },
     {
       "Index": 173,
@@ -13335,10 +13359,10 @@
       "KillCount": 5,
       "RewardGold": 16460835,
       "RewardGrowth": 523680,
-      "RewardExist": 45,
+      "RewardExist": 14,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 400
+      "FirstClearDiamond": 23
     },
     {
       "Index": 174,
@@ -13351,10 +13375,10 @@
       "KillCount": 5,
       "RewardGold": 18106918,
       "RewardGrowth": 576048,
-      "RewardExist": 50,
+      "RewardExist": 15,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 400
+      "FirstClearDiamond": 23
     },
     {
       "Index": 175,
@@ -13367,10 +13391,10 @@
       "KillCount": 5,
       "RewardGold": 19917610,
       "RewardGrowth": 633653,
-      "RewardExist": 55,
+      "RewardExist": 17,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 400
+      "FirstClearDiamond": 23
     },
     {
       "Index": 176,
@@ -13383,10 +13407,10 @@
       "KillCount": 5,
       "RewardGold": 21909371,
       "RewardGrowth": 697018,
-      "RewardExist": 61,
+      "RewardExist": 18,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 400
+      "FirstClearDiamond": 23
     },
     {
       "Index": 177,
@@ -13399,10 +13423,10 @@
       "KillCount": 5,
       "RewardGold": 24100308,
       "RewardGrowth": 766719,
-      "RewardExist": 67,
+      "RewardExist": 20,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 400
+      "FirstClearDiamond": 23
     },
     {
       "Index": 178,
@@ -13415,10 +13439,10 @@
       "KillCount": 5,
       "RewardGold": 26510339,
       "RewardGrowth": 843392,
-      "RewardExist": 74,
+      "RewardExist": 22,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 400
+      "FirstClearDiamond": 23
     },
     {
       "Index": 179,
@@ -13431,10 +13455,10 @@
       "KillCount": 5,
       "RewardGold": 29161373,
       "RewardGrowth": 927731,
-      "RewardExist": 81,
+      "RewardExist": 24,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 400
+      "FirstClearDiamond": 23
     },
     {
       "Index": 180,
@@ -13447,10 +13471,10 @@
       "KillCount": 1,
       "RewardGold": 96232532,
       "RewardGrowth": 2595470,
-      "RewardExist": 80,
+      "RewardExist": 24,
       "RewardTimeEnergy": 100,
       "NameStringId": 0,
-      "FirstClearDiamond": 1200
+      "FirstClearDiamond": 69
     },
     {
       "Index": 181,
@@ -13463,10 +13487,10 @@
       "KillCount": 5,
       "RewardGold": 35285262,
       "RewardGrowth": 934369,
-      "RewardExist": 40,
+      "RewardExist": 12,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 472
+      "FirstClearDiamond": 27
     },
     {
       "Index": 182,
@@ -13479,10 +13503,10 @@
       "KillCount": 5,
       "RewardGold": 38813788,
       "RewardGrowth": 1027805,
-      "RewardExist": 44,
+      "RewardExist": 13,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 472
+      "FirstClearDiamond": 27
     },
     {
       "Index": 183,
@@ -13495,10 +13519,10 @@
       "KillCount": 5,
       "RewardGold": 42695166,
       "RewardGrowth": 1130586,
-      "RewardExist": 48,
+      "RewardExist": 14,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 472
+      "FirstClearDiamond": 27
     },
     {
       "Index": 184,
@@ -13511,10 +13535,10 @@
       "KillCount": 5,
       "RewardGold": 46964683,
       "RewardGrowth": 1243645,
-      "RewardExist": 53,
+      "RewardExist": 16,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 472
+      "FirstClearDiamond": 27
     },
     {
       "Index": 185,
@@ -13527,10 +13551,10 @@
       "KillCount": 5,
       "RewardGold": 51661151,
       "RewardGrowth": 1368009,
-      "RewardExist": 58,
+      "RewardExist": 17,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 472
+      "FirstClearDiamond": 27
     },
     {
       "Index": 186,
@@ -13543,10 +13567,10 @@
       "KillCount": 5,
       "RewardGold": 56827266,
       "RewardGrowth": 1504810,
-      "RewardExist": 64,
+      "RewardExist": 19,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 472
+      "FirstClearDiamond": 27
     },
     {
       "Index": 187,
@@ -13559,10 +13583,10 @@
       "KillCount": 5,
       "RewardGold": 62509993,
       "RewardGrowth": 1655291,
-      "RewardExist": 70,
+      "RewardExist": 21,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 472
+      "FirstClearDiamond": 27
     },
     {
       "Index": 188,
@@ -13575,10 +13599,10 @@
       "KillCount": 5,
       "RewardGold": 68760992,
       "RewardGrowth": 1820820,
-      "RewardExist": 77,
+      "RewardExist": 23,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 472
+      "FirstClearDiamond": 27
     },
     {
       "Index": 189,
@@ -13591,10 +13615,10 @@
       "KillCount": 5,
       "RewardGold": 75637092,
       "RewardGrowth": 2002902,
-      "RewardExist": 85,
+      "RewardExist": 26,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 472
+      "FirstClearDiamond": 27
     },
     {
       "Index": 190,
@@ -13607,10 +13631,10 @@
       "KillCount": 1,
       "RewardGold": 249602403,
       "RewardGrowth": 5603425,
-      "RewardExist": 84,
+      "RewardExist": 25,
       "RewardTimeEnergy": 105,
       "NameStringId": 0,
-      "FirstClearDiamond": 1416
+      "FirstClearDiamond": 81
     },
     {
       "Index": 191,
@@ -13623,10 +13647,10 @@
       "KillCount": 5,
       "RewardGold": 91520881,
       "RewardGrowth": 2017233,
-      "RewardExist": 42,
+      "RewardExist": 13,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 556
+      "FirstClearDiamond": 32
     },
     {
       "Index": 192,
@@ -13639,10 +13663,10 @@
       "KillCount": 5,
       "RewardGold": 100672969,
       "RewardGrowth": 2218955,
-      "RewardExist": 46,
+      "RewardExist": 14,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 556
+      "FirstClearDiamond": 32
     },
     {
       "Index": 193,
@@ -13655,10 +13679,10 @@
       "KillCount": 5,
       "RewardGold": 110740266,
       "RewardGrowth": 2440851,
-      "RewardExist": 50,
+      "RewardExist": 15,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 556
+      "FirstClearDiamond": 32
     },
     {
       "Index": 194,
@@ -13671,10 +13695,10 @@
       "KillCount": 5,
       "RewardGold": 121814293,
       "RewardGrowth": 2684936,
-      "RewardExist": 55,
+      "RewardExist": 17,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 556
+      "FirstClearDiamond": 32
     },
     {
       "Index": 195,
@@ -13687,10 +13711,10 @@
       "KillCount": 5,
       "RewardGold": 133995722,
       "RewardGrowth": 2953430,
-      "RewardExist": 61,
+      "RewardExist": 18,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 556
+      "FirstClearDiamond": 32
     },
     {
       "Index": 196,
@@ -13703,10 +13727,10 @@
       "KillCount": 5,
       "RewardGold": 147395294,
       "RewardGrowth": 3248773,
-      "RewardExist": 67,
+      "RewardExist": 20,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 556
+      "FirstClearDiamond": 32
     },
     {
       "Index": 197,
@@ -13719,10 +13743,10 @@
       "KillCount": 5,
       "RewardGold": 162134823,
       "RewardGrowth": 3573650,
-      "RewardExist": 74,
+      "RewardExist": 22,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 556
+      "FirstClearDiamond": 32
     },
     {
       "Index": 198,
@@ -13735,10 +13759,10 @@
       "KillCount": 5,
       "RewardGold": 178348306,
       "RewardGrowth": 3931016,
-      "RewardExist": 81,
+      "RewardExist": 24,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 556
+      "FirstClearDiamond": 32
     },
     {
       "Index": 199,
@@ -13751,10 +13775,10 @@
       "KillCount": 5,
       "RewardGold": 196183136,
       "RewardGrowth": 4324117,
-      "RewardExist": 90,
+      "RewardExist": 27,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 556
+      "FirstClearDiamond": 32
     },
     {
       "Index": 200,
@@ -13767,10 +13791,10 @@
       "KillCount": 1,
       "RewardGold": 647404352,
       "RewardGrowth": 12097373,
-      "RewardExist": 88,
+      "RewardExist": 26,
       "RewardTimeEnergy": 110,
       "NameStringId": 0,
-      "FirstClearDiamond": 1668
+      "FirstClearDiamond": 95
     },
     {
       "Index": 201,
@@ -13778,15 +13802,15 @@
       "Stage": 201,
       "Chapter": 21,
       "StageType": "Normal",
-      "EnemyHp": 38258051,
+      "EnemyHp": 39841159,
       "EnemyAtk": 20927906559,
       "KillCount": 5,
       "RewardGold": 237381598,
       "RewardGrowth": 4355054,
-      "RewardExist": 42,
+      "RewardExist": 13,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 656
+      "FirstClearDiamond": 37
     },
     {
       "Index": 202,
@@ -13794,15 +13818,15 @@
       "Stage": 202,
       "Chapter": 21,
       "StageType": "Normal",
-      "EnemyHp": 41127405,
+      "EnemyHp": 44601510,
       "EnemyAtk": 22392860015,
       "KillCount": 5,
       "RewardGold": 261119758,
       "RewardGrowth": 4790556,
-      "RewardExist": 46,
+      "RewardExist": 14,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 656
+      "FirstClearDiamond": 37
     },
     {
       "Index": 203,
@@ -13810,15 +13834,15 @@
       "Stage": 203,
       "Chapter": 21,
       "StageType": "Normal",
-      "EnemyHp": 44211959,
+      "EnemyHp": 49930640,
       "EnemyAtk": 23960360218,
       "KillCount": 5,
       "RewardGold": 287231734,
       "RewardGrowth": 5269613,
-      "RewardExist": 50,
+      "RewardExist": 15,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 656
+      "FirstClearDiamond": 37
     },
     {
       "Index": 204,
@@ -13826,15 +13850,15 @@
       "Stage": 204,
       "Chapter": 21,
       "StageType": "Normal",
-      "EnemyHp": 47527856,
+      "EnemyHp": 55896514,
       "EnemyAtk": 25637585434,
       "KillCount": 5,
       "RewardGold": 315954908,
       "RewardGrowth": 5796574,
-      "RewardExist": 55,
+      "RewardExist": 17,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 656
+      "FirstClearDiamond": 37
     },
     {
       "Index": 205,
@@ -13842,15 +13866,15 @@
       "Stage": 205,
       "Chapter": 21,
       "StageType": "Normal",
-      "EnemyHp": 51092447,
+      "EnemyHp": 62575212,
       "EnemyAtk": 27432216412,
       "KillCount": 5,
       "RewardGold": 347550398,
       "RewardGrowth": 6376233,
-      "RewardExist": 61,
+      "RewardExist": 18,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 656
+      "FirstClearDiamond": 37
     },
     {
       "Index": 206,
@@ -13858,15 +13882,15 @@
       "Stage": 206,
       "Chapter": 21,
       "StageType": "Normal",
-      "EnemyHp": 54924379,
+      "EnemyHp": 70051899,
       "EnemyAtk": 29352471561,
       "KillCount": 5,
       "RewardGold": 382305438,
       "RewardGrowth": 7013856,
-      "RewardExist": 67,
+      "RewardExist": 20,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 656
+      "FirstClearDiamond": 37
     },
     {
       "Index": 207,
@@ -13874,15 +13898,15 @@
       "Stage": 207,
       "Chapter": 21,
       "StageType": "Normal",
-      "EnemyHp": 59043709,
+      "EnemyHp": 78421928,
       "EnemyAtk": 31407144571,
       "KillCount": 5,
       "RewardGold": 420535981,
       "RewardGrowth": 7715241,
-      "RewardExist": 74,
+      "RewardExist": 22,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 656
+      "FirstClearDiamond": 37
     },
     {
       "Index": 208,
@@ -13890,15 +13914,15 @@
       "Stage": 208,
       "Chapter": 21,
       "StageType": "Normal",
-      "EnemyHp": 63471986,
+      "EnemyHp": 87792031,
       "EnemyAtk": 33605644691,
       "KillCount": 5,
       "RewardGold": 462589581,
       "RewardGrowth": 8486767,
-      "RewardExist": 81,
+      "RewardExist": 24,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 656
+      "FirstClearDiamond": 37
     },
     {
       "Index": 209,
@@ -13906,15 +13930,15 @@
       "Stage": 209,
       "Chapter": 21,
       "StageType": "Normal",
-      "EnemyHp": 68232386,
+      "EnemyHp": 98281707,
       "EnemyAtk": 35958039821,
       "KillCount": 5,
       "RewardGold": 508848537,
       "RewardGrowth": 9335443,
-      "RewardExist": 90,
+      "RewardExist": 27,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 656
+      "FirstClearDiamond": 37
     },
     {
       "Index": 210,
@@ -13922,15 +13946,15 @@
       "Stage": 210,
       "Chapter": 21,
       "StageType": "Boss",
-      "EnemyHp": 366749080,
+      "EnemyHp": 550123620,
       "EnemyAtk": 116069466236,
       "KillCount": 1,
       "RewardGold": 1679200182,
       "RewardGrowth": 26117318,
-      "RewardExist": 88,
+      "RewardExist": 26,
       "RewardTimeEnergy": 115,
       "NameStringId": 0,
-      "FirstClearDiamond": 1968
+      "FirstClearDiamond": 112
     },
     {
       "Index": 211,
@@ -13938,15 +13962,15 @@
       "Stage": 211,
       "Chapter": 22,
       "StageType": "Normal",
-      "EnemyHp": 76466165,
+      "EnemyHp": 119445473,
       "EnemyAtk": 61264785240,
       "KillCount": 5,
       "RewardGold": 592133625,
       "RewardGrowth": 9131773,
-      "RewardExist": 42,
+      "RewardExist": 13,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 776
+      "FirstClearDiamond": 44
     },
     {
       "Index": 212,
@@ -13954,15 +13978,15 @@
       "Stage": 212,
       "Chapter": 22,
       "StageType": "Normal",
-      "EnemyHp": 82201128,
+      "EnemyHp": 133717204,
       "EnemyAtk": 65553320198,
       "KillCount": 5,
       "RewardGold": 651346988,
       "RewardGrowth": 10044943,
-      "RewardExist": 46,
+      "RewardExist": 14,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 776
+      "FirstClearDiamond": 44
     },
     {
       "Index": 213,
@@ -13970,15 +13994,15 @@
       "Stage": 213,
       "Chapter": 22,
       "StageType": "Normal",
-      "EnemyHp": 88366210,
+      "EnemyHp": 149694163,
       "EnemyAtk": 70142052618,
       "KillCount": 5,
       "RewardGold": 716481688,
       "RewardGrowth": 11049440,
-      "RewardExist": 50,
+      "RewardExist": 15,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 776
+      "FirstClearDiamond": 44
     },
     {
       "Index": 214,
@@ -13986,15 +14010,15 @@
       "Stage": 214,
       "Chapter": 22,
       "StageType": "Normal",
-      "EnemyHp": 94993676,
+      "EnemyHp": 167580104,
       "EnemyAtk": 75051996303,
       "KillCount": 5,
       "RewardGold": 788129858,
       "RewardGrowth": 12154384,
-      "RewardExist": 55,
+      "RewardExist": 17,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 776
+      "FirstClearDiamond": 44
     },
     {
       "Index": 215,
@@ -14002,15 +14026,15 @@
       "Stage": 215,
       "Chapter": 22,
       "StageType": "Normal",
-      "EnemyHp": 102118205,
+      "EnemyHp": 187603122,
       "EnemyAtk": 80305636037,
       "KillCount": 5,
       "RewardGold": 866942842,
       "RewardGrowth": 13369825,
-      "RewardExist": 61,
+      "RewardExist": 18,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 776
+      "FirstClearDiamond": 44
     },
     {
       "Index": 216,
@@ -14018,15 +14042,15 @@
       "Stage": 216,
       "Chapter": 22,
       "StageType": "Normal",
-      "EnemyHp": 109777068,
+      "EnemyHp": 210018543,
       "EnemyAtk": 85927030560,
       "KillCount": 5,
       "RewardGold": 953637127,
       "RewardGrowth": 14706807,
-      "RewardExist": 67,
+      "RewardExist": 20,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 776
+      "FirstClearDiamond": 44
     },
     {
       "Index": 217,
@@ -14034,15 +14058,15 @@
       "Stage": 217,
       "Chapter": 22,
       "StageType": "Normal",
-      "EnemyHp": 118010351,
+      "EnemyHp": 235112242,
       "EnemyAtk": 91941922702,
       "KillCount": 5,
       "RewardGold": 1049000837,
       "RewardGrowth": 16177487,
-      "RewardExist": 74,
+      "RewardExist": 22,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 776
+      "FirstClearDiamond": 44
     },
     {
       "Index": 218,
@@ -14050,15 +14074,15 @@
       "Stage": 218,
       "Chapter": 22,
       "StageType": "Normal",
-      "EnemyHp": 126861125,
+      "EnemyHp": 263204206,
       "EnemyAtk": 98377857291,
       "KillCount": 5,
       "RewardGold": 1153900926,
       "RewardGrowth": 17795240,
-      "RewardExist": 81,
+      "RewardExist": 24,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 776
+      "FirstClearDiamond": 44
     },
     {
       "Index": 219,
@@ -14066,15 +14090,15 @@
       "Stage": 219,
       "Chapter": 22,
       "StageType": "Normal",
-      "EnemyHp": 136375712,
+      "EnemyHp": 294652699,
       "EnemyAtk": 105264307306,
       "KillCount": 5,
       "RewardGold": 1269291013,
       "RewardGrowth": 19574762,
-      "RewardExist": 90,
+      "RewardExist": 27,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 776
+      "FirstClearDiamond": 44
     },
     {
       "Index": 220,
@@ -14082,15 +14106,15 @@
       "Stage": 220,
       "Chapter": 22,
       "StageType": "Boss",
-      "EnemyHp": 733019462,
+      "EnemyHp": 1649293790,
       "EnemyAtk": 339784149069,
       "KillCount": 1,
       "RewardGold": 4188660370,
       "RewardGrowth": 54763368,
-      "RewardExist": 88,
+      "RewardExist": 26,
       "RewardTimeEnergy": 120,
       "NameStringId": 0,
-      "FirstClearDiamond": 2328
+      "FirstClearDiamond": 133
     },
     {
       "Index": 221,
@@ -14098,15 +14122,15 @@
       "Stage": 221,
       "Chapter": 23,
       "StageType": "Normal",
-      "EnemyHp": 148065863,
+      "EnemyHp": 346933779,
       "EnemyAtk": 168416468494,
       "KillCount": 5,
       "RewardGold": 1418238818,
       "RewardGrowth": 18580594,
-      "RewardExist": 42,
+      "RewardExist": 13,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 916
+      "FirstClearDiamond": 52
     },
     {
       "Index": 222,
@@ -14114,15 +14138,15 @@
       "Stage": 222,
       "Chapter": 23,
       "StageType": "Normal",
-      "EnemyHp": 159170804,
+      "EnemyHp": 388386548,
       "EnemyAtk": 180205621264,
       "KillCount": 5,
       "RewardGold": 1560062701,
       "RewardGrowth": 20438639,
-      "RewardExist": 46,
+      "RewardExist": 14,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 916
+      "FirstClearDiamond": 52
     },
     {
       "Index": 223,
@@ -14130,15 +14154,15 @@
       "Stage": 223,
       "Chapter": 23,
       "StageType": "Normal",
-      "EnemyHp": 171108609,
+      "EnemyHp": 434792212,
       "EnemyAtk": 192820014769,
       "KillCount": 5,
       "RewardGold": 1716068974,
       "RewardGrowth": 22482508,
-      "RewardExist": 50,
+      "RewardExist": 15,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 916
+      "FirstClearDiamond": 52
     },
     {
       "Index": 224,
@@ -14146,15 +14170,15 @@
       "Stage": 224,
       "Chapter": 23,
       "StageType": "Normal",
-      "EnemyHp": 183941756,
+      "EnemyHp": 486742591,
       "EnemyAtk": 206317415808,
       "KillCount": 5,
       "RewardGold": 1887675874,
       "RewardGrowth": 24730759,
-      "RewardExist": 55,
+      "RewardExist": 17,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 916
+      "FirstClearDiamond": 52
     },
     {
       "Index": 225,
@@ -14162,15 +14186,15 @@
       "Stage": 225,
       "Chapter": 23,
       "StageType": "Normal",
-      "EnemyHp": 197737394,
+      "EnemyHp": 544900183,
       "EnemyAtk": 220759634895,
       "KillCount": 5,
       "RewardGold": 2076443458,
       "RewardGrowth": 27203840,
-      "RewardExist": 61,
+      "RewardExist": 18,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 916
+      "FirstClearDiamond": 52
     },
     {
       "Index": 226,
@@ -14178,15 +14202,15 @@
       "Stage": 226,
       "Chapter": 23,
       "StageType": "Normal",
-      "EnemyHp": 212567694,
+      "EnemyHp": 610006601,
       "EnemyAtk": 236212809339,
       "KillCount": 5,
       "RewardGold": 2284087805,
       "RewardGrowth": 29924223,
-      "RewardExist": 67,
+      "RewardExist": 20,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 916
+      "FirstClearDiamond": 52
     },
     {
       "Index": 227,
@@ -14194,15 +14218,15 @@
       "Stage": 227,
       "Chapter": 23,
       "StageType": "Normal",
-      "EnemyHp": 228510276,
+      "EnemyHp": 682892172,
       "EnemyAtk": 252747706000,
       "KillCount": 5,
       "RewardGold": 2512496580,
       "RewardGrowth": 32916644,
-      "RewardExist": 74,
+      "RewardExist": 22,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 916
+      "FirstClearDiamond": 52
     },
     {
       "Index": 228,
@@ -14210,15 +14234,15 @@
       "Stage": 228,
       "Chapter": 23,
       "StageType": "Normal",
-      "EnemyHp": 245648543,
+      "EnemyHp": 764486319,
       "EnemyAtk": 270440045420,
       "KillCount": 5,
       "RewardGold": 2763746250,
       "RewardGrowth": 36208318,
-      "RewardExist": 81,
+      "RewardExist": 24,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 916
+      "FirstClearDiamond": 52
     },
     {
       "Index": 229,
@@ -14226,15 +14250,15 @@
       "Stage": 229,
       "Chapter": 23,
       "StageType": "Normal",
-      "EnemyHp": 264072188,
+      "EnemyHp": 855829624,
       "EnemyAtk": 289370848612,
       "KillCount": 5,
       "RewardGold": 3040120862,
       "RewardGrowth": 39829145,
-      "RewardExist": 90,
+      "RewardExist": 27,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 916
+      "FirstClearDiamond": 52
     },
     {
       "Index": 230,
@@ -14242,15 +14266,15 @@
       "Stage": 230,
       "Chapter": 23,
       "StageType": "Boss",
-      "EnemyHp": 1419388034,
+      "EnemyHp": 4790434615,
       "EnemyAtk": 934064262403,
       "KillCount": 1,
       "RewardGold": 10032398910,
       "RewardGrowth": 111428081,
-      "RewardExist": 88,
+      "RewardExist": 26,
       "RewardTimeEnergy": 125,
       "NameStringId": 0,
-      "FirstClearDiamond": 2748
+      "FirstClearDiamond": 157
     },
     {
       "Index": 231,
@@ -14258,15 +14282,15 @@
       "Stage": 231,
       "Chapter": 24,
       "StageType": "Normal",
-      "EnemyHp": 277478546,
+      "EnemyHp": 975241813,
       "EnemyAtk": 432925557928,
       "KillCount": 5,
       "RewardGold": 3256032861,
       "RewardGrowth": 36652386,
-      "RewardExist": 42,
+      "RewardExist": 13,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 1080
+      "FirstClearDiamond": 62
     },
     {
       "Index": 232,
@@ -14274,15 +14298,15 @@
       "Stage": 232,
       "Chapter": 24,
       "StageType": "Normal",
-      "EnemyHp": 298289439,
+      "EnemyHp": 1091766857,
       "EnemyAtk": 463230346920,
       "KillCount": 5,
       "RewardGold": 3581636150,
       "RewardGrowth": 40317597,
-      "RewardExist": 46,
+      "RewardExist": 14,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 1080
+      "FirstClearDiamond": 62
     },
     {
       "Index": 233,
@@ -14290,15 +14314,15 @@
       "Stage": 233,
       "Chapter": 24,
       "StageType": "Normal",
-      "EnemyHp": 320661137,
+      "EnemyHp": 1222214644,
       "EnemyAtk": 495656471247,
       "KillCount": 5,
       "RewardGold": 3939799772,
       "RewardGrowth": 44349366,
-      "RewardExist": 50,
+      "RewardExist": 15,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 1080
+      "FirstClearDiamond": 62
     },
     {
       "Index": 234,
@@ -14306,15 +14330,15 @@
       "Stage": 234,
       "Chapter": 24,
       "StageType": "Normal",
-      "EnemyHp": 344710725,
+      "EnemyHp": 1368248802,
       "EnemyAtk": 530352424247,
       "KillCount": 5,
       "RewardGold": 4333779755,
       "RewardGrowth": 48784304,
-      "RewardExist": 55,
+      "RewardExist": 17,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 1080
+      "FirstClearDiamond": 62
     },
     {
       "Index": 235,
@@ -14322,15 +14346,15 @@
       "Stage": 235,
       "Chapter": 24,
       "StageType": "Normal",
-      "EnemyHp": 370564042,
+      "EnemyHp": 1531731634,
       "EnemyAtk": 567477093895,
       "KillCount": 5,
       "RewardGold": 4767157723,
       "RewardGrowth": 53662744,
-      "RewardExist": 61,
+      "RewardExist": 18,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 1080
+      "FirstClearDiamond": 62
     },
     {
       "Index": 236,
@@ -14338,15 +14362,15 @@
       "Stage": 236,
       "Chapter": 24,
       "StageType": "Normal",
-      "EnemyHp": 398356336,
+      "EnemyHp": 1714747829,
       "EnemyAtk": 607200490471,
       "KillCount": 5,
       "RewardGold": 5243873498,
       "RewardGrowth": 59029017,
-      "RewardExist": 67,
+      "RewardExist": 20,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 1080
+      "FirstClearDiamond": 62
     },
     {
       "Index": 237,
@@ -14354,15 +14378,15 @@
       "Stage": 237,
       "Chapter": 24,
       "StageType": "Normal",
-      "EnemyHp": 428233071,
+      "EnemyHp": 1919631474,
       "EnemyAtk": 649704524822,
       "KillCount": 5,
       "RewardGold": 5768260835,
       "RewardGrowth": 64931916,
-      "RewardExist": 74,
+      "RewardExist": 22,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 1080
+      "FirstClearDiamond": 62
     },
     {
       "Index": 238,
@@ -14370,15 +14394,15 @@
       "Stage": 238,
       "Chapter": 24,
       "StageType": "Normal",
-      "EnemyHp": 460350544,
+      "EnemyHp": 2148995198,
       "EnemyAtk": 695183841560,
       "KillCount": 5,
       "RewardGold": 6345086946,
       "RewardGrowth": 71425126,
-      "RewardExist": 81,
+      "RewardExist": 24,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 1080
+      "FirstClearDiamond": 62
     },
     {
       "Index": 239,
@@ -14386,15 +14410,15 @@
       "Stage": 239,
       "Chapter": 24,
       "StageType": "Normal",
-      "EnemyHp": 494876843,
+      "EnemyHp": 2405764115,
       "EnemyAtk": 743846710502,
       "KillCount": 5,
       "RewardGold": 6979595611,
       "RewardGrowth": 78567629,
-      "RewardExist": 90,
+      "RewardExist": 27,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 1080
+      "FirstClearDiamond": 62
     },
     {
       "Index": 240,
@@ -14402,15 +14426,15 @@
       "Stage": 240,
       "Chapter": 24,
       "StageType": "Boss",
-      "EnemyHp": 2659963077,
+      "EnemyHp": 13466063077,
       "EnemyAtk": 2401073336580,
       "KillCount": 1,
       "RewardGold": 23032665668,
       "RewardGrowth": 219804874,
-      "RewardExist": 88,
+      "RewardExist": 26,
       "RewardTimeEnergy": 130,
       "NameStringId": 0,
-      "FirstClearDiamond": 3240
+      "FirstClearDiamond": 185
     },
     {
       "Index": 241,
@@ -14418,15 +14442,15 @@
       "Stage": 241,
       "Chapter": 25,
       "StageType": "Normal",
-      "EnemyHp": 502703503,
+      "EnemyHp": 2650245304,
       "EnemyAtk": 1035617630187,
       "KillCount": 5,
       "RewardGold": 7151953057,
       "RewardGrowth": 70024888,
-      "RewardExist": 42,
+      "RewardExist": 13,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 1276
+      "FirstClearDiamond": 73
     },
     {
       "Index": 242,
@@ -14434,15 +14458,15 @@
       "Stage": 242,
       "Chapter": 25,
       "StageType": "Normal",
-      "EnemyHp": 540406270,
+      "EnemyHp": 2966905183,
       "EnemyAtk": 1108110864150,
       "KillCount": 5,
       "RewardGold": 7867148369,
       "RewardGrowth": 77027324,
-      "RewardExist": 46,
+      "RewardExist": 14,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 1276
+      "FirstClearDiamond": 73
     },
     {
       "Index": 243,
@@ -14450,15 +14474,15 @@
       "Stage": 243,
       "Chapter": 25,
       "StageType": "Normal",
-      "EnemyHp": 580936722,
+      "EnemyHp": 3321400478,
       "EnemyAtk": 1185678624742,
       "KillCount": 5,
       "RewardGold": 8653863222,
       "RewardGrowth": 84730074,
-      "RewardExist": 50,
+      "RewardExist": 15,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 1276
+      "FirstClearDiamond": 73
     },
     {
       "Index": 244,
@@ -14466,15 +14490,15 @@
       "Stage": 244,
       "Chapter": 25,
       "StageType": "Normal",
-      "EnemyHp": 624506981,
+      "EnemyHp": 3718252146,
       "EnemyAtk": 1268676128505,
       "KillCount": 5,
       "RewardGold": 9519249557,
       "RewardGrowth": 93203084,
-      "RewardExist": 55,
+      "RewardExist": 17,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 1276
+      "FirstClearDiamond": 73
     },
     {
       "Index": 245,
@@ -14482,15 +14506,15 @@
       "Stage": 245,
       "Chapter": 25,
       "StageType": "Normal",
-      "EnemyHp": 671345028,
+      "EnemyHp": 4162521049,
       "EnemyAtk": 1357483457382,
       "KillCount": 5,
       "RewardGold": 10471174496,
       "RewardGrowth": 102523411,
-      "RewardExist": 61,
+      "RewardExist": 18,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 1276
+      "FirstClearDiamond": 73
     },
     {
       "Index": 246,
@@ -14498,15 +14522,15 @@
       "Stage": 246,
       "Chapter": 25,
       "StageType": "Normal",
-      "EnemyHp": 721695888,
+      "EnemyHp": 4659872376,
       "EnemyAtk": 1452507299407,
       "KillCount": 5,
       "RewardGold": 11518291952,
       "RewardGrowth": 112775750,
-      "RewardExist": 67,
+      "RewardExist": 20,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 1276
+      "FirstClearDiamond": 73
     },
     {
       "Index": 247,
@@ -14514,15 +14538,15 @@
       "Stage": 247,
       "Chapter": 25,
       "StageType": "Normal",
-      "EnemyHp": 775823098,
+      "EnemyHp": 5216649079,
       "EnemyAtk": 1554182810409,
       "KillCount": 5,
       "RewardGold": 12670121119,
       "RewardGrowth": 124053320,
-      "RewardExist": 74,
+      "RewardExist": 22,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 1276
+      "FirstClearDiamond": 73
     },
     {
       "Index": 248,
@@ -14530,15 +14554,15 @@
       "Stage": 248,
       "Chapter": 25,
       "StageType": "Normal",
-      "EnemyHp": 834009817,
+      "EnemyHp": 5839951040,
       "EnemyAtk": 1662975607139,
       "KillCount": 5,
       "RewardGold": 13937133291,
       "RewardGrowth": 136458687,
-      "RewardExist": 81,
+      "RewardExist": 24,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 1276
+      "FirstClearDiamond": 73
     },
     {
       "Index": 249,
@@ -14546,15 +14570,15 @@
       "Stage": 249,
       "Chapter": 25,
       "StageType": "Normal",
-      "EnemyHp": 896560568,
+      "EnemyHp": 6537727330,
       "EnemyAtk": 1779383899717,
       "KillCount": 5,
       "RewardGold": 15330846555,
       "RewardGrowth": 150104537,
-      "RewardExist": 90,
+      "RewardExist": 27,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 1276
+      "FirstClearDiamond": 73
     },
     {
       "Index": 250,
@@ -14562,15 +14586,15 @@
       "Stage": 250,
       "Chapter": 25,
       "StageType": "Boss",
-      "EnemyHp": 4819013138,
+      "EnemyHp": 36594381017,
       "EnemyAtk": 5743698502433,
       "KillCount": 1,
       "RewardGold": 50591793966,
       "RewardGrowth": 419940240,
-      "RewardExist": 88,
+      "RewardExist": 26,
       "RewardTimeEnergy": 135,
       "NameStringId": 0,
-      "FirstClearDiamond": 3828
+      "FirstClearDiamond": 219
     },
     {
       "Index": 251,
@@ -14578,15 +14602,15 @@
       "Stage": 251,
       "Chapter": 26,
       "StageType": "Normal",
-      "EnemyHp": 879403054,
+      "EnemyHp": 6954299504,
       "EnemyAtk": 2292557426313,
       "KillCount": 5,
       "RewardGold": 14999211043,
       "RewardGrowth": 129434774,
-      "RewardExist": 42,
+      "RewardExist": 13,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 1504
+      "FirstClearDiamond": 86
     },
     {
       "Index": 252,
@@ -14594,15 +14618,15 @@
       "Stage": 252,
       "Chapter": 26,
       "StageType": "Normal",
-      "EnemyHp": 945358291,
+      "EnemyHp": 7785221700,
       "EnemyAtk": 2453036445823,
       "KillCount": 5,
       "RewardGold": 16499132161,
       "RewardGrowth": 142378154,
-      "RewardExist": 46,
+      "RewardExist": 14,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 1504
+      "FirstClearDiamond": 86
     },
     {
       "Index": 253,
@@ -14610,15 +14634,15 @@
       "Stage": 253,
       "Chapter": 26,
       "StageType": "Normal",
-      "EnemyHp": 1016260131,
+      "EnemyHp": 8715424822,
       "EnemyAtk": 2624748997255,
       "KillCount": 5,
       "RewardGold": 18149045411,
       "RewardGrowth": 156616002,
-      "RewardExist": 50,
+      "RewardExist": 15,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 1504
+      "FirstClearDiamond": 86
     },
     {
       "Index": 254,
@@ -14626,15 +14650,15 @@
       "Stage": 254,
       "Chapter": 26,
       "StageType": "Normal",
-      "EnemyHp": 1092479649,
+      "EnemyHp": 9756771958,
       "EnemyAtk": 2808481427132,
       "KillCount": 5,
       "RewardGold": 19963949978,
       "RewardGrowth": 172277607,
-      "RewardExist": 55,
+      "RewardExist": 17,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 1504
+      "FirstClearDiamond": 86
     },
     {
       "Index": 255,
@@ -14642,15 +14666,15 @@
       "Stage": 255,
       "Chapter": 26,
       "StageType": "Normal",
-      "EnemyHp": 1174415664,
+      "EnemyHp": 10922542919,
       "EnemyAtk": 3005075126769,
       "KillCount": 5,
       "RewardGold": 21960344941,
       "RewardGrowth": 189505402,
-      "RewardExist": 61,
+      "RewardExist": 18,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 1504
+      "FirstClearDiamond": 86
     },
     {
       "Index": 256,
@@ -14658,15 +14682,15 @@
       "Stage": 256,
       "Chapter": 26,
       "StageType": "Normal",
-      "EnemyHp": 1262496809,
+      "EnemyHp": 12227603281,
       "EnemyAtk": 3215430385661,
       "KillCount": 5,
       "RewardGold": 24156379449,
       "RewardGrowth": 208455939,
-      "RewardExist": 67,
+      "RewardExist": 20,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 1504
+      "FirstClearDiamond": 86
     },
     {
       "Index": 257,
@@ -14674,15 +14698,15 @@
       "Stage": 257,
       "Chapter": 26,
       "StageType": "Normal",
-      "EnemyHp": 1357184102,
+      "EnemyHp": 13688597079,
       "EnemyAtk": 3440510512754,
       "KillCount": 5,
       "RewardGold": 26572017335,
       "RewardGrowth": 229301524,
-      "RewardExist": 74,
+      "RewardExist": 22,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 1504
+      "FirstClearDiamond": 86
     },
     {
       "Index": 258,
@@ -14690,15 +14714,15 @@
       "Stage": 258,
       "Chapter": 26,
       "StageType": "Normal",
-      "EnemyHp": 1458972886,
+      "EnemyHp": 15324154552,
       "EnemyAtk": 3681346248649,
       "KillCount": 5,
       "RewardGold": 29229219194,
       "RewardGrowth": 252231741,
-      "RewardExist": 81,
+      "RewardExist": 24,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 1504
+      "FirstClearDiamond": 86
     },
     {
       "Index": 259,
@@ -14706,15 +14730,15 @@
       "Stage": 259,
       "Chapter": 26,
       "StageType": "Normal",
-      "EnemyHp": 1568395878,
+      "EnemyHp": 17155134235,
       "EnemyAtk": 3939040486228,
       "KillCount": 5,
       "RewardGold": 32152140977,
       "RewardGrowth": 277454880,
-      "RewardExist": 90,
+      "RewardExist": 27,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 1504
+      "FirstClearDiamond": 86
     },
     {
       "Index": 260,
@@ -14722,15 +14746,15 @@
       "Stage": 260,
       "Chapter": 26,
       "StageType": "Boss",
-      "EnemyHp": 8430127996,
+      "EnemyHp": 96024426704,
       "EnemyAtk": 12714884598749,
       "KillCount": 1,
       "RewardGold": 106102065928,
       "RewardGrowth": 776222168,
-      "RewardExist": 88,
+      "RewardExist": 26,
       "RewardTimeEnergy": 140,
       "NameStringId": 0,
-      "FirstClearDiamond": 4512
+      "FirstClearDiamond": 258
     },
     {
       "Index": 261,
@@ -14738,15 +14762,15 @@
       "Stage": 261,
       "Chapter": 27,
       "StageType": "Normal",
-      "EnemyHp": 1483562215,
+      "EnemyHp": 17597964770,
       "EnemyAtk": 4666002544949,
       "KillCount": 5,
       "RewardGold": 29967136231,
       "RewardGrowth": 231210406,
-      "RewardExist": 42,
+      "RewardExist": 13,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 1776
+      "FirstClearDiamond": 102
     },
     {
       "Index": 262,
@@ -14754,15 +14778,15 @@
       "Stage": 262,
       "Chapter": 27,
       "StageType": "Normal",
-      "EnemyHp": 1594829394,
+      "EnemyHp": 19700626510,
       "EnemyAtk": 4992622722420,
       "KillCount": 5,
       "RewardGold": 32963849882,
       "RewardGrowth": 254331273,
-      "RewardExist": 46,
+      "RewardExist": 14,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 1776
+      "FirstClearDiamond": 102
     },
     {
       "Index": 263,
@@ -14770,15 +14794,15 @@
       "Stage": 263,
       "Chapter": 27,
       "StageType": "Normal",
-      "EnemyHp": 1714441545,
+      "EnemyHp": 22054520207,
       "EnemyAtk": 5342106313447,
       "KillCount": 5,
       "RewardGold": 36260234938,
       "RewardGrowth": 279764459,
-      "RewardExist": 50,
+      "RewardExist": 15,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 1776
+      "FirstClearDiamond": 102
     },
     {
       "Index": 264,
@@ -14786,15 +14810,15 @@
       "Stage": 264,
       "Chapter": 27,
       "StageType": "Normal",
-      "EnemyHp": 1843024675,
+      "EnemyHp": 24689665592,
       "EnemyAtk": 5716053755529,
       "KillCount": 5,
       "RewardGold": 39886258483,
       "RewardGrowth": 307740913,
-      "RewardExist": 55,
+      "RewardExist": 17,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 1776
+      "FirstClearDiamond": 102
     },
     {
       "Index": 265,
@@ -14802,15 +14826,15 @@
       "Stage": 265,
       "Chapter": 27,
       "StageType": "Normal",
-      "EnemyHp": 1981251595,
+      "EnemyHp": 27639667424,
       "EnemyAtk": 6116177517882,
       "KillCount": 5,
       "RewardGold": 43874884262,
       "RewardGrowth": 338515066,
-      "RewardExist": 61,
+      "RewardExist": 18,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 1776
+      "FirstClearDiamond": 102
     },
     {
       "Index": 266,
@@ -14818,15 +14842,15 @@
       "Stage": 266,
       "Chapter": 27,
       "StageType": "Normal",
-      "EnemyHp": 2129845415,
+      "EnemyHp": 30942143299,
       "EnemyAtk": 6544309944171,
       "KillCount": 5,
       "RewardGold": 48262372716,
       "RewardGrowth": 372366567,
-      "RewardExist": 67,
+      "RewardExist": 20,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 1776
+      "FirstClearDiamond": 102
     },
     {
       "Index": 267,
@@ -14834,15 +14858,15 @@
       "Stage": 267,
       "Chapter": 27,
       "StageType": "Normal",
-      "EnemyHp": 2289583875,
+      "EnemyHp": 34639211177,
       "EnemyAtk": 7002411640460,
       "KillCount": 5,
       "RewardGold": 53088609870,
       "RewardGrowth": 409603207,
-      "RewardExist": 74,
+      "RewardExist": 22,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 1776
+      "FirstClearDiamond": 102
     },
     {
       "Index": 268,
@@ -14850,15 +14874,15 @@
       "Stage": 268,
       "Chapter": 27,
       "StageType": "Normal",
-      "EnemyHp": 2461302626,
+      "EnemyHp": 38778015208,
       "EnemyAtk": 7492580455296,
       "KillCount": 5,
       "RewardGold": 58397471108,
       "RewardGrowth": 450563644,
-      "RewardExist": 81,
+      "RewardExist": 24,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 1776
+      "FirstClearDiamond": 102
     },
     {
       "Index": 269,
@@ -14866,15 +14890,15 @@
       "Stage": 269,
       "Chapter": 27,
       "StageType": "Normal",
-      "EnemyHp": 2645900366,
+      "EnemyHp": 43411338223,
       "EnemyAtk": 8017061087520,
       "KillCount": 5,
       "RewardGold": 64237217946,
       "RewardGrowth": 495619945,
-      "RewardExist": 90,
+      "RewardExist": 27,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 1776
+      "FirstClearDiamond": 102
     },
     {
       "Index": 270,
@@ -14882,15 +14906,15 @@
       "Stage": 270,
       "Chapter": 27,
       "StageType": "Boss",
-      "EnemyHp": 14221714726,
+      "EnemyHp": 242991328951,
       "EnemyAtk": 25878385080159,
       "KillCount": 1,
       "RewardGold": 211982820630,
       "RewardGrowth": 1386572075,
-      "RewardExist": 88,
+      "RewardExist": 26,
       "RewardTimeEnergy": 145,
       "NameStringId": 0,
-      "FirstClearDiamond": 5328
+      "FirstClearDiamond": 305
     },
     {
       "Index": 271,
@@ -14898,15 +14922,15 @@
       "Stage": 271,
       "Chapter": 28,
       "StageType": "Normal",
-      "EnemyHp": 2410304496,
+      "EnemyHp": 42886425501,
       "EnemyAtk": 8664090881423,
       "KillCount": 5,
       "RewardGold": 56895887871,
       "RewardGrowth": 398654256,
-      "RewardExist": 42,
+      "RewardExist": 13,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 2096
+      "FirstClearDiamond": 120
     },
     {
       "Index": 272,
@@ -14914,15 +14938,15 @@
       "Stage": 272,
       "Chapter": 28,
       "StageType": "Normal",
-      "EnemyHp": 2591077354,
+      "EnemyHp": 48010634305,
       "EnemyAtk": 9270577241869,
       "KillCount": 5,
       "RewardGold": 62585476711,
       "RewardGrowth": 438519382,
-      "RewardExist": 46,
+      "RewardExist": 14,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 2096
+      "FirstClearDiamond": 120
     },
     {
       "Index": 273,
@@ -14930,15 +14954,15 @@
       "Stage": 273,
       "Chapter": 28,
       "StageType": "Normal",
-      "EnemyHp": 2785408069,
+      "EnemyHp": 53747098046,
       "EnemyAtk": 9919517649649,
       "KillCount": 5,
       "RewardGold": 68844024511,
       "RewardGrowth": 482371422,
-      "RewardExist": 50,
+      "RewardExist": 15,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 2096
+      "FirstClearDiamond": 120
     },
     {
       "Index": 274,
@@ -14946,15 +14970,15 @@
       "Stage": 274,
       "Chapter": 28,
       "StageType": "Normal",
-      "EnemyHp": 2994313697,
+      "EnemyHp": 60168975103,
       "EnemyAtk": 10613883885386,
       "KillCount": 5,
       "RewardGold": 75728427059,
       "RewardGrowth": 530608578,
-      "RewardExist": 55,
+      "RewardExist": 17,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 2096
+      "FirstClearDiamond": 120
     },
     {
       "Index": 275,
@@ -14962,15 +14986,15 @@
       "Stage": 275,
       "Chapter": 28,
       "StageType": "Normal",
-      "EnemyHp": 3218887337,
+      "EnemyHp": 67358160639,
       "EnemyAtk": 11356855756372,
       "KillCount": 5,
       "RewardGold": 83301269633,
       "RewardGrowth": 583669542,
-      "RewardExist": 61,
+      "RewardExist": 18,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 2096
+      "FirstClearDiamond": 120
     },
     {
       "Index": 276,
@@ -14978,15 +15002,15 @@
       "Stage": 276,
       "Chapter": 28,
       "StageType": "Normal",
-      "EnemyHp": 3460303807,
+      "EnemyHp": 75406329139,
       "EnemyAtk": 12151835659387,
       "KillCount": 5,
       "RewardGold": 91631396649,
       "RewardGrowth": 642036486,
-      "RewardExist": 67,
+      "RewardExist": 20,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 2096
+      "FirstClearDiamond": 120
     },
     {
       "Index": 277,
@@ -14994,15 +15018,15 @@
       "Stage": 277,
       "Chapter": 28,
       "StageType": "Normal",
-      "EnemyHp": 3719826680,
+      "EnemyHp": 84416122500,
       "EnemyAtk": 13002464155910,
       "KillCount": 5,
       "RewardGold": 100794536091,
       "RewardGrowth": 706240106,
-      "RewardExist": 74,
+      "RewardExist": 22,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 2096
+      "FirstClearDiamond": 120
     },
     {
       "Index": 278,
@@ -15010,15 +15034,15 @@
       "Stage": 278,
       "Chapter": 28,
       "StageType": "Normal",
-      "EnemyHp": 3998813616,
+      "EnemyHp": 94502431504,
       "EnemyAtk": 13912636646831,
       "KillCount": 5,
       "RewardGold": 110873990177,
       "RewardGrowth": 776864318,
-      "RewardExist": 81,
+      "RewardExist": 24,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 2096
+      "FirstClearDiamond": 120
     },
     {
       "Index": 279,
@@ -15026,15 +15050,15 @@
       "Stage": 279,
       "Chapter": 28,
       "StageType": "Normal",
-      "EnemyHp": 4298724708,
+      "EnemyHp": 105793888513,
       "EnemyAtk": 14886521212765,
       "KillCount": 5,
       "RewardGold": 121961388677,
       "RewardGrowth": 854550640,
-      "RewardExist": 90,
+      "RewardExist": 27,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 2096
+      "FirstClearDiamond": 120
     },
     {
       "Index": 280,
@@ -15042,15 +15066,15 @@
       "Stage": 280,
       "Chapter": 28,
       "StageType": "Boss",
-      "EnemyHp": 23105645726,
+      "EnemyHp": 592172428157,
       "EnemyAtk": 48052412753545,
       "KillCount": 1,
       "RewardGold": 402472585308,
       "RewardGrowth": 2390735213,
-      "RewardExist": 88,
+      "RewardExist": 26,
       "RewardTimeEnergy": 150,
       "NameStringId": 0,
-      "FirstClearDiamond": 6288
+      "FirstClearDiamond": 359
     },
     {
       "Index": 281,
@@ -15058,15 +15082,15 @@
       "Stage": 281,
       "Chapter": 29,
       "StageType": "Normal",
-      "EnemyHp": 3765707520,
+      "EnemyHp": 100504564019,
       "EnemyAtk": 14542049071753,
       "KillCount": 5,
       "RewardGold": 102373039721,
       "RewardGrowth": 662604337,
-      "RewardExist": 42,
+      "RewardExist": 13,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 2472
+      "FirstClearDiamond": 141
     },
     {
       "Index": 282,
@@ -15074,15 +15098,15 @@
       "Stage": 282,
       "Chapter": 29,
       "StageType": "Normal",
-      "EnemyHp": 4048135616,
+      "EnemyHp": 112513174324,
       "EnemyAtk": 15559992504671,
       "KillCount": 5,
       "RewardGold": 112610343788,
       "RewardGrowth": 728864273,
-      "RewardExist": 46,
+      "RewardExist": 14,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 2472
+      "FirstClearDiamond": 141
     },
     {
       "Index": 283,
@@ -15090,15 +15114,15 @@
       "Stage": 283,
       "Chapter": 29,
       "StageType": "Normal",
-      "EnemyHp": 4351745653,
+      "EnemyHp": 125956607339,
       "EnemyAtk": 16649191981424,
       "KillCount": 5,
       "RewardGold": 123871378399,
       "RewardGrowth": 801750869,
-      "RewardExist": 50,
+      "RewardExist": 15,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 2472
+      "FirstClearDiamond": 141
     },
     {
       "Index": 284,
@@ -15106,15 +15130,15 @@
       "Stage": 284,
       "Chapter": 29,
       "StageType": "Normal",
-      "EnemyHp": 4678126612,
+      "EnemyHp": 141006310024,
       "EnemyAtk": 17814635420563,
       "KillCount": 5,
       "RewardGold": 136258516413,
       "RewardGrowth": 881925979,
-      "RewardExist": 55,
+      "RewardExist": 17,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 2472
+      "FirstClearDiamond": 141
     },
     {
       "Index": 285,
@@ -15122,15 +15146,15 @@
       "Stage": 285,
       "Chapter": 29,
       "StageType": "Normal",
-      "EnemyHp": 5028986284,
+      "EnemyHp": 157854204189,
       "EnemyAtk": 19061659898339,
       "KillCount": 5,
       "RewardGold": 149884367817,
       "RewardGrowth": 970118754,
-      "RewardExist": 61,
+      "RewardExist": 18,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 2472
+      "FirstClearDiamond": 141
     },
     {
       "Index": 286,
@@ -15138,15 +15162,15 @@
       "Stage": 286,
       "Chapter": 29,
       "StageType": "Normal",
-      "EnemyHp": 5406160130,
+      "EnemyHp": 176715129456,
       "EnemyAtk": 20395976091338,
       "KillCount": 5,
       "RewardGold": 164872804694,
       "RewardGrowth": 1067130612,
-      "RewardExist": 67,
+      "RewardExist": 20,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 2472
+      "FirstClearDiamond": 141
     },
     {
       "Index": 287,
@@ -15154,15 +15178,15 @@
       "Stage": 287,
       "Chapter": 29,
       "StageType": "Normal",
-      "EnemyHp": 5811622277,
+      "EnemyHp": 197829627665,
       "EnemyAtk": 21823694418346,
       "KillCount": 5,
       "RewardGold": 181360084762,
       "RewardGrowth": 1173843626,
-      "RewardExist": 74,
+      "RewardExist": 22,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 2472
+      "FirstClearDiamond": 141
     },
     {
       "Index": 288,
@@ -15170,15 +15194,15 @@
       "Stage": 288,
       "Chapter": 29,
       "StageType": "Normal",
-      "EnemyHp": 6247493846,
+      "EnemyHp": 221466945930,
       "EnemyAtk": 23351353027642,
       "KillCount": 5,
       "RewardGold": 199496094097,
       "RewardGrowth": 1291228323,
-      "RewardExist": 81,
+      "RewardExist": 24,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 2472
+      "FirstClearDiamond": 141
     },
     {
       "Index": 289,
@@ -15186,15 +15210,15 @@
       "Stage": 289,
       "Chapter": 29,
       "StageType": "Normal",
-      "EnemyHp": 6716055995,
+      "EnemyHp": 247928534896,
       "EnemyAtk": 24985947740678,
       "KillCount": 5,
       "RewardGold": 219445702575,
       "RewardGrowth": 1420350973,
-      "RewardExist": 90,
+      "RewardExist": 27,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 2472
+      "FirstClearDiamond": 141
     },
     {
       "Index": 290,
@@ -15202,15 +15226,15 @@
       "Stage": 290,
       "Chapter": 29,
       "StageType": "Boss",
-      "EnemyHp": 36098801632,
+      "EnemyHp": 1387759204146,
       "EnemyAtk": 80652494744310,
       "KillCount": 1,
       "RewardGold": 724170823309,
       "RewardGrowth": 3973647585,
-      "RewardExist": 88,
+      "RewardExist": 26,
       "RewardTimeEnergy": 155,
       "NameStringId": 0,
-      "FirstClearDiamond": 7416
+      "FirstClearDiamond": 424
     },
     {
       "Index": 291,
@@ -15218,15 +15242,15 @@
       "Stage": 291,
       "Chapter": 30,
       "StageType": "Normal",
-      "EnemyHp": 5648561280,
+      "EnemyHp": 226135269043,
       "EnemyAtk": 21813073607629,
       "KillCount": 5,
       "RewardGold": 174034167525,
       "RewardGrowth": 1060166939,
-      "RewardExist": 42,
+      "RewardExist": 13,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 2916
+      "FirstClearDiamond": 167
     },
     {
       "Index": 292,
@@ -15234,15 +15258,15 @@
       "Stage": 292,
       "Chapter": 30,
       "StageType": "Normal",
-      "EnemyHp": 6072203424,
+      "EnemyHp": 253154642228,
       "EnemyAtk": 23339988757006,
       "KillCount": 5,
       "RewardGold": 191437584439,
       "RewardGrowth": 1166182836,
-      "RewardExist": 46,
+      "RewardExist": 14,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 2916
+      "FirstClearDiamond": 167
     },
     {
       "Index": 293,
@@ -15250,15 +15274,15 @@
       "Stage": 293,
       "Chapter": 30,
       "StageType": "Normal",
-      "EnemyHp": 6527618479,
+      "EnemyHp": 283402366491,
       "EnemyAtk": 24973787972136,
       "KillCount": 5,
       "RewardGold": 210581343278,
       "RewardGrowth": 1282801390,
-      "RewardExist": 50,
+      "RewardExist": 15,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 2916
+      "FirstClearDiamond": 167
     },
     {
       "Index": 294,
@@ -15266,15 +15290,15 @@
       "Stage": 294,
       "Chapter": 30,
       "StageType": "Normal",
-      "EnemyHp": 7017189918,
+      "EnemyHp": 317264197553,
       "EnemyAtk": 26721953130844,
       "KillCount": 5,
       "RewardGold": 231639477902,
       "RewardGrowth": 1411081566,
-      "RewardExist": 55,
+      "RewardExist": 17,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 2916
+      "FirstClearDiamond": 167
     },
     {
       "Index": 295,
@@ -15282,15 +15306,15 @@
       "Stage": 295,
       "Chapter": 30,
       "StageType": "Normal",
-      "EnemyHp": 7543479426,
+      "EnemyHp": 355171959425,
       "EnemyAtk": 28592489847508,
       "KillCount": 5,
       "RewardGold": 254803425288,
       "RewardGrowth": 1552190006,
-      "RewardExist": 61,
+      "RewardExist": 18,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 2916
+      "FirstClearDiamond": 167
     },
     {
       "Index": 296,
@@ -15298,15 +15322,15 @@
       "Stage": 296,
       "Chapter": 30,
       "StageType": "Normal",
-      "EnemyHp": 8109240195,
+      "EnemyHp": 397609041277,
       "EnemyAtk": 30593964137007,
       "KillCount": 5,
       "RewardGold": 280283767979,
       "RewardGrowth": 1707408979,
-      "RewardExist": 67,
+      "RewardExist": 20,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 2916
+      "FirstClearDiamond": 167
     },
     {
       "Index": 297,
@@ -15314,15 +15338,15 @@
       "Stage": 297,
       "Chapter": 30,
       "StageType": "Normal",
-      "EnemyHp": 8717433415,
+      "EnemyHp": 445116662222,
       "EnemyAtk": 32735541627519,
       "KillCount": 5,
       "RewardGold": 308312144095,
       "RewardGrowth": 1878149801,
-      "RewardExist": 74,
+      "RewardExist": 22,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 2916
+      "FirstClearDiamond": 167
     },
     {
       "Index": 298,
@@ -15330,15 +15354,15 @@
       "Stage": 298,
       "Chapter": 30,
       "StageType": "Normal",
-      "EnemyHp": 9371240769,
+      "EnemyHp": 498300628343,
       "EnemyAtk": 35027029541463,
       "KillCount": 5,
       "RewardGold": 339143359964,
       "RewardGrowth": 2065965316,
-      "RewardExist": 81,
+      "RewardExist": 24,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 2916
+      "FirstClearDiamond": 167
     },
     {
       "Index": 299,
@@ -15346,15 +15370,15 @@
       "Stage": 299,
       "Chapter": 30,
       "StageType": "Normal",
-      "EnemyHp": 10074083992,
+      "EnemyHp": 557839203488,
       "EnemyAtk": 37478921611017,
       "KillCount": 5,
       "RewardGold": 373057694377,
       "RewardGrowth": 2272561556,
-      "RewardExist": 90,
+      "RewardExist": 27,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 2916
+      "FirstClearDiamond": 167
     },
     {
       "Index": 300,
@@ -15362,15 +15386,15 @@
       "Stage": 300,
       "Chapter": 30,
       "StageType": "Boss",
-      "EnemyHp": 54148202448,
+      "EnemyHp": 3122458209328,
       "EnemyAtk": 120978742116465,
       "KillCount": 1,
       "RewardGold": 1231090399625,
       "RewardGrowth": 6357836136,
-      "RewardExist": 88,
+      "RewardExist": 26,
       "RewardTimeEnergy": 160,
       "NameStringId": 0,
-      "FirstClearDiamond": 8748
+      "FirstClearDiamond": 500
     }
   ],
   "PatchNoteTable": [
@@ -15679,6 +15703,42 @@
       "Category": "ADD",
       "TextStringId": 55040,
       "SortOrder": 17
+    },
+    {
+      "Index": 35,
+      "Id": 33035,
+      "Version": "v0.4.0",
+      "ReleaseDate": "2026-09-12",
+      "Category": "CHANGE",
+      "TextStringId": 55041,
+      "SortOrder": 18
+    },
+    {
+      "Index": 36,
+      "Id": 33036,
+      "Version": "v0.4.0",
+      "ReleaseDate": "2026-09-12",
+      "Category": "CHANGE",
+      "TextStringId": 55042,
+      "SortOrder": 19
+    },
+    {
+      "Index": 37,
+      "Id": 33037,
+      "Version": "v0.4.0",
+      "ReleaseDate": "2026-09-12",
+      "Category": "CHANGE",
+      "TextStringId": 55043,
+      "SortOrder": 20
+    },
+    {
+      "Index": 38,
+      "Id": 33038,
+      "Version": "v0.4.0",
+      "ReleaseDate": "2026-09-12",
+      "Category": "CHANGE",
+      "TextStringId": 55044,
+      "SortOrder": 21
     }
   ],
   "RelicSlotTable": [
