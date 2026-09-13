@@ -4252,6 +4252,12 @@
       "Id": 55044,
       "KOR": "후반부 몬스터 체력 대폭 상승",
       "ENG": "Late-game monster HP significantly increased"
+    },
+    {
+      "Index": 669,
+      "Id": 55045,
+      "KOR": "스테이지 다이아 최소 지급량 상향",
+      "ENG": "Stage diamond minimum reward increased"
     }
   ],
   "CurrencyTable": [
@@ -15500,8 +15506,8 @@
     {
       "Index": 12,
       "Id": 33012,
-      "Version": "v0.5.0",
-      "ReleaseDate": "2026-09-13",
+      "Version": "v0.3.0",
+      "ReleaseDate": "2026-09-11",
       "Category": "CHANGE",
       "TextStringId": 55011,
       "SortOrder": 1
@@ -15509,8 +15515,8 @@
     {
       "Index": 13,
       "Id": 33013,
-      "Version": "v0.5.0",
-      "ReleaseDate": "2026-09-13",
+      "Version": "v0.3.0",
+      "ReleaseDate": "2026-09-11",
       "Category": "CHANGE",
       "TextStringId": 55012,
       "SortOrder": 2
@@ -15518,8 +15524,8 @@
     {
       "Index": 14,
       "Id": 33014,
-      "Version": "v0.5.0",
-      "ReleaseDate": "2026-09-13",
+      "Version": "v0.3.0",
+      "ReleaseDate": "2026-09-11",
       "Category": "CHANGE",
       "TextStringId": 55013,
       "SortOrder": 3
@@ -15527,8 +15533,8 @@
     {
       "Index": 15,
       "Id": 33015,
-      "Version": "v0.5.0",
-      "ReleaseDate": "2026-09-13",
+      "Version": "v0.3.0",
+      "ReleaseDate": "2026-09-11",
       "Category": "ADD",
       "TextStringId": 55017,
       "SortOrder": 4
@@ -15536,8 +15542,8 @@
     {
       "Index": 16,
       "Id": 33016,
-      "Version": "v0.5.0",
-      "ReleaseDate": "2026-09-13",
+      "Version": "v0.3.0",
+      "ReleaseDate": "2026-09-11",
       "Category": "ADD",
       "TextStringId": 55018,
       "SortOrder": 5
@@ -15545,8 +15551,8 @@
     {
       "Index": 17,
       "Id": 33017,
-      "Version": "v0.5.0",
-      "ReleaseDate": "2026-09-13",
+      "Version": "v0.3.0",
+      "ReleaseDate": "2026-09-11",
       "Category": "CHANGE",
       "TextStringId": 55019,
       "SortOrder": 6
@@ -15554,155 +15560,155 @@
     {
       "Index": 18,
       "Id": 33018,
-      "Version": "v0.5.0",
+      "Version": "v0.4.0",
       "ReleaseDate": "2026-09-13",
       "Category": "ADD",
       "TextStringId": 55020,
-      "SortOrder": 7
+      "SortOrder": 1
     },
     {
       "Index": 19,
       "Id": 33019,
-      "Version": "v0.5.0",
+      "Version": "v0.4.0",
       "ReleaseDate": "2026-09-13",
       "Category": "CHANGE",
       "TextStringId": 55024,
-      "SortOrder": 8
+      "SortOrder": 2
     },
     {
       "Index": 20,
       "Id": 33020,
-      "Version": "v0.5.0",
+      "Version": "v0.4.0",
       "ReleaseDate": "2026-09-13",
       "Category": "FIX",
       "TextStringId": 55026,
-      "SortOrder": 9
+      "SortOrder": 3
     },
     {
       "Index": 21,
       "Id": 33021,
-      "Version": "v0.5.0",
+      "Version": "v0.4.0",
       "ReleaseDate": "2026-09-13",
       "Category": "ADD",
       "TextStringId": 55027,
-      "SortOrder": 10
+      "SortOrder": 4
     },
     {
       "Index": 22,
       "Id": 33022,
-      "Version": "v0.5.0",
+      "Version": "v0.4.0",
       "ReleaseDate": "2026-09-13",
       "Category": "ADD",
       "TextStringId": 55028,
-      "SortOrder": 11
+      "SortOrder": 5
     },
     {
       "Index": 23,
       "Id": 33023,
-      "Version": "v0.5.0",
+      "Version": "v0.4.0",
       "ReleaseDate": "2026-09-13",
       "Category": "ADD",
       "TextStringId": 55029,
-      "SortOrder": 12
+      "SortOrder": 6
     },
     {
       "Index": 24,
       "Id": 33024,
-      "Version": "v0.5.0",
+      "Version": "v0.4.0",
       "ReleaseDate": "2026-09-13",
       "Category": "FIX",
       "TextStringId": 55030,
-      "SortOrder": 13
+      "SortOrder": 7
     },
     {
       "Index": 25,
       "Id": 33025,
-      "Version": "v0.5.0",
+      "Version": "v0.4.0",
       "ReleaseDate": "2026-09-13",
       "Category": "CHANGE",
       "TextStringId": 55031,
-      "SortOrder": 14
+      "SortOrder": 8
     },
     {
       "Index": 26,
       "Id": 33026,
-      "Version": "v0.5.0",
+      "Version": "v0.4.0",
       "ReleaseDate": "2026-09-13",
       "Category": "ADD",
       "TextStringId": 55032,
-      "SortOrder": 15
+      "SortOrder": 9
     },
     {
       "Index": 27,
       "Id": 33027,
-      "Version": "v0.5.0",
+      "Version": "v0.4.0",
       "ReleaseDate": "2026-09-13",
       "Category": "ADD",
       "TextStringId": 55033,
-      "SortOrder": 16
+      "SortOrder": 10
     },
     {
       "Index": 28,
       "Id": 33028,
-      "Version": "v0.5.0",
+      "Version": "v0.4.0",
       "ReleaseDate": "2026-09-13",
       "Category": "CHANGE",
       "TextStringId": 55034,
-      "SortOrder": 17
+      "SortOrder": 11
     },
     {
       "Index": 29,
       "Id": 33029,
-      "Version": "v0.5.0",
+      "Version": "v0.4.0",
       "ReleaseDate": "2026-09-13",
       "Category": "CHANGE",
       "TextStringId": 55035,
-      "SortOrder": 18
+      "SortOrder": 12
     },
     {
       "Index": 30,
       "Id": 33030,
-      "Version": "v0.5.0",
+      "Version": "v0.4.0",
       "ReleaseDate": "2026-09-13",
       "Category": "ADD",
       "TextStringId": 55036,
-      "SortOrder": 19
+      "SortOrder": 13
     },
     {
       "Index": 31,
       "Id": 33031,
-      "Version": "v0.5.0",
+      "Version": "v0.4.0",
       "ReleaseDate": "2026-09-13",
       "Category": "CHANGE",
       "TextStringId": 55037,
-      "SortOrder": 20
+      "SortOrder": 14
     },
     {
       "Index": 32,
       "Id": 33032,
-      "Version": "v0.5.0",
+      "Version": "v0.4.0",
       "ReleaseDate": "2026-09-13",
       "Category": "ADD",
       "TextStringId": 55038,
-      "SortOrder": 21
+      "SortOrder": 15
     },
     {
       "Index": 33,
       "Id": 33033,
-      "Version": "v0.5.0",
+      "Version": "v0.4.0",
       "ReleaseDate": "2026-09-13",
       "Category": "ADD",
       "TextStringId": 55039,
-      "SortOrder": 22
+      "SortOrder": 16
     },
     {
       "Index": 34,
       "Id": 33034,
-      "Version": "v0.5.0",
+      "Version": "v0.4.0",
       "ReleaseDate": "2026-09-13",
       "Category": "ADD",
       "TextStringId": 55040,
-      "SortOrder": 23
+      "SortOrder": 17
     },
     {
       "Index": 35,
@@ -15711,7 +15717,7 @@
       "ReleaseDate": "2026-09-13",
       "Category": "CHANGE",
       "TextStringId": 55041,
-      "SortOrder": 24
+      "SortOrder": 1
     },
     {
       "Index": 36,
@@ -15720,7 +15726,7 @@
       "ReleaseDate": "2026-09-13",
       "Category": "CHANGE",
       "TextStringId": 55042,
-      "SortOrder": 25
+      "SortOrder": 2
     },
     {
       "Index": 37,
@@ -15729,7 +15735,7 @@
       "ReleaseDate": "2026-09-13",
       "Category": "CHANGE",
       "TextStringId": 55043,
-      "SortOrder": 26
+      "SortOrder": 3
     },
     {
       "Index": 38,
@@ -15738,7 +15744,16 @@
       "ReleaseDate": "2026-09-13",
       "Category": "CHANGE",
       "TextStringId": 55044,
-      "SortOrder": 27
+      "SortOrder": 4
+    },
+    {
+      "Index": 38,
+      "Id": 33039,
+      "Version": "v0.5.0",
+      "ReleaseDate": "2026-09-13",
+      "Category": "CHANGE",
+      "TextStringId": 55045,
+      "SortOrder": 5
     }
   ],
   "RelicSlotTable": [
