@@ -5,6 +5,16 @@
 여기서 말하는 릴리스는 **"이 시점까지의 변경사항을 정리해서 기록에 남기는 것"**이
 목적이다.
 
+> 🤖 **`scripts/release.mjs`가 아래 절차 대부분을 자동화한다.** 사전 검사(커밋
+> 여부, 빌드, `[Unreleased]` 비어있는지, 태그 중복) → 버전 결정 →
+> `package.json` 버전 갱신 → SAVE_VERSION 갱신 → CHANGELOG.md 이동까지 자동으로
+> 처리한 뒤, PatchNoteTable에 넣을 "플레이어 체감 1줄 요약"만은 편집 판단이
+> 필요해 여기서 멈춘다(append-row.mjs 명령을 채워서 출력해준다). 그 항목을
+> 채워 넣은 뒤 `node scripts/release.mjs <X.Y.Z> --finish`로 이어서 실행하면
+> 커밋·태그 생성, (확인 후) push와 GitHub Release 발행까지 마친다. 아래 1·2절은
+> 스크립트가 내부적으로 따르는 절차이자, 스크립트 없이 수동으로 할 때의 참고
+> 문서다.
+
 ## 1. 절차
 
 1. **CHANGELOG.md 갱신** — `[Unreleased]` 섹션에 그동안 쌓인 항목들이 잘 정리돼
