@@ -8,6 +8,7 @@ import {
   getRebirthRewardRow,
   getWeaponFusionConfig,
   type CurrencyTypeEnum,
+  type WeaponTypeEnum,
 } from '../data/balance'
 import { getBattleUiLabel } from '../data/uiStrings'
 import { EXIST_SPECIAL_UNLOCKS, generateExistTree, simulateBulkExistUnlock, type BulkExistUnlockResult } from '../data/existTree'
@@ -31,10 +32,14 @@ import {
   rollWeaponGacha,
   simulateBulkBreakthrough,
   simulateBulkFusion,
+  simulateTypeBulkBreakthrough,
+  simulateTypeBulkFusion,
   weaponLevelUpCost,
   weaponMaxLevel,
   type BulkBreakthroughResult,
   type BulkFusionResult,
+  type TypeBulkBreakthroughResult,
+  type TypeBulkFusionResult,
 } from '../systems/weapon/weapon'
 import { debugOverrideLastActiveAt, disableAutosave, flushSave, loadGameState, scheduleSave } from './gameStateStorage'
 import type {
@@ -275,8 +280,10 @@ interface GameState {
   maxLevelUpWeapon: (weaponId: string) => void
   breakthroughWeapon: (weaponId: string) => boolean
   bulkBreakthroughWeapon: (weaponId: string) => BulkBreakthroughResult | null
+  bulkBreakthroughWeaponType: (type: WeaponTypeEnum) => TypeBulkBreakthroughResult | null
   mergeWeapon: (weaponId: string) => boolean
   bulkMergeWeapon: (weaponId: string, chain: boolean) => BulkFusionResult | null
+  bulkMergeWeaponType: (type: WeaponTypeEnum) => TypeBulkFusionResult | null
 
   // 유물
   pullRelicGacha: () => RelicGachaPullResult | null
@@ -1027,6 +1034,27 @@ export const useGameStore = create<GameState>((set, get) => ({
     return result
   },
 
+  // 무기군 단위 일괄 돌파(v0.4.0) — "지금 보고 있는 무기 종류" 전체(30칸)에서
+  // 돌파 가능한 건 전부 처리한다. bulkBreakthroughWeapon(무기 하나만 반복)과는
+  // 대상 범위가 다르다.
+  bulkBreakthroughWeaponType: (type) => {
+    const result = simulateTypeBulkBreakthrough(get().ownedWeapons, type)
+    if (result.entries.length === 0) return null
+
+    set((state) => ({
+      ownedWeapons: result.ownedWeapons,
+      ...statsPatch(
+        state.statLevels,
+        state.masteryLevels,
+        state.existTreeStatBonus,
+        result.ownedWeapons,
+        state.equippedWeaponId,
+        state.activeRelics,
+      ),
+    }))
+    return result
+  },
+
   mergeWeapon: (weaponId) => {
     const entry = get().ownedWeapons[weaponId]
     if (!entry) return false
@@ -1062,6 +1090,27 @@ export const useGameStore = create<GameState>((set, get) => ({
   // 또 합성 가능한 한 계속 이어간다(연쇄 여부는 화면에서 사용자가 선택).
   bulkMergeWeapon: (weaponId, chain) => {
     const result = simulateBulkFusion(get().ownedWeapons, weaponId, chain)
+    if (result.steps.length === 0) return null
+
+    set((state) => ({
+      ownedWeapons: result.ownedWeapons,
+      ...statsPatch(
+        state.statLevels,
+        state.masteryLevels,
+        state.existTreeStatBonus,
+        result.ownedWeapons,
+        state.equippedWeaponId,
+        state.activeRelics,
+      ),
+    }))
+    return result
+  },
+
+  // 무기군 단위 일괄 합성(v0.4.0) — 낮은 등급/단계부터 순서대로 한 칸씩 합성하며
+  // 훑는다(개별 무기의 chain=true와 달리, 30칸을 도는 순서 자체가 사다리
+  // 전체를 이미 훑는 효과를 낸다).
+  bulkMergeWeaponType: (type) => {
+    const result = simulateTypeBulkFusion(get().ownedWeapons, type)
     if (result.steps.length === 0) return null
 
     set((state) => ({

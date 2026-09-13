@@ -303,6 +303,82 @@ export function simulateBulkFusion(ownedWeapons: OwnedWeapons, startId: string, 
   return { steps, ownedWeapons: working }
 }
 
+// ---------------------------------------------------------------------------
+// 무기군 단위 일괄 처리(v0.4.0) — "지금 보고 있는 무기 종류(예: 검 30칸)"
+// 전체를 대상으로 돌파/합성 가능한 건 전부 한 번에 처리한다(개별 무기 하나를
+// 반복 처리하는 simulateBulkBreakthrough/simulateBulkFusion과는 다른 축 —
+// 저건 "이 무기를 최대한 밀어붙이기", 이건 "이 종류 전체를 정리하기").
+// ---------------------------------------------------------------------------
+
+export interface TypeBulkBreakthroughEntry {
+  weaponId: string
+  fromBreakthroughCount: number
+  toBreakthroughCount: number
+  consumed: number
+}
+
+export interface TypeBulkBreakthroughResult {
+  entries: TypeBulkBreakthroughEntry[]
+  totalConsumed: number
+  ownedWeapons: OwnedWeapons
+}
+
+// 등급×단계(30칸)를 순서대로 훑으며 무기 하나하나에 simulateBulkBreakthrough를
+// 적용한다 — 무기별로 서로 독립적인 연산이라 순서는 결과에 영향 없음(표시
+// 순서로만 쓰임).
+export function simulateTypeBulkBreakthrough(ownedWeapons: OwnedWeapons, type: WeaponTypeEnum): TypeBulkBreakthroughResult {
+  let working = ownedWeapons
+  const entries: TypeBulkBreakthroughEntry[] = []
+  let totalConsumed = 0
+
+  for (const grade of WEAPON_GRADES) {
+    for (const tier of WEAPON_TIERS) {
+      const weaponId = buildWeaponId(type, grade, tier)
+      const entry = working[weaponId]
+      if (!entry) continue
+      const result = simulateBulkBreakthrough(entry)
+      if (result.toBreakthroughCount === result.fromBreakthroughCount) continue
+      working = { ...working, [weaponId]: result.entry }
+      entries.push({
+        weaponId,
+        fromBreakthroughCount: result.fromBreakthroughCount,
+        toBreakthroughCount: result.toBreakthroughCount,
+        consumed: result.totalConsumed,
+      })
+      totalConsumed += result.totalConsumed
+    }
+  }
+
+  return { entries, totalConsumed, ownedWeapons: working }
+}
+
+export interface TypeBulkFusionResult {
+  steps: WeaponFusionStep[]
+  ownedWeapons: OwnedWeapons
+}
+
+// 등급×단계를 낮은 쪽(Normal-T1)부터 높은 쪽(Mythic-T5) 순서로 훑으며 한 칸씩만
+// 합성한다(chain=false). 순서 자체가 사다리를 따라 올라가므로, 낮은 칸에서 만든
+// 결과물은 그 칸에 도착했을 때 다시 자연스럽게 처리된다 — 굳이 무기 하나에서
+// chain=true로 끝까지 밀어 올릴 필요 없이, 30칸을 한 바퀴 도는 것 자체가 전체
+// 사다리를 훑는 효과를 낸다.
+export function simulateTypeBulkFusion(ownedWeapons: OwnedWeapons, type: WeaponTypeEnum): TypeBulkFusionResult {
+  let working = ownedWeapons
+  const steps: WeaponFusionStep[] = []
+
+  for (const grade of WEAPON_GRADES) {
+    for (const tier of WEAPON_TIERS) {
+      const weaponId = buildWeaponId(type, grade, tier)
+      if (!working[weaponId]) continue
+      const result = simulateBulkFusion(working, weaponId, false)
+      working = result.ownedWeapons
+      steps.push(...result.steps)
+    }
+  }
+
+  return { steps, ownedWeapons: working }
+}
+
 export interface WeaponReadiness {
   // 지금 보여주는 진행도가 돌파인지 합성인지 — UI에서 색/안내를 다르게 하기 위함.
   kind: 'breakthrough' | 'fusion'

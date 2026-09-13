@@ -1,7 +1,7 @@
-import { useState } from 'react'
+import { useState, type CSSProperties, type ReactNode } from 'react'
 import { getString, WEAPON_TYPE_NAME_STRING_ID, type WeaponGradeEnum, type WeaponTypeEnum } from '../../data/balance'
 import { masteryPrimaryStat } from '../../data/mastery'
-import { getStatName, getTabName, getWeaponUiLabel } from '../../data/uiStrings'
+import { getBulkUiLabel, getButtonLabel, getCommonUiLabel, getStatName, getTabName, getWeaponDetailUiLabel, getWeaponUiLabel } from '../../data/uiStrings'
 import { useGameStore } from '../../store/gameStore'
 import type { WeaponInstance } from '../../types/game'
 import { formatNumber, formatPercent } from '../../utils/format'
@@ -10,23 +10,32 @@ import {
   buildWeaponId,
   computeWeaponBonusBreakdown,
   computeWeaponReadiness,
+  simulateTypeBulkBreakthrough,
+  simulateTypeBulkFusion,
   weaponDisplayName,
   WEAPON_GRADES,
   WEAPON_MAX_BREAKTHROUGH,
   WEAPON_TIERS,
   WEAPON_TYPES,
+  type TypeBulkBreakthroughResult,
+  type TypeBulkFusionResult,
 } from './weapon'
 import { GRADE_BG_COLOR, GRADE_BORDER_COLOR, GRADE_GLOW_SHADOW, GRADE_TEXT_COLOR } from './weaponUi'
 import { STATE_ICON, WEAPON_ICON } from '../../components/icons'
-import { ProgressBar } from '../../components/ui'
+import { Button, ProgressBar } from '../../components/ui'
 import { IntroBanner } from '../onboarding/IntroBanner'
 import { SYSTEM_INTRO_LINES } from '../onboarding/onboardingContent'
 
 export function WeaponEquipmentTab() {
   const [selectedType, setSelectedType] = useState<WeaponTypeEnum>('Sword')
   const [selectedWeaponId, setSelectedWeaponId] = useState<string | null>(null)
+  const [typeBulkView, setTypeBulkView] = useState<'breakthrough' | 'fusion' | null>(null)
   const ownedWeapons = useGameStore((state) => state.ownedWeapons)
   const equippedWeaponId = useGameStore((state) => state.equippedWeaponId)
+  const bulkBreakthroughWeaponType = useGameStore((state) => state.bulkBreakthroughWeaponType)
+  const bulkMergeWeaponType = useGameStore((state) => state.bulkMergeWeaponType)
+
+  const typeName = getString(WEAPON_TYPE_NAME_STRING_ID[selectedType], 'KOR', selectedType)
 
   return (
     <div className="flex min-h-0 flex-1 flex-col">
@@ -41,6 +50,15 @@ export function WeaponEquipmentTab() {
       <TypeSwitcher selectedType={selectedType} onSelect={setSelectedType} ownedWeapons={ownedWeapons} />
 
       <EquippedSummary equippedWeaponId={equippedWeaponId} ownedWeapons={ownedWeapons} />
+
+      <div className="flex shrink-0 gap-1.5 px-3 pt-2">
+        <Button variant="secondary" onClick={() => setTypeBulkView('breakthrough')} className="flex-1 py-1.5 text-[11px]">
+          {typeName} {getBulkUiLabel('bulk')} {getButtonLabel('breakthrough')}
+        </Button>
+        <Button variant="secondary" onClick={() => setTypeBulkView('fusion')} className="flex-1 py-1.5 text-[11px]">
+          {typeName} {getBulkUiLabel('bulk')} {getButtonLabel('fuse')}
+        </Button>
+      </div>
 
       <div key={selectedType} className="min-h-0 flex-1 overflow-y-auto p-3 animate-[panel-fade-in_180ms_ease-out]">
         <div className="grid grid-cols-5 gap-1.5">
@@ -85,6 +103,26 @@ export function WeaponEquipmentTab() {
 
       {selectedWeaponId && (
         <WeaponDetailModal weaponId={selectedWeaponId} onClose={() => setSelectedWeaponId(null)} />
+      )}
+
+      {typeBulkView === 'breakthrough' && (
+        <TypeBulkBreakthroughOverlay
+          type={selectedType}
+          typeName={typeName}
+          ownedWeapons={ownedWeapons}
+          onExecute={bulkBreakthroughWeaponType}
+          onClose={() => setTypeBulkView(null)}
+        />
+      )}
+
+      {typeBulkView === 'fusion' && (
+        <TypeBulkFusionOverlay
+          type={selectedType}
+          typeName={typeName}
+          ownedWeapons={ownedWeapons}
+          onExecute={bulkMergeWeaponType}
+          onClose={() => setTypeBulkView(null)}
+        />
       )}
     </div>
   )
@@ -204,5 +242,174 @@ function EquippedSummary({
         )}
       </div>
     </div>
+  )
+}
+
+// 무기군(현재 보고 있는 종류 30칸) 단위 일괄 처리 공용 바깥 틀 — 무기 상세 모달의
+// BulkOverlayFrame과 같은 톤(패널 스타일)을 그대로 쓴다.
+function TypeBulkOverlayFrame({ title, onClose, children }: { title: string; onClose: () => void; children: ReactNode }) {
+  return (
+    <div
+      className="absolute inset-0 z-40 flex items-center justify-center bg-black/70 p-6 animate-[backdrop-fade-in_180ms_ease-out]"
+      onClick={onClose}
+    >
+      <div
+        className="panel-frame w-full max-w-xs rounded-xl border border-surface-border bg-surface-card p-4 text-text-primary animate-[modal-pop-in_180ms_ease-out]"
+        style={{ '--panel-accent-color': 'var(--color-teal-strong)' } as CSSProperties}
+        onClick={(event) => event.stopPropagation()}
+      >
+        <div className="flex items-center justify-between gap-2">
+          <h2 className="text-sm font-semibold text-text-primary">{title}</h2>
+          <button
+            type="button"
+            onClick={onClose}
+            className="shrink-0 rounded-lg bg-surface-elevated px-2 py-1 text-[11px] text-text-secondary transition-colors hover:bg-surface-border hover:text-text-primary"
+          >
+            {getButtonLabel('close')}
+          </button>
+        </div>
+        {children}
+      </div>
+    </div>
+  )
+}
+
+interface TypeBulkBreakthroughOverlayProps {
+  type: WeaponTypeEnum
+  typeName: string
+  ownedWeapons: ReturnType<typeof useGameStore.getState>['ownedWeapons']
+  onExecute: (type: WeaponTypeEnum) => TypeBulkBreakthroughResult | null
+  onClose: () => void
+}
+
+function TypeBulkBreakthroughOverlay({ type, typeName, ownedWeapons, onExecute, onClose }: TypeBulkBreakthroughOverlayProps) {
+  const [result, setResult] = useState<TypeBulkBreakthroughResult | null>(null)
+  const preview = result ?? simulateTypeBulkBreakthrough(ownedWeapons, type)
+  const isResultPhase = result !== null
+
+  return (
+    <TypeBulkOverlayFrame title={`${typeName} ${getBulkUiLabel('bulk')} ${getButtonLabel('breakthrough')}`} onClose={onClose}>
+      <p className="mt-2 text-[11px] font-medium text-text-secondary">
+        {isResultPhase ? getBulkUiLabel('resultHeading') : getBulkUiLabel('previewHeading')}
+      </p>
+
+      {preview.entries.length > 0 ? (
+        <>
+          <ul className="mt-2 max-h-64 space-y-1 overflow-y-auto text-xs text-text-secondary">
+            {preview.entries.map((entry) => (
+              <li key={entry.weaponId} className="flex items-center justify-between rounded-lg bg-surface-elevated px-2 py-1">
+                <span className="truncate text-text-primary">{weaponDisplayName(entry.weaponId)}</span>
+                <span className="shrink-0 text-[10px] text-text-secondary">
+                  {entry.fromBreakthroughCount} → {entry.toBreakthroughCount} / {WEAPON_MAX_BREAKTHROUGH} (
+                  {getCommonUiLabel('consume')} {entry.consumed}
+                  {getWeaponDetailUiLabel('unitCount')})
+                </span>
+              </li>
+            ))}
+          </ul>
+          <div className="mt-2 flex justify-between border-t border-surface-border pt-2 text-xs">
+            <span className="text-text-secondary">{getCommonUiLabel('consume')}</span>
+            <span className="font-medium text-text-primary">
+              {formatNumber(preview.totalConsumed)}
+              {getWeaponDetailUiLabel('unitCount')}
+            </span>
+          </div>
+        </>
+      ) : (
+        <p className="mt-2 text-xs text-text-disabled">{getBulkUiLabel('noneAvailable')}</p>
+      )}
+
+      <div className="mt-4 flex justify-end gap-2">
+        {isResultPhase ? (
+          <Button variant="teal" onClick={onClose} className="px-3 py-1.5 text-xs">
+            {getButtonLabel('close')}
+          </Button>
+        ) : (
+          <>
+            <Button variant="secondary" onClick={onClose} className="px-3 py-1.5 text-xs">
+              {getButtonLabel('cancel')}
+            </Button>
+            <Button
+              variant="teal"
+              disabled={preview.entries.length === 0}
+              onClick={() => setResult(onExecute(type))}
+              className="px-3 py-1.5 text-xs"
+            >
+              {getButtonLabel('execute')}
+            </Button>
+          </>
+        )}
+      </div>
+    </TypeBulkOverlayFrame>
+  )
+}
+
+interface TypeBulkFusionOverlayProps {
+  type: WeaponTypeEnum
+  typeName: string
+  ownedWeapons: ReturnType<typeof useGameStore.getState>['ownedWeapons']
+  onExecute: (type: WeaponTypeEnum) => TypeBulkFusionResult | null
+  onClose: () => void
+}
+
+function TypeBulkFusionOverlay({ type, typeName, ownedWeapons, onExecute, onClose }: TypeBulkFusionOverlayProps) {
+  const [result, setResult] = useState<TypeBulkFusionResult | null>(null)
+  const preview = result ?? simulateTypeBulkFusion(ownedWeapons, type)
+  const isResultPhase = result !== null
+
+  return (
+    <TypeBulkOverlayFrame title={`${typeName} ${getBulkUiLabel('bulk')} ${getButtonLabel('fuse')}`} onClose={onClose}>
+      <p className="mt-2 text-[11px] font-medium text-text-secondary">
+        {isResultPhase ? getBulkUiLabel('resultHeading') : getBulkUiLabel('previewHeading')}
+      </p>
+
+      {preview.steps.length > 0 ? (
+        <ul className="mt-2 max-h-72 space-y-1.5 overflow-y-auto text-xs text-text-secondary">
+          {preview.steps.map((step, index) => (
+            <li key={`${step.fromId}-${index}`} className="rounded-lg bg-surface-elevated px-2 py-1.5">
+              <div className="flex items-center justify-between text-text-primary">
+                <span className="truncate">{weaponDisplayName(step.fromId)}</span>
+                <span className="shrink-0 px-1 text-text-disabled">→</span>
+                <span className="truncate text-right">{weaponDisplayName(step.toId)}</span>
+              </div>
+              <div className="mt-0.5 flex justify-between text-[10px] text-text-disabled">
+                <span>
+                  {getCommonUiLabel('consume')} {formatNumber(step.consumed)}
+                  {getWeaponDetailUiLabel('unitCount')}
+                </span>
+                <span>
+                  {getCommonUiLabel('expectedGain')} {formatNumber(step.produced)}
+                  {getWeaponDetailUiLabel('unitCount')}
+                </span>
+              </div>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p className="mt-2 text-xs text-text-disabled">{getBulkUiLabel('noneAvailable')}</p>
+      )}
+
+      <div className="mt-4 flex justify-end gap-2">
+        {isResultPhase ? (
+          <Button variant="teal" onClick={onClose} className="px-3 py-1.5 text-xs">
+            {getButtonLabel('close')}
+          </Button>
+        ) : (
+          <>
+            <Button variant="secondary" onClick={onClose} className="px-3 py-1.5 text-xs">
+              {getButtonLabel('cancel')}
+            </Button>
+            <Button
+              variant="teal"
+              disabled={preview.steps.length === 0}
+              onClick={() => setResult(onExecute(type))}
+              className="px-3 py-1.5 text-xs"
+            >
+              {getButtonLabel('execute')}
+            </Button>
+          </>
+        )}
+      </div>
+    </TypeBulkOverlayFrame>
   )
 }
