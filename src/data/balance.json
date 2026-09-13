@@ -10610,7 +10610,7 @@
       "RewardExist": 0,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 1
+      "FirstClearDiamond": 50
     },
     {
       "Index": 2,
@@ -10626,7 +10626,7 @@
       "RewardExist": 0,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 1
+      "FirstClearDiamond": 50
     },
     {
       "Index": 3,
@@ -10642,7 +10642,7 @@
       "RewardExist": 0,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 1
+      "FirstClearDiamond": 50
     },
     {
       "Index": 4,
@@ -10658,7 +10658,7 @@
       "RewardExist": 0,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 1
+      "FirstClearDiamond": 50
     },
     {
       "Index": 5,
@@ -10674,7 +10674,7 @@
       "RewardExist": 0,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 1
+      "FirstClearDiamond": 50
     },
     {
       "Index": 6,
@@ -10690,7 +10690,7 @@
       "RewardExist": 0,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 1
+      "FirstClearDiamond": 50
     },
     {
       "Index": 7,
@@ -10706,7 +10706,7 @@
       "RewardExist": 0,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 1
+      "FirstClearDiamond": 50
     },
     {
       "Index": 8,
@@ -10722,7 +10722,7 @@
       "RewardExist": 0,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 1
+      "FirstClearDiamond": 50
     },
     {
       "Index": 9,
@@ -10738,7 +10738,7 @@
       "RewardExist": 1,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 1
+      "FirstClearDiamond": 50
     },
     {
       "Index": 10,
@@ -10754,7 +10754,7 @@
       "RewardExist": 1,
       "RewardTimeEnergy": 15,
       "NameStringId": 0,
-      "FirstClearDiamond": 4
+      "FirstClearDiamond": 53
     },
     {
       "Index": 11,
@@ -10770,7 +10770,7 @@
       "RewardExist": 1,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 2
+      "FirstClearDiamond": 51
     },
     {
       "Index": 12,
@@ -10786,7 +10786,7 @@
       "RewardExist": 1,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 2
+      "FirstClearDiamond": 51
     },
     {
       "Index": 13,
@@ -10802,7 +10802,7 @@
       "RewardExist": 1,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 2
+      "FirstClearDiamond": 51
     },
     {
       "Index": 14,
@@ -10818,7 +10818,7 @@
       "RewardExist": 1,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 2
+      "FirstClearDiamond": 51
     },
     {
       "Index": 15,
@@ -10834,7 +10834,7 @@
       "RewardExist": 1,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 2
+      "FirstClearDiamond": 51
     },
     {
       "Index": 16,
@@ -10850,7 +10850,7 @@
       "RewardExist": 1,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 2
+      "FirstClearDiamond": 51
     },
     {
       "Index": 17,
@@ -10866,7 +10866,7 @@
       "RewardExist": 1,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 2
+      "FirstClearDiamond": 51
     },
     {
       "Index": 18,
@@ -10882,7 +10882,7 @@
       "RewardExist": 1,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 2
+      "FirstClearDiamond": 51
     },
     {
       "Index": 19,
@@ -10898,7 +10898,7 @@
       "RewardExist": 1,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 2
+      "FirstClearDiamond": 51
     },
     {
       "Index": 20,
@@ -10914,7 +10914,7 @@
       "RewardExist": 2,
       "RewardTimeEnergy": 20,
       "NameStringId": 0,
-      "FirstClearDiamond": 5
+      "FirstClearDiamond": 54
     },
     {
       "Index": 21,
@@ -10930,7 +10930,7 @@
       "RewardExist": 1,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 2
+      "FirstClearDiamond": 51
     },
     {
       "Index": 22,
@@ -10946,7 +10946,7 @@
       "RewardExist": 1,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 2
+      "FirstClearDiamond": 51
     },
     {
       "Index": 23,
@@ -10962,7 +10962,7 @@
       "RewardExist": 1,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 2
+      "FirstClearDiamond": 51
     },
     {
       "Index": 24,
@@ -10978,7 +10978,7 @@
       "RewardExist": 2,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 2
+      "FirstClearDiamond": 51
     },
     {
       "Index": 25,
@@ -10994,7 +10994,7 @@
       "RewardExist": 2,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 2
+      "FirstClearDiamond": 51
     },
     {
       "Index": 26,
@@ -11010,7 +11010,7 @@
       "RewardExist": 2,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 2
+      "FirstClearDiamond": 51
     },
     {
       "Index": 27,
@@ -11026,7 +11026,7 @@
       "RewardExist": 2,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 2
+      "FirstClearDiamond": 51
     },
     {
       "Index": 28,
@@ -11042,7 +11042,7 @@
       "RewardExist": 2,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 2
+      "FirstClearDiamond": 51
     },
     {
       "Index": 29,
@@ -11058,7 +11058,7 @@
       "RewardExist": 2,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 2
+      "FirstClearDiamond": 51
     },
     {
       "Index": 30,
@@ -11074,7 +11074,7 @@
       "RewardExist": 4,
       "RewardTimeEnergy": 25,
       "NameStringId": 0,
-      "FirstClearDiamond": 5
+      "FirstClearDiamond": 54
     },
     {
       "Index": 31,
@@ -11090,7 +11090,7 @@
       "RewardExist": 2,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 2
+      "FirstClearDiamond": 51
     },
     {
       "Index": 32,
@@ -11106,7 +11106,7 @@
       "RewardExist": 2,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 2
+      "FirstClearDiamond": 51
     },
     {
       "Index": 33,
@@ -11122,7 +11122,7 @@
       "RewardExist": 2,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 2
+      "FirstClearDiamond": 51
     },
     {
       "Index": 34,
@@ -11138,7 +11138,7 @@
       "RewardExist": 2,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 2
+      "FirstClearDiamond": 51
     },
     {
       "Index": 35,
@@ -11154,7 +11154,7 @@
       "RewardExist": 2,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 2
+      "FirstClearDiamond": 51
     },
     {
       "Index": 36,
@@ -11170,7 +11170,7 @@
       "RewardExist": 3,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 2
+      "FirstClearDiamond": 51
     },
     {
       "Index": 37,
@@ -11186,7 +11186,7 @@
       "RewardExist": 3,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 2
+      "FirstClearDiamond": 51
     },
     {
       "Index": 38,
@@ -11202,7 +11202,7 @@
       "RewardExist": 3,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 2
+      "FirstClearDiamond": 51
     },
     {
       "Index": 39,
@@ -11218,7 +11218,7 @@
       "RewardExist": 4,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 2
+      "FirstClearDiamond": 51
     },
     {
       "Index": 40,
@@ -11234,7 +11234,7 @@
       "RewardExist": 5,
       "RewardTimeEnergy": 30,
       "NameStringId": 0,
-      "FirstClearDiamond": 7
+      "FirstClearDiamond": 55
     },
     {
       "Index": 41,
@@ -11250,7 +11250,7 @@
       "RewardExist": 3,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 3
+      "FirstClearDiamond": 52
     },
     {
       "Index": 42,
@@ -11266,7 +11266,7 @@
       "RewardExist": 3,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 3
+      "FirstClearDiamond": 52
     },
     {
       "Index": 43,
@@ -11282,7 +11282,7 @@
       "RewardExist": 3,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 3
+      "FirstClearDiamond": 52
     },
     {
       "Index": 44,
@@ -11298,7 +11298,7 @@
       "RewardExist": 3,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 3
+      "FirstClearDiamond": 52
     },
     {
       "Index": 45,
@@ -11314,7 +11314,7 @@
       "RewardExist": 4,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 3
+      "FirstClearDiamond": 52
     },
     {
       "Index": 46,
@@ -11330,7 +11330,7 @@
       "RewardExist": 4,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 3
+      "FirstClearDiamond": 52
     },
     {
       "Index": 47,
@@ -11346,7 +11346,7 @@
       "RewardExist": 5,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 3
+      "FirstClearDiamond": 52
     },
     {
       "Index": 48,
@@ -11362,7 +11362,7 @@
       "RewardExist": 5,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 3
+      "FirstClearDiamond": 52
     },
     {
       "Index": 49,
@@ -11378,7 +11378,7 @@
       "RewardExist": 6,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 3
+      "FirstClearDiamond": 52
     },
     {
       "Index": 50,
@@ -11394,7 +11394,7 @@
       "RewardExist": 7,
       "RewardTimeEnergy": 35,
       "NameStringId": 0,
-      "FirstClearDiamond": 8
+      "FirstClearDiamond": 56
     },
     {
       "Index": 51,
@@ -11410,7 +11410,7 @@
       "RewardExist": 3,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 3
+      "FirstClearDiamond": 52
     },
     {
       "Index": 52,
@@ -11426,7 +11426,7 @@
       "RewardExist": 4,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 3
+      "FirstClearDiamond": 52
     },
     {
       "Index": 53,
@@ -11442,7 +11442,7 @@
       "RewardExist": 4,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 3
+      "FirstClearDiamond": 52
     },
     {
       "Index": 54,
@@ -11458,7 +11458,7 @@
       "RewardExist": 4,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 3
+      "FirstClearDiamond": 52
     },
     {
       "Index": 55,
@@ -11474,7 +11474,7 @@
       "RewardExist": 5,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 3
+      "FirstClearDiamond": 52
     },
     {
       "Index": 56,
@@ -11490,7 +11490,7 @@
       "RewardExist": 5,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 3
+      "FirstClearDiamond": 52
     },
     {
       "Index": 57,
@@ -11506,7 +11506,7 @@
       "RewardExist": 6,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 3
+      "FirstClearDiamond": 52
     },
     {
       "Index": 58,
@@ -11522,7 +11522,7 @@
       "RewardExist": 6,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 3
+      "FirstClearDiamond": 52
     },
     {
       "Index": 59,
@@ -11538,7 +11538,7 @@
       "RewardExist": 7,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 3
+      "FirstClearDiamond": 52
     },
     {
       "Index": 60,
@@ -11554,7 +11554,7 @@
       "RewardExist": 8,
       "RewardTimeEnergy": 40,
       "NameStringId": 0,
-      "FirstClearDiamond": 10
+      "FirstClearDiamond": 58
     },
     {
       "Index": 61,
@@ -11570,7 +11570,7 @@
       "RewardExist": 4,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 4
+      "FirstClearDiamond": 53
     },
     {
       "Index": 62,
@@ -11586,7 +11586,7 @@
       "RewardExist": 4,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 4
+      "FirstClearDiamond": 53
     },
     {
       "Index": 63,
@@ -11602,7 +11602,7 @@
       "RewardExist": 5,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 4
+      "FirstClearDiamond": 53
     },
     {
       "Index": 64,
@@ -11618,7 +11618,7 @@
       "RewardExist": 5,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 4
+      "FirstClearDiamond": 53
     },
     {
       "Index": 65,
@@ -11634,7 +11634,7 @@
       "RewardExist": 6,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 4
+      "FirstClearDiamond": 53
     },
     {
       "Index": 66,
@@ -11650,7 +11650,7 @@
       "RewardExist": 6,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 4
+      "FirstClearDiamond": 53
     },
     {
       "Index": 67,
@@ -11666,7 +11666,7 @@
       "RewardExist": 7,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 4
+      "FirstClearDiamond": 53
     },
     {
       "Index": 68,
@@ -11682,7 +11682,7 @@
       "RewardExist": 8,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 4
+      "FirstClearDiamond": 53
     },
     {
       "Index": 69,
@@ -11698,7 +11698,7 @@
       "RewardExist": 8,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 4
+      "FirstClearDiamond": 53
     },
     {
       "Index": 70,
@@ -11714,7 +11714,7 @@
       "RewardExist": 9,
       "RewardTimeEnergy": 45,
       "NameStringId": 0,
-      "FirstClearDiamond": 11
+      "FirstClearDiamond": 59
     },
     {
       "Index": 71,
@@ -11730,7 +11730,7 @@
       "RewardExist": 5,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 4
+      "FirstClearDiamond": 53
     },
     {
       "Index": 72,
@@ -11746,7 +11746,7 @@
       "RewardExist": 5,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 4
+      "FirstClearDiamond": 53
     },
     {
       "Index": 73,
@@ -11762,7 +11762,7 @@
       "RewardExist": 5,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 4
+      "FirstClearDiamond": 53
     },
     {
       "Index": 74,
@@ -11778,7 +11778,7 @@
       "RewardExist": 6,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 4
+      "FirstClearDiamond": 53
     },
     {
       "Index": 75,
@@ -11794,7 +11794,7 @@
       "RewardExist": 6,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 4
+      "FirstClearDiamond": 53
     },
     {
       "Index": 76,
@@ -11810,7 +11810,7 @@
       "RewardExist": 7,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 4
+      "FirstClearDiamond": 53
     },
     {
       "Index": 77,
@@ -11826,7 +11826,7 @@
       "RewardExist": 8,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 4
+      "FirstClearDiamond": 53
     },
     {
       "Index": 78,
@@ -11842,7 +11842,7 @@
       "RewardExist": 9,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 4
+      "FirstClearDiamond": 53
     },
     {
       "Index": 79,
@@ -11858,7 +11858,7 @@
       "RewardExist": 10,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 4
+      "FirstClearDiamond": 53
     },
     {
       "Index": 80,
@@ -11874,7 +11874,7 @@
       "RewardExist": 10,
       "RewardTimeEnergy": 50,
       "NameStringId": 0,
-      "FirstClearDiamond": 13
+      "FirstClearDiamond": 61
     },
     {
       "Index": 81,
@@ -11890,7 +11890,7 @@
       "RewardExist": 5,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 5
+      "FirstClearDiamond": 54
     },
     {
       "Index": 82,
@@ -11906,7 +11906,7 @@
       "RewardExist": 6,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 5
+      "FirstClearDiamond": 54
     },
     {
       "Index": 83,
@@ -11922,7 +11922,7 @@
       "RewardExist": 6,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 5
+      "FirstClearDiamond": 54
     },
     {
       "Index": 84,
@@ -11938,7 +11938,7 @@
       "RewardExist": 7,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 5
+      "FirstClearDiamond": 54
     },
     {
       "Index": 85,
@@ -11954,7 +11954,7 @@
       "RewardExist": 8,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 5
+      "FirstClearDiamond": 54
     },
     {
       "Index": 86,
@@ -11970,7 +11970,7 @@
       "RewardExist": 8,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 5
+      "FirstClearDiamond": 54
     },
     {
       "Index": 87,
@@ -11986,7 +11986,7 @@
       "RewardExist": 9,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 5
+      "FirstClearDiamond": 54
     },
     {
       "Index": 88,
@@ -12002,7 +12002,7 @@
       "RewardExist": 11,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 5
+      "FirstClearDiamond": 54
     },
     {
       "Index": 89,
@@ -12018,7 +12018,7 @@
       "RewardExist": 11,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 5
+      "FirstClearDiamond": 54
     },
     {
       "Index": 90,
@@ -12034,7 +12034,7 @@
       "RewardExist": 12,
       "RewardTimeEnergy": 55,
       "NameStringId": 0,
-      "FirstClearDiamond": 16
+      "FirstClearDiamond": 64
     },
     {
       "Index": 91,
@@ -12050,7 +12050,7 @@
       "RewardExist": 6,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 6
+      "FirstClearDiamond": 55
     },
     {
       "Index": 92,
@@ -12066,7 +12066,7 @@
       "RewardExist": 7,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 6
+      "FirstClearDiamond": 55
     },
     {
       "Index": 93,
@@ -12082,7 +12082,7 @@
       "RewardExist": 7,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 6
+      "FirstClearDiamond": 55
     },
     {
       "Index": 94,
@@ -12098,7 +12098,7 @@
       "RewardExist": 8,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 6
+      "FirstClearDiamond": 55
     },
     {
       "Index": 95,
@@ -12114,7 +12114,7 @@
       "RewardExist": 9,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 6
+      "FirstClearDiamond": 55
     },
     {
       "Index": 96,
@@ -12130,7 +12130,7 @@
       "RewardExist": 10,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 6
+      "FirstClearDiamond": 55
     },
     {
       "Index": 97,
@@ -12146,7 +12146,7 @@
       "RewardExist": 11,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 6
+      "FirstClearDiamond": 55
     },
     {
       "Index": 98,
@@ -12162,7 +12162,7 @@
       "RewardExist": 11,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 6
+      "FirstClearDiamond": 55
     },
     {
       "Index": 99,
@@ -12178,7 +12178,7 @@
       "RewardExist": 13,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 6
+      "FirstClearDiamond": 55
     },
     {
       "Index": 100,
@@ -12194,7 +12194,7 @@
       "RewardExist": 13,
       "RewardTimeEnergy": 60,
       "NameStringId": 0,
-      "FirstClearDiamond": 19
+      "FirstClearDiamond": 66
     },
     {
       "Index": 101,
@@ -12210,7 +12210,7 @@
       "RewardExist": 7,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 7
+      "FirstClearDiamond": 55
     },
     {
       "Index": 102,
@@ -12226,7 +12226,7 @@
       "RewardExist": 7,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 7
+      "FirstClearDiamond": 55
     },
     {
       "Index": 103,
@@ -12242,7 +12242,7 @@
       "RewardExist": 8,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 7
+      "FirstClearDiamond": 55
     },
     {
       "Index": 104,
@@ -12258,7 +12258,7 @@
       "RewardExist": 9,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 7
+      "FirstClearDiamond": 55
     },
     {
       "Index": 105,
@@ -12274,7 +12274,7 @@
       "RewardExist": 10,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 7
+      "FirstClearDiamond": 55
     },
     {
       "Index": 106,
@@ -12290,7 +12290,7 @@
       "RewardExist": 11,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 7
+      "FirstClearDiamond": 55
     },
     {
       "Index": 107,
@@ -12306,7 +12306,7 @@
       "RewardExist": 11,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 7
+      "FirstClearDiamond": 55
     },
     {
       "Index": 108,
@@ -12322,7 +12322,7 @@
       "RewardExist": 13,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 7
+      "FirstClearDiamond": 55
     },
     {
       "Index": 109,
@@ -12338,7 +12338,7 @@
       "RewardExist": 14,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 7
+      "FirstClearDiamond": 55
     },
     {
       "Index": 110,
@@ -12354,7 +12354,7 @@
       "RewardExist": 14,
       "RewardTimeEnergy": 65,
       "NameStringId": 0,
-      "FirstClearDiamond": 21
+      "FirstClearDiamond": 68
     },
     {
       "Index": 111,
@@ -12370,7 +12370,7 @@
       "RewardExist": 7,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 8
+      "FirstClearDiamond": 56
     },
     {
       "Index": 112,
@@ -12386,7 +12386,7 @@
       "RewardExist": 8,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 8
+      "FirstClearDiamond": 56
     },
     {
       "Index": 113,
@@ -12402,7 +12402,7 @@
       "RewardExist": 9,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 8
+      "FirstClearDiamond": 56
     },
     {
       "Index": 114,
@@ -12418,7 +12418,7 @@
       "RewardExist": 9,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 8
+      "FirstClearDiamond": 56
     },
     {
       "Index": 115,
@@ -12434,7 +12434,7 @@
       "RewardExist": 11,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 8
+      "FirstClearDiamond": 56
     },
     {
       "Index": 116,
@@ -12450,7 +12450,7 @@
       "RewardExist": 11,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 8
+      "FirstClearDiamond": 56
     },
     {
       "Index": 117,
@@ -12466,7 +12466,7 @@
       "RewardExist": 13,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 8
+      "FirstClearDiamond": 56
     },
     {
       "Index": 118,
@@ -12482,7 +12482,7 @@
       "RewardExist": 14,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 8
+      "FirstClearDiamond": 56
     },
     {
       "Index": 119,
@@ -12498,7 +12498,7 @@
       "RewardExist": 15,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 8
+      "FirstClearDiamond": 56
     },
     {
       "Index": 120,
@@ -12514,7 +12514,7 @@
       "RewardExist": 16,
       "RewardTimeEnergy": 70,
       "NameStringId": 0,
-      "FirstClearDiamond": 25
+      "FirstClearDiamond": 72
     },
     {
       "Index": 121,
@@ -12530,7 +12530,7 @@
       "RewardExist": 8,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 10
+      "FirstClearDiamond": 58
     },
     {
       "Index": 122,
@@ -12546,7 +12546,7 @@
       "RewardExist": 8,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 10
+      "FirstClearDiamond": 58
     },
     {
       "Index": 123,
@@ -12562,7 +12562,7 @@
       "RewardExist": 9,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 10
+      "FirstClearDiamond": 58
     },
     {
       "Index": 124,
@@ -12578,7 +12578,7 @@
       "RewardExist": 10,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 10
+      "FirstClearDiamond": 58
     },
     {
       "Index": 125,
@@ -12594,7 +12594,7 @@
       "RewardExist": 11,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 10
+      "FirstClearDiamond": 58
     },
     {
       "Index": 126,
@@ -12610,7 +12610,7 @@
       "RewardExist": 12,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 10
+      "FirstClearDiamond": 58
     },
     {
       "Index": 127,
@@ -12626,7 +12626,7 @@
       "RewardExist": 14,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 10
+      "FirstClearDiamond": 58
     },
     {
       "Index": 128,
@@ -12642,7 +12642,7 @@
       "RewardExist": 15,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 10
+      "FirstClearDiamond": 58
     },
     {
       "Index": 129,
@@ -12658,7 +12658,7 @@
       "RewardExist": 17,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 10
+      "FirstClearDiamond": 58
     },
     {
       "Index": 130,
@@ -12674,7 +12674,7 @@
       "RewardExist": 17,
       "RewardTimeEnergy": 75,
       "NameStringId": 0,
-      "FirstClearDiamond": 30
+      "FirstClearDiamond": 76
     },
     {
       "Index": 131,
@@ -12690,7 +12690,7 @@
       "RewardExist": 9,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 12
+      "FirstClearDiamond": 60
     },
     {
       "Index": 132,
@@ -12706,7 +12706,7 @@
       "RewardExist": 9,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 12
+      "FirstClearDiamond": 60
     },
     {
       "Index": 133,
@@ -12722,7 +12722,7 @@
       "RewardExist": 11,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 12
+      "FirstClearDiamond": 60
     },
     {
       "Index": 134,
@@ -12738,7 +12738,7 @@
       "RewardExist": 11,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 12
+      "FirstClearDiamond": 60
     },
     {
       "Index": 135,
@@ -12754,7 +12754,7 @@
       "RewardExist": 13,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 12
+      "FirstClearDiamond": 60
     },
     {
       "Index": 136,
@@ -12770,7 +12770,7 @@
       "RewardExist": 14,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 12
+      "FirstClearDiamond": 60
     },
     {
       "Index": 137,
@@ -12786,7 +12786,7 @@
       "RewardExist": 15,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 12
+      "FirstClearDiamond": 60
     },
     {
       "Index": 138,
@@ -12802,7 +12802,7 @@
       "RewardExist": 17,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 12
+      "FirstClearDiamond": 60
     },
     {
       "Index": 139,
@@ -12818,7 +12818,7 @@
       "RewardExist": 19,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 12
+      "FirstClearDiamond": 60
     },
     {
       "Index": 140,
@@ -12834,7 +12834,7 @@
       "RewardExist": 19,
       "RewardTimeEnergy": 80,
       "NameStringId": 0,
-      "FirstClearDiamond": 36
+      "FirstClearDiamond": 82
     },
     {
       "Index": 141,
@@ -12850,7 +12850,7 @@
       "RewardExist": 9,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 14
+      "FirstClearDiamond": 62
     },
     {
       "Index": 142,
@@ -12866,7 +12866,7 @@
       "RewardExist": 10,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 14
+      "FirstClearDiamond": 62
     },
     {
       "Index": 143,
@@ -12882,7 +12882,7 @@
       "RewardExist": 11,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 14
+      "FirstClearDiamond": 62
     },
     {
       "Index": 144,
@@ -12898,7 +12898,7 @@
       "RewardExist": 12,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 14
+      "FirstClearDiamond": 62
     },
     {
       "Index": 145,
@@ -12914,7 +12914,7 @@
       "RewardExist": 14,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 14
+      "FirstClearDiamond": 62
     },
     {
       "Index": 146,
@@ -12930,7 +12930,7 @@
       "RewardExist": 15,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 14
+      "FirstClearDiamond": 62
     },
     {
       "Index": 147,
@@ -12946,7 +12946,7 @@
       "RewardExist": 16,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 14
+      "FirstClearDiamond": 62
     },
     {
       "Index": 148,
@@ -12962,7 +12962,7 @@
       "RewardExist": 18,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 14
+      "FirstClearDiamond": 62
     },
     {
       "Index": 149,
@@ -12978,7 +12978,7 @@
       "RewardExist": 20,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 14
+      "FirstClearDiamond": 62
     },
     {
       "Index": 150,
@@ -12994,7 +12994,7 @@
       "RewardExist": 20,
       "RewardTimeEnergy": 85,
       "NameStringId": 0,
-      "FirstClearDiamond": 42
+      "FirstClearDiamond": 87
     },
     {
       "Index": 151,
@@ -13010,7 +13010,7 @@
       "RewardExist": 10,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 16
+      "FirstClearDiamond": 64
     },
     {
       "Index": 152,
@@ -13026,7 +13026,7 @@
       "RewardExist": 11,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 16
+      "FirstClearDiamond": 64
     },
     {
       "Index": 153,
@@ -13042,7 +13042,7 @@
       "RewardExist": 12,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 16
+      "FirstClearDiamond": 64
     },
     {
       "Index": 154,
@@ -13058,7 +13058,7 @@
       "RewardExist": 13,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 16
+      "FirstClearDiamond": 64
     },
     {
       "Index": 155,
@@ -13074,7 +13074,7 @@
       "RewardExist": 14,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 16
+      "FirstClearDiamond": 64
     },
     {
       "Index": 156,
@@ -13090,7 +13090,7 @@
       "RewardExist": 16,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 16
+      "FirstClearDiamond": 64
     },
     {
       "Index": 157,
@@ -13106,7 +13106,7 @@
       "RewardExist": 17,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 16
+      "FirstClearDiamond": 64
     },
     {
       "Index": 158,
@@ -13122,7 +13122,7 @@
       "RewardExist": 19,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 16
+      "FirstClearDiamond": 64
     },
     {
       "Index": 159,
@@ -13138,7 +13138,7 @@
       "RewardExist": 21,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 16
+      "FirstClearDiamond": 64
     },
     {
       "Index": 160,
@@ -13154,7 +13154,7 @@
       "RewardExist": 21,
       "RewardTimeEnergy": 90,
       "NameStringId": 0,
-      "FirstClearDiamond": 49
+      "FirstClearDiamond": 93
     },
     {
       "Index": 161,
@@ -13170,7 +13170,7 @@
       "RewardExist": 11,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 19
+      "FirstClearDiamond": 66
     },
     {
       "Index": 162,
@@ -13186,7 +13186,7 @@
       "RewardExist": 11,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 19
+      "FirstClearDiamond": 66
     },
     {
       "Index": 163,
@@ -13202,7 +13202,7 @@
       "RewardExist": 13,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 19
+      "FirstClearDiamond": 66
     },
     {
       "Index": 164,
@@ -13218,7 +13218,7 @@
       "RewardExist": 14,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 19
+      "FirstClearDiamond": 66
     },
     {
       "Index": 165,
@@ -13234,7 +13234,7 @@
       "RewardExist": 15,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 19
+      "FirstClearDiamond": 66
     },
     {
       "Index": 166,
@@ -13250,7 +13250,7 @@
       "RewardExist": 17,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 19
+      "FirstClearDiamond": 66
     },
     {
       "Index": 167,
@@ -13266,7 +13266,7 @@
       "RewardExist": 19,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 19
+      "FirstClearDiamond": 66
     },
     {
       "Index": 168,
@@ -13282,7 +13282,7 @@
       "RewardExist": 20,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 19
+      "FirstClearDiamond": 66
     },
     {
       "Index": 169,
@@ -13298,7 +13298,7 @@
       "RewardExist": 23,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 19
+      "FirstClearDiamond": 66
     },
     {
       "Index": 170,
@@ -13314,7 +13314,7 @@
       "RewardExist": 22,
       "RewardTimeEnergy": 95,
       "NameStringId": 0,
-      "FirstClearDiamond": 58
+      "FirstClearDiamond": 101
     },
     {
       "Index": 171,
@@ -13330,7 +13330,7 @@
       "RewardExist": 11,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 23
+      "FirstClearDiamond": 70
     },
     {
       "Index": 172,
@@ -13346,7 +13346,7 @@
       "RewardExist": 12,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 23
+      "FirstClearDiamond": 70
     },
     {
       "Index": 173,
@@ -13362,7 +13362,7 @@
       "RewardExist": 14,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 23
+      "FirstClearDiamond": 70
     },
     {
       "Index": 174,
@@ -13378,7 +13378,7 @@
       "RewardExist": 15,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 23
+      "FirstClearDiamond": 70
     },
     {
       "Index": 175,
@@ -13394,7 +13394,7 @@
       "RewardExist": 17,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 23
+      "FirstClearDiamond": 70
     },
     {
       "Index": 176,
@@ -13410,7 +13410,7 @@
       "RewardExist": 18,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 23
+      "FirstClearDiamond": 70
     },
     {
       "Index": 177,
@@ -13426,7 +13426,7 @@
       "RewardExist": 20,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 23
+      "FirstClearDiamond": 70
     },
     {
       "Index": 178,
@@ -13442,7 +13442,7 @@
       "RewardExist": 22,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 23
+      "FirstClearDiamond": 70
     },
     {
       "Index": 179,
@@ -13458,7 +13458,7 @@
       "RewardExist": 24,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 23
+      "FirstClearDiamond": 70
     },
     {
       "Index": 180,
@@ -13474,7 +13474,7 @@
       "RewardExist": 24,
       "RewardTimeEnergy": 100,
       "NameStringId": 0,
-      "FirstClearDiamond": 69
+      "FirstClearDiamond": 111
     },
     {
       "Index": 181,
@@ -13490,7 +13490,7 @@
       "RewardExist": 12,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 27
+      "FirstClearDiamond": 73
     },
     {
       "Index": 182,
@@ -13506,7 +13506,7 @@
       "RewardExist": 13,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 27
+      "FirstClearDiamond": 73
     },
     {
       "Index": 183,
@@ -13522,7 +13522,7 @@
       "RewardExist": 14,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 27
+      "FirstClearDiamond": 73
     },
     {
       "Index": 184,
@@ -13538,7 +13538,7 @@
       "RewardExist": 16,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 27
+      "FirstClearDiamond": 73
     },
     {
       "Index": 185,
@@ -13554,7 +13554,7 @@
       "RewardExist": 17,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 27
+      "FirstClearDiamond": 73
     },
     {
       "Index": 186,
@@ -13570,7 +13570,7 @@
       "RewardExist": 19,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 27
+      "FirstClearDiamond": 73
     },
     {
       "Index": 187,
@@ -13586,7 +13586,7 @@
       "RewardExist": 21,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 27
+      "FirstClearDiamond": 73
     },
     {
       "Index": 188,
@@ -13602,7 +13602,7 @@
       "RewardExist": 23,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 27
+      "FirstClearDiamond": 73
     },
     {
       "Index": 189,
@@ -13618,7 +13618,7 @@
       "RewardExist": 26,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 27
+      "FirstClearDiamond": 73
     },
     {
       "Index": 190,
@@ -13634,7 +13634,7 @@
       "RewardExist": 25,
       "RewardTimeEnergy": 105,
       "NameStringId": 0,
-      "FirstClearDiamond": 81
+      "FirstClearDiamond": 122
     },
     {
       "Index": 191,
@@ -13650,7 +13650,7 @@
       "RewardExist": 13,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 32
+      "FirstClearDiamond": 78
     },
     {
       "Index": 192,
@@ -13666,7 +13666,7 @@
       "RewardExist": 14,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 32
+      "FirstClearDiamond": 78
     },
     {
       "Index": 193,
@@ -13682,7 +13682,7 @@
       "RewardExist": 15,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 32
+      "FirstClearDiamond": 78
     },
     {
       "Index": 194,
@@ -13698,7 +13698,7 @@
       "RewardExist": 17,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 32
+      "FirstClearDiamond": 78
     },
     {
       "Index": 195,
@@ -13714,7 +13714,7 @@
       "RewardExist": 18,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 32
+      "FirstClearDiamond": 78
     },
     {
       "Index": 196,
@@ -13730,7 +13730,7 @@
       "RewardExist": 20,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 32
+      "FirstClearDiamond": 78
     },
     {
       "Index": 197,
@@ -13746,7 +13746,7 @@
       "RewardExist": 22,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 32
+      "FirstClearDiamond": 78
     },
     {
       "Index": 198,
@@ -13762,7 +13762,7 @@
       "RewardExist": 24,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 32
+      "FirstClearDiamond": 78
     },
     {
       "Index": 199,
@@ -13778,7 +13778,7 @@
       "RewardExist": 27,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 32
+      "FirstClearDiamond": 78
     },
     {
       "Index": 200,
@@ -13794,7 +13794,7 @@
       "RewardExist": 26,
       "RewardTimeEnergy": 110,
       "NameStringId": 0,
-      "FirstClearDiamond": 95
+      "FirstClearDiamond": 135
     },
     {
       "Index": 201,
@@ -13810,7 +13810,7 @@
       "RewardExist": 13,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 37
+      "FirstClearDiamond": 82
     },
     {
       "Index": 202,
@@ -13826,7 +13826,7 @@
       "RewardExist": 14,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 37
+      "FirstClearDiamond": 82
     },
     {
       "Index": 203,
@@ -13842,7 +13842,7 @@
       "RewardExist": 15,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 37
+      "FirstClearDiamond": 82
     },
     {
       "Index": 204,
@@ -13858,7 +13858,7 @@
       "RewardExist": 17,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 37
+      "FirstClearDiamond": 82
     },
     {
       "Index": 205,
@@ -13874,7 +13874,7 @@
       "RewardExist": 18,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 37
+      "FirstClearDiamond": 82
     },
     {
       "Index": 206,
@@ -13890,7 +13890,7 @@
       "RewardExist": 20,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 37
+      "FirstClearDiamond": 82
     },
     {
       "Index": 207,
@@ -13906,7 +13906,7 @@
       "RewardExist": 22,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 37
+      "FirstClearDiamond": 82
     },
     {
       "Index": 208,
@@ -13922,7 +13922,7 @@
       "RewardExist": 24,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 37
+      "FirstClearDiamond": 82
     },
     {
       "Index": 209,
@@ -13938,7 +13938,7 @@
       "RewardExist": 27,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 37
+      "FirstClearDiamond": 82
     },
     {
       "Index": 210,
@@ -13954,7 +13954,7 @@
       "RewardExist": 26,
       "RewardTimeEnergy": 115,
       "NameStringId": 0,
-      "FirstClearDiamond": 112
+      "FirstClearDiamond": 150
     },
     {
       "Index": 211,
@@ -13970,7 +13970,7 @@
       "RewardExist": 13,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 44
+      "FirstClearDiamond": 89
     },
     {
       "Index": 212,
@@ -13986,7 +13986,7 @@
       "RewardExist": 14,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 44
+      "FirstClearDiamond": 89
     },
     {
       "Index": 213,
@@ -14002,7 +14002,7 @@
       "RewardExist": 15,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 44
+      "FirstClearDiamond": 89
     },
     {
       "Index": 214,
@@ -14018,7 +14018,7 @@
       "RewardExist": 17,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 44
+      "FirstClearDiamond": 89
     },
     {
       "Index": 215,
@@ -14034,7 +14034,7 @@
       "RewardExist": 18,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 44
+      "FirstClearDiamond": 89
     },
     {
       "Index": 216,
@@ -14050,7 +14050,7 @@
       "RewardExist": 20,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 44
+      "FirstClearDiamond": 89
     },
     {
       "Index": 217,
@@ -14066,7 +14066,7 @@
       "RewardExist": 22,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 44
+      "FirstClearDiamond": 89
     },
     {
       "Index": 218,
@@ -14082,7 +14082,7 @@
       "RewardExist": 24,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 44
+      "FirstClearDiamond": 89
     },
     {
       "Index": 219,
@@ -14098,7 +14098,7 @@
       "RewardExist": 27,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 44
+      "FirstClearDiamond": 89
     },
     {
       "Index": 220,
@@ -14114,7 +14114,7 @@
       "RewardExist": 26,
       "RewardTimeEnergy": 120,
       "NameStringId": 0,
-      "FirstClearDiamond": 133
+      "FirstClearDiamond": 169
     },
     {
       "Index": 221,
@@ -14130,7 +14130,7 @@
       "RewardExist": 13,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 52
+      "FirstClearDiamond": 96
     },
     {
       "Index": 222,
@@ -14146,7 +14146,7 @@
       "RewardExist": 14,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 52
+      "FirstClearDiamond": 96
     },
     {
       "Index": 223,
@@ -14162,7 +14162,7 @@
       "RewardExist": 15,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 52
+      "FirstClearDiamond": 96
     },
     {
       "Index": 224,
@@ -14178,7 +14178,7 @@
       "RewardExist": 17,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 52
+      "FirstClearDiamond": 96
     },
     {
       "Index": 225,
@@ -14194,7 +14194,7 @@
       "RewardExist": 18,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 52
+      "FirstClearDiamond": 96
     },
     {
       "Index": 226,
@@ -14210,7 +14210,7 @@
       "RewardExist": 20,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 52
+      "FirstClearDiamond": 96
     },
     {
       "Index": 227,
@@ -14226,7 +14226,7 @@
       "RewardExist": 22,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 52
+      "FirstClearDiamond": 96
     },
     {
       "Index": 228,
@@ -14242,7 +14242,7 @@
       "RewardExist": 24,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 52
+      "FirstClearDiamond": 96
     },
     {
       "Index": 229,
@@ -14258,7 +14258,7 @@
       "RewardExist": 27,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 52
+      "FirstClearDiamond": 96
     },
     {
       "Index": 230,
@@ -14274,7 +14274,7 @@
       "RewardExist": 26,
       "RewardTimeEnergy": 125,
       "NameStringId": 0,
-      "FirstClearDiamond": 157
+      "FirstClearDiamond": 191
     },
     {
       "Index": 231,
@@ -14290,7 +14290,7 @@
       "RewardExist": 13,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 62
+      "FirstClearDiamond": 105
     },
     {
       "Index": 232,
@@ -14306,7 +14306,7 @@
       "RewardExist": 14,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 62
+      "FirstClearDiamond": 105
     },
     {
       "Index": 233,
@@ -14322,7 +14322,7 @@
       "RewardExist": 15,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 62
+      "FirstClearDiamond": 105
     },
     {
       "Index": 234,
@@ -14338,7 +14338,7 @@
       "RewardExist": 17,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 62
+      "FirstClearDiamond": 105
     },
     {
       "Index": 235,
@@ -14354,7 +14354,7 @@
       "RewardExist": 18,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 62
+      "FirstClearDiamond": 105
     },
     {
       "Index": 236,
@@ -14370,7 +14370,7 @@
       "RewardExist": 20,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 62
+      "FirstClearDiamond": 105
     },
     {
       "Index": 237,
@@ -14386,7 +14386,7 @@
       "RewardExist": 22,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 62
+      "FirstClearDiamond": 105
     },
     {
       "Index": 238,
@@ -14402,7 +14402,7 @@
       "RewardExist": 24,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 62
+      "FirstClearDiamond": 105
     },
     {
       "Index": 239,
@@ -14418,7 +14418,7 @@
       "RewardExist": 27,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 62
+      "FirstClearDiamond": 105
     },
     {
       "Index": 240,
@@ -14434,7 +14434,7 @@
       "RewardExist": 26,
       "RewardTimeEnergy": 130,
       "NameStringId": 0,
-      "FirstClearDiamond": 185
+      "FirstClearDiamond": 216
     },
     {
       "Index": 241,
@@ -14450,7 +14450,7 @@
       "RewardExist": 13,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 73
+      "FirstClearDiamond": 115
     },
     {
       "Index": 242,
@@ -14466,7 +14466,7 @@
       "RewardExist": 14,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 73
+      "FirstClearDiamond": 115
     },
     {
       "Index": 243,
@@ -14482,7 +14482,7 @@
       "RewardExist": 15,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 73
+      "FirstClearDiamond": 115
     },
     {
       "Index": 244,
@@ -14498,7 +14498,7 @@
       "RewardExist": 17,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 73
+      "FirstClearDiamond": 115
     },
     {
       "Index": 245,
@@ -14514,7 +14514,7 @@
       "RewardExist": 18,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 73
+      "FirstClearDiamond": 115
     },
     {
       "Index": 246,
@@ -14530,7 +14530,7 @@
       "RewardExist": 20,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 73
+      "FirstClearDiamond": 115
     },
     {
       "Index": 247,
@@ -14546,7 +14546,7 @@
       "RewardExist": 22,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 73
+      "FirstClearDiamond": 115
     },
     {
       "Index": 248,
@@ -14562,7 +14562,7 @@
       "RewardExist": 24,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 73
+      "FirstClearDiamond": 115
     },
     {
       "Index": 249,
@@ -14578,7 +14578,7 @@
       "RewardExist": 27,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 73
+      "FirstClearDiamond": 115
     },
     {
       "Index": 250,
@@ -14594,7 +14594,7 @@
       "RewardExist": 26,
       "RewardTimeEnergy": 135,
       "NameStringId": 0,
-      "FirstClearDiamond": 219
+      "FirstClearDiamond": 247
     },
     {
       "Index": 251,
@@ -14610,7 +14610,7 @@
       "RewardExist": 13,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 86
+      "FirstClearDiamond": 127
     },
     {
       "Index": 252,
@@ -14626,7 +14626,7 @@
       "RewardExist": 14,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 86
+      "FirstClearDiamond": 127
     },
     {
       "Index": 253,
@@ -14642,7 +14642,7 @@
       "RewardExist": 15,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 86
+      "FirstClearDiamond": 127
     },
     {
       "Index": 254,
@@ -14658,7 +14658,7 @@
       "RewardExist": 17,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 86
+      "FirstClearDiamond": 127
     },
     {
       "Index": 255,
@@ -14674,7 +14674,7 @@
       "RewardExist": 18,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 86
+      "FirstClearDiamond": 127
     },
     {
       "Index": 256,
@@ -14690,7 +14690,7 @@
       "RewardExist": 20,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 86
+      "FirstClearDiamond": 127
     },
     {
       "Index": 257,
@@ -14706,7 +14706,7 @@
       "RewardExist": 22,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 86
+      "FirstClearDiamond": 127
     },
     {
       "Index": 258,
@@ -14722,7 +14722,7 @@
       "RewardExist": 24,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 86
+      "FirstClearDiamond": 127
     },
     {
       "Index": 259,
@@ -14738,7 +14738,7 @@
       "RewardExist": 27,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 86
+      "FirstClearDiamond": 127
     },
     {
       "Index": 260,
@@ -14754,7 +14754,7 @@
       "RewardExist": 26,
       "RewardTimeEnergy": 140,
       "NameStringId": 0,
-      "FirstClearDiamond": 258
+      "FirstClearDiamond": 282
     },
     {
       "Index": 261,
@@ -14770,7 +14770,7 @@
       "RewardExist": 13,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 102
+      "FirstClearDiamond": 141
     },
     {
       "Index": 262,
@@ -14786,7 +14786,7 @@
       "RewardExist": 14,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 102
+      "FirstClearDiamond": 141
     },
     {
       "Index": 263,
@@ -14802,7 +14802,7 @@
       "RewardExist": 15,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 102
+      "FirstClearDiamond": 141
     },
     {
       "Index": 264,
@@ -14818,7 +14818,7 @@
       "RewardExist": 17,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 102
+      "FirstClearDiamond": 141
     },
     {
       "Index": 265,
@@ -14834,7 +14834,7 @@
       "RewardExist": 18,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 102
+      "FirstClearDiamond": 141
     },
     {
       "Index": 266,
@@ -14850,7 +14850,7 @@
       "RewardExist": 20,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 102
+      "FirstClearDiamond": 141
     },
     {
       "Index": 267,
@@ -14866,7 +14866,7 @@
       "RewardExist": 22,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 102
+      "FirstClearDiamond": 141
     },
     {
       "Index": 268,
@@ -14882,7 +14882,7 @@
       "RewardExist": 24,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 102
+      "FirstClearDiamond": 141
     },
     {
       "Index": 269,
@@ -14898,7 +14898,7 @@
       "RewardExist": 27,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 102
+      "FirstClearDiamond": 141
     },
     {
       "Index": 270,
@@ -14914,7 +14914,7 @@
       "RewardExist": 26,
       "RewardTimeEnergy": 145,
       "NameStringId": 0,
-      "FirstClearDiamond": 305
+      "FirstClearDiamond": 324
     },
     {
       "Index": 271,
@@ -14930,7 +14930,7 @@
       "RewardExist": 13,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 120
+      "FirstClearDiamond": 157
     },
     {
       "Index": 272,
@@ -14946,7 +14946,7 @@
       "RewardExist": 14,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 120
+      "FirstClearDiamond": 157
     },
     {
       "Index": 273,
@@ -14962,7 +14962,7 @@
       "RewardExist": 15,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 120
+      "FirstClearDiamond": 157
     },
     {
       "Index": 274,
@@ -14978,7 +14978,7 @@
       "RewardExist": 17,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 120
+      "FirstClearDiamond": 157
     },
     {
       "Index": 275,
@@ -14994,7 +14994,7 @@
       "RewardExist": 18,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 120
+      "FirstClearDiamond": 157
     },
     {
       "Index": 276,
@@ -15010,7 +15010,7 @@
       "RewardExist": 20,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 120
+      "FirstClearDiamond": 157
     },
     {
       "Index": 277,
@@ -15026,7 +15026,7 @@
       "RewardExist": 22,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 120
+      "FirstClearDiamond": 157
     },
     {
       "Index": 278,
@@ -15042,7 +15042,7 @@
       "RewardExist": 24,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 120
+      "FirstClearDiamond": 157
     },
     {
       "Index": 279,
@@ -15058,7 +15058,7 @@
       "RewardExist": 27,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 120
+      "FirstClearDiamond": 157
     },
     {
       "Index": 280,
@@ -15074,7 +15074,7 @@
       "RewardExist": 26,
       "RewardTimeEnergy": 150,
       "NameStringId": 0,
-      "FirstClearDiamond": 359
+      "FirstClearDiamond": 373
     },
     {
       "Index": 281,
@@ -15090,7 +15090,7 @@
       "RewardExist": 13,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 141
+      "FirstClearDiamond": 176
     },
     {
       "Index": 282,
@@ -15106,7 +15106,7 @@
       "RewardExist": 14,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 141
+      "FirstClearDiamond": 176
     },
     {
       "Index": 283,
@@ -15122,7 +15122,7 @@
       "RewardExist": 15,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 141
+      "FirstClearDiamond": 176
     },
     {
       "Index": 284,
@@ -15138,7 +15138,7 @@
       "RewardExist": 17,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 141
+      "FirstClearDiamond": 176
     },
     {
       "Index": 285,
@@ -15154,7 +15154,7 @@
       "RewardExist": 18,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 141
+      "FirstClearDiamond": 176
     },
     {
       "Index": 286,
@@ -15170,7 +15170,7 @@
       "RewardExist": 20,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 141
+      "FirstClearDiamond": 176
     },
     {
       "Index": 287,
@@ -15186,7 +15186,7 @@
       "RewardExist": 22,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 141
+      "FirstClearDiamond": 176
     },
     {
       "Index": 288,
@@ -15202,7 +15202,7 @@
       "RewardExist": 24,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 141
+      "FirstClearDiamond": 176
     },
     {
       "Index": 289,
@@ -15218,7 +15218,7 @@
       "RewardExist": 27,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 141
+      "FirstClearDiamond": 176
     },
     {
       "Index": 290,
@@ -15234,7 +15234,7 @@
       "RewardExist": 26,
       "RewardTimeEnergy": 155,
       "NameStringId": 0,
-      "FirstClearDiamond": 424
+      "FirstClearDiamond": 431
     },
     {
       "Index": 291,
@@ -15250,7 +15250,7 @@
       "RewardExist": 13,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 167
+      "FirstClearDiamond": 200
     },
     {
       "Index": 292,
@@ -15266,7 +15266,7 @@
       "RewardExist": 14,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 167
+      "FirstClearDiamond": 200
     },
     {
       "Index": 293,
@@ -15282,7 +15282,7 @@
       "RewardExist": 15,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 167
+      "FirstClearDiamond": 200
     },
     {
       "Index": 294,
@@ -15298,7 +15298,7 @@
       "RewardExist": 17,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 167
+      "FirstClearDiamond": 200
     },
     {
       "Index": 295,
@@ -15314,7 +15314,7 @@
       "RewardExist": 18,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 167
+      "FirstClearDiamond": 200
     },
     {
       "Index": 296,
@@ -15330,7 +15330,7 @@
       "RewardExist": 20,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 167
+      "FirstClearDiamond": 200
     },
     {
       "Index": 297,
@@ -15346,7 +15346,7 @@
       "RewardExist": 22,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 167
+      "FirstClearDiamond": 200
     },
     {
       "Index": 298,
@@ -15362,7 +15362,7 @@
       "RewardExist": 24,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 167
+      "FirstClearDiamond": 200
     },
     {
       "Index": 299,
@@ -15378,7 +15378,7 @@
       "RewardExist": 27,
       "RewardTimeEnergy": 0,
       "NameStringId": 0,
-      "FirstClearDiamond": 167
+      "FirstClearDiamond": 200
     },
     {
       "Index": 300,
