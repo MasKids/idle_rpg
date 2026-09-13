@@ -5,6 +5,7 @@ export interface DamagePopup {
   id: number
   amount: number
   isCrit: boolean
+  critCount: number
 }
 
 export interface FirstClearToast {
@@ -42,7 +43,10 @@ export function useBattleLoop() {
     lastHitId.current = lastHit.id
 
     const id = lastHit.id
-    setPopups((prev) => [...prev.slice(-(MAX_VISIBLE_POPUPS - 1)), { id, amount: lastHit.amount, isCrit: lastHit.isCrit }])
+    setPopups((prev) => [
+      ...prev.slice(-(MAX_VISIBLE_POPUPS - 1)),
+      { id, amount: lastHit.amount, isCrit: lastHit.isCrit, critCount: lastHit.critCount },
+    ])
     setTimeout(() => {
       setPopups((prev) => prev.filter((popup) => popup.id !== id))
     }, POPUP_LIFETIME_MS)

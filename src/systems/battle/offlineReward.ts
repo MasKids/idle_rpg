@@ -23,10 +23,16 @@ export interface OfflineRewardResult {
   }
 }
 
-// 실제 전투 로직(calculateDamage)의 치명타 기댓값과 동일한 공식:
-// 평균 데미지 = atk * (1 + (crit/100) * (critDmg/100 - 1))
+// 실제 전투 로직(calculateDamage)의 다중 치명타(v0.4.0) 기댓값과 동일한 공식.
+// 치확이 100%를 넘으면 100%마다 확정 치명타(guaranteedCrits), 남은 소수 부분이
+// 그다음 1회의 확률(p)이고, 치명타 배율은 발동 횟수만큼 거듭제곱된다:
+//   평균 데미지 = atk × (critDmg/100)^guaranteedCrits × (1 + p × (critDmg/100 - 1))
+// 치확이 100% 미만이면 guaranteedCrits=0이라 기존 공식과 완전히 동일하다.
 function averageDamagePerHit(stats: Record<StatKey, number>): number {
-  return stats.atk * (1 + (stats.crit / 100) * (stats.critDmg / 100 - 1))
+  const guaranteedCrits = Math.floor(stats.crit / 100)
+  const p = (stats.crit - guaranteedCrits * 100) / 100
+  const critMultiplier = stats.critDmg / 100
+  return stats.atk * critMultiplier ** guaranteedCrits * (1 + p * (critMultiplier - 1))
 }
 
 export function computeOfflineReward(

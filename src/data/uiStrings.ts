@@ -230,12 +230,15 @@ export function getRelicUiLabel(key: RelicUiLabelKey): string {
   return getString(RELIC_UI_LABEL_ID[key], 'KOR', key)
 }
 
-export type GrowthUiLabelKey = 'statSubTab' | 'masterySubTab' | 'autoUpgrade'
+export type GrowthUiLabelKey = 'statSubTab' | 'masterySubTab' | 'autoUpgrade' | 'critOverflowHint'
 
 const GROWTH_UI_LABEL_ID: Record<GrowthUiLabelKey, number> = {
   statSubTab: 40104,
   masterySubTab: 40105,
   autoUpgrade: 40134,
+  // v0.4.0 다중 치명타 — 40000대가 꽉 차 있어 52000대(다른 v0.4.0 신규
+  // 문자열과 같은 대역)에 잡았다.
+  critOverflowHint: 52310,
 }
 
 export function getGrowthUiLabel(key: GrowthUiLabelKey): string {

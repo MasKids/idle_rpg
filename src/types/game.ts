@@ -68,6 +68,8 @@ export interface BattleHit {
   id: number
   amount: number
   isCrit: boolean
+  // 치명타 발동 횟수(v0.4.0 다중 치명타) — calculateDamage.ts 참고.
+  critCount: number
 }
 
 // 무기 숙련

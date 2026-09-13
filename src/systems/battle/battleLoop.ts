@@ -32,10 +32,10 @@ function tick() {
     // 백그라운드 탭이라 setTimeout(0)이 지연되는 경우 등)면 이번 틱은 공격하지 않고
     // 넘어간다. 안 그러면 이미 죽은("HP 0") 적을 또 때려서 처치가 중복 집계된다.
     if (state.battle.enemyHp > 0) {
-      const { amount, isCrit } = calculateDamage(state.stats)
+      const { amount, isCrit, critCount } = calculateDamage(state.stats)
 
       hitCounter += 1
-      useGameStore.setState({ lastHit: { id: hitCounter, amount, isCrit } })
+      useGameStore.setState({ lastHit: { id: hitCounter, amount, isCrit, critCount } })
       audioManager.playSfx('hit')
 
       const remainingHp = state.battle.enemyHp - amount

@@ -113,6 +113,9 @@ function StatSubTab() {
                 <span className="text-[10px] text-text-secondary">Lv.{level}</span>
               </div>
               <div className="text-[11px] text-text-secondary">{formatStatValue(key, stats[key])}</div>
+              {key === 'crit' && stats[key] >= 100 && (
+                <div className="text-[10px] text-gold-strong">{getGrowthUiLabel('critOverflowHint')}</div>
+              )}
             </div>
 
             <Button variant="primary" disabled={!canAfford} onClick={() => upgradeStat(key)} className="shrink-0">

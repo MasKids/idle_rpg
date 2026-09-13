@@ -4216,6 +4216,18 @@
       "Id": 55039,
       "KOR": "존재력 트리 일괄 해금 추가",
       "ENG": "Bulk exist tree unlock added"
+    },
+    {
+      "Index": 664,
+      "Id": 52310,
+      "KOR": "100% 초과분은 추가 치명타로 적용됩니다",
+      "ENG": "The amount over 100% triggers extra critical hits"
+    },
+    {
+      "Index": 665,
+      "Id": 55040,
+      "KOR": "치명타 확률 100% 초과 시 다중 치명타",
+      "ENG": "Multi-crit above 100% crit chance"
     }
   ],
   "CurrencyTable": [
@@ -15658,6 +15670,15 @@
       "Category": "ADD",
       "TextStringId": 55039,
       "SortOrder": 16
+    },
+    {
+      "Index": 34,
+      "Id": 33034,
+      "Version": "v0.4.0",
+      "ReleaseDate": "2026-09-12",
+      "Category": "ADD",
+      "TextStringId": 55040,
+      "SortOrder": 17
     }
   ],
   "RelicSlotTable": [

@@ -249,12 +249,16 @@ export function BattleArea({ onStageInfoClick, onTimeHeistClick, onRankingClick,
         {popups.map((popup) => {
           const left = 50 + ((popup.id * 37) % 44) - 22
           const topJitter = (popup.id * 13) % 20 - 10
+          // 다중 치명타(v0.4.0)는 기존 치명타 색/연출은 그대로 두고 글자 크기만
+          // 한 단계 더 키우고 "×N"을 붙여 구분한다 — 색을 따로 늘리면 과해 보여서
+          // (요청 "과하지 않게") 크기 차이 하나로만 표시.
+          const isMultiCrit = popup.critCount >= 2
           return (
             <span
               key={popup.id}
               className={`pointer-events-none absolute top-1/2 font-bold ${
                 popup.isCrit
-                  ? 'text-lg text-gold-strong drop-shadow-[0_0_4px_rgba(0,0,0,0.6)]'
+                  ? `${isMultiCrit ? 'text-xl' : 'text-lg'} text-gold-strong drop-shadow-[0_0_4px_rgba(0,0,0,0.6)]`
                   : 'text-sm text-text-primary'
               }`}
               style={{
@@ -265,7 +269,7 @@ export function BattleArea({ onStageInfoClick, onTimeHeistClick, onRankingClick,
                   : 'float-up 700ms ease-out forwards',
               }}
             >
-              {popup.isCrit ? `${popup.amount}!` : popup.amount}
+              {popup.isCrit ? `${popup.amount}!${isMultiCrit ? `×${popup.critCount}` : ''}` : popup.amount}
             </span>
           )
         })}
