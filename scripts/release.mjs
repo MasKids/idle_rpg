@@ -40,12 +40,20 @@ function step(message) {
   console.log(`\n[release] ${message}`)
 }
 
+// npm은 Windows에서 실체가 npm.cmd(배치 파일)라 shell:true 없이 execFileSync로
+// 실행하면 EINVAL이 난다. 그런데 shell:true는 인자를 공백으로 이어붙이기만 하고
+// 따옴표로 감싸주지 않아, 공백이 든 인자(커밋 메시지 등)를 그대로 넘기면 깨진다
+// (실제로 겪음 — git commit -m "chore: prepare vX 릴리스"가 단어별로 쪼개져
+// pathspec 오류가 났다). 그래서 npm 호출에만 shell:true를 쓰고(이 프로젝트의
+// npm 호출 인자엔 공백이 없어 안전), git/node/gh처럼 실제 .exe인 명령은 shell
+// 없이 그대로 실행해 인자가 공백 포함이어도 깨지지 않게 한다.
 function run(cmd, args, opts = {}) {
-  return execFileSync(cmd, args, { cwd: REPO_ROOT, stdio: 'inherit', shell: process.platform === 'win32', ...opts })
+  const shell = cmd === 'npm' && process.platform === 'win32'
+  return execFileSync(cmd, args, { cwd: REPO_ROOT, stdio: 'inherit', shell, ...opts })
 }
 
 function runCapture(cmd, args) {
-  return execFileSync(cmd, args, { cwd: REPO_ROOT, encoding: 'utf-8', shell: process.platform === 'win32' }).trim()
+  return execFileSync(cmd, args, { cwd: REPO_ROOT, encoding: 'utf-8' }).trim()
 }
 
 async function confirm(question) {
@@ -216,13 +224,13 @@ function printPatchNoteGuidance(version, date, bulletTitles) {
     bulletTitles.forEach((b, i) => {
       const sortOrder = i + 1
       const stringId = nextStringId + i
+      const patchId = nextPatchId + i
       console.log(`# ${i + 1}. [${b.category}] ${b.title}`)
       console.log(`node scripts/append-row.mjs string PatchNote ${stringId} "<20자 내외 한글 요약>" "<English summary>"`)
       console.log(
-        `node scripts/append-row.mjs PatchNoteTable v${version} ${date} ${b.category} ${stringId} ${sortOrder}\n`,
+        `node scripts/append-row.mjs PatchNoteTable ${patchId} v${version} ${date} ${b.category} ${stringId} ${sortOrder}\n`,
       )
     })
-    console.log(`(다음 PatchNoteTable Id는 ${nextPatchId}부터 append-row.mjs가 자동으로 채웁니다.)`)
   }
   console.log('모두 채워 넣은 뒤 `npm run balance`로 반영을 확인하고, 다음 명령으로 이어서 실행하세요:')
   console.log(`\n  node scripts/release.mjs ${version} --finish\n`)
