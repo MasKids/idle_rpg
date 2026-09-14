@@ -109,6 +109,22 @@ function baseStatsFromLevels(levels: Record<StatKey, number>): Record<StatKey, n
 // 창/활이면 ATK는 기본 공격력만 남고 특화 스탯(ASPD/CRIT)에만 붙는다. 무기 종류를
 // 바꿔도 ATK 깡스탯/퍼센트가 0으로 꺼지지 않는다(기본 공격력은 항상 전체 보유 무기
 // 기준). 리버스 회차 보너스는 리버스 환급량에만 영향을 주고 이 계산에는 관여하지 않는다.
+//
+// CRIT/CRIT_DMG는 예외 — 이 둘은 그 자체가 이미 퍼센트 단위 스탯이라(치확 5 =
+// 크리티컬 확률 5%, 치피 150 = 치명타 데미지 배율 150%) "깡스탯 × (1+퍼센트%)"
+// 곱연산을 적용하면 "퍼센트의 퍼센트"가 되어 버린다(예: 존재력 트리가 주는
+// 치확 5는 원래 "치확에 +5%p"를 의도한 값인데 곱연산에서는 "지금 치확의 5%만큼
+// 증가"로 읽혀 의미가 달라진다). 그래서 이 두 스탯만 깡스탯 합계와 퍼센트 합계를
+// 곱하지 않고 그냥 더한다(순수 가산) — ATK/ASPD/EXIST_GAIN은 기존 곱연산 그대로
+// 유지. CLAUDE.md "밸런싱 방침" 참고.
+const ADDITIVE_STAT_KEYS: ReadonlySet<StatKey> = new Set(['crit', 'critDmg'])
+
+// 무기 보유 효과(specialtyPercent)와 무기 숙련은 WeaponTable.OwnEffectValue/
+// CommonTable.MasteryMultiplierPerLevel 원본 값을 종류 불문 ATK% 보너스와
+// 공유한다 — balance.xlsx에서 값을 깎으면 그 공용 메커니즘까지 같이 깎이므로,
+// CRIT/CRIT_DMG 계열에 한해 이 두 원천만 여기서 코드 레벨로 추가 축소한다
+// (요청받은 배율 그대로 — 치확 관련 수치는 1/2, 치피 관련 수치는 1/10).
+const CRIT_SERIES_PERCENT_SCALE: Partial<Record<StatKey, number>> = { crit: 0.5, critDmg: 0.1 }
 function computeEffectiveStats(
   statLevels: Record<StatKey, number>,
   masteryLevels: Record<string, number>,
@@ -140,14 +156,23 @@ function computeEffectiveStats(
     const primaryStat = masteryPrimaryStat(type)
     // 무기 특화 효과 — 장착은 깡스탯, 보유는 퍼센트
     flatTotal[primaryStat] += weaponBonus.specialtyFlat
-    percentSum[primaryStat] += weaponBonus.specialtyPercent
+    // 무기 보유 효과(specialtyPercent)와 무기 숙련은 WeaponTable.OwnEffectValue/
+    // CommonTable.MasteryMultiplierPerLevel 기준으로, 종류 불문 ATK% 보너스
+    // (weaponBaseAtkOwnPercent)와 같은 원본 값을 공유한다(활의 OwnEffectValue를
+    // 직접 깎으면 ATK% 보너스까지 같이 깎여 "무기 종류 불문 동일 기여" 불변식이
+    // 깨진다). 그래서 원본 값은 그대로 두고, CRIT/CRIT_DMG 계열일 때만 여기서
+    // CRIT_SERIES_PERCENT_SCALE로 한 번 더 줄인다 — WeaponTable/유물 원본 데이터는
+    // 건드리지 않는 코드 레벨 보정이라는 점에서 calculateDamage.ts의
+    // CRIT_CONVERSION_RATE/CRIT_DMG_BONUS_SCALE과 같은 성격이다.
+    const critSeriesScale = CRIT_SERIES_PERCENT_SCALE[primaryStat] ?? 1
+    percentSum[primaryStat] += weaponBonus.specialtyPercent * critSeriesScale
     // 무기 숙련 — 퍼센트
-    percentSum[primaryStat] += masteryBonusPercent(type, masteryLevels[type] ?? 0)
+    percentSum[primaryStat] += masteryBonusPercent(type, masteryLevels[type] ?? 0) * critSeriesScale
   }
 
   const stats = {} as Record<StatKey, number>
   for (const key of STAT_KEYS) {
-    const value = flatTotal[key] * (1 + percentSum[key] / 100)
+    const value = ADDITIVE_STAT_KEYS.has(key) ? flatTotal[key] + percentSum[key] : flatTotal[key] * (1 + percentSum[key] / 100)
     // 밸런스 데이터 이상(예: CommonTable 키 누락) 등으로 값이 깨지면 전투 루프가
     // 조용히 멈춰버린다(NaN은 어떤 비교에도 true가 안 돼 데미지도, 처치 판정도 멈춘다).
     // 그런 사고를 완전히 막을 수는 없지만, 최소한 콘솔에 남기고 깡스탯만으로
