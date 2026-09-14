@@ -133,10 +133,33 @@ async function appendRow(sheetName, values) {
     }
   }
 
+  // 새로 추가하는 행은 값만 채우고 서식(글꼴/정렬/테두리)은 비어있는 게
+  // ExcelJS 기본 동작이라, 표 안에 서식 없는 행이 섞이는 문제가 있었다(실제로
+  // 발생 — 2026-09-14, fix-table-formatting.mjs로 정리). 바로 위 행(rowNum-1)의
+  // 칼럼별 서식을 그대로 복사해 새 행도 표와 이어지게 한다.
+  const prevRow = rowNum > DATA_START_ROW ? ws.getRow(rowNum - 1) : null
+
   ws.getRow(rowNum).getCell(1).value = index
   dataColumns.forEach((col, i) => {
-    ws.getRow(rowNum).getCell(col.index).value = convertValue(values[i], col.type, col.eng)
+    const cell = ws.getRow(rowNum).getCell(col.index)
+    cell.value = convertValue(values[i], col.type, col.eng)
+    if (prevRow) {
+      const prevCell = prevRow.getCell(col.index)
+      if (prevCell.font) cell.font = prevCell.font
+      if (prevCell.alignment) cell.alignment = prevCell.alignment
+      if (prevCell.border) cell.border = prevCell.border
+      if (prevCell.fill) cell.fill = prevCell.fill
+      if (prevCell.numFmt) cell.numFmt = prevCell.numFmt
+    }
   })
+  if (prevRow) {
+    const indexCell = ws.getRow(rowNum).getCell(1)
+    const prevIndexCell = prevRow.getCell(1)
+    if (prevIndexCell.font) indexCell.font = prevIndexCell.font
+    if (prevIndexCell.alignment) indexCell.alignment = prevIndexCell.alignment
+    if (prevIndexCell.border) indexCell.border = prevIndexCell.border
+    if (prevIndexCell.fill) indexCell.fill = prevIndexCell.fill
+  }
 
   await workbook.xlsx.writeFile(XLSX_PATH)
 
