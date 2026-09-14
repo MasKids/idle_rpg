@@ -4349,7 +4349,7 @@
       "StatType": "CRIT",
       "Name": 40004,
       "BaseValue": 0,
-      "ValuePerLevel": 0.5,
+      "ValuePerLevel": 0.353553,
       "CurveKey": "STAT_UPGRADE",
       "MaxLevel": 9999
     },
@@ -4359,7 +4359,7 @@
       "StatType": "CRIT_DMG",
       "Name": 40005,
       "BaseValue": 150,
-      "ValuePerLevel": 2,
+      "ValuePerLevel": 0.632456,
       "CurveKey": "STAT_UPGRADE",
       "MaxLevel": 9999
     },
@@ -4702,7 +4702,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT",
       "GrantCurrency": "",
-      "Value": 5,
+      "Value": 3.535534,
       "Cost": 31
     },
     {
@@ -4715,7 +4715,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT",
       "GrantCurrency": "",
-      "Value": 6,
+      "Value": 4.242641,
       "Cost": 35
     },
     {
@@ -4728,7 +4728,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT",
       "GrantCurrency": "",
-      "Value": 7,
+      "Value": 4.949747,
       "Cost": 40
     },
     {
@@ -4871,7 +4871,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT_DMG",
       "GrantCurrency": "",
-      "Value": 5,
+      "Value": 1.581139,
       "Cost": 186
     },
     {
@@ -4884,7 +4884,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT_DMG",
       "GrantCurrency": "",
-      "Value": 6,
+      "Value": 1.897367,
       "Cost": 212
     },
     {
@@ -4897,7 +4897,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT_DMG",
       "GrantCurrency": "",
-      "Value": 7,
+      "Value": 2.213594,
       "Cost": 244
     },
     {
@@ -4910,7 +4910,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT_DMG",
       "GrantCurrency": "",
-      "Value": 8,
+      "Value": 2.529822,
       "Cost": 280
     },
     {
@@ -4923,7 +4923,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT_DMG",
       "GrantCurrency": "",
-      "Value": 9,
+      "Value": 2.84605,
       "Cost": 322
     },
     {
@@ -4936,7 +4936,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT_DMG",
       "GrantCurrency": "",
-      "Value": 10,
+      "Value": 3.162278,
       "Cost": 369
     },
     {
@@ -5352,7 +5352,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT_DMG",
       "GrantCurrency": "",
-      "Value": 25,
+      "Value": 7.905694,
       "Cost": 25719
     },
     {
@@ -5365,7 +5365,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT_DMG",
       "GrantCurrency": "",
-      "Value": 25.4,
+      "Value": 8.032185,
       "Cost": 28877
     },
     {
@@ -5378,7 +5378,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT_DMG",
       "GrantCurrency": "",
-      "Value": 25.8,
+      "Value": 8.158676,
       "Cost": 32399
     },
     {
@@ -5391,7 +5391,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT",
       "GrantCurrency": "",
-      "Value": 25,
+      "Value": 17.67767,
       "Cost": 36325
     },
     {
@@ -5404,7 +5404,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT",
       "GrantCurrency": "",
-      "Value": 25.4,
+      "Value": 17.960512,
       "Cost": 40698
     },
     {
@@ -5417,7 +5417,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT",
       "GrantCurrency": "",
-      "Value": 25.8,
+      "Value": 18.243355,
       "Cost": 45565
     },
     {
@@ -5430,7 +5430,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT",
       "GrantCurrency": "",
-      "Value": 26.2,
+      "Value": 18.526198,
       "Cost": 50978
     },
     {
@@ -5443,7 +5443,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT",
       "GrantCurrency": "",
-      "Value": 26.6,
+      "Value": 18.80904,
       "Cost": 56993
     },
     {
@@ -5456,7 +5456,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT",
       "GrantCurrency": "",
-      "Value": 27,
+      "Value": 19.091883,
       "Cost": 63672
     },
     {
@@ -5859,7 +5859,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT",
       "GrantCurrency": "",
-      "Value": 28,
+      "Value": 19.79899,
       "Cost": 1382147
     },
     {
@@ -5872,7 +5872,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT",
       "GrantCurrency": "",
-      "Value": 28.4,
+      "Value": 20.081833,
       "Cost": 1508751
     },
     {
@@ -5885,7 +5885,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT",
       "GrantCurrency": "",
-      "Value": 28.8,
+      "Value": 20.364675,
       "Cost": 1645745
     },
     {
@@ -5898,7 +5898,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT",
       "GrantCurrency": "",
-      "Value": 29.2,
+      "Value": 20.647518,
       "Cost": 1793862
     },
     {
@@ -5911,7 +5911,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT",
       "GrantCurrency": "",
-      "Value": 38,
+      "Value": 26.870058,
       "Cost": 1953874
     },
     {
@@ -5924,7 +5924,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT",
       "GrantCurrency": "",
-      "Value": 38.45,
+      "Value": 27.188256,
       "Cost": 2126596
     },
     {
@@ -5937,7 +5937,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT",
       "GrantCurrency": "",
-      "Value": 38.9,
+      "Value": 27.506454,
       "Cost": 2312885
     },
     {
@@ -5950,7 +5950,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT",
       "GrantCurrency": "",
-      "Value": 39.35,
+      "Value": 27.824652,
       "Cost": 2513643
     },
     {
@@ -5963,7 +5963,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT",
       "GrantCurrency": "",
-      "Value": 39.8,
+      "Value": 28.14285,
       "Cost": 2729816
     },
     {
@@ -5976,7 +5976,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT",
       "GrantCurrency": "",
-      "Value": 40.25,
+      "Value": 28.461048,
       "Cost": 2962396
     },
     {
@@ -5989,7 +5989,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT",
       "GrantCurrency": "",
-      "Value": 40.7,
+      "Value": 28.779246,
       "Cost": 3212422
     },
     {
@@ -6041,7 +6041,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT_DMG",
       "GrantCurrency": "",
-      "Value": 38,
+      "Value": 12.016655,
       "Cost": 4409435
     },
     {
@@ -6054,7 +6054,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT_DMG",
       "GrantCurrency": "",
-      "Value": 38.45,
+      "Value": 12.158958,
       "Cost": 4763953
     },
     {
@@ -6067,7 +6067,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT_DMG",
       "GrantCurrency": "",
-      "Value": 38.9,
+      "Value": 12.30126,
       "Cost": 5143163
     },
     {
@@ -6080,7 +6080,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT_DMG",
       "GrantCurrency": "",
-      "Value": 39.35,
+      "Value": 12.443563,
       "Cost": 5548444
     },
     {
@@ -6093,7 +6093,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT_DMG",
       "GrantCurrency": "",
-      "Value": 39.8,
+      "Value": 12.585865,
       "Cost": 5981222
     },
     {
@@ -6106,7 +6106,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT_DMG",
       "GrantCurrency": "",
-      "Value": 40.25,
+      "Value": 12.728168,
       "Cost": 6442972
     },
     {
@@ -6301,7 +6301,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT",
       "GrantCurrency": "",
-      "Value": 41.7,
+      "Value": 29.486353,
       "Cost": 17975355
     },
     {
@@ -6314,7 +6314,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT",
       "GrantCurrency": "",
-      "Value": 42.15,
+      "Value": 29.804551,
       "Cost": 19132967
     },
     {
@@ -6327,7 +6327,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT",
       "GrantCurrency": "",
-      "Value": 42.6,
+      "Value": 30.122749,
       "Cost": 20349823
     },
     {
@@ -6340,7 +6340,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT",
       "GrantCurrency": "",
-      "Value": 43.05,
+      "Value": 30.440947,
       "Cost": 21627791
     },
     {
@@ -6353,7 +6353,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT",
       "GrantCurrency": "",
-      "Value": 43.5,
+      "Value": 30.759145,
       "Cost": 22968714
     },
     {
@@ -6366,7 +6366,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT",
       "GrantCurrency": "",
-      "Value": 43.95,
+      "Value": 31.077343,
       "Cost": 24374399
     },
     {
@@ -6379,7 +6379,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT",
       "GrantCurrency": "",
-      "Value": 44.4,
+      "Value": 31.395541,
       "Cost": 25846612
     },
     {
@@ -6509,7 +6509,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT_DMG",
       "GrantCurrency": "",
-      "Value": 41.25,
+      "Value": 13.044395,
       "Cost": 44568956
     },
     {
@@ -6522,7 +6522,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT_DMG",
       "GrantCurrency": "",
-      "Value": 41.7,
+      "Value": 13.186698,
       "Cost": 46868714
     },
     {
@@ -6535,7 +6535,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT_DMG",
       "GrantCurrency": "",
-      "Value": 42.15,
+      "Value": 13.329,
       "Cost": 49249644
     },
     {
@@ -6548,7 +6548,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT_DMG",
       "GrantCurrency": "",
-      "Value": 42.6,
+      "Value": 13.471303,
       "Cost": 51712126
     },
     {
@@ -6561,7 +6561,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT_DMG",
       "GrantCurrency": "",
-      "Value": 51,
+      "Value": 16.127616,
       "Cost": 54256362
     },
     {
@@ -6574,7 +6574,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT_DMG",
       "GrantCurrency": "",
-      "Value": 51.5,
+      "Value": 16.28573,
       "Cost": 56882369
     },
     {
@@ -6587,7 +6587,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT_DMG",
       "GrantCurrency": "",
-      "Value": 52,
+      "Value": 16.443844,
       "Cost": 59589969
     },
     {
@@ -6600,7 +6600,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT_DMG",
       "GrantCurrency": "",
-      "Value": 52.5,
+      "Value": 16.601958,
       "Cost": 62378779
     },
     {
@@ -6613,7 +6613,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT_DMG",
       "GrantCurrency": "",
-      "Value": 53,
+      "Value": 16.760072,
       "Cost": 65248202
     },
     {
@@ -6626,7 +6626,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT_DMG",
       "GrantCurrency": "",
-      "Value": 53.5,
+      "Value": 16.918185,
       "Cost": 68197420
     },
     {
@@ -6639,7 +6639,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT_DMG",
       "GrantCurrency": "",
-      "Value": 54,
+      "Value": 17.076299,
       "Cost": 71225385
     },
     {
@@ -6951,7 +6951,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT_DMG",
       "GrantCurrency": "",
-      "Value": 55,
+      "Value": 17.392527,
       "Cost": 160328109
     },
     {
@@ -6964,7 +6964,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT_DMG",
       "GrantCurrency": "",
-      "Value": 55.5,
+      "Value": 17.550641,
       "Cost": 164240114
     },
     {
@@ -6977,7 +6977,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT_DMG",
       "GrantCurrency": "",
-      "Value": 56,
+      "Value": 17.708755,
       "Cost": 168116180
     },
     {
@@ -6990,7 +6990,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT_DMG",
       "GrantCurrency": "",
-      "Value": 56.5,
+      "Value": 17.866869,
       "Cost": 171949228
     },
     {
@@ -7003,7 +7003,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT_DMG",
       "GrantCurrency": "",
-      "Value": 57,
+      "Value": 18.024983,
       "Cost": 175732111
     },
     {
@@ -7016,7 +7016,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT_DMG",
       "GrantCurrency": "",
-      "Value": 57.5,
+      "Value": 18.183097,
       "Cost": 179457631
     },
     {
@@ -7029,7 +7029,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT_DMG",
       "GrantCurrency": "",
-      "Value": 58,
+      "Value": 18.34121,
       "Cost": 183118566
     },
     {
@@ -7081,7 +7081,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT",
       "GrantCurrency": "",
-      "Value": 51,
+      "Value": 36.062446,
       "Cost": 198213423
     },
     {
@@ -7094,7 +7094,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT",
       "GrantCurrency": "",
-      "Value": 51.5,
+      "Value": 36.415999,
       "Cost": 202177691
     },
     {
@@ -7107,7 +7107,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT",
       "GrantCurrency": "",
-      "Value": 52,
+      "Value": 36.769553,
       "Cost": 206221244
     },
     {
@@ -7120,7 +7120,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT",
       "GrantCurrency": "",
-      "Value": 52.5,
+      "Value": 37.123106,
       "Cost": 210345668
     },
     {
@@ -7133,7 +7133,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT",
       "GrantCurrency": "",
-      "Value": 53,
+      "Value": 37.476659,
       "Cost": 214552581
     },
     {
@@ -7146,7 +7146,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT",
       "GrantCurrency": "",
-      "Value": 53.5,
+      "Value": 37.830213,
       "Cost": 218843632
     },
     {
@@ -7471,7 +7471,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT",
       "GrantCurrency": "",
-      "Value": 64,
+      "Value": 45.254834,
       "Cost": 359036159
     },
     {
@@ -7484,7 +7484,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT",
       "GrantCurrency": "",
-      "Value": 64.55,
+      "Value": 45.643743,
       "Cost": 366216882
     },
     {
@@ -7497,7 +7497,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT",
       "GrantCurrency": "",
-      "Value": 65.1,
+      "Value": 46.032651,
       "Cost": 373541219
     },
     {
@@ -7510,7 +7510,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT",
       "GrantCurrency": "",
-      "Value": 65.65,
+      "Value": 46.42156,
       "Cost": 381012043
     },
     {
@@ -7523,7 +7523,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT",
       "GrantCurrency": "",
-      "Value": 66.2,
+      "Value": 46.810469,
       "Cost": 388632283
     },
     {
@@ -7536,7 +7536,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT",
       "GrantCurrency": "",
-      "Value": 66.75,
+      "Value": 47.199378,
       "Cost": 396404928
     },
     {
@@ -7731,7 +7731,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT_DMG",
       "GrantCurrency": "",
-      "Value": 64,
+      "Value": 20.238577,
       "Cost": 533508831
     },
     {
@@ -7744,7 +7744,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT_DMG",
       "GrantCurrency": "",
-      "Value": 64.55,
+      "Value": 20.412502,
       "Cost": 544179007
     },
     {
@@ -7757,7 +7757,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT_DMG",
       "GrantCurrency": "",
-      "Value": 65.1,
+      "Value": 20.586428,
       "Cost": 555062587
     },
     {
@@ -7770,7 +7770,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT_DMG",
       "GrantCurrency": "",
-      "Value": 65.65,
+      "Value": 20.760353,
       "Cost": 566163838
     },
     {
@@ -7783,7 +7783,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT_DMG",
       "GrantCurrency": "",
-      "Value": 66.2,
+      "Value": 20.934278,
       "Cost": 577487114
     },
     {
@@ -7796,7 +7796,7 @@
       "EffectType": "STAT",
       "StatType": "CRIT_DMG",
       "GrantCurrency": "",
-      "Value": 66.75,
+      "Value": 21.108203,
       "Cost": 589036856
     },
     {
@@ -8716,8 +8716,8 @@
       "NameStringId": 50050,
       "DescStringId": 51050,
       "BaseAtk": 0.5,
-      "OwnEffectValue": 1,
-      "EquipEffectValue": 3,
+      "OwnEffectValue": 0.707107,
+      "EquipEffectValue": 2.12132,
       "CurveKey": "WEAPON_LEVEL_UP_NORMAL"
     },
     {
@@ -8733,8 +8733,8 @@
       "NameStringId": 50051,
       "DescStringId": 51051,
       "BaseAtk": 0.55,
-      "OwnEffectValue": 1.1,
-      "EquipEffectValue": 3.3,
+      "OwnEffectValue": 0.777817,
+      "EquipEffectValue": 2.333452,
       "CurveKey": "WEAPON_LEVEL_UP_NORMAL"
     },
     {
@@ -8750,8 +8750,8 @@
       "NameStringId": 50052,
       "DescStringId": 51052,
       "BaseAtk": 0.6,
-      "OwnEffectValue": 1.21,
-      "EquipEffectValue": 3.6,
+      "OwnEffectValue": 0.855599,
+      "EquipEffectValue": 2.545584,
       "CurveKey": "WEAPON_LEVEL_UP_NORMAL"
     },
     {
@@ -8767,8 +8767,8 @@
       "NameStringId": 50053,
       "DescStringId": 51053,
       "BaseAtk": 0.65,
-      "OwnEffectValue": 1.33,
-      "EquipEffectValue": 3.9,
+      "OwnEffectValue": 0.940452,
+      "EquipEffectValue": 2.757716,
       "CurveKey": "WEAPON_LEVEL_UP_NORMAL"
     },
     {
@@ -8784,8 +8784,8 @@
       "NameStringId": 50054,
       "DescStringId": 51054,
       "BaseAtk": 0.7,
-      "OwnEffectValue": 1.46,
-      "EquipEffectValue": 4.2,
+      "OwnEffectValue": 1.032376,
+      "EquipEffectValue": 2.969848,
       "CurveKey": "WEAPON_LEVEL_UP_NORMAL"
     },
     {
@@ -8801,8 +8801,8 @@
       "NameStringId": 50055,
       "DescStringId": 51055,
       "BaseAtk": 1,
-      "OwnEffectValue": 2,
-      "EquipEffectValue": 6,
+      "OwnEffectValue": 1.414214,
+      "EquipEffectValue": 4.242641,
       "CurveKey": "WEAPON_LEVEL_UP_RARE"
     },
     {
@@ -8818,8 +8818,8 @@
       "NameStringId": 50056,
       "DescStringId": 51056,
       "BaseAtk": 1.1,
-      "OwnEffectValue": 2.2,
-      "EquipEffectValue": 6.6,
+      "OwnEffectValue": 1.555635,
+      "EquipEffectValue": 4.666905,
       "CurveKey": "WEAPON_LEVEL_UP_RARE"
     },
     {
@@ -8835,8 +8835,8 @@
       "NameStringId": 50057,
       "DescStringId": 51057,
       "BaseAtk": 1.2,
-      "OwnEffectValue": 2.42,
-      "EquipEffectValue": 7.2,
+      "OwnEffectValue": 1.711198,
+      "EquipEffectValue": 5.091169,
       "CurveKey": "WEAPON_LEVEL_UP_RARE"
     },
     {
@@ -8852,8 +8852,8 @@
       "NameStringId": 50058,
       "DescStringId": 51058,
       "BaseAtk": 1.3,
-      "OwnEffectValue": 2.66,
-      "EquipEffectValue": 7.8,
+      "OwnEffectValue": 1.880904,
+      "EquipEffectValue": 5.515433,
       "CurveKey": "WEAPON_LEVEL_UP_RARE"
     },
     {
@@ -8869,8 +8869,8 @@
       "NameStringId": 50059,
       "DescStringId": 51059,
       "BaseAtk": 1.4,
-      "OwnEffectValue": 2.93,
-      "EquipEffectValue": 8.4,
+      "OwnEffectValue": 2.071823,
+      "EquipEffectValue": 5.939697,
       "CurveKey": "WEAPON_LEVEL_UP_RARE"
     },
     {
@@ -8886,8 +8886,8 @@
       "NameStringId": 50060,
       "DescStringId": 51060,
       "BaseAtk": 2,
-      "OwnEffectValue": 4,
-      "EquipEffectValue": 12,
+      "OwnEffectValue": 2.828427,
+      "EquipEffectValue": 8.485281,
       "CurveKey": "WEAPON_LEVEL_UP_EPIC"
     },
     {
@@ -8903,8 +8903,8 @@
       "NameStringId": 50061,
       "DescStringId": 51061,
       "BaseAtk": 2.2,
-      "OwnEffectValue": 4.4,
-      "EquipEffectValue": 13.2,
+      "OwnEffectValue": 3.11127,
+      "EquipEffectValue": 9.33381,
       "CurveKey": "WEAPON_LEVEL_UP_EPIC"
     },
     {
@@ -8920,8 +8920,8 @@
       "NameStringId": 50062,
       "DescStringId": 51062,
       "BaseAtk": 2.4,
-      "OwnEffectValue": 4.84,
-      "EquipEffectValue": 14.4,
+      "OwnEffectValue": 3.422397,
+      "EquipEffectValue": 10.182338,
       "CurveKey": "WEAPON_LEVEL_UP_EPIC"
     },
     {
@@ -8937,8 +8937,8 @@
       "NameStringId": 50063,
       "DescStringId": 51063,
       "BaseAtk": 2.6,
-      "OwnEffectValue": 5.32,
-      "EquipEffectValue": 15.6,
+      "OwnEffectValue": 3.761808,
+      "EquipEffectValue": 11.030866,
       "CurveKey": "WEAPON_LEVEL_UP_EPIC"
     },
     {
@@ -8954,8 +8954,8 @@
       "NameStringId": 50064,
       "DescStringId": 51064,
       "BaseAtk": 2.8,
-      "OwnEffectValue": 5.86,
-      "EquipEffectValue": 16.8,
+      "OwnEffectValue": 4.143646,
+      "EquipEffectValue": 11.879394,
       "CurveKey": "WEAPON_LEVEL_UP_EPIC"
     },
     {
@@ -8971,8 +8971,8 @@
       "NameStringId": 50065,
       "DescStringId": 51065,
       "BaseAtk": 4,
-      "OwnEffectValue": 8,
-      "EquipEffectValue": 24,
+      "OwnEffectValue": 5.656854,
+      "EquipEffectValue": 16.970563,
       "CurveKey": "WEAPON_LEVEL_UP_UNIQUE"
     },
     {
@@ -8988,8 +8988,8 @@
       "NameStringId": 50066,
       "DescStringId": 51066,
       "BaseAtk": 4.4,
-      "OwnEffectValue": 8.8,
-      "EquipEffectValue": 26.4,
+      "OwnEffectValue": 6.22254,
+      "EquipEffectValue": 18.667619,
       "CurveKey": "WEAPON_LEVEL_UP_UNIQUE"
     },
     {
@@ -9005,8 +9005,8 @@
       "NameStringId": 50067,
       "DescStringId": 51067,
       "BaseAtk": 4.8,
-      "OwnEffectValue": 9.68,
-      "EquipEffectValue": 28.8,
+      "OwnEffectValue": 6.844794,
+      "EquipEffectValue": 20.364675,
       "CurveKey": "WEAPON_LEVEL_UP_UNIQUE"
     },
     {
@@ -9022,8 +9022,8 @@
       "NameStringId": 50068,
       "DescStringId": 51068,
       "BaseAtk": 5.2,
-      "OwnEffectValue": 10.65,
-      "EquipEffectValue": 31.2,
+      "OwnEffectValue": 7.530687,
+      "EquipEffectValue": 22.061732,
       "CurveKey": "WEAPON_LEVEL_UP_UNIQUE"
     },
     {
@@ -9039,8 +9039,8 @@
       "NameStringId": 50069,
       "DescStringId": 51069,
       "BaseAtk": 5.6,
-      "OwnEffectValue": 11.71,
-      "EquipEffectValue": 33.6,
+      "OwnEffectValue": 8.28022,
+      "EquipEffectValue": 23.758788,
       "CurveKey": "WEAPON_LEVEL_UP_UNIQUE"
     },
     {
@@ -9056,8 +9056,8 @@
       "NameStringId": 50070,
       "DescStringId": 51070,
       "BaseAtk": 8,
-      "OwnEffectValue": 16,
-      "EquipEffectValue": 48,
+      "OwnEffectValue": 11.313708,
+      "EquipEffectValue": 33.941125,
       "CurveKey": "WEAPON_LEVEL_UP_LEGENDARY"
     },
     {
@@ -9073,8 +9073,8 @@
       "NameStringId": 50071,
       "DescStringId": 51071,
       "BaseAtk": 8.8,
-      "OwnEffectValue": 17.6,
-      "EquipEffectValue": 52.8,
+      "OwnEffectValue": 12.445079,
+      "EquipEffectValue": 37.335238,
       "CurveKey": "WEAPON_LEVEL_UP_LEGENDARY"
     },
     {
@@ -9090,8 +9090,8 @@
       "NameStringId": 50072,
       "DescStringId": 51072,
       "BaseAtk": 9.6,
-      "OwnEffectValue": 19.36,
-      "EquipEffectValue": 57.6,
+      "OwnEffectValue": 13.689587,
+      "EquipEffectValue": 40.729351,
       "CurveKey": "WEAPON_LEVEL_UP_LEGENDARY"
     },
     {
@@ -9107,8 +9107,8 @@
       "NameStringId": 50073,
       "DescStringId": 51073,
       "BaseAtk": 10.4,
-      "OwnEffectValue": 21.3,
-      "EquipEffectValue": 62.4,
+      "OwnEffectValue": 15.061374,
+      "EquipEffectValue": 44.123463,
       "CurveKey": "WEAPON_LEVEL_UP_LEGENDARY"
     },
     {
@@ -9124,8 +9124,8 @@
       "NameStringId": 50074,
       "DescStringId": 51074,
       "BaseAtk": 11.2,
-      "OwnEffectValue": 23.43,
-      "EquipEffectValue": 67.2,
+      "OwnEffectValue": 16.567512,
+      "EquipEffectValue": 47.517576,
       "CurveKey": "WEAPON_LEVEL_UP_LEGENDARY"
     },
     {
@@ -9311,8 +9311,8 @@
       "NameStringId": 50085,
       "DescStringId": 51085,
       "BaseAtk": 16,
-      "OwnEffectValue": 32,
-      "EquipEffectValue": 96,
+      "OwnEffectValue": 22.627417,
+      "EquipEffectValue": 67.882251,
       "CurveKey": "WEAPON_LEVEL_UP_MYTHIC"
     },
     {
@@ -9328,8 +9328,8 @@
       "NameStringId": 50086,
       "DescStringId": 51086,
       "BaseAtk": 17.6,
-      "OwnEffectValue": 35.2,
-      "EquipEffectValue": 105.6,
+      "OwnEffectValue": 24.890159,
+      "EquipEffectValue": 74.670476,
       "CurveKey": "WEAPON_LEVEL_UP_MYTHIC"
     },
     {
@@ -9345,8 +9345,8 @@
       "NameStringId": 50087,
       "DescStringId": 51087,
       "BaseAtk": 19.2,
-      "OwnEffectValue": 38.72,
-      "EquipEffectValue": 115.2,
+      "OwnEffectValue": 27.379175,
+      "EquipEffectValue": 81.458701,
       "CurveKey": "WEAPON_LEVEL_UP_MYTHIC"
     },
     {
@@ -9362,8 +9362,8 @@
       "NameStringId": 50088,
       "DescStringId": 51088,
       "BaseAtk": 20.8,
-      "OwnEffectValue": 42.592,
-      "EquipEffectValue": 124.8,
+      "OwnEffectValue": 30.117092,
+      "EquipEffectValue": 88.246926,
       "CurveKey": "WEAPON_LEVEL_UP_MYTHIC"
     },
     {
@@ -9379,8 +9379,8 @@
       "NameStringId": 50089,
       "DescStringId": 51089,
       "BaseAtk": 22.4,
-      "OwnEffectValue": 46.851,
-      "EquipEffectValue": 134.4,
+      "OwnEffectValue": 33.12866,
+      "EquipEffectValue": 95.035151,
       "CurveKey": "WEAPON_LEVEL_UP_MYTHIC"
     },
     {
@@ -9396,8 +9396,8 @@
       "NameStringId": 50090,
       "DescStringId": 51090,
       "BaseAtk": 0.5,
-      "OwnEffectValue": 1,
-      "EquipEffectValue": 10,
+      "OwnEffectValue": 0.316228,
+      "EquipEffectValue": 3.162278,
       "CurveKey": "WEAPON_LEVEL_UP_NORMAL"
     },
     {
@@ -9413,8 +9413,8 @@
       "NameStringId": 50091,
       "DescStringId": 51091,
       "BaseAtk": 0.55,
-      "OwnEffectValue": 1.1,
-      "EquipEffectValue": 11,
+      "OwnEffectValue": 0.347851,
+      "EquipEffectValue": 3.478505,
       "CurveKey": "WEAPON_LEVEL_UP_NORMAL"
     },
     {
@@ -9430,8 +9430,8 @@
       "NameStringId": 50092,
       "DescStringId": 51092,
       "BaseAtk": 0.6,
-      "OwnEffectValue": 1.21,
-      "EquipEffectValue": 12,
+      "OwnEffectValue": 0.382636,
+      "EquipEffectValue": 3.794733,
       "CurveKey": "WEAPON_LEVEL_UP_NORMAL"
     },
     {
@@ -9447,8 +9447,8 @@
       "NameStringId": 50093,
       "DescStringId": 51093,
       "BaseAtk": 0.65,
-      "OwnEffectValue": 1.331,
-      "EquipEffectValue": 13,
+      "OwnEffectValue": 0.420899,
+      "EquipEffectValue": 4.110961,
       "CurveKey": "WEAPON_LEVEL_UP_NORMAL"
     },
     {
@@ -9464,8 +9464,8 @@
       "NameStringId": 50094,
       "DescStringId": 51094,
       "BaseAtk": 0.7,
-      "OwnEffectValue": 1.464,
-      "EquipEffectValue": 14,
+      "OwnEffectValue": 0.462957,
+      "EquipEffectValue": 4.427189,
       "CurveKey": "WEAPON_LEVEL_UP_NORMAL"
     },
     {
@@ -9481,8 +9481,8 @@
       "NameStringId": 50095,
       "DescStringId": 51095,
       "BaseAtk": 1,
-      "OwnEffectValue": 2,
-      "EquipEffectValue": 20,
+      "OwnEffectValue": 0.632456,
+      "EquipEffectValue": 6.324555,
       "CurveKey": "WEAPON_LEVEL_UP_RARE"
     },
     {
@@ -9498,8 +9498,8 @@
       "NameStringId": 50096,
       "DescStringId": 51096,
       "BaseAtk": 1.1,
-      "OwnEffectValue": 2.2,
-      "EquipEffectValue": 22,
+      "OwnEffectValue": 0.695701,
+      "EquipEffectValue": 6.957011,
       "CurveKey": "WEAPON_LEVEL_UP_RARE"
     },
     {
@@ -9515,8 +9515,8 @@
       "NameStringId": 50097,
       "DescStringId": 51097,
       "BaseAtk": 1.2,
-      "OwnEffectValue": 2.42,
-      "EquipEffectValue": 24,
+      "OwnEffectValue": 0.765271,
+      "EquipEffectValue": 7.589466,
       "CurveKey": "WEAPON_LEVEL_UP_RARE"
     },
     {
@@ -9532,8 +9532,8 @@
       "NameStringId": 50098,
       "DescStringId": 51098,
       "BaseAtk": 1.3,
-      "OwnEffectValue": 2.662,
-      "EquipEffectValue": 26,
+      "OwnEffectValue": 0.841798,
+      "EquipEffectValue": 8.221922,
       "CurveKey": "WEAPON_LEVEL_UP_RARE"
     },
     {
@@ -9549,8 +9549,8 @@
       "NameStringId": 50099,
       "DescStringId": 51099,
       "BaseAtk": 1.4,
-      "OwnEffectValue": 2.928,
-      "EquipEffectValue": 28,
+      "OwnEffectValue": 0.925915,
+      "EquipEffectValue": 8.854377,
       "CurveKey": "WEAPON_LEVEL_UP_RARE"
     },
     {
@@ -9566,8 +9566,8 @@
       "NameStringId": 50100,
       "DescStringId": 51100,
       "BaseAtk": 2,
-      "OwnEffectValue": 4,
-      "EquipEffectValue": 40,
+      "OwnEffectValue": 1.264911,
+      "EquipEffectValue": 12.649111,
       "CurveKey": "WEAPON_LEVEL_UP_EPIC"
     },
     {
@@ -9583,8 +9583,8 @@
       "NameStringId": 50101,
       "DescStringId": 51101,
       "BaseAtk": 2.2,
-      "OwnEffectValue": 4.4,
-      "EquipEffectValue": 44,
+      "OwnEffectValue": 1.391402,
+      "EquipEffectValue": 13.914022,
       "CurveKey": "WEAPON_LEVEL_UP_EPIC"
     },
     {
@@ -9600,8 +9600,8 @@
       "NameStringId": 50102,
       "DescStringId": 51102,
       "BaseAtk": 2.4,
-      "OwnEffectValue": 4.84,
-      "EquipEffectValue": 48,
+      "OwnEffectValue": 1.530542,
+      "EquipEffectValue": 15.178933,
       "CurveKey": "WEAPON_LEVEL_UP_EPIC"
     },
     {
@@ -9617,8 +9617,8 @@
       "NameStringId": 50103,
       "DescStringId": 51103,
       "BaseAtk": 2.6,
-      "OwnEffectValue": 5.324,
-      "EquipEffectValue": 52,
+      "OwnEffectValue": 1.683597,
+      "EquipEffectValue": 16.443844,
       "CurveKey": "WEAPON_LEVEL_UP_EPIC"
     },
     {
@@ -9634,8 +9634,8 @@
       "NameStringId": 50104,
       "DescStringId": 51104,
       "BaseAtk": 2.8,
-      "OwnEffectValue": 5.856,
-      "EquipEffectValue": 56,
+      "OwnEffectValue": 1.85183,
+      "EquipEffectValue": 17.708755,
       "CurveKey": "WEAPON_LEVEL_UP_EPIC"
     },
     {
@@ -9651,8 +9651,8 @@
       "NameStringId": 50105,
       "DescStringId": 51105,
       "BaseAtk": 4,
-      "OwnEffectValue": 8,
-      "EquipEffectValue": 80,
+      "OwnEffectValue": 2.529822,
+      "EquipEffectValue": 25.298221,
       "CurveKey": "WEAPON_LEVEL_UP_UNIQUE"
     },
     {
@@ -9668,8 +9668,8 @@
       "NameStringId": 50106,
       "DescStringId": 51106,
       "BaseAtk": 4.4,
-      "OwnEffectValue": 8.8,
-      "EquipEffectValue": 88,
+      "OwnEffectValue": 2.782804,
+      "EquipEffectValue": 27.828043,
       "CurveKey": "WEAPON_LEVEL_UP_UNIQUE"
     },
     {
@@ -9685,8 +9685,8 @@
       "NameStringId": 50107,
       "DescStringId": 51107,
       "BaseAtk": 4.8,
-      "OwnEffectValue": 9.68,
-      "EquipEffectValue": 96,
+      "OwnEffectValue": 3.061085,
+      "EquipEffectValue": 30.357866,
       "CurveKey": "WEAPON_LEVEL_UP_UNIQUE"
     },
     {
@@ -9702,8 +9702,8 @@
       "NameStringId": 50108,
       "DescStringId": 51108,
       "BaseAtk": 5.2,
-      "OwnEffectValue": 10.648,
-      "EquipEffectValue": 104,
+      "OwnEffectValue": 3.367193,
+      "EquipEffectValue": 32.887688,
       "CurveKey": "WEAPON_LEVEL_UP_UNIQUE"
     },
     {
@@ -9719,8 +9719,8 @@
       "NameStringId": 50109,
       "DescStringId": 51109,
       "BaseAtk": 5.6,
-      "OwnEffectValue": 11.713,
-      "EquipEffectValue": 112,
+      "OwnEffectValue": 3.703976,
+      "EquipEffectValue": 35.41751,
       "CurveKey": "WEAPON_LEVEL_UP_UNIQUE"
     },
     {
@@ -9736,8 +9736,8 @@
       "NameStringId": 50110,
       "DescStringId": 51110,
       "BaseAtk": 8,
-      "OwnEffectValue": 16,
-      "EquipEffectValue": 160,
+      "OwnEffectValue": 5.059644,
+      "EquipEffectValue": 50.596443,
       "CurveKey": "WEAPON_LEVEL_UP_LEGENDARY"
     },
     {
@@ -9753,8 +9753,8 @@
       "NameStringId": 50111,
       "DescStringId": 51111,
       "BaseAtk": 8.8,
-      "OwnEffectValue": 17.6,
-      "EquipEffectValue": 176,
+      "OwnEffectValue": 5.565609,
+      "EquipEffectValue": 55.656087,
       "CurveKey": "WEAPON_LEVEL_UP_LEGENDARY"
     },
     {
@@ -9770,8 +9770,8 @@
       "NameStringId": 50112,
       "DescStringId": 51112,
       "BaseAtk": 9.6,
-      "OwnEffectValue": 19.36,
-      "EquipEffectValue": 192,
+      "OwnEffectValue": 6.12217,
+      "EquipEffectValue": 60.715731,
       "CurveKey": "WEAPON_LEVEL_UP_LEGENDARY"
     },
     {
@@ -9787,8 +9787,8 @@
       "NameStringId": 50113,
       "DescStringId": 51113,
       "BaseAtk": 10.4,
-      "OwnEffectValue": 21.296,
-      "EquipEffectValue": 208,
+      "OwnEffectValue": 6.734387,
+      "EquipEffectValue": 65.775375,
       "CurveKey": "WEAPON_LEVEL_UP_LEGENDARY"
     },
     {
@@ -9804,8 +9804,8 @@
       "NameStringId": 50114,
       "DescStringId": 51114,
       "BaseAtk": 11.2,
-      "OwnEffectValue": 23.426,
-      "EquipEffectValue": 224,
+      "OwnEffectValue": 7.407952,
+      "EquipEffectValue": 70.83502,
       "CurveKey": "WEAPON_LEVEL_UP_LEGENDARY"
     },
     {
@@ -9821,8 +9821,8 @@
       "NameStringId": 50115,
       "DescStringId": 51115,
       "BaseAtk": 16,
-      "OwnEffectValue": 32,
-      "EquipEffectValue": 320,
+      "OwnEffectValue": 10.119289,
+      "EquipEffectValue": 101.192885,
       "CurveKey": "WEAPON_LEVEL_UP_MYTHIC"
     },
     {
@@ -9838,8 +9838,8 @@
       "NameStringId": 50116,
       "DescStringId": 51116,
       "BaseAtk": 17.6,
-      "OwnEffectValue": 35.2,
-      "EquipEffectValue": 352,
+      "OwnEffectValue": 11.131217,
+      "EquipEffectValue": 111.312174,
       "CurveKey": "WEAPON_LEVEL_UP_MYTHIC"
     },
     {
@@ -9855,8 +9855,8 @@
       "NameStringId": 50117,
       "DescStringId": 51117,
       "BaseAtk": 19.2,
-      "OwnEffectValue": 38.72,
-      "EquipEffectValue": 384,
+      "OwnEffectValue": 12.244339,
+      "EquipEffectValue": 121.431462,
       "CurveKey": "WEAPON_LEVEL_UP_MYTHIC"
     },
     {
@@ -9872,8 +9872,8 @@
       "NameStringId": 50118,
       "DescStringId": 51118,
       "BaseAtk": 20.8,
-      "OwnEffectValue": 42.592,
-      "EquipEffectValue": 416,
+      "OwnEffectValue": 13.468773,
+      "EquipEffectValue": 131.550751,
       "CurveKey": "WEAPON_LEVEL_UP_MYTHIC"
     },
     {
@@ -9889,8 +9889,8 @@
       "NameStringId": 50119,
       "DescStringId": 51119,
       "BaseAtk": 22.4,
-      "OwnEffectValue": 46.851,
-      "EquipEffectValue": 448,
+      "OwnEffectValue": 14.815587,
+      "EquipEffectValue": 141.670039,
       "CurveKey": "WEAPON_LEVEL_UP_MYTHIC"
     },
     {
@@ -10440,7 +10440,7 @@
       "GradeNameStringId": 40058,
       "GradeColorToken": "normal",
       "EffectType": "STAT_CRIT",
-      "EffectValue": 2,
+      "EffectValue": 1.414214,
       "GachaWeight": 20,
       "EffectValueType": "FLAT"
     },
@@ -10466,7 +10466,7 @@
       "GradeNameStringId": 40059,
       "GradeColorToken": "rare",
       "EffectType": "STAT_CRIT_DMG",
-      "EffectValue": 15,
+      "EffectValue": 4.743416,
       "GachaWeight": 30,
       "EffectValueType": "FLAT"
     },
@@ -10557,7 +10557,7 @@
       "GradeNameStringId": 40060,
       "GradeColorToken": "epic",
       "EffectType": "STAT_CRIT_DMG",
-      "EffectValue": 18,
+      "EffectValue": 5.6921,
       "GachaWeight": 10,
       "EffectValueType": "PERCENT"
     },
