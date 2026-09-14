@@ -1005,1111 +1005,1111 @@
       "Index": 128,
       "Id": 41000,
       "KOR": "스테이지·스탯·숙련을 초기화하고 무기·유물을 소멸/초기화합니다. 골드·성장에너지·숙련의 정수·다이아는 초기화된 뒤 도달 스테이지 구간에 맞춰 새로 지급되고, 존재력은 초기화만 됩니다(시간에너지는 그대로 유지). 존재력 트리는 그대로 유지됩니다.",
-      "ENG": "스테이지·스탯·숙련을 초기화하고 무기·유물을 소멸/초기화합니다. 골드·성장에너지·숙련의 정수·다이아는 초기화된 뒤 도달 스테이지 구간에 맞춰 새로 지급되고, 존재력은 초기화만 됩니다(시간에너지는 그대로 유지). 존재력 트리는 그대로 유지됩니다."
+      "ENG": "Resets Stage, Stats, and Mastery, and destroys/resets Weapons and Relics. Gold, Growth Energy, Mastery Essence, and Diamonds are reset and then re-granted based on your reached stage range; Exist is only reset (Time Energy is kept as is). The Exist Tree remains unchanged."
     },
     {
       "Index": 129,
       "Id": 41001,
       "KOR": "(도달 스테이지 기준, 이번 환급에 바로 반영)",
-      "ENG": "(도달 스테이지 기준, 이번 환급에 바로 반영)"
+      "ENG": "(Based on reached stage, applied immediately to this refund)"
     },
     {
       "Index": 130,
       "Id": 41002,
       "KOR": "초기화 / 소멸",
-      "ENG": "초기화 / 소멸"
+      "ENG": "Reset / Destroy"
     },
     {
       "Index": 131,
       "Id": 41003,
       "KOR": "스테이지 → 1-1",
-      "ENG": "스테이지 → 1-1"
+      "ENG": "Stage → 1-1"
     },
     {
       "Index": 132,
       "Id": 41004,
       "KOR": "5스탯 레벨 전부 0",
-      "ENG": "5스탯 레벨 전부 0"
+      "ENG": "All 5 stat levels to 0"
     },
     {
       "Index": 133,
       "Id": 41005,
       "KOR": "무기 전부 소멸",
-      "ENG": "무기 전부 소멸"
+      "ENG": "All weapons destroyed"
     },
     {
       "Index": 134,
       "Id": 41006,
       "KOR": "유물 전부 초기화",
-      "ENG": "유물 전부 초기화"
+      "ENG": "All relics reset"
     },
     {
       "Index": 135,
       "Id": 41007,
       "KOR": "무기 숙련 레벨 0",
-      "ENG": "무기 숙련 레벨 0"
+      "ENG": "Weapon mastery level 0"
     },
     {
       "Index": 136,
       "Id": 41008,
       "KOR": "지급",
-      "ENG": "지급"
+      "ENG": "Grant"
     },
     {
       "Index": 137,
       "Id": 41009,
       "KOR": "→ 스테이지",
-      "ENG": "→ 스테이지"
+      "ENG": "→ Stage"
     },
     {
       "Index": 138,
       "Id": 41010,
       "KOR": "도달 시",
-      "ENG": "도달 시"
+      "ENG": "On reach"
     },
     {
       "Index": 139,
       "Id": 41011,
       "KOR": "유지",
-      "ENG": "유지"
+      "ENG": "Keep"
     },
     {
       "Index": 140,
       "Id": 41012,
       "KOR": "해금",
-      "ENG": "해금"
+      "ENG": "Unlock"
     },
     {
       "Index": 141,
       "Id": 41013,
       "KOR": "리버스 · 타임 하이스트 해금 상태",
-      "ENG": "리버스 · 타임 하이스트 해금 상태"
+      "ENG": "Rebirth · Time Heist Unlock Status"
     },
     {
       "Index": 142,
       "Id": 41014,
       "KOR": "시간에너지 보유량",
-      "ENG": "시간에너지 보유량"
+      "ENG": "Time Energy Held"
     },
     {
       "Index": 143,
       "Id": 41015,
       "KOR": "설계 완료 · 프로토타입 미구현",
-      "ENG": "설계 완료 · 프로토타입 미구현"
+      "ENG": "Design finalized · prototype not implemented"
     },
     {
       "Index": 144,
       "Id": 41016,
       "KOR": "플레이어",
-      "ENG": "플레이어"
+      "ENG": "Player"
     },
     {
       "Index": 145,
       "Id": 41017,
       "KOR": "레벨",
-      "ENG": "레벨"
+      "ENG": "Level"
     },
     {
       "Index": 146,
       "Id": 41018,
       "KOR": "최대",
-      "ENG": "최대"
+      "ENG": "Max"
     },
     {
       "Index": 147,
       "Id": 41019,
       "KOR": "개",
-      "ENG": "개"
+      "ENG": "pcs"
     },
     {
       "Index": 148,
       "Id": 41020,
       "KOR": "합성 불가",
-      "ENG": "합성 불가"
+      "ENG": "Cannot Fuse"
     },
     {
       "Index": 149,
       "Id": 41021,
       "KOR": "돌파·합성 모두 항상 1개 보존 · 합성 재료",
-      "ENG": "돌파·합성 모두 항상 1개 보존 · 합성 재료"
+      "ENG": "Both Breakthrough and Fusion always keep 1 in reserve · Fusion Material"
     },
     {
       "Index": 150,
       "Id": 41022,
       "KOR": "개 필요",
-      "ENG": "개 필요"
+      "ENG": "needed"
     },
     {
       "Index": 151,
       "Id": 41023,
       "KOR": "자리를 비운 동안 전투가 계속된 것으로 계산해 보상을 지급합니다.",
-      "ENG": "자리를 비운 동안 전투가 계속된 것으로 계산해 보상을 지급합니다."
+      "ENG": "Grants rewards calculated as if combat continued while you were away."
     },
     {
       "Index": 152,
       "Id": 41024,
       "KOR": "미래 스테이지의 보상을 시간에너지로 미리 훔쳐옵니다. 스테이지 진행에는 영향을 주지 않습니다.",
-      "ENG": "미래 스테이지의 보상을 시간에너지로 미리 훔쳐옵니다. 스테이지 진행에는 영향을 주지 않습니다."
+      "ENG": "Steals rewards from future stages in advance using Time Energy. Does not affect stage progress."
     },
     {
       "Index": 153,
       "Id": 41025,
       "KOR": "보유하지 않은 유물입니다",
-      "ENG": "보유하지 않은 유물입니다"
+      "ENG": "You do not own this relic"
     },
     {
       "Index": 154,
       "Id": 50000,
       "KOR": "검-노말-1",
-      "ENG": "검-노말-1"
+      "ENG": "Sword-Normal-1"
     },
     {
       "Index": 155,
       "Id": 51000,
       "KOR": "검 노말 등급 무기, 1단계",
-      "ENG": "검 노말 등급 무기, 1단계"
+      "ENG": "Normal-grade Sword, Stage 1"
     },
     {
       "Index": 156,
       "Id": 50001,
       "KOR": "검-노말-2",
-      "ENG": "검-노말-2"
+      "ENG": "Sword-Normal-2"
     },
     {
       "Index": 157,
       "Id": 51001,
       "KOR": "검 노말 등급 무기, 2단계",
-      "ENG": "검 노말 등급 무기, 2단계"
+      "ENG": "Normal-grade Sword, Stage 2"
     },
     {
       "Index": 158,
       "Id": 50002,
       "KOR": "검-노말-3",
-      "ENG": "검-노말-3"
+      "ENG": "Sword-Normal-3"
     },
     {
       "Index": 159,
       "Id": 51002,
       "KOR": "검 노말 등급 무기, 3단계",
-      "ENG": "검 노말 등급 무기, 3단계"
+      "ENG": "Normal-grade Sword, Stage 3"
     },
     {
       "Index": 160,
       "Id": 50003,
       "KOR": "검-노말-4",
-      "ENG": "검-노말-4"
+      "ENG": "Sword-Normal-4"
     },
     {
       "Index": 161,
       "Id": 51003,
       "KOR": "검 노말 등급 무기, 4단계",
-      "ENG": "검 노말 등급 무기, 4단계"
+      "ENG": "Normal-grade Sword, Stage 4"
     },
     {
       "Index": 162,
       "Id": 50004,
       "KOR": "검-노말-5",
-      "ENG": "검-노말-5"
+      "ENG": "Sword-Normal-5"
     },
     {
       "Index": 163,
       "Id": 51004,
       "KOR": "검 노말 등급 무기, 5단계",
-      "ENG": "검 노말 등급 무기, 5단계"
+      "ENG": "Normal-grade Sword, Stage 5"
     },
     {
       "Index": 164,
       "Id": 50005,
       "KOR": "검-레어-1",
-      "ENG": "검-레어-1"
+      "ENG": "Sword-Rare-1"
     },
     {
       "Index": 165,
       "Id": 51005,
       "KOR": "검 레어 등급 무기, 1단계",
-      "ENG": "검 레어 등급 무기, 1단계"
+      "ENG": "Rare-grade Sword, Stage 1"
     },
     {
       "Index": 166,
       "Id": 50006,
       "KOR": "검-레어-2",
-      "ENG": "검-레어-2"
+      "ENG": "Sword-Rare-2"
     },
     {
       "Index": 167,
       "Id": 51006,
       "KOR": "검 레어 등급 무기, 2단계",
-      "ENG": "검 레어 등급 무기, 2단계"
+      "ENG": "Rare-grade Sword, Stage 2"
     },
     {
       "Index": 168,
       "Id": 50007,
       "KOR": "검-레어-3",
-      "ENG": "검-레어-3"
+      "ENG": "Sword-Rare-3"
     },
     {
       "Index": 169,
       "Id": 51007,
       "KOR": "검 레어 등급 무기, 3단계",
-      "ENG": "검 레어 등급 무기, 3단계"
+      "ENG": "Rare-grade Sword, Stage 3"
     },
     {
       "Index": 170,
       "Id": 50008,
       "KOR": "검-레어-4",
-      "ENG": "검-레어-4"
+      "ENG": "Sword-Rare-4"
     },
     {
       "Index": 171,
       "Id": 51008,
       "KOR": "검 레어 등급 무기, 4단계",
-      "ENG": "검 레어 등급 무기, 4단계"
+      "ENG": "Rare-grade Sword, Stage 4"
     },
     {
       "Index": 172,
       "Id": 50009,
       "KOR": "검-레어-5",
-      "ENG": "검-레어-5"
+      "ENG": "Sword-Rare-5"
     },
     {
       "Index": 173,
       "Id": 51009,
       "KOR": "검 레어 등급 무기, 5단계",
-      "ENG": "검 레어 등급 무기, 5단계"
+      "ENG": "Rare-grade Sword, Stage 5"
     },
     {
       "Index": 174,
       "Id": 50010,
       "KOR": "검-에픽-1",
-      "ENG": "검-에픽-1"
+      "ENG": "Sword-Epic-1"
     },
     {
       "Index": 175,
       "Id": 51010,
       "KOR": "검 에픽 등급 무기, 1단계",
-      "ENG": "검 에픽 등급 무기, 1단계"
+      "ENG": "Epic-grade Sword, Stage 1"
     },
     {
       "Index": 176,
       "Id": 50011,
       "KOR": "검-에픽-2",
-      "ENG": "검-에픽-2"
+      "ENG": "Sword-Epic-2"
     },
     {
       "Index": 177,
       "Id": 51011,
       "KOR": "검 에픽 등급 무기, 2단계",
-      "ENG": "검 에픽 등급 무기, 2단계"
+      "ENG": "Epic-grade Sword, Stage 2"
     },
     {
       "Index": 178,
       "Id": 50012,
       "KOR": "검-에픽-3",
-      "ENG": "검-에픽-3"
+      "ENG": "Sword-Epic-3"
     },
     {
       "Index": 179,
       "Id": 51012,
       "KOR": "검 에픽 등급 무기, 3단계",
-      "ENG": "검 에픽 등급 무기, 3단계"
+      "ENG": "Epic-grade Sword, Stage 3"
     },
     {
       "Index": 180,
       "Id": 50013,
       "KOR": "검-에픽-4",
-      "ENG": "검-에픽-4"
+      "ENG": "Sword-Epic-4"
     },
     {
       "Index": 181,
       "Id": 51013,
       "KOR": "검 에픽 등급 무기, 4단계",
-      "ENG": "검 에픽 등급 무기, 4단계"
+      "ENG": "Epic-grade Sword, Stage 4"
     },
     {
       "Index": 182,
       "Id": 50014,
       "KOR": "검-에픽-5",
-      "ENG": "검-에픽-5"
+      "ENG": "Sword-Epic-5"
     },
     {
       "Index": 183,
       "Id": 51014,
       "KOR": "검 에픽 등급 무기, 5단계",
-      "ENG": "검 에픽 등급 무기, 5단계"
+      "ENG": "Epic-grade Sword, Stage 5"
     },
     {
       "Index": 184,
       "Id": 50015,
       "KOR": "검-유니크-1",
-      "ENG": "검-유니크-1"
+      "ENG": "Sword-Unique-1"
     },
     {
       "Index": 185,
       "Id": 51015,
       "KOR": "검 유니크 등급 무기, 1단계",
-      "ENG": "검 유니크 등급 무기, 1단계"
+      "ENG": "Unique-grade Sword, Stage 1"
     },
     {
       "Index": 186,
       "Id": 50016,
       "KOR": "검-유니크-2",
-      "ENG": "검-유니크-2"
+      "ENG": "Sword-Unique-2"
     },
     {
       "Index": 187,
       "Id": 51016,
       "KOR": "검 유니크 등급 무기, 2단계",
-      "ENG": "검 유니크 등급 무기, 2단계"
+      "ENG": "Unique-grade Sword, Stage 2"
     },
     {
       "Index": 188,
       "Id": 50017,
       "KOR": "검-유니크-3",
-      "ENG": "검-유니크-3"
+      "ENG": "Sword-Unique-3"
     },
     {
       "Index": 189,
       "Id": 51017,
       "KOR": "검 유니크 등급 무기, 3단계",
-      "ENG": "검 유니크 등급 무기, 3단계"
+      "ENG": "Unique-grade Sword, Stage 3"
     },
     {
       "Index": 190,
       "Id": 50018,
       "KOR": "검-유니크-4",
-      "ENG": "검-유니크-4"
+      "ENG": "Sword-Unique-4"
     },
     {
       "Index": 191,
       "Id": 51018,
       "KOR": "검 유니크 등급 무기, 4단계",
-      "ENG": "검 유니크 등급 무기, 4단계"
+      "ENG": "Unique-grade Sword, Stage 4"
     },
     {
       "Index": 192,
       "Id": 50019,
       "KOR": "검-유니크-5",
-      "ENG": "검-유니크-5"
+      "ENG": "Sword-Unique-5"
     },
     {
       "Index": 193,
       "Id": 51019,
       "KOR": "검 유니크 등급 무기, 5단계",
-      "ENG": "검 유니크 등급 무기, 5단계"
+      "ENG": "Unique-grade Sword, Stage 5"
     },
     {
       "Index": 194,
       "Id": 50020,
       "KOR": "검-레전드리-1",
-      "ENG": "검-레전드리-1"
+      "ENG": "Sword-Legendary-1"
     },
     {
       "Index": 195,
       "Id": 51020,
       "KOR": "검 레전드리 등급 무기, 1단계",
-      "ENG": "검 레전드리 등급 무기, 1단계"
+      "ENG": "Legendary-grade Sword, Stage 1"
     },
     {
       "Index": 196,
       "Id": 50021,
       "KOR": "검-레전드리-2",
-      "ENG": "검-레전드리-2"
+      "ENG": "Sword-Legendary-2"
     },
     {
       "Index": 197,
       "Id": 51021,
       "KOR": "검 레전드리 등급 무기, 2단계",
-      "ENG": "검 레전드리 등급 무기, 2단계"
+      "ENG": "Legendary-grade Sword, Stage 2"
     },
     {
       "Index": 198,
       "Id": 50022,
       "KOR": "검-레전드리-3",
-      "ENG": "검-레전드리-3"
+      "ENG": "Sword-Legendary-3"
     },
     {
       "Index": 199,
       "Id": 51022,
       "KOR": "검 레전드리 등급 무기, 3단계",
-      "ENG": "검 레전드리 등급 무기, 3단계"
+      "ENG": "Legendary-grade Sword, Stage 3"
     },
     {
       "Index": 200,
       "Id": 50023,
       "KOR": "검-레전드리-4",
-      "ENG": "검-레전드리-4"
+      "ENG": "Sword-Legendary-4"
     },
     {
       "Index": 201,
       "Id": 51023,
       "KOR": "검 레전드리 등급 무기, 4단계",
-      "ENG": "검 레전드리 등급 무기, 4단계"
+      "ENG": "Legendary-grade Sword, Stage 4"
     },
     {
       "Index": 202,
       "Id": 50024,
       "KOR": "검-레전드리-5",
-      "ENG": "검-레전드리-5"
+      "ENG": "Sword-Legendary-5"
     },
     {
       "Index": 203,
       "Id": 51024,
       "KOR": "검 레전드리 등급 무기, 5단계",
-      "ENG": "검 레전드리 등급 무기, 5단계"
+      "ENG": "Legendary-grade Sword, Stage 5"
     },
     {
       "Index": 204,
       "Id": 50025,
       "KOR": "창-노말-1",
-      "ENG": "창-노말-1"
+      "ENG": "Spear-Normal-1"
     },
     {
       "Index": 205,
       "Id": 51025,
       "KOR": "창 노말 등급 무기, 1단계",
-      "ENG": "창 노말 등급 무기, 1단계"
+      "ENG": "Normal-grade Spear, Stage 1"
     },
     {
       "Index": 206,
       "Id": 50026,
       "KOR": "창-노말-2",
-      "ENG": "창-노말-2"
+      "ENG": "Spear-Normal-2"
     },
     {
       "Index": 207,
       "Id": 51026,
       "KOR": "창 노말 등급 무기, 2단계",
-      "ENG": "창 노말 등급 무기, 2단계"
+      "ENG": "Normal-grade Spear, Stage 2"
     },
     {
       "Index": 208,
       "Id": 50027,
       "KOR": "창-노말-3",
-      "ENG": "창-노말-3"
+      "ENG": "Spear-Normal-3"
     },
     {
       "Index": 209,
       "Id": 51027,
       "KOR": "창 노말 등급 무기, 3단계",
-      "ENG": "창 노말 등급 무기, 3단계"
+      "ENG": "Normal-grade Spear, Stage 3"
     },
     {
       "Index": 210,
       "Id": 50028,
       "KOR": "창-노말-4",
-      "ENG": "창-노말-4"
+      "ENG": "Spear-Normal-4"
     },
     {
       "Index": 211,
       "Id": 51028,
       "KOR": "창 노말 등급 무기, 4단계",
-      "ENG": "창 노말 등급 무기, 4단계"
+      "ENG": "Normal-grade Spear, Stage 4"
     },
     {
       "Index": 212,
       "Id": 50029,
       "KOR": "창-노말-5",
-      "ENG": "창-노말-5"
+      "ENG": "Spear-Normal-5"
     },
     {
       "Index": 213,
       "Id": 51029,
       "KOR": "창 노말 등급 무기, 5단계",
-      "ENG": "창 노말 등급 무기, 5단계"
+      "ENG": "Normal-grade Spear, Stage 5"
     },
     {
       "Index": 214,
       "Id": 50030,
       "KOR": "창-레어-1",
-      "ENG": "창-레어-1"
+      "ENG": "Spear-Rare-1"
     },
     {
       "Index": 215,
       "Id": 51030,
       "KOR": "창 레어 등급 무기, 1단계",
-      "ENG": "창 레어 등급 무기, 1단계"
+      "ENG": "Rare-grade Spear, Stage 1"
     },
     {
       "Index": 216,
       "Id": 50031,
       "KOR": "창-레어-2",
-      "ENG": "창-레어-2"
+      "ENG": "Spear-Rare-2"
     },
     {
       "Index": 217,
       "Id": 51031,
       "KOR": "창 레어 등급 무기, 2단계",
-      "ENG": "창 레어 등급 무기, 2단계"
+      "ENG": "Rare-grade Spear, Stage 2"
     },
     {
       "Index": 218,
       "Id": 50032,
       "KOR": "창-레어-3",
-      "ENG": "창-레어-3"
+      "ENG": "Spear-Rare-3"
     },
     {
       "Index": 219,
       "Id": 51032,
       "KOR": "창 레어 등급 무기, 3단계",
-      "ENG": "창 레어 등급 무기, 3단계"
+      "ENG": "Rare-grade Spear, Stage 3"
     },
     {
       "Index": 220,
       "Id": 50033,
       "KOR": "창-레어-4",
-      "ENG": "창-레어-4"
+      "ENG": "Spear-Rare-4"
     },
     {
       "Index": 221,
       "Id": 51033,
       "KOR": "창 레어 등급 무기, 4단계",
-      "ENG": "창 레어 등급 무기, 4단계"
+      "ENG": "Rare-grade Spear, Stage 4"
     },
     {
       "Index": 222,
       "Id": 50034,
       "KOR": "창-레어-5",
-      "ENG": "창-레어-5"
+      "ENG": "Spear-Rare-5"
     },
     {
       "Index": 223,
       "Id": 51034,
       "KOR": "창 레어 등급 무기, 5단계",
-      "ENG": "창 레어 등급 무기, 5단계"
+      "ENG": "Rare-grade Spear, Stage 5"
     },
     {
       "Index": 224,
       "Id": 50035,
       "KOR": "창-에픽-1",
-      "ENG": "창-에픽-1"
+      "ENG": "Spear-Epic-1"
     },
     {
       "Index": 225,
       "Id": 51035,
       "KOR": "창 에픽 등급 무기, 1단계",
-      "ENG": "창 에픽 등급 무기, 1단계"
+      "ENG": "Epic-grade Spear, Stage 1"
     },
     {
       "Index": 226,
       "Id": 50036,
       "KOR": "창-에픽-2",
-      "ENG": "창-에픽-2"
+      "ENG": "Spear-Epic-2"
     },
     {
       "Index": 227,
       "Id": 51036,
       "KOR": "창 에픽 등급 무기, 2단계",
-      "ENG": "창 에픽 등급 무기, 2단계"
+      "ENG": "Epic-grade Spear, Stage 2"
     },
     {
       "Index": 228,
       "Id": 50037,
       "KOR": "창-에픽-3",
-      "ENG": "창-에픽-3"
+      "ENG": "Spear-Epic-3"
     },
     {
       "Index": 229,
       "Id": 51037,
       "KOR": "창 에픽 등급 무기, 3단계",
-      "ENG": "창 에픽 등급 무기, 3단계"
+      "ENG": "Epic-grade Spear, Stage 3"
     },
     {
       "Index": 230,
       "Id": 50038,
       "KOR": "창-에픽-4",
-      "ENG": "창-에픽-4"
+      "ENG": "Spear-Epic-4"
     },
     {
       "Index": 231,
       "Id": 51038,
       "KOR": "창 에픽 등급 무기, 4단계",
-      "ENG": "창 에픽 등급 무기, 4단계"
+      "ENG": "Epic-grade Spear, Stage 4"
     },
     {
       "Index": 232,
       "Id": 50039,
       "KOR": "창-에픽-5",
-      "ENG": "창-에픽-5"
+      "ENG": "Spear-Epic-5"
     },
     {
       "Index": 233,
       "Id": 51039,
       "KOR": "창 에픽 등급 무기, 5단계",
-      "ENG": "창 에픽 등급 무기, 5단계"
+      "ENG": "Epic-grade Spear, Stage 5"
     },
     {
       "Index": 234,
       "Id": 50040,
       "KOR": "창-유니크-1",
-      "ENG": "창-유니크-1"
+      "ENG": "Spear-Unique-1"
     },
     {
       "Index": 235,
       "Id": 51040,
       "KOR": "창 유니크 등급 무기, 1단계",
-      "ENG": "창 유니크 등급 무기, 1단계"
+      "ENG": "Unique-grade Spear, Stage 1"
     },
     {
       "Index": 236,
       "Id": 50041,
       "KOR": "창-유니크-2",
-      "ENG": "창-유니크-2"
+      "ENG": "Spear-Unique-2"
     },
     {
       "Index": 237,
       "Id": 51041,
       "KOR": "창 유니크 등급 무기, 2단계",
-      "ENG": "창 유니크 등급 무기, 2단계"
+      "ENG": "Unique-grade Spear, Stage 2"
     },
     {
       "Index": 238,
       "Id": 50042,
       "KOR": "창-유니크-3",
-      "ENG": "창-유니크-3"
+      "ENG": "Spear-Unique-3"
     },
     {
       "Index": 239,
       "Id": 51042,
       "KOR": "창 유니크 등급 무기, 3단계",
-      "ENG": "창 유니크 등급 무기, 3단계"
+      "ENG": "Unique-grade Spear, Stage 3"
     },
     {
       "Index": 240,
       "Id": 50043,
       "KOR": "창-유니크-4",
-      "ENG": "창-유니크-4"
+      "ENG": "Spear-Unique-4"
     },
     {
       "Index": 241,
       "Id": 51043,
       "KOR": "창 유니크 등급 무기, 4단계",
-      "ENG": "창 유니크 등급 무기, 4단계"
+      "ENG": "Unique-grade Spear, Stage 4"
     },
     {
       "Index": 242,
       "Id": 50044,
       "KOR": "창-유니크-5",
-      "ENG": "창-유니크-5"
+      "ENG": "Spear-Unique-5"
     },
     {
       "Index": 243,
       "Id": 51044,
       "KOR": "창 유니크 등급 무기, 5단계",
-      "ENG": "창 유니크 등급 무기, 5단계"
+      "ENG": "Unique-grade Spear, Stage 5"
     },
     {
       "Index": 244,
       "Id": 50045,
       "KOR": "창-레전드리-1",
-      "ENG": "창-레전드리-1"
+      "ENG": "Spear-Legendary-1"
     },
     {
       "Index": 245,
       "Id": 51045,
       "KOR": "창 레전드리 등급 무기, 1단계",
-      "ENG": "창 레전드리 등급 무기, 1단계"
+      "ENG": "Legendary-grade Spear, Stage 1"
     },
     {
       "Index": 246,
       "Id": 50046,
       "KOR": "창-레전드리-2",
-      "ENG": "창-레전드리-2"
+      "ENG": "Spear-Legendary-2"
     },
     {
       "Index": 247,
       "Id": 51046,
       "KOR": "창 레전드리 등급 무기, 2단계",
-      "ENG": "창 레전드리 등급 무기, 2단계"
+      "ENG": "Legendary-grade Spear, Stage 2"
     },
     {
       "Index": 248,
       "Id": 50047,
       "KOR": "창-레전드리-3",
-      "ENG": "창-레전드리-3"
+      "ENG": "Spear-Legendary-3"
     },
     {
       "Index": 249,
       "Id": 51047,
       "KOR": "창 레전드리 등급 무기, 3단계",
-      "ENG": "창 레전드리 등급 무기, 3단계"
+      "ENG": "Legendary-grade Spear, Stage 3"
     },
     {
       "Index": 250,
       "Id": 50048,
       "KOR": "창-레전드리-4",
-      "ENG": "창-레전드리-4"
+      "ENG": "Spear-Legendary-4"
     },
     {
       "Index": 251,
       "Id": 51048,
       "KOR": "창 레전드리 등급 무기, 4단계",
-      "ENG": "창 레전드리 등급 무기, 4단계"
+      "ENG": "Legendary-grade Spear, Stage 4"
     },
     {
       "Index": 252,
       "Id": 50049,
       "KOR": "창-레전드리-5",
-      "ENG": "창-레전드리-5"
+      "ENG": "Spear-Legendary-5"
     },
     {
       "Index": 253,
       "Id": 51049,
       "KOR": "창 레전드리 등급 무기, 5단계",
-      "ENG": "창 레전드리 등급 무기, 5단계"
+      "ENG": "Legendary-grade Spear, Stage 5"
     },
     {
       "Index": 254,
       "Id": 50050,
       "KOR": "활-노말-1",
-      "ENG": "활-노말-1"
+      "ENG": "Bow-Normal-1"
     },
     {
       "Index": 255,
       "Id": 51050,
       "KOR": "활 노말 등급 무기, 1단계",
-      "ENG": "활 노말 등급 무기, 1단계"
+      "ENG": "Normal-grade Bow, Stage 1"
     },
     {
       "Index": 256,
       "Id": 50051,
       "KOR": "활-노말-2",
-      "ENG": "활-노말-2"
+      "ENG": "Bow-Normal-2"
     },
     {
       "Index": 257,
       "Id": 51051,
       "KOR": "활 노말 등급 무기, 2단계",
-      "ENG": "활 노말 등급 무기, 2단계"
+      "ENG": "Normal-grade Bow, Stage 2"
     },
     {
       "Index": 258,
       "Id": 50052,
       "KOR": "활-노말-3",
-      "ENG": "활-노말-3"
+      "ENG": "Bow-Normal-3"
     },
     {
       "Index": 259,
       "Id": 51052,
       "KOR": "활 노말 등급 무기, 3단계",
-      "ENG": "활 노말 등급 무기, 3단계"
+      "ENG": "Normal-grade Bow, Stage 3"
     },
     {
       "Index": 260,
       "Id": 50053,
       "KOR": "활-노말-4",
-      "ENG": "활-노말-4"
+      "ENG": "Bow-Normal-4"
     },
     {
       "Index": 261,
       "Id": 51053,
       "KOR": "활 노말 등급 무기, 4단계",
-      "ENG": "활 노말 등급 무기, 4단계"
+      "ENG": "Normal-grade Bow, Stage 4"
     },
     {
       "Index": 262,
       "Id": 50054,
       "KOR": "활-노말-5",
-      "ENG": "활-노말-5"
+      "ENG": "Bow-Normal-5"
     },
     {
       "Index": 263,
       "Id": 51054,
       "KOR": "활 노말 등급 무기, 5단계",
-      "ENG": "활 노말 등급 무기, 5단계"
+      "ENG": "Normal-grade Bow, Stage 5"
     },
     {
       "Index": 264,
       "Id": 50055,
       "KOR": "활-레어-1",
-      "ENG": "활-레어-1"
+      "ENG": "Bow-Rare-1"
     },
     {
       "Index": 265,
       "Id": 51055,
       "KOR": "활 레어 등급 무기, 1단계",
-      "ENG": "활 레어 등급 무기, 1단계"
+      "ENG": "Rare-grade Bow, Stage 1"
     },
     {
       "Index": 266,
       "Id": 50056,
       "KOR": "활-레어-2",
-      "ENG": "활-레어-2"
+      "ENG": "Bow-Rare-2"
     },
     {
       "Index": 267,
       "Id": 51056,
       "KOR": "활 레어 등급 무기, 2단계",
-      "ENG": "활 레어 등급 무기, 2단계"
+      "ENG": "Rare-grade Bow, Stage 2"
     },
     {
       "Index": 268,
       "Id": 50057,
       "KOR": "활-레어-3",
-      "ENG": "활-레어-3"
+      "ENG": "Bow-Rare-3"
     },
     {
       "Index": 269,
       "Id": 51057,
       "KOR": "활 레어 등급 무기, 3단계",
-      "ENG": "활 레어 등급 무기, 3단계"
+      "ENG": "Rare-grade Bow, Stage 3"
     },
     {
       "Index": 270,
       "Id": 50058,
       "KOR": "활-레어-4",
-      "ENG": "활-레어-4"
+      "ENG": "Bow-Rare-4"
     },
     {
       "Index": 271,
       "Id": 51058,
       "KOR": "활 레어 등급 무기, 4단계",
-      "ENG": "활 레어 등급 무기, 4단계"
+      "ENG": "Rare-grade Bow, Stage 4"
     },
     {
       "Index": 272,
       "Id": 50059,
       "KOR": "활-레어-5",
-      "ENG": "활-레어-5"
+      "ENG": "Bow-Rare-5"
     },
     {
       "Index": 273,
       "Id": 51059,
       "KOR": "활 레어 등급 무기, 5단계",
-      "ENG": "활 레어 등급 무기, 5단계"
+      "ENG": "Rare-grade Bow, Stage 5"
     },
     {
       "Index": 274,
       "Id": 50060,
       "KOR": "활-에픽-1",
-      "ENG": "활-에픽-1"
+      "ENG": "Bow-Epic-1"
     },
     {
       "Index": 275,
       "Id": 51060,
       "KOR": "활 에픽 등급 무기, 1단계",
-      "ENG": "활 에픽 등급 무기, 1단계"
+      "ENG": "Epic-grade Bow, Stage 1"
     },
     {
       "Index": 276,
       "Id": 50061,
       "KOR": "활-에픽-2",
-      "ENG": "활-에픽-2"
+      "ENG": "Bow-Epic-2"
     },
     {
       "Index": 277,
       "Id": 51061,
       "KOR": "활 에픽 등급 무기, 2단계",
-      "ENG": "활 에픽 등급 무기, 2단계"
+      "ENG": "Epic-grade Bow, Stage 2"
     },
     {
       "Index": 278,
       "Id": 50062,
       "KOR": "활-에픽-3",
-      "ENG": "활-에픽-3"
+      "ENG": "Bow-Epic-3"
     },
     {
       "Index": 279,
       "Id": 51062,
       "KOR": "활 에픽 등급 무기, 3단계",
-      "ENG": "활 에픽 등급 무기, 3단계"
+      "ENG": "Epic-grade Bow, Stage 3"
     },
     {
       "Index": 280,
       "Id": 50063,
       "KOR": "활-에픽-4",
-      "ENG": "활-에픽-4"
+      "ENG": "Bow-Epic-4"
     },
     {
       "Index": 281,
       "Id": 51063,
       "KOR": "활 에픽 등급 무기, 4단계",
-      "ENG": "활 에픽 등급 무기, 4단계"
+      "ENG": "Epic-grade Bow, Stage 4"
     },
     {
       "Index": 282,
       "Id": 50064,
       "KOR": "활-에픽-5",
-      "ENG": "활-에픽-5"
+      "ENG": "Bow-Epic-5"
     },
     {
       "Index": 283,
       "Id": 51064,
       "KOR": "활 에픽 등급 무기, 5단계",
-      "ENG": "활 에픽 등급 무기, 5단계"
+      "ENG": "Epic-grade Bow, Stage 5"
     },
     {
       "Index": 284,
       "Id": 50065,
       "KOR": "활-유니크-1",
-      "ENG": "활-유니크-1"
+      "ENG": "Bow-Unique-1"
     },
     {
       "Index": 285,
       "Id": 51065,
       "KOR": "활 유니크 등급 무기, 1단계",
-      "ENG": "활 유니크 등급 무기, 1단계"
+      "ENG": "Unique-grade Bow, Stage 1"
     },
     {
       "Index": 286,
       "Id": 50066,
       "KOR": "활-유니크-2",
-      "ENG": "활-유니크-2"
+      "ENG": "Bow-Unique-2"
     },
     {
       "Index": 287,
       "Id": 51066,
       "KOR": "활 유니크 등급 무기, 2단계",
-      "ENG": "활 유니크 등급 무기, 2단계"
+      "ENG": "Unique-grade Bow, Stage 2"
     },
     {
       "Index": 288,
       "Id": 50067,
       "KOR": "활-유니크-3",
-      "ENG": "활-유니크-3"
+      "ENG": "Bow-Unique-3"
     },
     {
       "Index": 289,
       "Id": 51067,
       "KOR": "활 유니크 등급 무기, 3단계",
-      "ENG": "활 유니크 등급 무기, 3단계"
+      "ENG": "Unique-grade Bow, Stage 3"
     },
     {
       "Index": 290,
       "Id": 50068,
       "KOR": "활-유니크-4",
-      "ENG": "활-유니크-4"
+      "ENG": "Bow-Unique-4"
     },
     {
       "Index": 291,
       "Id": 51068,
       "KOR": "활 유니크 등급 무기, 4단계",
-      "ENG": "활 유니크 등급 무기, 4단계"
+      "ENG": "Unique-grade Bow, Stage 4"
     },
     {
       "Index": 292,
       "Id": 50069,
       "KOR": "활-유니크-5",
-      "ENG": "활-유니크-5"
+      "ENG": "Bow-Unique-5"
     },
     {
       "Index": 293,
       "Id": 51069,
       "KOR": "활 유니크 등급 무기, 5단계",
-      "ENG": "활 유니크 등급 무기, 5단계"
+      "ENG": "Unique-grade Bow, Stage 5"
     },
     {
       "Index": 294,
       "Id": 50070,
       "KOR": "활-레전드리-1",
-      "ENG": "활-레전드리-1"
+      "ENG": "Bow-Legendary-1"
     },
     {
       "Index": 295,
       "Id": 51070,
       "KOR": "활 레전드리 등급 무기, 1단계",
-      "ENG": "활 레전드리 등급 무기, 1단계"
+      "ENG": "Legendary-grade Bow, Stage 1"
     },
     {
       "Index": 296,
       "Id": 50071,
       "KOR": "활-레전드리-2",
-      "ENG": "활-레전드리-2"
+      "ENG": "Bow-Legendary-2"
     },
     {
       "Index": 297,
       "Id": 51071,
       "KOR": "활 레전드리 등급 무기, 2단계",
-      "ENG": "활 레전드리 등급 무기, 2단계"
+      "ENG": "Legendary-grade Bow, Stage 2"
     },
     {
       "Index": 298,
       "Id": 50072,
       "KOR": "활-레전드리-3",
-      "ENG": "활-레전드리-3"
+      "ENG": "Bow-Legendary-3"
     },
     {
       "Index": 299,
       "Id": 51072,
       "KOR": "활 레전드리 등급 무기, 3단계",
-      "ENG": "활 레전드리 등급 무기, 3단계"
+      "ENG": "Legendary-grade Bow, Stage 3"
     },
     {
       "Index": 300,
       "Id": 50073,
       "KOR": "활-레전드리-4",
-      "ENG": "활-레전드리-4"
+      "ENG": "Bow-Legendary-4"
     },
     {
       "Index": 301,
       "Id": 51073,
       "KOR": "활 레전드리 등급 무기, 4단계",
-      "ENG": "활 레전드리 등급 무기, 4단계"
+      "ENG": "Legendary-grade Bow, Stage 4"
     },
     {
       "Index": 302,
       "Id": 50074,
       "KOR": "활-레전드리-5",
-      "ENG": "활-레전드리-5"
+      "ENG": "Bow-Legendary-5"
     },
     {
       "Index": 303,
       "Id": 51074,
       "KOR": "활 레전드리 등급 무기, 5단계",
-      "ENG": "활 레전드리 등급 무기, 5단계"
+      "ENG": "Legendary-grade Bow, Stage 5"
     },
     {
       "Index": 304,
       "Id": 52000,
       "KOR": "공격력 +5 증가",
-      "ENG": "공격력 +5 증가"
+      "ENG": "ATK +5"
     },
     {
       "Index": 305,
       "Id": 52001,
       "KOR": "공격속도 +0.05 증가",
-      "ENG": "공격속도 +0.05 증가"
+      "ENG": "ASPD +0.05"
     },
     {
       "Index": 306,
       "Id": 52002,
       "KOR": "치명타확률 +2 증가",
-      "ENG": "치명타확률 +2 증가"
+      "ENG": "Crit Chance +2"
     },
     {
       "Index": 307,
       "Id": 52003,
       "KOR": "공격속도 +0.1 증가",
-      "ENG": "공격속도 +0.1 증가"
+      "ENG": "ASPD +0.1"
     },
     {
       "Index": 308,
       "Id": 52004,
       "KOR": "치명타피해 +15 증가",
-      "ENG": "치명타피해 +15 증가"
+      "ENG": "Crit Damage +15"
     },
     {
       "Index": 309,
       "Id": 52005,
       "KOR": "골드 획득량 +10% 증가",
-      "ENG": "골드 획득량 +10% 증가"
+      "ENG": "Gold Gain +10%"
     },
     {
       "Index": 310,
       "Id": 52006,
       "KOR": "존재력 획득량 +0.1 증가",
-      "ENG": "존재력 획득량 +0.1 증가"
+      "ENG": "Exist Gain +0.1"
     },
     {
       "Index": 311,
       "Id": 52007,
       "KOR": "타임 하이스트 쿨타임 -10% 감소",
-      "ENG": "타임 하이스트 쿨타임 -10% 감소"
+      "ENG": "Time Heist Cooldown -10%"
     },
     {
       "Index": 312,
       "Id": 52008,
       "KOR": "공격력 +20 증가",
-      "ENG": "공격력 +20 증가"
+      "ENG": "ATK +20"
     },
     {
       "Index": 313,
@@ -2121,7 +2121,7 @@
       "Index": 314,
       "Id": 53050,
       "KOR": "공격력 +5 증가",
-      "ENG": "공격력 +5 증가"
+      "ENG": "ATK +5"
     },
     {
       "Index": 315,
@@ -2133,7 +2133,7 @@
       "Index": 316,
       "Id": 53051,
       "KOR": "공격력 +5.6 증가",
-      "ENG": "공격력 +5.6 증가"
+      "ENG": "ATK +5.6"
     },
     {
       "Index": 317,
@@ -2145,7 +2145,7 @@
       "Index": 318,
       "Id": 53052,
       "KOR": "공격력 +6.2 증가",
-      "ENG": "공격력 +6.2 증가"
+      "ENG": "ATK +6.2"
     },
     {
       "Index": 319,
@@ -2157,7 +2157,7 @@
       "Index": 320,
       "Id": 53053,
       "KOR": "공격력 +6.8 증가",
-      "ENG": "공격력 +6.8 증가"
+      "ENG": "ATK +6.8"
     },
     {
       "Index": 321,
@@ -2169,7 +2169,7 @@
       "Index": 322,
       "Id": 53054,
       "KOR": "공격력 +7.4 증가",
-      "ENG": "공격력 +7.4 증가"
+      "ENG": "ATK +7.4"
     },
     {
       "Index": 323,
@@ -2181,7 +2181,7 @@
       "Index": 324,
       "Id": 53055,
       "KOR": "공격력 +8 증가",
-      "ENG": "공격력 +8 증가"
+      "ENG": "ATK +8"
     },
     {
       "Index": 325,
@@ -2193,7 +2193,7 @@
       "Index": 326,
       "Id": 53056,
       "KOR": "공격력 +8.6 증가",
-      "ENG": "공격력 +8.6 증가"
+      "ENG": "ATK +8.6"
     },
     {
       "Index": 327,
@@ -2205,7 +2205,7 @@
       "Index": 328,
       "Id": 53057,
       "KOR": "치명타확률 +2 증가",
-      "ENG": "치명타확률 +2 증가"
+      "ENG": "Crit Chance +2"
     },
     {
       "Index": 329,
@@ -2217,7 +2217,7 @@
       "Index": 330,
       "Id": 53058,
       "KOR": "치명타확률 +2.6 증가",
-      "ENG": "치명타확률 +2.6 증가"
+      "ENG": "Crit Chance +2.6"
     },
     {
       "Index": 331,
@@ -2229,7 +2229,7 @@
       "Index": 332,
       "Id": 53059,
       "KOR": "치명타확률 +3.2 증가",
-      "ENG": "치명타확률 +3.2 증가"
+      "ENG": "Crit Chance +3.2"
     },
     {
       "Index": 333,
@@ -2241,7 +2241,7 @@
       "Index": 334,
       "Id": 53060,
       "KOR": "공격속도 +0.8 증가",
-      "ENG": "공격속도 +0.8 증가"
+      "ENG": "ASPD +0.8"
     },
     {
       "Index": 335,
@@ -2253,7 +2253,7 @@
       "Index": 336,
       "Id": 53061,
       "KOR": "공격속도 +0.95 증가",
-      "ENG": "공격속도 +0.95 증가"
+      "ENG": "ASPD +0.95"
     },
     {
       "Index": 337,
@@ -2265,7 +2265,7 @@
       "Index": 338,
       "Id": 53062,
       "KOR": "공격속도 +1.1 증가",
-      "ENG": "공격속도 +1.1 증가"
+      "ENG": "ASPD +1.1"
     },
     {
       "Index": 339,
@@ -2277,7 +2277,7 @@
       "Index": 340,
       "Id": 53063,
       "KOR": "공격속도 +1.25 증가",
-      "ENG": "공격속도 +1.25 증가"
+      "ENG": "ASPD +1.25"
     },
     {
       "Index": 341,
@@ -2289,7 +2289,7 @@
       "Index": 342,
       "Id": 53064,
       "KOR": "공격속도 +1.4 증가",
-      "ENG": "공격속도 +1.4 증가"
+      "ENG": "ASPD +1.4"
     },
     {
       "Index": 343,
@@ -2301,7 +2301,7 @@
       "Index": 344,
       "Id": 53065,
       "KOR": "공격속도 +1.55 증가",
-      "ENG": "공격속도 +1.55 증가"
+      "ENG": "ASPD +1.55"
     },
     {
       "Index": 345,
@@ -2313,7 +2313,7 @@
       "Index": 346,
       "Id": 53066,
       "KOR": "시간에너지 8 지급",
-      "ENG": "시간에너지 8 지급"
+      "ENG": "Grants 8 Time Energy"
     },
     {
       "Index": 347,
@@ -2325,7 +2325,7 @@
       "Index": 348,
       "Id": 53067,
       "KOR": "시간에너지 10 지급",
-      "ENG": "시간에너지 10 지급"
+      "ENG": "Grants 10 Time Energy"
     },
     {
       "Index": 349,
@@ -2337,7 +2337,7 @@
       "Index": 350,
       "Id": 53068,
       "KOR": "시간에너지 12 지급",
-      "ENG": "시간에너지 12 지급"
+      "ENG": "Grants 12 Time Energy"
     },
     {
       "Index": 351,
@@ -2349,7 +2349,7 @@
       "Index": 352,
       "Id": 53069,
       "KOR": "시간에너지 14 지급",
-      "ENG": "시간에너지 14 지급"
+      "ENG": "Grants 14 Time Energy"
     },
     {
       "Index": 353,
@@ -2361,7 +2361,7 @@
       "Index": 354,
       "Id": 53070,
       "KOR": "치명타피해 +10 증가",
-      "ENG": "치명타피해 +10 증가"
+      "ENG": "Crit Damage +10"
     },
     {
       "Index": 355,
@@ -2373,7 +2373,7 @@
       "Index": 356,
       "Id": 53071,
       "KOR": "치명타피해 +11 증가",
-      "ENG": "치명타피해 +11 증가"
+      "ENG": "Crit Damage +11"
     },
     {
       "Index": 357,
@@ -2385,7 +2385,7 @@
       "Index": 358,
       "Id": 53072,
       "KOR": "치명타피해 +12 증가",
-      "ENG": "치명타피해 +12 증가"
+      "ENG": "Crit Damage +12"
     },
     {
       "Index": 359,
@@ -2397,7 +2397,7 @@
       "Index": 360,
       "Id": 53073,
       "KOR": "치명타피해 +13 증가",
-      "ENG": "치명타피해 +13 증가"
+      "ENG": "Crit Damage +13"
     },
     {
       "Index": 361,
@@ -2409,7 +2409,7 @@
       "Index": 362,
       "Id": 53074,
       "KOR": "치명타피해 +14 증가",
-      "ENG": "치명타피해 +14 증가"
+      "ENG": "Crit Damage +14"
     },
     {
       "Index": 363,
@@ -2421,7 +2421,7 @@
       "Index": 364,
       "Id": 53075,
       "KOR": "치명타피해 +15 증가",
-      "ENG": "치명타피해 +15 증가"
+      "ENG": "Crit Damage +15"
     },
     {
       "Index": 365,
@@ -2433,7 +2433,7 @@
       "Index": 366,
       "Id": 53076,
       "KOR": "숙련의 정수 31 지급",
-      "ENG": "숙련의 정수 31 지급"
+      "ENG": "Grants 31 Mastery Essence"
     },
     {
       "Index": 367,
@@ -2445,7 +2445,7 @@
       "Index": 368,
       "Id": 53077,
       "KOR": "숙련의 정수 32 지급",
-      "ENG": "숙련의 정수 32 지급"
+      "ENG": "Grants 32 Mastery Essence"
     },
     {
       "Index": 369,
@@ -2457,7 +2457,7 @@
       "Index": 370,
       "Id": 53078,
       "KOR": "숙련의 정수 33 지급",
-      "ENG": "숙련의 정수 33 지급"
+      "ENG": "Grants 33 Mastery Essence"
     },
     {
       "Index": 371,
@@ -2469,7 +2469,7 @@
       "Index": 372,
       "Id": 53079,
       "KOR": "숙련의 정수 34 지급",
-      "ENG": "숙련의 정수 34 지급"
+      "ENG": "Grants 34 Mastery Essence"
     },
     {
       "Index": 373,
@@ -2481,7 +2481,7 @@
       "Index": 374,
       "Id": 53080,
       "KOR": "공격력 +23 증가",
-      "ENG": "공격력 +23 증가"
+      "ENG": "ATK +23"
     },
     {
       "Index": 375,
@@ -2493,7 +2493,7 @@
       "Index": 376,
       "Id": 53081,
       "KOR": "공격력 +23.6 증가",
-      "ENG": "공격력 +23.6 증가"
+      "ENG": "ATK +23.6"
     },
     {
       "Index": 377,
@@ -2505,7 +2505,7 @@
       "Index": 378,
       "Id": 53082,
       "KOR": "공격력 +24.2 증가",
-      "ENG": "공격력 +24.2 증가"
+      "ENG": "ATK +24.2"
     },
     {
       "Index": 379,
@@ -2517,7 +2517,7 @@
       "Index": 380,
       "Id": 53083,
       "KOR": "공격력 +24.8 증가",
-      "ENG": "공격력 +24.8 증가"
+      "ENG": "ATK +24.8"
     },
     {
       "Index": 381,
@@ -2529,7 +2529,7 @@
       "Index": 382,
       "Id": 53084,
       "KOR": "공격력 +25.4 증가",
-      "ENG": "공격력 +25.4 증가"
+      "ENG": "ATK +25.4"
     },
     {
       "Index": 383,
@@ -2541,7 +2541,7 @@
       "Index": 384,
       "Id": 53085,
       "KOR": "공격력 +26 증가",
-      "ENG": "공격력 +26 증가"
+      "ENG": "ATK +26"
     },
     {
       "Index": 385,
@@ -2553,7 +2553,7 @@
       "Index": 386,
       "Id": 53086,
       "KOR": "공격력 +26.6 증가",
-      "ENG": "공격력 +26.6 증가"
+      "ENG": "ATK +26.6"
     },
     {
       "Index": 387,
@@ -2565,7 +2565,7 @@
       "Index": 388,
       "Id": 53087,
       "KOR": "숙련의 정수 42 지급",
-      "ENG": "숙련의 정수 42 지급"
+      "ENG": "Grants 42 Mastery Essence"
     },
     {
       "Index": 389,
@@ -2577,7 +2577,7 @@
       "Index": 390,
       "Id": 53088,
       "KOR": "숙련의 정수 43 지급",
-      "ENG": "숙련의 정수 43 지급"
+      "ENG": "Grants 43 Mastery Essence"
     },
     {
       "Index": 391,
@@ -2589,7 +2589,7 @@
       "Index": 392,
       "Id": 53089,
       "KOR": "숙련의 정수 44 지급",
-      "ENG": "숙련의 정수 44 지급"
+      "ENG": "Grants 44 Mastery Essence"
     },
     {
       "Index": 393,
@@ -2601,7 +2601,7 @@
       "Index": 394,
       "Id": 53090,
       "KOR": "존재력획득량 +29 증가",
-      "ENG": "존재력획득량 +29 증가"
+      "ENG": "Exist Gain +29"
     },
     {
       "Index": 395,
@@ -2613,7 +2613,7 @@
       "Index": 396,
       "Id": 53091,
       "KOR": "존재력획득량 +29.6 증가",
-      "ENG": "존재력획득량 +29.6 증가"
+      "ENG": "Exist Gain +29.6"
     },
     {
       "Index": 397,
@@ -2625,7 +2625,7 @@
       "Index": 398,
       "Id": 53092,
       "KOR": "존재력획득량 +30.2 증가",
-      "ENG": "존재력획득량 +30.2 증가"
+      "ENG": "Exist Gain +30.2"
     },
     {
       "Index": 399,
@@ -2637,7 +2637,7 @@
       "Index": 400,
       "Id": 53093,
       "KOR": "존재력획득량 +30.8 증가",
-      "ENG": "존재력획득량 +30.8 증가"
+      "ENG": "Exist Gain +30.8"
     },
     {
       "Index": 401,
@@ -2649,7 +2649,7 @@
       "Index": 402,
       "Id": 53094,
       "KOR": "존재력획득량 +31.4 증가",
-      "ENG": "존재력획득량 +31.4 증가"
+      "ENG": "Exist Gain +31.4"
     },
     {
       "Index": 403,
@@ -2661,7 +2661,7 @@
       "Index": 404,
       "Id": 53095,
       "KOR": "존재력획득량 +32 증가",
-      "ENG": "존재력획득량 +32 증가"
+      "ENG": "Exist Gain +32"
     },
     {
       "Index": 405,
@@ -2673,7 +2673,7 @@
       "Index": 406,
       "Id": 53096,
       "KOR": "공격속도 +6.2 증가",
-      "ENG": "공격속도 +6.2 증가"
+      "ENG": "ASPD +6.2"
     },
     {
       "Index": 407,
@@ -2685,7 +2685,7 @@
       "Index": 408,
       "Id": 53097,
       "KOR": "공격속도 +6.35 증가",
-      "ENG": "공격속도 +6.35 증가"
+      "ENG": "ASPD +6.35"
     },
     {
       "Index": 409,
@@ -2697,7 +2697,7 @@
       "Index": 410,
       "Id": 53098,
       "KOR": "공격속도 +6.5 증가",
-      "ENG": "공격속도 +6.5 증가"
+      "ENG": "ASPD +6.5"
     },
     {
       "Index": 411,
@@ -2709,7 +2709,7 @@
       "Index": 412,
       "Id": 53099,
       "KOR": "공격속도 +6.65 증가",
-      "ENG": "공격속도 +6.65 증가"
+      "ENG": "ASPD +6.65"
     },
     {
       "Index": 413,
@@ -2865,67 +2865,67 @@
       "Index": 438,
       "Id": 55000,
       "KOR": "존재력 트리",
-      "ENG": "존재력 트리"
+      "ENG": "Exist Tree"
     },
     {
       "Index": 439,
       "Id": 55001,
       "KOR": "리버스(환생)",
-      "ENG": "리버스(환생)"
+      "ENG": "Rebirth"
     },
     {
       "Index": 440,
       "Id": 55002,
       "KOR": "타임 하이스트",
-      "ENG": "타임 하이스트"
+      "ENG": "Time Heist"
     },
     {
       "Index": 441,
       "Id": 55003,
       "KOR": "무기 가챠 · 강화",
-      "ENG": "무기 가챠 · 강화"
+      "ENG": "Weapon Gacha · Enhance"
     },
     {
       "Index": 442,
       "Id": 55004,
       "KOR": "유물 시스템",
-      "ENG": "유물 시스템"
+      "ENG": "Relic System"
     },
     {
       "Index": 443,
       "Id": 55005,
       "KOR": "오프라인 보상",
-      "ENG": "오프라인 보상"
+      "ENG": "Offline Reward"
     },
     {
       "Index": 444,
       "Id": 55006,
       "KOR": "플레이어 이름 · 프로필",
-      "ENG": "플레이어 이름 · 프로필"
+      "ENG": "Player Name · Profile"
     },
     {
       "Index": 445,
       "Id": 55007,
       "KOR": "스테이지 최초 클리어 보상",
-      "ENG": "스테이지 최초 클리어 보상"
+      "ENG": "Stage First-Clear Reward"
     },
     {
       "Index": 446,
       "Id": 55008,
       "KOR": "랭킹",
-      "ENG": "랭킹"
+      "ENG": "Ranking"
     },
     {
       "Index": 447,
       "Id": 55009,
       "KOR": "리버스 보상 방식 개편",
-      "ENG": "리버스 보상 방식 개편"
+      "ENG": "Reworked Rebirth Reward System"
     },
     {
       "Index": 448,
       "Id": 55010,
       "KOR": "전체 진행 속도 조정",
-      "ENG": "전체 진행 속도 조정"
+      "ENG": "Overall Progression Speed Adjustment"
     },
     {
       "Index": 449,
@@ -2937,31 +2937,31 @@
       "Index": 450,
       "Id": 41052,
       "KOR": "(고정값)",
-      "ENG": "(고정값)"
+      "ENG": "(Fixed Value)"
     },
     {
       "Index": 451,
       "Id": 41053,
       "KOR": "다음 레벨",
-      "ENG": "다음 레벨"
+      "ENG": "Next Level"
     },
     {
       "Index": 452,
       "Id": 55011,
       "KOR": "무기 보유·장착 효과 밸런스 개편",
-      "ENG": "무기 보유·장착 효과 밸런스 개편"
+      "ENG": "Weapon Ownership/Equip Bonus Balance Rework"
     },
     {
       "Index": 453,
       "Id": 55012,
       "KOR": "깡스탯·퍼센트 스탯 구조 개편",
-      "ENG": "깡스탯·퍼센트 스탯 구조 개편"
+      "ENG": "Flat Stat/Percent Stat Structure Rework"
     },
     {
       "Index": 454,
       "Id": 55013,
       "KOR": "재화 획득량 조정",
-      "ENG": "재화 획득량 조정"
+      "ENG": "Currency Gain Adjustment"
     },
     {
       "Index": 455,
@@ -2985,31 +2985,31 @@
       "Index": 458,
       "Id": 55017,
       "KOR": "게임 제목 \"Re: NOVA\" 공개",
-      "ENG": "게임 제목 \"Re: NOVA\" 공개"
+      "ENG": "Revealed game title \"Re: NOVA\""
     },
     {
       "Index": 459,
       "Id": 55018,
       "KOR": "로딩 화면 추가",
-      "ENG": "로딩 화면 추가"
+      "ENG": "Added loading screen"
     },
     {
       "Index": 460,
       "Id": 41054,
       "KOR": "다이아 · 존재력 재화 초기화",
-      "ENG": "다이아 · 존재력 재화 초기화"
+      "ENG": "Reset Diamond · Exist currencies"
     },
     {
       "Index": 461,
       "Id": 55019,
       "KOR": "리버스 재화 초기화 범위 확대",
-      "ENG": "리버스 재화 초기화 범위 확대"
+      "ENG": "Expanded scope of Rebirth currency reset"
     },
     {
       "Index": 462,
       "Id": 55020,
       "KOR": "몬스터 스프라이트 추가",
-      "ENG": "몬스터 스프라이트 추가"
+      "ENG": "Added monster sprites"
     },
     {
       "Index": 463,
@@ -3033,7 +3033,7 @@
       "Index": 466,
       "Id": 55024,
       "KOR": "로고·로딩 화면 리디자인",
-      "ENG": "로고·로딩 화면 리디자인"
+      "ENG": "Redesigned logo/loading screen"
     },
     {
       "Index": 467,
@@ -3045,13 +3045,13 @@
       "Index": 468,
       "Id": 55026,
       "KOR": "스탯 화면 표시 정리",
-      "ENG": "스탯 화면 표시 정리"
+      "ENG": "Cleaned up stat screen display"
     },
     {
       "Index": 469,
       "Id": 55027,
       "KOR": "존재력 트리 250노드로 확장",
-      "ENG": "존재력 트리 250노드로 확장"
+      "ENG": "Expanded Exist Tree to 250 nodes"
     },
     {
       "Index": 470,
@@ -3063,925 +3063,925 @@
       "Index": 471,
       "Id": 55028,
       "KOR": "스테이지 300개로 확장",
-      "ENG": "스테이지 300개로 확장"
+      "ENG": "Expanded stages to 300"
     },
     {
       "Index": 472,
       "Id": 40136,
       "KOR": "신화",
-      "ENG": "신화"
+      "ENG": "Mythic"
     },
     {
       "Index": 473,
       "Id": 40137,
       "KOR": "도끼",
-      "ENG": "도끼"
+      "ENG": "Axe"
     },
     {
       "Index": 474,
       "Id": 40138,
       "KOR": "지팡이",
-      "ENG": "지팡이"
+      "ENG": "Staff"
     },
     {
       "Index": 475,
       "Id": 50075,
       "KOR": "검-신화-1",
-      "ENG": "검-신화-1"
+      "ENG": "Sword-Mythic-1"
     },
     {
       "Index": 476,
       "Id": 51075,
       "KOR": "검 신화 등급 무기, 1단계",
-      "ENG": "검 신화 등급 무기, 1단계"
+      "ENG": "Mythic-grade Sword, Stage 1"
     },
     {
       "Index": 477,
       "Id": 50076,
       "KOR": "검-신화-2",
-      "ENG": "검-신화-2"
+      "ENG": "Sword-Mythic-2"
     },
     {
       "Index": 478,
       "Id": 51076,
       "KOR": "검 신화 등급 무기, 2단계",
-      "ENG": "검 신화 등급 무기, 2단계"
+      "ENG": "Mythic-grade Sword, Stage 2"
     },
     {
       "Index": 479,
       "Id": 50077,
       "KOR": "검-신화-3",
-      "ENG": "검-신화-3"
+      "ENG": "Sword-Mythic-3"
     },
     {
       "Index": 480,
       "Id": 51077,
       "KOR": "검 신화 등급 무기, 3단계",
-      "ENG": "검 신화 등급 무기, 3단계"
+      "ENG": "Mythic-grade Sword, Stage 3"
     },
     {
       "Index": 481,
       "Id": 50078,
       "KOR": "검-신화-4",
-      "ENG": "검-신화-4"
+      "ENG": "Sword-Mythic-4"
     },
     {
       "Index": 482,
       "Id": 51078,
       "KOR": "검 신화 등급 무기, 4단계",
-      "ENG": "검 신화 등급 무기, 4단계"
+      "ENG": "Mythic-grade Sword, Stage 4"
     },
     {
       "Index": 483,
       "Id": 50079,
       "KOR": "검-신화-5",
-      "ENG": "검-신화-5"
+      "ENG": "Sword-Mythic-5"
     },
     {
       "Index": 484,
       "Id": 51079,
       "KOR": "검 신화 등급 무기, 5단계",
-      "ENG": "검 신화 등급 무기, 5단계"
+      "ENG": "Mythic-grade Sword, Stage 5"
     },
     {
       "Index": 485,
       "Id": 50080,
       "KOR": "창-신화-1",
-      "ENG": "창-신화-1"
+      "ENG": "Spear-Mythic-1"
     },
     {
       "Index": 486,
       "Id": 51080,
       "KOR": "창 신화 등급 무기, 1단계",
-      "ENG": "창 신화 등급 무기, 1단계"
+      "ENG": "Mythic-grade Spear, Stage 1"
     },
     {
       "Index": 487,
       "Id": 50081,
       "KOR": "창-신화-2",
-      "ENG": "창-신화-2"
+      "ENG": "Spear-Mythic-2"
     },
     {
       "Index": 488,
       "Id": 51081,
       "KOR": "창 신화 등급 무기, 2단계",
-      "ENG": "창 신화 등급 무기, 2단계"
+      "ENG": "Mythic-grade Spear, Stage 2"
     },
     {
       "Index": 489,
       "Id": 50082,
       "KOR": "창-신화-3",
-      "ENG": "창-신화-3"
+      "ENG": "Spear-Mythic-3"
     },
     {
       "Index": 490,
       "Id": 51082,
       "KOR": "창 신화 등급 무기, 3단계",
-      "ENG": "창 신화 등급 무기, 3단계"
+      "ENG": "Mythic-grade Spear, Stage 3"
     },
     {
       "Index": 491,
       "Id": 50083,
       "KOR": "창-신화-4",
-      "ENG": "창-신화-4"
+      "ENG": "Spear-Mythic-4"
     },
     {
       "Index": 492,
       "Id": 51083,
       "KOR": "창 신화 등급 무기, 4단계",
-      "ENG": "창 신화 등급 무기, 4단계"
+      "ENG": "Mythic-grade Spear, Stage 4"
     },
     {
       "Index": 493,
       "Id": 50084,
       "KOR": "창-신화-5",
-      "ENG": "창-신화-5"
+      "ENG": "Spear-Mythic-5"
     },
     {
       "Index": 494,
       "Id": 51084,
       "KOR": "창 신화 등급 무기, 5단계",
-      "ENG": "창 신화 등급 무기, 5단계"
+      "ENG": "Mythic-grade Spear, Stage 5"
     },
     {
       "Index": 495,
       "Id": 50085,
       "KOR": "활-신화-1",
-      "ENG": "활-신화-1"
+      "ENG": "Bow-Mythic-1"
     },
     {
       "Index": 496,
       "Id": 51085,
       "KOR": "활 신화 등급 무기, 1단계",
-      "ENG": "활 신화 등급 무기, 1단계"
+      "ENG": "Mythic-grade Bow, Stage 1"
     },
     {
       "Index": 497,
       "Id": 50086,
       "KOR": "활-신화-2",
-      "ENG": "활-신화-2"
+      "ENG": "Bow-Mythic-2"
     },
     {
       "Index": 498,
       "Id": 51086,
       "KOR": "활 신화 등급 무기, 2단계",
-      "ENG": "활 신화 등급 무기, 2단계"
+      "ENG": "Mythic-grade Bow, Stage 2"
     },
     {
       "Index": 499,
       "Id": 50087,
       "KOR": "활-신화-3",
-      "ENG": "활-신화-3"
+      "ENG": "Bow-Mythic-3"
     },
     {
       "Index": 500,
       "Id": 51087,
       "KOR": "활 신화 등급 무기, 3단계",
-      "ENG": "활 신화 등급 무기, 3단계"
+      "ENG": "Mythic-grade Bow, Stage 3"
     },
     {
       "Index": 501,
       "Id": 50088,
       "KOR": "활-신화-4",
-      "ENG": "활-신화-4"
+      "ENG": "Bow-Mythic-4"
     },
     {
       "Index": 502,
       "Id": 51088,
       "KOR": "활 신화 등급 무기, 4단계",
-      "ENG": "활 신화 등급 무기, 4단계"
+      "ENG": "Mythic-grade Bow, Stage 4"
     },
     {
       "Index": 503,
       "Id": 50089,
       "KOR": "활-신화-5",
-      "ENG": "활-신화-5"
+      "ENG": "Bow-Mythic-5"
     },
     {
       "Index": 504,
       "Id": 51089,
       "KOR": "활 신화 등급 무기, 5단계",
-      "ENG": "활 신화 등급 무기, 5단계"
+      "ENG": "Mythic-grade Bow, Stage 5"
     },
     {
       "Index": 505,
       "Id": 50090,
       "KOR": "도끼-노말-1",
-      "ENG": "도끼-노말-1"
+      "ENG": "Axe-Normal-1"
     },
     {
       "Index": 506,
       "Id": 51090,
       "KOR": "도끼 노말 등급 무기, 1단계",
-      "ENG": "도끼 노말 등급 무기, 1단계"
+      "ENG": "Normal-grade Axe, Stage 1"
     },
     {
       "Index": 507,
       "Id": 50091,
       "KOR": "도끼-노말-2",
-      "ENG": "도끼-노말-2"
+      "ENG": "Axe-Normal-2"
     },
     {
       "Index": 508,
       "Id": 51091,
       "KOR": "도끼 노말 등급 무기, 2단계",
-      "ENG": "도끼 노말 등급 무기, 2단계"
+      "ENG": "Normal-grade Axe, Stage 2"
     },
     {
       "Index": 509,
       "Id": 50092,
       "KOR": "도끼-노말-3",
-      "ENG": "도끼-노말-3"
+      "ENG": "Axe-Normal-3"
     },
     {
       "Index": 510,
       "Id": 51092,
       "KOR": "도끼 노말 등급 무기, 3단계",
-      "ENG": "도끼 노말 등급 무기, 3단계"
+      "ENG": "Normal-grade Axe, Stage 3"
     },
     {
       "Index": 511,
       "Id": 50093,
       "KOR": "도끼-노말-4",
-      "ENG": "도끼-노말-4"
+      "ENG": "Axe-Normal-4"
     },
     {
       "Index": 512,
       "Id": 51093,
       "KOR": "도끼 노말 등급 무기, 4단계",
-      "ENG": "도끼 노말 등급 무기, 4단계"
+      "ENG": "Normal-grade Axe, Stage 4"
     },
     {
       "Index": 513,
       "Id": 50094,
       "KOR": "도끼-노말-5",
-      "ENG": "도끼-노말-5"
+      "ENG": "Axe-Normal-5"
     },
     {
       "Index": 514,
       "Id": 51094,
       "KOR": "도끼 노말 등급 무기, 5단계",
-      "ENG": "도끼 노말 등급 무기, 5단계"
+      "ENG": "Normal-grade Axe, Stage 5"
     },
     {
       "Index": 515,
       "Id": 50095,
       "KOR": "도끼-레어-1",
-      "ENG": "도끼-레어-1"
+      "ENG": "Axe-Rare-1"
     },
     {
       "Index": 516,
       "Id": 51095,
       "KOR": "도끼 레어 등급 무기, 1단계",
-      "ENG": "도끼 레어 등급 무기, 1단계"
+      "ENG": "Rare-grade Axe, Stage 1"
     },
     {
       "Index": 517,
       "Id": 50096,
       "KOR": "도끼-레어-2",
-      "ENG": "도끼-레어-2"
+      "ENG": "Axe-Rare-2"
     },
     {
       "Index": 518,
       "Id": 51096,
       "KOR": "도끼 레어 등급 무기, 2단계",
-      "ENG": "도끼 레어 등급 무기, 2단계"
+      "ENG": "Rare-grade Axe, Stage 2"
     },
     {
       "Index": 519,
       "Id": 50097,
       "KOR": "도끼-레어-3",
-      "ENG": "도끼-레어-3"
+      "ENG": "Axe-Rare-3"
     },
     {
       "Index": 520,
       "Id": 51097,
       "KOR": "도끼 레어 등급 무기, 3단계",
-      "ENG": "도끼 레어 등급 무기, 3단계"
+      "ENG": "Rare-grade Axe, Stage 3"
     },
     {
       "Index": 521,
       "Id": 50098,
       "KOR": "도끼-레어-4",
-      "ENG": "도끼-레어-4"
+      "ENG": "Axe-Rare-4"
     },
     {
       "Index": 522,
       "Id": 51098,
       "KOR": "도끼 레어 등급 무기, 4단계",
-      "ENG": "도끼 레어 등급 무기, 4단계"
+      "ENG": "Rare-grade Axe, Stage 4"
     },
     {
       "Index": 523,
       "Id": 50099,
       "KOR": "도끼-레어-5",
-      "ENG": "도끼-레어-5"
+      "ENG": "Axe-Rare-5"
     },
     {
       "Index": 524,
       "Id": 51099,
       "KOR": "도끼 레어 등급 무기, 5단계",
-      "ENG": "도끼 레어 등급 무기, 5단계"
+      "ENG": "Rare-grade Axe, Stage 5"
     },
     {
       "Index": 525,
       "Id": 50100,
       "KOR": "도끼-에픽-1",
-      "ENG": "도끼-에픽-1"
+      "ENG": "Axe-Epic-1"
     },
     {
       "Index": 526,
       "Id": 51100,
       "KOR": "도끼 에픽 등급 무기, 1단계",
-      "ENG": "도끼 에픽 등급 무기, 1단계"
+      "ENG": "Epic-grade Axe, Stage 1"
     },
     {
       "Index": 527,
       "Id": 50101,
       "KOR": "도끼-에픽-2",
-      "ENG": "도끼-에픽-2"
+      "ENG": "Axe-Epic-2"
     },
     {
       "Index": 528,
       "Id": 51101,
       "KOR": "도끼 에픽 등급 무기, 2단계",
-      "ENG": "도끼 에픽 등급 무기, 2단계"
+      "ENG": "Epic-grade Axe, Stage 2"
     },
     {
       "Index": 529,
       "Id": 50102,
       "KOR": "도끼-에픽-3",
-      "ENG": "도끼-에픽-3"
+      "ENG": "Axe-Epic-3"
     },
     {
       "Index": 530,
       "Id": 51102,
       "KOR": "도끼 에픽 등급 무기, 3단계",
-      "ENG": "도끼 에픽 등급 무기, 3단계"
+      "ENG": "Epic-grade Axe, Stage 3"
     },
     {
       "Index": 531,
       "Id": 50103,
       "KOR": "도끼-에픽-4",
-      "ENG": "도끼-에픽-4"
+      "ENG": "Axe-Epic-4"
     },
     {
       "Index": 532,
       "Id": 51103,
       "KOR": "도끼 에픽 등급 무기, 4단계",
-      "ENG": "도끼 에픽 등급 무기, 4단계"
+      "ENG": "Epic-grade Axe, Stage 4"
     },
     {
       "Index": 533,
       "Id": 50104,
       "KOR": "도끼-에픽-5",
-      "ENG": "도끼-에픽-5"
+      "ENG": "Axe-Epic-5"
     },
     {
       "Index": 534,
       "Id": 51104,
       "KOR": "도끼 에픽 등급 무기, 5단계",
-      "ENG": "도끼 에픽 등급 무기, 5단계"
+      "ENG": "Epic-grade Axe, Stage 5"
     },
     {
       "Index": 535,
       "Id": 50105,
       "KOR": "도끼-유니크-1",
-      "ENG": "도끼-유니크-1"
+      "ENG": "Axe-Unique-1"
     },
     {
       "Index": 536,
       "Id": 51105,
       "KOR": "도끼 유니크 등급 무기, 1단계",
-      "ENG": "도끼 유니크 등급 무기, 1단계"
+      "ENG": "Unique-grade Axe, Stage 1"
     },
     {
       "Index": 537,
       "Id": 50106,
       "KOR": "도끼-유니크-2",
-      "ENG": "도끼-유니크-2"
+      "ENG": "Axe-Unique-2"
     },
     {
       "Index": 538,
       "Id": 51106,
       "KOR": "도끼 유니크 등급 무기, 2단계",
-      "ENG": "도끼 유니크 등급 무기, 2단계"
+      "ENG": "Unique-grade Axe, Stage 2"
     },
     {
       "Index": 539,
       "Id": 50107,
       "KOR": "도끼-유니크-3",
-      "ENG": "도끼-유니크-3"
+      "ENG": "Axe-Unique-3"
     },
     {
       "Index": 540,
       "Id": 51107,
       "KOR": "도끼 유니크 등급 무기, 3단계",
-      "ENG": "도끼 유니크 등급 무기, 3단계"
+      "ENG": "Unique-grade Axe, Stage 3"
     },
     {
       "Index": 541,
       "Id": 50108,
       "KOR": "도끼-유니크-4",
-      "ENG": "도끼-유니크-4"
+      "ENG": "Axe-Unique-4"
     },
     {
       "Index": 542,
       "Id": 51108,
       "KOR": "도끼 유니크 등급 무기, 4단계",
-      "ENG": "도끼 유니크 등급 무기, 4단계"
+      "ENG": "Unique-grade Axe, Stage 4"
     },
     {
       "Index": 543,
       "Id": 50109,
       "KOR": "도끼-유니크-5",
-      "ENG": "도끼-유니크-5"
+      "ENG": "Axe-Unique-5"
     },
     {
       "Index": 544,
       "Id": 51109,
       "KOR": "도끼 유니크 등급 무기, 5단계",
-      "ENG": "도끼 유니크 등급 무기, 5단계"
+      "ENG": "Unique-grade Axe, Stage 5"
     },
     {
       "Index": 545,
       "Id": 50110,
       "KOR": "도끼-레전드리-1",
-      "ENG": "도끼-레전드리-1"
+      "ENG": "Axe-Legendary-1"
     },
     {
       "Index": 546,
       "Id": 51110,
       "KOR": "도끼 레전드리 등급 무기, 1단계",
-      "ENG": "도끼 레전드리 등급 무기, 1단계"
+      "ENG": "Legendary-grade Axe, Stage 1"
     },
     {
       "Index": 547,
       "Id": 50111,
       "KOR": "도끼-레전드리-2",
-      "ENG": "도끼-레전드리-2"
+      "ENG": "Axe-Legendary-2"
     },
     {
       "Index": 548,
       "Id": 51111,
       "KOR": "도끼 레전드리 등급 무기, 2단계",
-      "ENG": "도끼 레전드리 등급 무기, 2단계"
+      "ENG": "Legendary-grade Axe, Stage 2"
     },
     {
       "Index": 549,
       "Id": 50112,
       "KOR": "도끼-레전드리-3",
-      "ENG": "도끼-레전드리-3"
+      "ENG": "Axe-Legendary-3"
     },
     {
       "Index": 550,
       "Id": 51112,
       "KOR": "도끼 레전드리 등급 무기, 3단계",
-      "ENG": "도끼 레전드리 등급 무기, 3단계"
+      "ENG": "Legendary-grade Axe, Stage 3"
     },
     {
       "Index": 551,
       "Id": 50113,
       "KOR": "도끼-레전드리-4",
-      "ENG": "도끼-레전드리-4"
+      "ENG": "Axe-Legendary-4"
     },
     {
       "Index": 552,
       "Id": 51113,
       "KOR": "도끼 레전드리 등급 무기, 4단계",
-      "ENG": "도끼 레전드리 등급 무기, 4단계"
+      "ENG": "Legendary-grade Axe, Stage 4"
     },
     {
       "Index": 553,
       "Id": 50114,
       "KOR": "도끼-레전드리-5",
-      "ENG": "도끼-레전드리-5"
+      "ENG": "Axe-Legendary-5"
     },
     {
       "Index": 554,
       "Id": 51114,
       "KOR": "도끼 레전드리 등급 무기, 5단계",
-      "ENG": "도끼 레전드리 등급 무기, 5단계"
+      "ENG": "Legendary-grade Axe, Stage 5"
     },
     {
       "Index": 555,
       "Id": 50115,
       "KOR": "도끼-신화-1",
-      "ENG": "도끼-신화-1"
+      "ENG": "Axe-Mythic-1"
     },
     {
       "Index": 556,
       "Id": 51115,
       "KOR": "도끼 신화 등급 무기, 1단계",
-      "ENG": "도끼 신화 등급 무기, 1단계"
+      "ENG": "Mythic-grade Axe, Stage 1"
     },
     {
       "Index": 557,
       "Id": 50116,
       "KOR": "도끼-신화-2",
-      "ENG": "도끼-신화-2"
+      "ENG": "Axe-Mythic-2"
     },
     {
       "Index": 558,
       "Id": 51116,
       "KOR": "도끼 신화 등급 무기, 2단계",
-      "ENG": "도끼 신화 등급 무기, 2단계"
+      "ENG": "Mythic-grade Axe, Stage 2"
     },
     {
       "Index": 559,
       "Id": 50117,
       "KOR": "도끼-신화-3",
-      "ENG": "도끼-신화-3"
+      "ENG": "Axe-Mythic-3"
     },
     {
       "Index": 560,
       "Id": 51117,
       "KOR": "도끼 신화 등급 무기, 3단계",
-      "ENG": "도끼 신화 등급 무기, 3단계"
+      "ENG": "Mythic-grade Axe, Stage 3"
     },
     {
       "Index": 561,
       "Id": 50118,
       "KOR": "도끼-신화-4",
-      "ENG": "도끼-신화-4"
+      "ENG": "Axe-Mythic-4"
     },
     {
       "Index": 562,
       "Id": 51118,
       "KOR": "도끼 신화 등급 무기, 4단계",
-      "ENG": "도끼 신화 등급 무기, 4단계"
+      "ENG": "Mythic-grade Axe, Stage 4"
     },
     {
       "Index": 563,
       "Id": 50119,
       "KOR": "도끼-신화-5",
-      "ENG": "도끼-신화-5"
+      "ENG": "Axe-Mythic-5"
     },
     {
       "Index": 564,
       "Id": 51119,
       "KOR": "도끼 신화 등급 무기, 5단계",
-      "ENG": "도끼 신화 등급 무기, 5단계"
+      "ENG": "Mythic-grade Axe, Stage 5"
     },
     {
       "Index": 565,
       "Id": 50120,
       "KOR": "지팡이-노말-1",
-      "ENG": "지팡이-노말-1"
+      "ENG": "Staff-Normal-1"
     },
     {
       "Index": 566,
       "Id": 51120,
       "KOR": "지팡이 노말 등급 무기, 1단계",
-      "ENG": "지팡이 노말 등급 무기, 1단계"
+      "ENG": "Normal-grade Staff, Stage 1"
     },
     {
       "Index": 567,
       "Id": 50121,
       "KOR": "지팡이-노말-2",
-      "ENG": "지팡이-노말-2"
+      "ENG": "Staff-Normal-2"
     },
     {
       "Index": 568,
       "Id": 51121,
       "KOR": "지팡이 노말 등급 무기, 2단계",
-      "ENG": "지팡이 노말 등급 무기, 2단계"
+      "ENG": "Normal-grade Staff, Stage 2"
     },
     {
       "Index": 569,
       "Id": 50122,
       "KOR": "지팡이-노말-3",
-      "ENG": "지팡이-노말-3"
+      "ENG": "Staff-Normal-3"
     },
     {
       "Index": 570,
       "Id": 51122,
       "KOR": "지팡이 노말 등급 무기, 3단계",
-      "ENG": "지팡이 노말 등급 무기, 3단계"
+      "ENG": "Normal-grade Staff, Stage 3"
     },
     {
       "Index": 571,
       "Id": 50123,
       "KOR": "지팡이-노말-4",
-      "ENG": "지팡이-노말-4"
+      "ENG": "Staff-Normal-4"
     },
     {
       "Index": 572,
       "Id": 51123,
       "KOR": "지팡이 노말 등급 무기, 4단계",
-      "ENG": "지팡이 노말 등급 무기, 4단계"
+      "ENG": "Normal-grade Staff, Stage 4"
     },
     {
       "Index": 573,
       "Id": 50124,
       "KOR": "지팡이-노말-5",
-      "ENG": "지팡이-노말-5"
+      "ENG": "Staff-Normal-5"
     },
     {
       "Index": 574,
       "Id": 51124,
       "KOR": "지팡이 노말 등급 무기, 5단계",
-      "ENG": "지팡이 노말 등급 무기, 5단계"
+      "ENG": "Normal-grade Staff, Stage 5"
     },
     {
       "Index": 575,
       "Id": 50125,
       "KOR": "지팡이-레어-1",
-      "ENG": "지팡이-레어-1"
+      "ENG": "Staff-Rare-1"
     },
     {
       "Index": 576,
       "Id": 51125,
       "KOR": "지팡이 레어 등급 무기, 1단계",
-      "ENG": "지팡이 레어 등급 무기, 1단계"
+      "ENG": "Rare-grade Staff, Stage 1"
     },
     {
       "Index": 577,
       "Id": 50126,
       "KOR": "지팡이-레어-2",
-      "ENG": "지팡이-레어-2"
+      "ENG": "Staff-Rare-2"
     },
     {
       "Index": 578,
       "Id": 51126,
       "KOR": "지팡이 레어 등급 무기, 2단계",
-      "ENG": "지팡이 레어 등급 무기, 2단계"
+      "ENG": "Rare-grade Staff, Stage 2"
     },
     {
       "Index": 579,
       "Id": 50127,
       "KOR": "지팡이-레어-3",
-      "ENG": "지팡이-레어-3"
+      "ENG": "Staff-Rare-3"
     },
     {
       "Index": 580,
       "Id": 51127,
       "KOR": "지팡이 레어 등급 무기, 3단계",
-      "ENG": "지팡이 레어 등급 무기, 3단계"
+      "ENG": "Rare-grade Staff, Stage 3"
     },
     {
       "Index": 581,
       "Id": 50128,
       "KOR": "지팡이-레어-4",
-      "ENG": "지팡이-레어-4"
+      "ENG": "Staff-Rare-4"
     },
     {
       "Index": 582,
       "Id": 51128,
       "KOR": "지팡이 레어 등급 무기, 4단계",
-      "ENG": "지팡이 레어 등급 무기, 4단계"
+      "ENG": "Rare-grade Staff, Stage 4"
     },
     {
       "Index": 583,
       "Id": 50129,
       "KOR": "지팡이-레어-5",
-      "ENG": "지팡이-레어-5"
+      "ENG": "Staff-Rare-5"
     },
     {
       "Index": 584,
       "Id": 51129,
       "KOR": "지팡이 레어 등급 무기, 5단계",
-      "ENG": "지팡이 레어 등급 무기, 5단계"
+      "ENG": "Rare-grade Staff, Stage 5"
     },
     {
       "Index": 585,
       "Id": 50130,
       "KOR": "지팡이-에픽-1",
-      "ENG": "지팡이-에픽-1"
+      "ENG": "Staff-Epic-1"
     },
     {
       "Index": 586,
       "Id": 51130,
       "KOR": "지팡이 에픽 등급 무기, 1단계",
-      "ENG": "지팡이 에픽 등급 무기, 1단계"
+      "ENG": "Epic-grade Staff, Stage 1"
     },
     {
       "Index": 587,
       "Id": 50131,
       "KOR": "지팡이-에픽-2",
-      "ENG": "지팡이-에픽-2"
+      "ENG": "Staff-Epic-2"
     },
     {
       "Index": 588,
       "Id": 51131,
       "KOR": "지팡이 에픽 등급 무기, 2단계",
-      "ENG": "지팡이 에픽 등급 무기, 2단계"
+      "ENG": "Epic-grade Staff, Stage 2"
     },
     {
       "Index": 589,
       "Id": 50132,
       "KOR": "지팡이-에픽-3",
-      "ENG": "지팡이-에픽-3"
+      "ENG": "Staff-Epic-3"
     },
     {
       "Index": 590,
       "Id": 51132,
       "KOR": "지팡이 에픽 등급 무기, 3단계",
-      "ENG": "지팡이 에픽 등급 무기, 3단계"
+      "ENG": "Epic-grade Staff, Stage 3"
     },
     {
       "Index": 591,
       "Id": 50133,
       "KOR": "지팡이-에픽-4",
-      "ENG": "지팡이-에픽-4"
+      "ENG": "Staff-Epic-4"
     },
     {
       "Index": 592,
       "Id": 51133,
       "KOR": "지팡이 에픽 등급 무기, 4단계",
-      "ENG": "지팡이 에픽 등급 무기, 4단계"
+      "ENG": "Epic-grade Staff, Stage 4"
     },
     {
       "Index": 593,
       "Id": 50134,
       "KOR": "지팡이-에픽-5",
-      "ENG": "지팡이-에픽-5"
+      "ENG": "Staff-Epic-5"
     },
     {
       "Index": 594,
       "Id": 51134,
       "KOR": "지팡이 에픽 등급 무기, 5단계",
-      "ENG": "지팡이 에픽 등급 무기, 5단계"
+      "ENG": "Epic-grade Staff, Stage 5"
     },
     {
       "Index": 595,
       "Id": 50135,
       "KOR": "지팡이-유니크-1",
-      "ENG": "지팡이-유니크-1"
+      "ENG": "Staff-Unique-1"
     },
     {
       "Index": 596,
       "Id": 51135,
       "KOR": "지팡이 유니크 등급 무기, 1단계",
-      "ENG": "지팡이 유니크 등급 무기, 1단계"
+      "ENG": "Unique-grade Staff, Stage 1"
     },
     {
       "Index": 597,
       "Id": 50136,
       "KOR": "지팡이-유니크-2",
-      "ENG": "지팡이-유니크-2"
+      "ENG": "Staff-Unique-2"
     },
     {
       "Index": 598,
       "Id": 51136,
       "KOR": "지팡이 유니크 등급 무기, 2단계",
-      "ENG": "지팡이 유니크 등급 무기, 2단계"
+      "ENG": "Unique-grade Staff, Stage 2"
     },
     {
       "Index": 599,
       "Id": 50137,
       "KOR": "지팡이-유니크-3",
-      "ENG": "지팡이-유니크-3"
+      "ENG": "Staff-Unique-3"
     },
     {
       "Index": 600,
       "Id": 51137,
       "KOR": "지팡이 유니크 등급 무기, 3단계",
-      "ENG": "지팡이 유니크 등급 무기, 3단계"
+      "ENG": "Unique-grade Staff, Stage 3"
     },
     {
       "Index": 601,
       "Id": 50138,
       "KOR": "지팡이-유니크-4",
-      "ENG": "지팡이-유니크-4"
+      "ENG": "Staff-Unique-4"
     },
     {
       "Index": 602,
       "Id": 51138,
       "KOR": "지팡이 유니크 등급 무기, 4단계",
-      "ENG": "지팡이 유니크 등급 무기, 4단계"
+      "ENG": "Unique-grade Staff, Stage 4"
     },
     {
       "Index": 603,
       "Id": 50139,
       "KOR": "지팡이-유니크-5",
-      "ENG": "지팡이-유니크-5"
+      "ENG": "Staff-Unique-5"
     },
     {
       "Index": 604,
       "Id": 51139,
       "KOR": "지팡이 유니크 등급 무기, 5단계",
-      "ENG": "지팡이 유니크 등급 무기, 5단계"
+      "ENG": "Unique-grade Staff, Stage 5"
     },
     {
       "Index": 605,
       "Id": 50140,
       "KOR": "지팡이-레전드리-1",
-      "ENG": "지팡이-레전드리-1"
+      "ENG": "Staff-Legendary-1"
     },
     {
       "Index": 606,
       "Id": 51140,
       "KOR": "지팡이 레전드리 등급 무기, 1단계",
-      "ENG": "지팡이 레전드리 등급 무기, 1단계"
+      "ENG": "Legendary-grade Staff, Stage 1"
     },
     {
       "Index": 607,
       "Id": 50141,
       "KOR": "지팡이-레전드리-2",
-      "ENG": "지팡이-레전드리-2"
+      "ENG": "Staff-Legendary-2"
     },
     {
       "Index": 608,
       "Id": 51141,
       "KOR": "지팡이 레전드리 등급 무기, 2단계",
-      "ENG": "지팡이 레전드리 등급 무기, 2단계"
+      "ENG": "Legendary-grade Staff, Stage 2"
     },
     {
       "Index": 609,
       "Id": 50142,
       "KOR": "지팡이-레전드리-3",
-      "ENG": "지팡이-레전드리-3"
+      "ENG": "Staff-Legendary-3"
     },
     {
       "Index": 610,
       "Id": 51142,
       "KOR": "지팡이 레전드리 등급 무기, 3단계",
-      "ENG": "지팡이 레전드리 등급 무기, 3단계"
+      "ENG": "Legendary-grade Staff, Stage 3"
     },
     {
       "Index": 611,
       "Id": 50143,
       "KOR": "지팡이-레전드리-4",
-      "ENG": "지팡이-레전드리-4"
+      "ENG": "Staff-Legendary-4"
     },
     {
       "Index": 612,
       "Id": 51143,
       "KOR": "지팡이 레전드리 등급 무기, 4단계",
-      "ENG": "지팡이 레전드리 등급 무기, 4단계"
+      "ENG": "Legendary-grade Staff, Stage 4"
     },
     {
       "Index": 613,
       "Id": 50144,
       "KOR": "지팡이-레전드리-5",
-      "ENG": "지팡이-레전드리-5"
+      "ENG": "Staff-Legendary-5"
     },
     {
       "Index": 614,
       "Id": 51144,
       "KOR": "지팡이 레전드리 등급 무기, 5단계",
-      "ENG": "지팡이 레전드리 등급 무기, 5단계"
+      "ENG": "Legendary-grade Staff, Stage 5"
     },
     {
       "Index": 615,
       "Id": 50145,
       "KOR": "지팡이-신화-1",
-      "ENG": "지팡이-신화-1"
+      "ENG": "Staff-Mythic-1"
     },
     {
       "Index": 616,
       "Id": 51145,
       "KOR": "지팡이 신화 등급 무기, 1단계",
-      "ENG": "지팡이 신화 등급 무기, 1단계"
+      "ENG": "Mythic-grade Staff, Stage 1"
     },
     {
       "Index": 617,
       "Id": 50146,
       "KOR": "지팡이-신화-2",
-      "ENG": "지팡이-신화-2"
+      "ENG": "Staff-Mythic-2"
     },
     {
       "Index": 618,
       "Id": 51146,
       "KOR": "지팡이 신화 등급 무기, 2단계",
-      "ENG": "지팡이 신화 등급 무기, 2단계"
+      "ENG": "Mythic-grade Staff, Stage 2"
     },
     {
       "Index": 619,
       "Id": 50147,
       "KOR": "지팡이-신화-3",
-      "ENG": "지팡이-신화-3"
+      "ENG": "Staff-Mythic-3"
     },
     {
       "Index": 620,
       "Id": 51147,
       "KOR": "지팡이 신화 등급 무기, 3단계",
-      "ENG": "지팡이 신화 등급 무기, 3단계"
+      "ENG": "Mythic-grade Staff, Stage 3"
     },
     {
       "Index": 621,
       "Id": 50148,
       "KOR": "지팡이-신화-4",
-      "ENG": "지팡이-신화-4"
+      "ENG": "Staff-Mythic-4"
     },
     {
       "Index": 622,
       "Id": 51148,
       "KOR": "지팡이 신화 등급 무기, 4단계",
-      "ENG": "지팡이 신화 등급 무기, 4단계"
+      "ENG": "Mythic-grade Staff, Stage 4"
     },
     {
       "Index": 623,
       "Id": 50149,
       "KOR": "지팡이-신화-5",
-      "ENG": "지팡이-신화-5"
+      "ENG": "Staff-Mythic-5"
     },
     {
       "Index": 624,
       "Id": 51149,
       "KOR": "지팡이 신화 등급 무기, 5단계",
-      "ENG": "지팡이 신화 등급 무기, 5단계"
+      "ENG": "Mythic-grade Staff, Stage 5"
     },
     {
       "Index": 625,
@@ -3999,7 +3999,7 @@
       "Index": 627,
       "Id": 55029,
       "KOR": "무기 150종으로 확장 (도끼/지팡이 추가)",
-      "ENG": "무기 150종으로 확장 (도끼/지팡이 추가)"
+      "ENG": "Expanded weapons to 150 types (Added Axe/Staff)"
     },
     {
       "Index": 628,
